@@ -11,15 +11,6 @@
   </url>
   
   <url>
-    <loc>https://rickliu.com/posts/8527cd39430b/</loc>
-    
-    <lastmod>2023-07-12</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://rickliu.com/categories/index.html</loc>
     
     <lastmod>2023-07-12</lastmod>
@@ -41,6 +32,15 @@
     <loc>https://rickliu.com/tags/index.html</loc>
     
     <lastmod>2023-07-12</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rickliu.com/posts/8527cd39430b/</loc>
+    
+    <lastmod>2023-07-11</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
