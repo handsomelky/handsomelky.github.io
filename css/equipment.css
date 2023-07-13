@@ -12,7 +12,7 @@
   border: var(--style-border-always);
   overflow: hidden;
   margin: 8px 6px;
-  background: #ffffff;
+  background: #fcfcfc;
   box-shadow: var(--heo-shadow-border);
   min-height: 400px;
   position: relative;

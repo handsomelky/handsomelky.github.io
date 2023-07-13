@@ -7,5 +7,6 @@ https://rickliu.com/categories/index.html
 https://rickliu.com/tags/index.html
 https://rickliu.com/posts/8527cd39430b/
 https://rickliu.com/
-https://rickliu.com/tags/hexo%E6%90%AD%E5%BB%BA-butterfly%E9%AD%94%E6%94%B9/
 https://rickliu.com/tags/win10%E5%B0%8F%E6%8A%80%E5%B7%A7/
+https://rickliu.com/tags/hexo%E6%90%AD%E5%BB%BA/
+https://rickliu.com/tags/butterfly%E9%AD%94%E6%94%B9/
