@@ -102,6 +102,7 @@ h2.equipment-item-title {
 img.equipment-item-content-item-image {
   object-fit: cover;
   height: 100%;
+  background-blend-mode:multiply；
 }
 
 div#equipment {
