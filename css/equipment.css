@@ -14,7 +14,7 @@
   overflow: hidden;
   margin: 8px 6px;
   background: #fafafa;
-  box-shadow: var(--heo-shadow-border);
+  box-shadow: 0 8px 16px -4px #2c2d300c;
   min-height: 400px;
   position: relative;
 }
@@ -64,7 +64,7 @@
   height: 140px;
   display: -webkit-box;
   overflow: hidden;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   font-size: 13px;
 }
