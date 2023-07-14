@@ -1,25 +1,19 @@
 @font-face {
-  font-family: "iconfont"; /* Project id 4165558 */
-  src: url('//at.alicdn.com/t/c/font_4165558_roh3mwerfy.woff2?t=1689345288927') format('woff2'),
-       url('//at.alicdn.com/t/c/font_4165558_roh3mwerfy.woff?t=1689345288927') format('woff'),
-       url('//at.alicdn.com/t/c/font_4165558_roh3mwerfy.ttf?t=1689345288927') format('truetype');
+  font-family: 'iconfont';  /* Project id 4165558 */
+  src: url('//at.alicdn.com/t/c/font_4165558_4804ivyde1y.woff2?t=1689344525552') format('woff2'),
+       url('//at.alicdn.com/t/c/font_4165558_4804ivyde1y.woff?t=1689344525552') format('woff'),
+       url('//at.alicdn.com/t/c/font_4165558_4804ivyde1y.ttf?t=1689344525552') format('truetype');
+}
+.iconfont{
+    font-family:"iconfont" !important;
+    font-size:20px;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-.iconfont {
-  font-family: "iconfont" !important;
-  font-size: 16px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.icon-aixin {
+  content: "&#xe62a;";
+  color: red; /* 图标颜色需要自行修改 */
 }
-
-.icon-aixin:before {
-  content: "\e62a";
-  font-size: 22px;
-  color: pink;
-}
-
-.icon-bag:before {
-  content: "\e603";
-}
-
