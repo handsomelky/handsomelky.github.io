@@ -1,4 +1,5 @@
 /* 我的装备 */
+
 .equipment-item-content {
   display: flex;
   flex-direction: row;
@@ -7,12 +8,12 @@
 }
 
 .equipment-item-content-item {
-  width: calc(25% - 12px);
+  width: calc(33% - 12px);
   border-radius: 12px;
-  border: var(--style-border-always);
+  border: 2px;
   overflow: hidden;
   margin: 8px 6px;
-  background: #fcfcfc;
+  background: #fafafa;
   box-shadow: var(--heo-shadow-border);
   min-height: 400px;
   position: relative;
@@ -37,6 +38,7 @@
 
 .equipment-item-content-item-name {
   font-size: 18px;
+  color: #000000;
   font-weight: bold;
   line-height: 1;
   margin-bottom: 8px;
@@ -59,12 +61,12 @@
 .equipment-item-content-item-description {
   line-height: 20px;
   color: #636369;
-  height: 60px;
+  height: 140px;
   display: -webkit-box;
   overflow: hidden;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 a.equipment-item-content-item-link {
