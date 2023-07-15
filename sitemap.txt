@@ -1,3 +1,4 @@
+https://rickliu.com/posts/5afb1c66bf9f/
 https://rickliu.com/posts/cb8aede32db1/
 https://rickliu.com/music/index.html
 https://rickliu.com/link/index.html
@@ -10,3 +11,4 @@ https://rickliu.com/
 https://rickliu.com/tags/win10%E5%B0%8F%E6%8A%80%E5%B7%A7/
 https://rickliu.com/tags/Hexo/
 https://rickliu.com/tags/Butterfly/
+https://rickliu.com/tags/todo/

@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://rickliu.com/posts/5afb1c66bf9f/</loc>
+    
+    <lastmod>2023-07-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://rickliu.com/posts/cb8aede32db1/</loc>
     
     <lastmod>2023-07-15</lastmod>
@@ -98,6 +107,13 @@
   
   <url>
     <loc>https://rickliu.com/tags/Butterfly/</loc>
+    <lastmod>2023-07-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://rickliu.com/tags/todo/</loc>
     <lastmod>2023-07-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

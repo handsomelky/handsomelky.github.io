@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>待写文章清单</title>
+      <link href="/posts/5afb1c66bf9f/"/>
+      <url>/posts/5afb1c66bf9f/</url>
+      
+        <content type="html"><![CDATA[<ul><li><p>create这个博客<mark class="hl-label purple">R1ck's　Portal</mark> 的原因 </p></li><li><p>Crypto中的常用库和工具总结</p></li><li><p>《动手学深度学习》系列笔记</p></li><li><p>B站up主推荐</p></li><li><p>win10软件推荐</p></li><li><p>CTF WriteUp n篇</p></li><li><p>音乐推荐 n篇</p></li><li><p>影评剧评 n篇</p></li><li><p>游戏评测 n篇</p></li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> todo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>butterfly主题aplayer音乐界面本地音源添加</title>
       <link href="/posts/cb8aede32db1/"/>
       <url>/posts/cb8aede32db1/</url>
