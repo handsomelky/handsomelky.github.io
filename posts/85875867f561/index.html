@@ -1,0 +1,429 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Crypto常用库和工具 | R1ck's Portal</title><meta name="author" content="R1ck Liu"><meta name="copyright" content="R1ck Liu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本教程收录了本人在解Crypto题时用到的软件工具🛠和库🗄">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Crypto常用库和工具">
+<meta property="og:url" content="https://rickliu.com/posts/85875867f561/index.html">
+<meta property="og:site_name" content="R1ck&#39;s Portal">
+<meta property="og:description" content="本教程收录了本人在解Crypto题时用到的软件工具🛠和库🗄">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.jpg">
+<meta property="article:published_time" content="2023-07-20T06:47:45.000Z">
+<meta property="article:modified_time" content="2023-07-22T14:37:16.600Z">
+<meta property="article:author" content="R1ck Liu">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="Crypto">
+<meta property="article:tag" content="软件工具">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://rickliu.com/posts/85875867f561/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="CCDD774EA967D60E5C877121C6572BF5"/><meta name="baidu-site-verification" content="codeva-13aVmkscyC"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?6c032eabab6689261ec86024f386af87";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: R1ck Liu","link":"链接: ","source":"来源: R1ck's Portal","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Crypto常用库和工具',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-07-22 22:37:16'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/waves.css"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/iconfont.css"><link rel="stylesheet" href="/css/h.css"><link rel="stylesheet" href="/css/equipment.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/background.png')"><nav id="nav"><span id="blog-info"><a href="/" title="R1ck's Portal"><span class="site-name">R1ck's Portal</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Crypto常用库和工具</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-20T06:47:45.000Z" title="发表于 2023-07-20 14:47:45">2023-07-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-22T14:37:16.600Z" title="更新于 2023-07-22 22:37:16">2023-07-22</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Crypto常用库和工具"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="Crypto常用的python库"><a href="#Crypto常用的python库" class="headerlink" title="Crypto常用的python库"></a>Crypto常用的python库</h2><h3 id="常用库函数功能"><a href="#常用库函数功能" class="headerlink" title="常用库函数功能"></a>常用库函数功能</h3><h4 id="gmpy2"><a href="#gmpy2" class="headerlink" title="gmpy2"></a>gmpy2</h4><ul>
+<li><p>安装指令：<code>pip install gmpy2</code></p>
+</li>
+<li><p>使用场景：一些大整数运算，特别是在RSA中。</p>
+<ul>
+<li><strong>初始化大整数</strong></li>
+</ul>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line">gmpy2.mpz(<span class="number">909090</span>)</span><br><span class="line">   </span><br><span class="line">result:mpz(<span class="number">909090</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>求大整数a,b的最大公因数</strong></li>
+</ul>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line">gmpy2.gcd(<span class="number">6</span>,<span class="number">18</span>)</span><br><span class="line">   </span><br><span class="line">result:mpz(<span class="number">6</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>求大整数x模m的逆元y</strong></li>
+</ul>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="comment">#4*6 ≡ 1 mod 23</span></span><br><span class="line">gmpy2.invert(<span class="number">4</span>,<span class="number">23</span>)</span><br><span class="line">   </span><br><span class="line">result:mpz(<span class="number">6</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>检验大整数是否为偶数</strong></li>
+</ul>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line">gmpy2.is_even(<span class="number">6</span>)</span><br><span class="line">   </span><br><span class="line">result:<span class="literal">True</span></span><br><span class="line">   </span><br><span class="line">-----------</span><br><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line">gmpy2.is_even(<span class="number">7</span>)</span><br><span class="line">   </span><br><span class="line">result:<span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>检验大整数是否为奇数</strong></li>
+</ul>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line">gmpy2.is_odd(<span class="number">6</span>)</span><br><span class="line">   </span><br><span class="line">result:<span class="literal">False</span></span><br><span class="line">   </span><br><span class="line">-----------</span><br><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line">gmpy2.is_odd(<span class="number">7</span>)</span><br><span class="line">   </span><br><span class="line">result:<span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>检验大整数是否为素数</strong></li>
+</ul>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line">gmpy2.is_prime(<span class="number">5</span>)</span><br><span class="line">   </span><br><span class="line">result:<span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>求大整数x开n次根</strong></li>
+</ul>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line">gmpy2.iroot(<span class="number">81</span>,<span class="number">2</span>)</span><br><span class="line">   </span><br><span class="line">result:(mpz(<span class="number">9</span>),<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>求大整数x的y次幂模m取余</strong>(主要用于RSA)</li>
+</ul>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="comment">#2^4 mod 5 </span></span><br><span class="line">gmpy2.powmod(<span class="number">2</span>,<span class="number">4</span>,<span class="number">15</span>)</span><br><span class="line">   </span><br><span class="line">result:mpz(<span class="number">1</span>)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="pwntools"><a href="#pwntools" class="headerlink" title="pwntools"></a>pwntools</h4><ul>
+<li><p>安装指令：<code>pip install pwntools</code></p>
+</li>
+<li><p>使用场景： 不仅是在<strong>Pwn</strong>方向上的神器，pwntools在<strong>Crypto</strong>中也能用来绕过pow(proof of work)共识机制、向提供的ip端口发送payload以及快速编写exp。</p>
+<ul>
+<li><p><strong>基础用法</strong>：</p>
+<p>首先就是<strong>导入包</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br></pre></td></tr></table></figure>
+
+<p>你将在全局空间里引用pwntools的所有函数。现在可以用一些简单函数进行<code>汇编</code>，<code>反汇编</code>，<code>pack</code>，<code>unpack</code>等等操作。<br>将包导入后，我一般都会<strong>设置日志记录级别</strong>，方便出现问题的时候排查错误</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context.log_level = <span class="string">&#x27;debug&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>这样设置后，通过管道发送和接收的数据都会被打印在屏幕上。<br>然后就是<strong>连接</strong>了，一般题目都会给你一个<code>ip</code>和一个<code>端口</code>，让你用<code>nc连接</code>访问，也有的题是让你通过<code>ssh连接</code>，这两种方式都可以通过pwntools实现。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 第一种连接方式，通过ip和port去连接</span><br><span class="line">conn = remote(&#x27;127.0.0.1&#x27;, 8888)  </span><br><span class="line"># 第二种连接方式，通过ssh连接</span><br><span class="line">shell = ssh(host=&#x27;192.168.14.144&#x27;, user=&#x27;root&#x27;, port=2222, password=&#x27;123456&#x27;)</span><br><span class="line"># 也可将可执行文件下载到本地进行调试</span><br><span class="line">conn = process(&#x27;./test&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>在编写exp时，最常见的工作就是在整数之间转换，而且转换后，它们的表现形式就是一个字节序列，pwntools提供了<strong>打包函数</strong>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">p32/p64: 打包一个整数，分别打包为32位或64位</span><br><span class="line">u32/u64: 解包一个字符串，得到整数</span><br></pre></td></tr></table></figure>
+
+<p>具体用法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 比如将0xdeadbeef进行32位的打包，将会得到&#x27;\xef\xbe\xad\xde&#x27;（小端序）</span></span><br><span class="line">payload = p32(<span class="number">0xdeadbeef</span>)  <span class="comment">#pack 32 bits number</span></span><br><span class="line">payload = p64(<span class="number">0xdeadbeef</span>)  <span class="comment">#pack 64 bits number</span></span><br></pre></td></tr></table></figure>
+
+<p>打包的时候要指定程序是<code>32位</code>还是<code>64位</code>的，他们之间打包后的长度是不同的。<br> 建立连接后就可以<strong>发送和接收数据</strong>了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">conn.send(data) <span class="comment">#发送数据</span></span><br><span class="line">conn.sendline(data) <span class="comment">#发送一行数据，相当于在数据后面加\n</span></span><br><span class="line"><span class="comment">#接收数据，numb指定接收的字节，timeout指定超时</span></span><br><span class="line">conn.recv(numb = <span class="number">2048</span>, timeout = default)</span><br><span class="line"><span class="comment">#接受一行数据，keepends为是否保留行尾的\n</span></span><br><span class="line">conn.recvline(keepends=<span class="literal">True</span>)</span><br><span class="line"><span class="comment">#接受数据直到我们设置的标志出现</span></span><br><span class="line">conn.recvuntil(<span class="string">&quot;Hello,World\n&quot;</span>,drop=fasle) </span><br><span class="line">conn.recvall()  <span class="comment">#一直接收直到 EOF</span></span><br><span class="line">conn.recvrepeat(timeout = default)  <span class="comment">#持续接受直到EOF或timeout</span></span><br><span class="line"><span class="comment">#直接进行交互，相当于回到shell的模式，在取得shell之后使用</span></span><br><span class="line">conn.interactive() </span><br></pre></td></tr></table></figure>
+
+<p>一般来说做Crypto题目时通过<code>nc连接</code>即可，如果是通过<code>nc连接</code>的话，一进去就相当于开启了一个进程，你只需要发送数据和程序交互就行了。<br> 如果是通过<code>ssh连接</code>进去的，你需要<strong>手动创建一个进程</strong>，就跟正常通过ssh连接一样，你需要打开一个程序。<br> 比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;shell = ssh(host=<span class="string">&#x27;192.168.14.144&#x27;</span>, user=<span class="string">&#x27;root&#x27;</span>, port=<span class="number">2222</span>, password=<span class="string">&#x27;123456&#x27;</span>)</span><br><span class="line"><span class="comment"># 也可以用shell.process(&#x27;/bin/sh&#x27;) 来实现，但是前提是服务器有python2的 interpreter，否则会报错，优先使用shell.run()</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sh = shell.run(<span class="string">&#x27;/bin/sh&#x27;</span>)        <span class="comment"># 创建进程，这里开了一个shell</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sh.sendline(<span class="string">&#x27;sleep 3; echo hello world;&#x27;</span>)  <span class="comment"># 发送命令</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sh.recvline(timeout=<span class="number">1</span>)         <span class="comment"># 接收数据</span></span><br><span class="line"><span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sh.recvline(timeout=<span class="number">5</span>)</span><br><span class="line"><span class="string">&#x27;hello world\n&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sh.close()                     <span class="comment"># 关闭进程</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>绕过pow共识机制</strong>:</p>
+<p>本质就是去爆破前四位拿到相同的sha256结果，在Crypto题目中比较常用，一些新手可能会被难住</p>
+<p>以下是通用模板：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> remote</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">#定义字母表</span></span><br><span class="line">table = string.ascii_letters+string.digits</span><br><span class="line"><span class="comment">#定义PoW函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">PoW</span>(<span class="params">hash_value, part</span>):</span><br><span class="line">    alphabet = string.ascii_letters + string.digits</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> itertools.product(alphabet, repeat=<span class="number">4</span>):</span><br><span class="line">        nonce = <span class="string">&#x27;&#x27;</span>.join(x)</span><br><span class="line">        <span class="keyword">if</span> sha256((nonce + part.decode()).encode()).hexdigest() == hash_value.decode():</span><br><span class="line">        	<span class="keyword">return</span> nonce</span><br><span class="line">conn = remote(<span class="string">&#x27;ip&#x27;</span>, 端口)</span><br><span class="line">msg = conn.recvuntil(<span class="string">b&#x27;Plz tell me XXXX:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(msg)</span><br><span class="line">part = msg[<span class="number">12</span>:<span class="number">28</span>]</span><br><span class="line">hashvalue = msg[<span class="number">33</span>:-<span class="number">18</span>]</span><br><span class="line"><span class="built_in">print</span>(part, hashvalue)</span><br><span class="line">nonce = PoW(hashvalue, part)</span><br><span class="line"><span class="built_in">print</span>(nonce)</span><br><span class="line">conn.sendline(nonce.encode())</span><br><span class="line">conn.recvuntil(<span class="string">b&#x27;&gt; &#x27;</span>)</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h4 id="hashlib"><a href="#hashlib" class="headerlink" title="hashlib"></a>hashlib</h4><ul>
+<li><p>安装指令：从Python2.7开始python环境就已经自带，无需安装</p>
+</li>
+<li><p>使用场景：hashlib 支持的加密算法有：md5、sha1、sha256 和 sha512。加密复杂度和花费时间依次增加。</p>
+<ul>
+<li><p><strong>基础用法</strong>：</p>
+<p>简单的加密操作为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line">s = <span class="string">&#x27;abc&#x27;</span></span><br><span class="line">md5 = hashlib.md5()    <span class="comment"># 选择加密方式，初始化一个加密</span></span><br><span class="line">md5.update(s.encode(<span class="string">&#x27;utf-8&#x27;</span>))    <span class="comment"># 将要加密的内容，添加到m中</span></span><br><span class="line"><span class="built_in">print</span>(md5.hexdigest())</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s_md5=hashlib.md5(s.encode()).hexdigest()</span><br></pre></td></tr></table></figure>
+
+<p>同样的内容使用同样的方法加密，即便使用不同的方式编码，最终加密出来的结果也是相同的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line">sha256 = hashlib.sha256()</span><br><span class="line">sha256.update(<span class="string">&#x27;wusir&#x27;</span>.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(sha256.hexdigest())</span><br><span class="line">sha256 = hashlib.sha256()</span><br><span class="line">sha256.update(<span class="string">&#x27;wusir&#x27;</span>.encode(<span class="string">&#x27;gbk&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(sha256.hexdigest())</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h4 id="ciphey"><a href="#ciphey" class="headerlink" title="ciphey"></a>ciphey</h4><ul>
+<li><p>安装指令：<code>pip install -U ciphey</code> </p>
+<ul>
+<li>该库在安装中存在一个可能遇到的问题，解决文档跳转：<a href="./%E5%BA%93%E5%92%8C%E5%B7%A5%E5%85%B7/%E5%B7%A5%E5%85%B7%E5%92%8C%E5%BA%93%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98.md">工具和库函数的安装问题</a></li>
+<li>安装要求：python版本&lt;&#x3D;3.8</li>
+</ul>
+</li>
+<li><p>使用场景： 不仅是在<strong>Misc</strong>方向上的神器，ciphey在<strong>Crypto</strong>中也能用来简单分析第一眼无法看出来的密文，由于<strong>使用自然语言处理和人工智能</strong>，它在分析使用的加密方法上功能非常强大，但是经过本人测试，其在某些场景也存在局限性，在下文介绍完使用方法后会具体介绍。</p>
+<ul>
+<li><p><strong>基础用法</strong>：</p>
+<p>在终端或者cmd进入安装了ciphey的虚拟环境，可以通过文件输入或直接输入密文：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">文件输入</span></span><br><span class="line">ciphey -f encrypted.txt  </span><br><span class="line">python -m ciphey -f encrypted.txt</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">直接输入密文</span></span><br><span class="line">ciphey -t &quot;Encrypted input&quot;  &amp;</span><br><span class="line">python -m ciphey -t &quot;Encrypted input&quot;</span><br></pre></td></tr></table></figure>
+
+<p>当密文较为短小时，使用直接输入密文的方式更为方便</p>
+</li>
+<li><p><strong>适用范围＆局限性</strong>：</p>
+<ul>
+<li><p>当涉及到<strong>多层编码</strong>时，ciphey的分析速度可以很快，比如下面的例子：</p>
+<p>将flag经过base32-&gt;base58-&gt;base64加密，运行<code>ciphey -t &quot;I44EOOLCIFUDQ5KLME======&quot;</code>，结果如下：</p>
+<img src="/posts/85875867f561/image-20230521103427519.png" alt="image-20230521103427519" style="zoom: 80%;">
+</li>
+<li><p>当明文包含<strong>flag{}格式</strong>，或者是有<strong>强烈的英文语义</strong>时，ciphey的识别效果比较好✔，但是ciphey基本无法识别明文带有中文语义或者没有语义的复杂密文🚫</p>
+</li>
+<li><p>识别效果好的密码和编码包括：凯撒密码、各种base编码、url编码</p>
+</li>
+<li><p>识别效果差的密码和编码包括：莫尔斯密码、unicode编码等等</p>
+<p>&#x3D;&#x3D;可以看出这个工具并非万能，后续的常见编码和特殊密码章节中我会为不适用ciphey的编码和密码提供本地或在线解码方案&#x3D;&#x3D;</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="hashid"><a href="#hashid" class="headerlink" title="hashid"></a>hashid</h4><ul>
+<li><p>安装指令：<code>pip install hashid</code></p>
+</li>
+<li><p>使用场景： 用于识别hash算法：给它一个hash值，它就能判断出这个值是哪种类型的hash值。</p>
+<ul>
+<li><p><strong>基础用法</strong>：</p>
+<p>打开<a href="D:\Anaconda3\envs\Crypto\Scripts\hashid.exe">hashid.exe</a>文件，输入想要分析的hash值，软件会自动在列出可能的hash类型，排列越靠上概率越大，如下：</p>
+<img src="/posts/85875867f561/image-20230521154651291.png" alt="image-20230521154651291" style="zoom: 67%;">
+
+<p>hashid分析结果为：该hash值的类型为SHA224概率最大。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="libnum"><a href="#libnum" class="headerlink" title="libnum"></a>libnum</h4><ul>
+<li><p>安装指令：<code>pip install libnum</code></p>
+</li>
+<li><p>使用场景：进制转换、打素数表等等</p>
+<ul>
+<li><p><strong>基础用法</strong>：</p>
+<ul>
+<li><strong>进制转换</strong></li>
+</ul>
+<p><code>libnum.s2n(s)</code>：<strong>字符串转换为数字</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> libnum</span><br><span class="line">s = <span class="string">&quot;ab12&quot;</span></span><br><span class="line"><span class="built_in">print</span>(libnum.s2n(s))</span><br><span class="line"></span><br><span class="line">result: <span class="number">1633825074</span></span><br></pre></td></tr></table></figure>
+
+<p><code>libnum.s2n(n)</code>：<strong>数字转换为字符串</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> libnum</span><br><span class="line">n = <span class="number">1633825074</span></span><br><span class="line"><span class="built_in">print</span>(libnum.n2s(n))</span><br><span class="line"></span><br><span class="line">result: ab12</span><br></pre></td></tr></table></figure>
+
+<p><code>libnum.s2b(s)</code>：<strong>字符串转换为二进制字符串</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> libnum</span><br><span class="line">s = <span class="string">&quot;ab12&quot;</span></span><br><span class="line"><span class="built_in">print</span>(libnum.s2b(s))</span><br><span class="line"></span><br><span class="line">result: 01100001011000100011000100110010</span><br></pre></td></tr></table></figure>
+
+<p><code>libnum.b2s(b)</code>：<strong>二进制字符串转换为字符串</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> libnum</span><br><span class="line">b = <span class="string">&quot;01100001011000100011000100110010&quot;</span></span><br><span class="line"><span class="built_in">print</span>(libnum.b2s(b))</span><br><span class="line"></span><br><span class="line">result: ab12</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>素数相关</li>
+</ul>
+<p><code>libnum.primes(n)</code>：<strong>返回不大于n的素数列表</strong>。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> libnum</span><br><span class="line"><span class="built_in">print</span>(libnum.primes(<span class="number">19</span>))</span><br><span class="line"></span><br><span class="line">result: [<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">17</span>, <span class="number">19</span>]</span><br></pre></td></tr></table></figure>
+
+<p><code>libnum.generate_prime(n)</code>：<strong>产生长度为n位的伪素数</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> libnum</span><br><span class="line"><span class="built_in">print</span>(libnum.generate_prime(<span class="number">10</span>))</span><br><span class="line"></span><br><span class="line">result: <span class="number">1021</span></span><br></pre></td></tr></table></figure>
+
+<p><code>libnum.factorize(n)</code>：<strong>返回n的所有素因子及每个素因子的个数</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> libnum</span><br><span class="line"><span class="built_in">print</span>(libnum.factorize(<span class="number">60</span>))</span><br><span class="line"></span><br><span class="line">result: &#123;<span class="number">2</span>: <span class="number">2</span>, <span class="number">3</span>: <span class="number">1</span>, <span class="number">5</span>: <span class="number">1</span>&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h4 id="factordb-python"><a href="#factordb-python" class="headerlink" title="factordb-python"></a>factordb-python</h4><ul>
+<li><p>安装指令：<code>pip3 install factordb-python</code></p>
+</li>
+<li><p>使用场景：FactorDB存储了该库已经知道的整数的分解，该库可以用在RSA中的大整数分解</p>
+<ul>
+<li><p>基础用法：</p>
+<p><strong>命令行使用</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">factordb factor(需要分解的大数)</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h3 id="常用库函数清单"><a href="#常用库函数清单" class="headerlink" title="常用库函数清单"></a>常用库函数清单</h3><ul>
+<li>跳转：<a href="./%E5%BA%93%E5%92%8C%E5%B7%A5%E5%85%B7/Crypto%E5%B8%B8%E7%94%A8%E5%BA%93%E5%87%BD%E6%95%B0%E6%B8%85%E5%8D%95.md">Crypto常用库函数清单</a></li>
+</ul>
+<h2 id="Crypto常用的工具"><a href="#Crypto常用的工具" class="headerlink" title="Crypto常用的工具"></a>Crypto常用的工具</h2><h3 id="常用工具功能"><a href="#常用工具功能" class="headerlink" title="常用工具功能"></a>常用工具功能</h3><h4 id="yafu-1-34"><a href="#yafu-1-34" class="headerlink" title="yafu-1.34"></a>yafu-1.34</h4><ul>
+<li><p>使用场景：yafu用于自动整数因式分解，在RSA中，当<strong>p、q的取值差异过大或过于相近</strong>的时候，使用yafu可以快速的把n值分解出p、q值，原理是使用Fermat方法与Pollard rho方法等</p>
+<ul>
+<li><p><strong>基础用法</strong>：</p>
+<p>进入yafu-x64.exe所在的文件夹<a href="G:\CTF\Crypto\库和工具\工具\yafu-1.34">yafu-1.34</a>，打开终端，命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">直接输入大整数</span></span><br><span class="line">yafu-x64 factor(需要分解的大数)</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">将大整数放在test.txt文件中</span></span><br><span class="line">yafu-x64 &quot;factor(@)&quot; -batchfile test.txt</span><br></pre></td></tr></table></figure>
+
+<p>&#x3D;&#x3D;将大整数放在文件中时最后一定要换行。&#x3D;&#x3D;</p>
+</li>
+</ul>
+</li>
+<li><p>其他版本：当然也有yafu-v2.1版本，但是适合租一台高性能云主机来跑，docker镜像：<code>docker run -ti --name yafu ssst0n3/yafu:2.10</code></p>
+</li>
+</ul>
+<h3 id="常用工具清单"><a href="#常用工具清单" class="headerlink" title="常用工具清单"></a>常用工具清单</h3><ul>
+<li>跳转：<a href="./%E5%BA%93%E5%92%8C%E5%B7%A5%E5%85%B7/Crypto%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E6%B8%85%E5%8D%95.md">Crypto常用工具清单</a></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://rickliu.com">R1ck Liu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://rickliu.com/posts/85875867f561/">https://rickliu.com/posts/85875867f561/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://rickliu.com" target="_blank">R1ck's Portal</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CTF/">CTF</a><a class="post-meta__tags" href="/tags/Crypto/">Crypto</a><a class="post-meta__tags" href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/">软件工具</a></div><div class="post_share"><div class="social-share" data-image="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/posts/5afb1c66bf9f/" title="待写文章清单"><img class="cover" src="/posts/5afb1c66bf9f/cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">待写文章清单</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">R1ck Liu</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/handsomelky" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_27489877" target="_blank" title="CSDN"><i class="fa-solid fa-c" style="color: #e85211;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果本博客加载速度慢，请开启魔法~</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Crypto%E5%B8%B8%E7%94%A8%E7%9A%84python%E5%BA%93"><span class="toc-number">1.</span> <span class="toc-text">Crypto常用的python库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%BA%93%E5%87%BD%E6%95%B0%E5%8A%9F%E8%83%BD"><span class="toc-number">1.1.</span> <span class="toc-text">常用库函数功能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#gmpy2"><span class="toc-number">1.1.1.</span> <span class="toc-text">gmpy2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#pwntools"><span class="toc-number">1.1.2.</span> <span class="toc-text">pwntools</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#hashlib"><span class="toc-number">1.1.3.</span> <span class="toc-text">hashlib</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ciphey"><span class="toc-number">1.1.4.</span> <span class="toc-text">ciphey</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#hashid"><span class="toc-number">1.1.5.</span> <span class="toc-text">hashid</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#libnum"><span class="toc-number">1.1.6.</span> <span class="toc-text">libnum</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#factordb-python"><span class="toc-number">1.1.7.</span> <span class="toc-text">factordb-python</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%BA%93%E5%87%BD%E6%95%B0%E6%B8%85%E5%8D%95"><span class="toc-number">1.2.</span> <span class="toc-text">常用库函数清单</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Crypto%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="toc-number">2.</span> <span class="toc-text">Crypto常用的工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E5%8A%9F%E8%83%BD"><span class="toc-number">2.1.</span> <span class="toc-text">常用工具功能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#yafu-1-34"><span class="toc-number">2.1.1.</span> <span class="toc-text">yafu-1.34</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E6%B8%85%E5%8D%95"><span class="toc-number">2.2.</span> <span class="toc-text">常用工具清单</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/85875867f561/" title="Crypto常用库和工具">Crypto常用库和工具</a><time datetime="2023-07-20T06:47:45.000Z" title="发表于 2023-07-20 14:47:45">2023-07-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/5afb1c66bf9f/" title="待写文章清单"><img src="/posts/5afb1c66bf9f/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="待写文章清单"/></a><div class="content"><a class="title" href="/posts/5afb1c66bf9f/" title="待写文章清单">待写文章清单</a><time datetime="2023-07-15T15:04:08.000Z" title="发表于 2023-07-15 23:04:08">2023-07-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/cb8aede32db1/" title="butterfly主题Aplayer本地音源添加"><img src="/posts/cb8aede32db1/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="butterfly主题Aplayer本地音源添加"/></a><div class="content"><a class="title" href="/posts/cb8aede32db1/" title="butterfly主题Aplayer本地音源添加">butterfly主题Aplayer本地音源添加</a><time datetime="2023-07-13T14:32:57.000Z" title="发表于 2023-07-13 22:32:57">2023-07-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/8527cd39430b/" title="Windows10 C盘无法磁盘清理或点击无反应（闪退）解决方案"><img src="/posts/8527cd39430b/857efd16-6cbf-42af-bfa2-74fe458d1234.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Windows10 C盘无法磁盘清理或点击无反应（闪退）解决方案"/></a><div class="content"><a class="title" href="/posts/8527cd39430b/" title="Windows10 C盘无法磁盘清理或点击无反应（闪退）解决方案">Windows10 C盘无法磁盘清理或点击无反应（闪退）解决方案</a><time datetime="2023-07-11T06:55:20.000Z" title="发表于 2023-07-11 14:55:20">2023-07-11</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/background.png')"><div id="footer-wrap"><div class="copyright">&copy;2023 By R1ck Liu</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><p><object style="margin-inline:5px" data="https://img.shields.io/badge/Frame-Hexo-blue?logo=Hexo&style=plastic&link=https://hexo.io/&https://hexo.io/zh-cn/docs/"></object><object style="margin-inline:5px" data="https://img.shields.io/badge/Theme-Butterfly-6513df?style=plastic&logo=bitdefender&link=https://butterfly.js.org/"></object></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>function getGiscusTheme (theme) {
+  return theme === 'dark' ? 'dark' : 'light'
+}
+
+function loadGiscus () {
+  const config = Object.assign({
+    src: 'https://giscus.app/client.js',
+    'data-repo': 'handsomelky/handsomelky.github.io',
+    'data-repo-id': 'R_kgDOJ58FwA',
+    'data-category-id': 'DIC_kwDOJ58FwM4CX0E8',
+    'data-mapping': 'pathname',
+    'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+    'data-reactions-enabled': '1',
+    crossorigin: 'anonymous',
+    async: true
+  },null)
+
+  let ele = document.createElement('script')
+  for (let key in config) {
+    ele.setAttribute(key, config[key])
+  }
+  document.getElementById('giscus-wrap').insertAdjacentElement('afterbegin',ele)
+}
+
+function changeGiscusTheme (theme) {
+  function sendMessage(message) {
+    const iframe = document.querySelector('iframe.giscus-frame')
+    if (!iframe) return
+    iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+  }
+
+  sendMessage({
+    setConfig: {
+      theme: getGiscusTheme(theme)
+    }
+  });
+}
+
+btf.addModeChange('giscus', changeGiscusTheme)
+
+if ('Giscus' === 'Giscus' || !false) {
+  if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+  else loadGiscus()
+} else {
+  function loadOtherComment () {
+    loadGiscus()
+  }
+}</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script src="/js/FunnyTitle.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
