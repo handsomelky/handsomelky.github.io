@@ -4,7 +4,7 @@
   <url>
     <loc>https://rickliu.com/posts/85875867f561/</loc>
     
-    <lastmod>2023-07-22</lastmod>
+    <lastmod>2023-07-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -13,7 +13,7 @@
   <url>
     <loc>https://rickliu.com/posts/cb8aede32db1/</loc>
     
-    <lastmod>2023-07-17</lastmod>
+    <lastmod>2023-07-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -150,5 +150,19 @@
   </url>
   
 
+  
+  <url>
+    <loc>https://rickliu.com/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/</loc>
+    <lastmod>2023-07-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://rickliu.com/categories/CTF-Crypto/</loc>
+    <lastmod>2023-07-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
 </urlset>
