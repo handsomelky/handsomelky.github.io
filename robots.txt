@@ -11,8 +11,6 @@ Allow: /img/
 Allow: /link/
 Allow: /tags/
 
-Disallow: /assets/
-Disallow: /fonts/
 Disallow: /js/
 Disallow: /css/
 
