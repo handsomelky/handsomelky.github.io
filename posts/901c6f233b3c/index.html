@@ -1,0 +1,434 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>《动手学深度学习》笔记（前三章） | R1ck's Portal</title><meta name="author" content="R1ck Liu"><meta name="copyright" content="R1ck Liu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言上个学期搞大学生创新创业的时候，我对机器学习和OCR领域的各种方法都还是一知半解。只知道怎么看懂代码、复现代码和掌握论文的大体框架，但是对具体实现细节和原理还是一无所知。 遂趁着暑假的闲暇时光系统性学习一下深度学习 本着 学习的最高境界是能将学到的知识复述出来  这一理念，我打算在这个系列里分享一些学习笔记与收获 这次自学用到的教材是李沐老师等深度学习领域的大牛编著的《动手学深度学习(PyTo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《动手学深度学习》笔记（前三章）">
+<meta property="og:url" content="https://rickliu.com/posts/901c6f233b3c/index.html">
+<meta property="og:site_name" content="R1ck&#39;s Portal">
+<meta property="og:description" content="前言上个学期搞大学生创新创业的时候，我对机器学习和OCR领域的各种方法都还是一知半解。只知道怎么看懂代码、复现代码和掌握论文的大体框架，但是对具体实现细节和原理还是一无所知。 遂趁着暑假的闲暇时光系统性学习一下深度学习 本着 学习的最高境界是能将学到的知识复述出来  这一理念，我打算在这个系列里分享一些学习笔记与收获 这次自学用到的教材是李沐老师等深度学习领域的大牛编著的《动手学深度学习(PyTo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://rickliu.com/posts/901c6f233b3c/cover.png">
+<meta property="article:published_time" content="2023-07-28T17:11:00.000Z">
+<meta property="article:modified_time" content="2023-07-30T10:20:08.372Z">
+<meta property="article:author" content="R1ck Liu">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="note">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://rickliu.com/posts/901c6f233b3c/cover.png"><link rel="shortcut icon" href="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/favicon.png"><link rel="canonical" href="https://rickliu.com/posts/901c6f233b3c/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="CCDD774EA967D60E5C877121C6572BF5"/><meta name="baidu-site-verification" content="codeva-13aVmkscyC"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?6c032eabab6689261ec86024f386af87";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: R1ck Liu","link":"链接: ","source":"来源: R1ck's Portal","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '《动手学深度学习》笔记（前三章）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-07-30 18:20:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/waves.css"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/iconfont.css"><link rel="stylesheet" href="/css/h.css"><link rel="stylesheet" href="/css/equipment.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/posts/901c6f233b3c/top_img.png')"><nav id="nav"><span id="blog-info"><a href="/" title="R1ck's Portal"><span class="site-name">R1ck's Portal</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">《动手学深度学习》笔记（前三章）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-28T17:11:00.000Z" title="发表于 2023-07-29 01:11:00">2023-07-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-30T10:20:08.372Z" title="更新于 2023-07-30 18:20:08">2023-07-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E3%80%8A%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%8B%E7%B3%BB%E5%88%97%E7%AC%94%E8%AE%B0/">《动手学深度学习》系列笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="《动手学深度学习》笔记（前三章）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上个学期搞<strong>大学生创新创业</strong>的时候，我对机器学习和OCR领域的各种方法都还是<strong>一知半解</strong>。只知道怎么看懂代码、复现代码和掌握论文的大体框架，但是对具体实现细节和原理还是一无所知。</p>
+<p>遂趁着暑假的闲暇时光系统性学习一下<strong>深度学习</strong></p>
+<p>本着 <mark class="hl-label blue">学习的最高境界是能将学到的知识复述出来</mark>  这一理念，我打算在这个系列里分享一些学习笔记与收获</p>
+<p>这次自学用到的教材是<strong>李沐</strong>老师等深度学习领域的大牛编著的<strong>《动手学深度学习(PyTorch版)》</strong>一书</p>
+<div class="note warning flat"><p>本书同时覆盖深度学习的方法和实践，主要面向<strong>在校大学生、技术人员和研究人员</strong>。阅读本书需要读者了解<strong>基本的Python编程</strong>或附录中描述的<strong>线性代数、微分和概率基础</strong>。</p>
+</div>
+<div class="note info flat"><p>购买链接：<a target="_blank" rel="noopener" href="https://item.jd.com/13628339.html">《动手学深度学习 PyTorch版 - 京东图书 (jd.com)</a></p>
+<p>在线学习：<a target="_blank" rel="noopener" href="http://zh-v2.d2l.ai/chapter_preface/index.html">前言 — 动手学深度学习 2.0.0 documentation (d2l.ai)</a></p>
+</div>
+<p>废话不多说，本文章的笔记内容范围覆盖原书的<strong>前三章</strong>：</p>
+<h2 id="Chapter1-序言"><a href="#Chapter1-序言" class="headerlink" title="Chapter1.序言"></a>Chapter1.序言</h2><p>序言主要是介绍机器学习，里面大体的内容还是有些浅的认知，但也有一些我觉得比较重要的知识点：</p>
+<p><strong>无监督学习</strong></p>
+<p>数据中不含有“目标”的机器学习问题通常被为<em>无监督学习</em>（unsupervised learning）</p>
+<ul>
+<li><em>聚类</em>（clustering）问题：没有标签的情况下，我们是否能给数据分类呢？比如，给定一组照片，我们能把它们分成风景照片、狗、婴儿、猫和山峰的照片吗？同样，给定一组用户的网页浏览记录，我们能否将具有相似行为的用户聚类呢？</li>
+<li><em>主成分分析</em>（principal component analysis）问题：我们能否找到少量的参数来准确地捕捉数据的线性相关属性？比如，一个球的运动轨迹可以用球的速度、直径和质量来描述。再比如，裁缝们已经开发出了一小部分参数，这些参数相当准确地描述了人体的形状，以适应衣服的需要。另一个例子：在欧几里得空间中是否存在一种（任意结构的）对象的表示，使其符号属性能够很好地匹配?这可以用来描述实体及其关系，例如“罗马” −− “意大利” ++ “法国” == “巴黎”。</li>
+<li><em>因果关系</em>（causality）和<em>概率图模型</em>（probabilistic graphical models）问题：我们能否描述观察到的许多数据的根本原因？例如，如果我们有关于房价、污染、犯罪、地理位置、教育和工资的人口统计数据，我们能否简单地根据经验数据发现它们之间的关系？</li>
+<li><em>生成对抗性网络</em>（generative adversarial networks）：为我们提供一种合成数据的方法，甚至像图像和音频这样复杂的非结构化数据。潜在的统计机制是检查真实和虚假数据是否相同的测试，它是无监督学习的另一个重要而令人兴奋的领域。</li>
+</ul>
+<p><strong>近十年的里程碑式idea</strong></p>
+<ul>
+<li><strong>新的容量控制方法</strong>，如<em>dropout</em> :cite:<code>Srivastava.Hinton.Krizhevsky.ea.2014</code>，有助于减轻过拟合的危险。这是通过在整个神经网络中应用噪声注入 :cite:<code>Bishop.1995</code> 来实现的，出于训练目的，用随机变量来代替权重。</li>
+<li><strong>注意力机制</strong>解决了困扰统计学一个多世纪的问题：如何在不增加可学习参数的情况下增加系统的记忆和复杂性。研究人员通过使用只能被视为可学习的指针结构 :cite:<code>Bahdanau.Cho.Bengio.2014</code> 找到了一个优雅的解决方案。不需要记住整个文本序列（例如用于固定维度表示中的机器翻译），所有需要存储的都是指向翻译过程的中间状态的指针。这大大提高了长序列的准确性，因为模型在开始生成新序列之前不再需要记住整个序列。</li>
+<li><strong>多阶段设计</strong>。例如，存储器网络 :cite:<code>Sukhbaatar.Weston.Fergus.ea.2015</code> 和神经编程器-解释器 :cite:<code>Reed.De-Freitas.2015</code>。它们允许统计建模者描述用于推理的迭代方法。这些工具允许重复修改深度神经网络的内部状态，从而执行推理链中的后续步骤，类似于处理器如何修改用于计算的存储器。</li>
+<li>另一个关键的发展是<strong>生成对抗网络</strong> :cite:<code>Goodfellow.Pouget-Abadie.Mirza.ea.2014</code> 的发明。传统模型中，密度估计和生成模型的统计方法侧重于找到合适的概率分布（通常是近似的）和抽样算法。因此，这些算法在很大程度上受到统计模型固有灵活性的限制。生成式对抗性网络的关键创新是用具有可微参数的任意算法代替采样器。然后对这些数据进行调整，使得鉴别器（实际上是一个双样本测试）不能区分假数据和真实数据。通过使用任意算法生成数据的能力，它为各种技术打开了密度估计的大门。驰骋的斑马 :cite:<code>Zhu.Park.Isola.ea.2017</code> 和假名人脸 :cite:<code>Karras.Aila.Laine.ea.2017</code> 的例子都证明了这一进展。即使是业余的涂鸦者也可以根据描述场景布局的草图生成照片级真实图像（ :cite:<code>Park.Liu.Wang.ea.2019</code> ）。</li>
+<li>在许多情况下，单个GPU不足以处理可用于训练的大量数据。在过去的十年中，<strong>构建并行和分布式训练算法</strong>的能力有了显著提高。设计可伸缩算法的关键挑战之一是深度学习优化的主力——随机梯度下降，它依赖于相对较小的小批量数据来处理。同时，小批量限制了GPU的效率。因此，在1024个GPU上进行训练，例如每批32个图像的小批量大小相当于总计约32000个图像的小批量。最近的工作，首先是由 :cite:<code>Li.2017</code> 完成的，随后是 :cite:<code>You.Gitman.Ginsburg.2017</code> 和 :cite:<code>Jia.Song.He.ea.2018</code> ，将观察大小提高到64000个，将ResNet-50模型在ImageNet数据集上的训练时间减少到不到7分钟。作为比较——最初的训练时间是按天为单位的。</li>
+<li>并行计算的能力也对<strong>强化学习的进步</strong>做出了相当关键的贡献。这导致了计算机在围棋、雅达里游戏、星际争霸和物理模拟（例如，使用MuJoCo）中实现超人性能的重大进步。有关如何在AlphaGo中实现这一点的说明，请参见如 :cite:<code>Silver.Huang.Maddison.ea.2016</code> 。简而言之，如果有大量的（状态、动作、奖励）三元组可用，即只要有可能尝试很多东西来了解它们之间的关系，强化学习就会发挥最好的作用。仿真提供了这样一条途径。</li>
+<li><strong>深度学习框架</strong>在传播思想方面发挥了至关重要的作用。允许轻松建模的第一代框架包括<a target="_blank" rel="noopener" href="https://github.com/BVLC/caffe">Caffe</a>、<a target="_blank" rel="noopener" href="https://github.com/torch">Torch</a>和<a target="_blank" rel="noopener" href="https://github.com/Theano/Theano">Theano</a>。许多开创性的论文都是用这些工具写的。到目前为止，它们已经被<a target="_blank" rel="noopener" href="https://github.com/tensorflow/tensorflow">TensorFlow</a>（通常通过其高级API <a target="_blank" rel="noopener" href="https://github.com/keras-team/keras">Keras</a>使用）、<a target="_blank" rel="noopener" href="https://github.com/Microsoft/CNTK">CNTK</a>、<a target="_blank" rel="noopener" href="https://github.com/caffe2/caffe2">Caffe 2</a>和<a target="_blank" rel="noopener" href="https://github.com/apache/incubator-mxnet">Apache MXNet</a>所取代。第三代工具，即用于深度学习的命令式工具，可以说是由<a target="_blank" rel="noopener" href="https://github.com/chainer/chainer">Chainer</a>率先推出的，它使用类似于Python NumPy的语法来描述模型。这个想法被<a target="_blank" rel="noopener" href="https://github.com/pytorch/pytorch">PyTorch</a>、MXNet的<a target="_blank" rel="noopener" href="https://github.com/apache/incubator-mxnet">Gluon API</a>和<a target="_blank" rel="noopener" href="https://github.com/google/jax">Jax</a>都采纳了。</li>
+</ul>
+<h2 id="Chapter2-预备知识"><a href="#Chapter2-预备知识" class="headerlink" title="Chapter2.预备知识"></a>Chapter2.预备知识</h2><h3 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h3><h4 id="广播机制"><a href="#广播机制" class="headerlink" title="广播机制"></a>广播机制</h4><p>数据操作中比较重要的一个点是<strong>广播机制</strong>：</p>
+<p>在某些情况下，即使形状不同，我们仍然可以通过调用 <em>广播机制</em>（broadcasting mechanism）来执行按元素操作。 这种机制的工作方式如下：</p>
+<ol>
+<li>通过适当复制元素来扩展一个或两个数组，以便在转换之后，两个张量具有相同的形状；</li>
+<li>对生成的数组执行按元素操作。</li>
+</ol>
+<p>在大多数情况下，我们将沿着数组中长度为1的轴进行广播，如下例子：</p>
+<p>In:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = torch.arange(<span class="number">3</span>).reshape((<span class="number">3</span>, <span class="number">1</span>))</span><br><span class="line">b = torch.arange(<span class="number">2</span>).reshape((<span class="number">1</span>, <span class="number">2</span>))</span><br><span class="line">a, b</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(tensor([[<span class="number">0</span>],</span><br><span class="line">         [<span class="number">1</span>],</span><br><span class="line">         [<span class="number">2</span>]]),</span><br><span class="line"> tensor([[<span class="number">0</span>, <span class="number">1</span>]]))</span><br></pre></td></tr></table></figure>
+<p>由于<code>a</code>和<code>b</code>分别是3×1和1×2矩阵，如果让它们相加，它们的形状不匹配。 我们将两个矩阵<em>广播</em>为一个更大的3×2矩阵，如下所示：矩阵<code>a</code>将复制列， 矩阵<code>b</code>将复制行，然后再按元素相加。<br>In:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a + b</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tensor([[<span class="number">0</span>, <span class="number">1</span>],</span><br><span class="line">        [<span class="number">1</span>, <span class="number">2</span>],</span><br><span class="line">        [<span class="number">2</span>, <span class="number">3</span>]])</span><br></pre></td></tr></table></figure>
+<h4 id="节省内存"><a href="#节省内存" class="headerlink" title="节省内存"></a>节省内存</h4><p>这里涉及到python中的<strong>赋值(复制)、浅拷贝与深拷贝</strong></p>
+<p>首先有几个关于python的基本概念要搞清楚：</p>
+<div class="note info flat"><p><strong>变量</strong>：是一个系统表的元素，拥有指向对象的连接空间</p>
+<p><strong>对象</strong>：被分配的一块内存，存储其所代表的值</p>
+<p><strong>引用</strong>：是自动形成的从变量到对象的指针</p>
+<p><strong>类型</strong>：属于对象，而非变量</p>
+<p><strong>不可变对象</strong>：一旦创建就不可修改的对象，包括字符串、元组、数值类型</p>
+<p><em>（该对象所指向的内存中的值不能被改变。当改变某个变量时候，由于其所指的值不能被改变，相当于把原来的值复制一份后再改变，这会开辟一个新的地址，变量再指向这个新的地址。）</em></p>
+<p><strong>可变对象</strong>：可以修改的对象，包括列表、字典、集合</p>
+<p><em>（该对象所指向的内存中的值可以被改变。变量（准确的说是引用）改变后，实际上是其所指的值直接发生改变，并没有发生复制行为，也没有开辟新的地址，通俗点说就是原地改变。）</em></p>
+</div>
+<p>那么本文只会涉及赋值(复制)、浅拷贝与深拷贝三种操作的一点细微区别</p>
+<p>即若改变新变量的值，原变量会不会随着发生变化</p>
+<p>如下表所示：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>不可变对象</th>
+<th>可变对象</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>赋值(复制)</td>
+<td>不变</td>
+<td>变化</td>
+</tr>
+<tr>
+<td>浅拷贝</td>
+<td>不变</td>
+<td>变化</td>
+</tr>
+<tr>
+<td>深拷贝</td>
+<td>不变</td>
+<td>不变</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>如果想更深入的了解这三种操作，可以参考以下信息提示：</p>
+<div class="note info flat"><div class="tabs" id="三种操作的区别"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#三种操作的区别-1">赋值(复制)</button></li><li class="tab"><button type="button" data-href="#三种操作的区别-2">浅拷贝</button></li><li class="tab"><button type="button" data-href="#三种操作的区别-3">深拷贝</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="三种操作的区别-1"><p>直接赋值其实就是对象的引用（别名）。</p>
+<p><img src="/posts/901c6f233b3c/image-20230729195815961.png" alt="image-20230729195815961"></p>
+<p><img src="/posts/901c6f233b3c/image-20230729200158322.png" alt="image-20230729200158322"></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="三种操作的区别-2"><p>拷贝父对象，不会拷贝对象的内部的子对象。</p>
+<p>浅拷贝要分两种情况进行讨论：</p>
+<p>1）当浅拷贝的值是不可变对象（字符串、元组、数值类型）时和“赋值”的情况一样，对象的id值<em>（id()函数用于获取对象的内存地址）</em>与浅拷贝原来的值相同。</p>
+<p>2）当浅拷贝的值是可变对象（列表、字典、集合）时会产生一个“不是那么独立的对象”存在。</p>
+<p><img src="/posts/901c6f233b3c/image-20230729200936655-16906334884741.png" alt="image-20230729200936655"></p>
+<p><img src="/posts/901c6f233b3c/image-20230729201711241.png" alt="image-20230729201711241"></p>
+<p><img src="/posts/901c6f233b3c/image-20230729202010740-16906334993083.png" alt="image-20230729202010740"></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="三种操作的区别-3"><p> copy 模块的 deepcopy 方法，完全拷贝了父对象及其子对象。</p>
+<p>改变原有被复制对象不会对已经复制出来的新对象产生影响。</p>
+<p><img src="/posts/901c6f233b3c/image-20230729202143832-16906335074795.png" alt="image-20230729202143832"></p>
+<p><img src="/posts/901c6f233b3c/image-20230729202304412-16906335174477.png" alt="image-20230729202304412"></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
+</div>
+<p>那么事实上，在pytorch中，张量作为可变对象来看待</p>
+<p>那么像x.reshape()和x.detach()这样的操作具有浅拷贝的性质：</p>
+<p><img src="/posts/901c6f233b3c/image-20230729204012380.png" alt="image-20230729204012380"></p>
+<p>而运行一些操作也可能会导致<strong>为新结果分配内存</strong>。</p>
+<p> 例如，如果我们用<code>Y = X + Y</code>，我们将取消引用<code>Y</code>指向的张量，而是指向新分配的内存处的张量。</p>
+<p>在下面的例子中，我们用Python的<code>id()</code>函数演示了这一点， 它给我们提供了内存中引用对象的确切地址。 运行<code>Y = Y + X</code>后，我们会发现<code>id(Y)</code>指向另一个位置。 这是因为Python首先计算<code>Y + X</code>，为结果分配新的内存，然后使<code>Y</code>指向内存中的这个新位置。</p>
+<p>In :</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">before = <span class="built_in">id</span>(Y)</span><br><span class="line">Y = Y + X</span><br><span class="line"><span class="built_in">id</span>(Y) == before</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<p>这可能是不可取的，原因有两个：</p>
+<ol>
+<li>首先，我们不想总是不必要地分配内存。在机器学习中，我们可能有数百兆的参数，并且在一秒内多次更新所有参数。通常情况下，我们希望原地执行这些更新；</li>
+<li>如果我们不原地更新，其他引用仍然会指向旧的内存位置，这样我们的某些代码可能会无意中引用旧的参数。</li>
+</ol>
+<p>幸运的是，(<strong>执行原地操作</strong>)非常简单。 我们可以使用切片表示法将操作的结果分配给先前分配的数组，例如<code>Y[:] = &lt;expression&gt;</code>。 为了说明这一点，我们首先创建一个新的矩阵<code>Z</code>，其形状与另一个<code>Y</code>相同， 使用<code>zeros_like</code>来分配一个全00的块。</p>
+<p>In :</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Z = torch.zeros_like(Y)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;id(Z):&#x27;</span>, <span class="built_in">id</span>(Z))</span><br><span class="line">Z[:] = X + Y</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;id(Z):&#x27;</span>, <span class="built_in">id</span>(Z))</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">id</span>(Z): <span class="number">139931132035296</span></span><br><span class="line"><span class="built_in">id</span>(Z): <span class="number">139931132035296</span></span><br></pre></td></tr></table></figure>
+<p>[<strong>如果在后续计算中没有重复使用<code>X</code>， 我们也可以使用<code>X[:] = X + Y</code>或<code>X += Y</code>来减少操作的内存开销。</strong>]</p>
+<p>In :</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">before = id(X)</span><br><span class="line">X += Y</span><br><span class="line">id(X) == before</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">True</span><br></pre></td></tr></table></figure>
+<h4 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h4><p>而如果我们如果想对张量进行深拷贝，则可以使用clone()函数：</p>
+<p>In:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = torch.arange(<span class="number">12</span>)</span><br><span class="line">b=a.clone</span><br><span class="line">b[:] = <span class="number">2</span></span><br><span class="line">a</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensor([ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>,  <span class="number">5</span>,  <span class="number">6</span>,  <span class="number">7</span>,  <span class="number">8</span>,  <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>])</span><br></pre></td></tr></table></figure>
+<p>而关于张量的浅拷贝和深拷贝其实还有一些更深入的区别：</p>
+<div class="note primary flat"><p><code>.clone()</code>是深拷贝，开辟新的存储地址而不是引用来保存旧的tensor，在梯度回传的时候clone()充当中间变量，会将梯度传给源张量进行叠加，但是本身不保存其grad，值为None。<br><code>.detach()</code>是浅拷贝，新的tensor会脱离计算图，<strong>不会牵扯梯度计算</strong>。</p>
+<p><img src="/posts/901c6f233b3c/image-20230729210152135.png" alt="image-20230729210152135"></p>
+</div>
+<h3 id="线性代数"><a href="#线性代数" class="headerlink" title="线性代数"></a>线性代数</h3><h4 id="降维"><a href="#降维" class="headerlink" title="降维"></a>降维</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A = torch.arange(<span class="number">20</span>, dtype=torch.float32).reshape(<span class="number">5</span>, <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<p>默认情况下，调用求和函数会沿所有的轴降低张量的维度，使它变为一个标量。 我们还可以[<strong>指定张量沿哪一个轴来通过求和降低维度</strong>]。 以矩阵为例，为了通过求和所有行的元素来降维（轴0），可以在调用函数时指定<code>axis=0</code>。 由于输入矩阵沿0轴降维以生成输出向量，因此输入轴0的维数在输出形状中消失。</p>
+<p>In :</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A_sum_axis0 = A.sum(axis=0)</span><br><span class="line">A_sum_axis0, A_sum_axis0.shape</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(tensor([40., 45., 50., 55.]), torch.Size([4]))</span><br></pre></td></tr></table></figure>
+<p>指定<code>axis=1</code>将通过汇总所有列的元素降维（轴1）。因此，输入轴1的维数在输出形状中消失。</p>
+<p>In :</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A_sum_axis1 = A.sum(axis=1)</span><br><span class="line">A_sum_axis1, A_sum_axis1.shape</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(tensor([ 6., 22., 38., 54., 70.]), torch.Size([5]))</span><br></pre></td></tr></table></figure>
+<p>沿着行和列对矩阵求和，等价于对矩阵的所有元素进行求和。</p>
+<p>In:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A.sum(axis=[0, 1])  # 结果和A.sum()相同</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensor(190.)</span><br></pre></td></tr></table></figure>
+<h4 id="非降维求和"><a href="#非降维求和" class="headerlink" title="非降维求和"></a>非降维求和</h4><p>但是，有时在调用函数来[<strong>计算总和或均值时保持轴数不变</strong>]会很有用。</p>
+<p>In:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sum_A = A.sum(axis=1, keepdims=True)</span><br><span class="line">sum_A</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tensor([[ 6.],</span><br><span class="line">        [22.],</span><br><span class="line">        [38.],</span><br><span class="line">        [54.],</span><br><span class="line">        [70.]])</span><br></pre></td></tr></table></figure>
+<p>例如，由于<code>sum_A</code>在对每行进行求和后仍保持两个轴，我们可以(<strong>通过广播将<code>A</code>除以<code>sum_A</code></strong>)。</p>
+<p>In:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A / sum_A</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tensor([[0.0000, 0.1667, 0.3333, 0.5000],</span><br><span class="line">        [0.1818, 0.2273, 0.2727, 0.3182],</span><br><span class="line">        [0.2105, 0.2368, 0.2632, 0.2895],</span><br><span class="line">        [0.2222, 0.2407, 0.2593, 0.2778],</span><br><span class="line">        [0.2286, 0.2429, 0.2571, 0.2714]])</span><br></pre></td></tr></table></figure>
+<p>如果我们想沿[<strong>某个轴计算<code>A</code>元素的累积总和</strong>]， 比如<code>axis=0</code>（按行计算），可以调用<code>cumsum</code>函数。 此函数不会沿任何轴降低输入张量的维度。</p>
+<p>In:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A.cumsum(axis=0)</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tensor([[ 0.,  1.,  2.,  3.],</span><br><span class="line">        [ 4.,  6.,  8., 10.],</span><br><span class="line">        [12., 15., 18., 21.],</span><br><span class="line">        [24., 28., 32., 36.],</span><br><span class="line">        [40., 45., 50., 55.]])</span><br></pre></td></tr></table></figure>
+<h4 id="范数"><a href="#范数" class="headerlink" title="范数"></a>范数</h4><p>类似于向量的$L_2$范数，[<strong>矩阵</strong>]$\mathbf{X} \in \mathbb{R}^{m \times n}$(<strong>的<em>Frobenius范数</em>（Frobenius norm）是矩阵元素平方和的平方根：</strong></p>
+<p>$\|\mathbf{X}\|_F = \sqrt{\sum_{i=1}^m \sum_{j=1}^n x_{ij}^2}.$</p>
+<p>Frobenius范数满足向量范数的所有性质，它就像是矩阵形向量的$L_2$范数。 调用以下函数将计算矩阵的Frobenius范数。</p>
+<p>In:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.norm(torch.ones((4, 9)))</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensor(6.)</span><br></pre></td></tr></table></figure>
+<h3 id="微积分"><a href="#微积分" class="headerlink" title="微积分"></a>微积分</h3><h4 id="梯度"><a href="#梯度" class="headerlink" title="梯度"></a>梯度</h4><p><img src="/posts/901c6f233b3c/image-20230726212743994.png" alt="image-20230726212743994" style="zoom:67%;"></p>
+<h4 id="向量链式法则"><a href="#向量链式法则" class="headerlink" title="向量链式法则"></a>向量链式法则</h4><p><img src="/posts/901c6f233b3c/image-20230726214825560.png" alt="image-20230726214825560" style="zoom:67%;"></p>
+<h3 id="自动求导"><a href="#自动求导" class="headerlink" title="自动求导"></a>自动求导</h3><h4 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h4><p>自动求导主要是利用计算图反向传播梯度的方法</p>
+<p><img src="/posts/901c6f233b3c/image-20230726221124109.png" alt="image-20230726221124109" style="zoom: 25%;"></p>
+<p><img src="/posts/901c6f233b3c/image-20230726221205461.png" alt="image-20230726221205461" style="zoom: 80%;"></p>
+<p><img src="/posts/901c6f233b3c/image-20230726221225754.png" alt="image-20230726221225754" style="zoom: 67%;"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://rickliu.com">R1ck Liu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://rickliu.com/posts/901c6f233b3c/">https://rickliu.com/posts/901c6f233b3c/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本文为作者R1ck Liu的独家乐评，请勿转载，违者必究！如果在站外发现侵权行为，请在本页面下留言~</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="post-meta__tags" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a><a class="post-meta__tags" href="/tags/note/">note</a></div><div class="post_share"><div class="social-share" data-image="/posts/901c6f233b3c/cover.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/3dd78927ff1e/" title="简析《爱爱爱》(方大同)"><img class="cover" src="/posts/3dd78927ff1e/cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">简析《爱爱爱》(方大同)</div></div></a></div><div class="next-post pull-right"><a href="/posts/f9538327001b/" title="butterfly主题插入数学公式LaTeX"><img class="cover" src="/posts/f9538327001b/cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">butterfly主题插入数学公式LaTeX</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">R1ck Liu</div><div class="author-info__description">技术分享和生活记录</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/handsomelky" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_27489877" target="_blank" title="CSDN"><i class="fa-solid fa-c" style="color: #e85211;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果本博客加载速度慢，请开启魔法~</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Chapter1-%E5%BA%8F%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text">Chapter1.序言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Chapter2-%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="toc-number">3.</span> <span class="toc-text">Chapter2.预备知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C"><span class="toc-number">3.1.</span> <span class="toc-text">数据操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%BF%E6%92%AD%E6%9C%BA%E5%88%B6"><span class="toc-number">3.1.1.</span> <span class="toc-text">广播机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8A%82%E7%9C%81%E5%86%85%E5%AD%98"><span class="toc-number">3.1.2.</span> <span class="toc-text">节省内存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%B1%E6%8B%B7%E8%B4%9D"><span class="toc-number">3.1.3.</span> <span class="toc-text">深拷贝</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0"><span class="toc-number">3.2.</span> <span class="toc-text">线性代数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%99%8D%E7%BB%B4"><span class="toc-number">3.2.1.</span> <span class="toc-text">降维</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%9E%E9%99%8D%E7%BB%B4%E6%B1%82%E5%92%8C"><span class="toc-number">3.2.2.</span> <span class="toc-text">非降维求和</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8C%83%E6%95%B0"><span class="toc-number">3.2.3.</span> <span class="toc-text">范数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AE%E7%A7%AF%E5%88%86"><span class="toc-number">3.3.</span> <span class="toc-text">微积分</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A2%AF%E5%BA%A6"><span class="toc-number">3.3.1.</span> <span class="toc-text">梯度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%91%E9%87%8F%E9%93%BE%E5%BC%8F%E6%B3%95%E5%88%99"><span class="toc-number">3.3.2.</span> <span class="toc-text">向量链式法则</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E6%B1%82%E5%AF%BC"><span class="toc-number">3.4.</span> <span class="toc-text">自动求导</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD"><span class="toc-number">3.4.1.</span> <span class="toc-text">反向传播</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/f9538327001b/" title="butterfly主题插入数学公式LaTeX"><img src="/posts/f9538327001b/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="butterfly主题插入数学公式LaTeX"/></a><div class="content"><a class="title" href="/posts/f9538327001b/" title="butterfly主题插入数学公式LaTeX">butterfly主题插入数学公式LaTeX</a><time datetime="2023-07-30T08:17:24.000Z" title="发表于 2023-07-30 16:17:24">2023-07-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/901c6f233b3c/" title="《动手学深度学习》笔记（前三章）"><img src="/posts/901c6f233b3c/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《动手学深度学习》笔记（前三章）"/></a><div class="content"><a class="title" href="/posts/901c6f233b3c/" title="《动手学深度学习》笔记（前三章）">《动手学深度学习》笔记（前三章）</a><time datetime="2023-07-28T17:11:00.000Z" title="发表于 2023-07-29 01:11:00">2023-07-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/3dd78927ff1e/" title="简析《爱爱爱》(方大同)"><img src="/posts/3dd78927ff1e/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="简析《爱爱爱》(方大同)"/></a><div class="content"><a class="title" href="/posts/3dd78927ff1e/" title="简析《爱爱爱》(方大同)">简析《爱爱爱》(方大同)</a><time datetime="2023-07-24T13:21:46.000Z" title="发表于 2023-07-24 21:21:46">2023-07-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/85875867f561/" title="Crypto常用库和工具"><img src="/posts/85875867f561/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Crypto常用库和工具"/></a><div class="content"><a class="title" href="/posts/85875867f561/" title="Crypto常用库和工具">Crypto常用库和工具</a><time datetime="2023-07-20T06:47:45.000Z" title="发表于 2023-07-20 14:47:45">2023-07-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/5afb1c66bf9f/" title="待写文章清单"><img src="/posts/5afb1c66bf9f/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="待写文章清单"/></a><div class="content"><a class="title" href="/posts/5afb1c66bf9f/" title="待写文章清单">待写文章清单</a><time datetime="2023-07-15T15:04:08.000Z" title="发表于 2023-07-15 23:04:08">2023-07-15</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/posts/901c6f233b3c/top_img.png')"><div id="footer-wrap"><div class="copyright">&copy;2023 By R1ck Liu</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><p><object style="margin-inline:5px" data="https://img.shields.io/badge/Frame-Hexo-blue?logo=Hexo&style=plastic&link=https://hexo.io/&https://hexo.io/zh-cn/docs/"></object><object style="margin-inline:5px" data="https://img.shields.io/badge/Theme-Butterfly-6513df?style=plastic&logo=bitdefender&link=https://butterfly.js.org/"></object></p><p><a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备2023083766号</a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><script>function getGiscusTheme (theme) {
+  return theme === 'dark' ? 'dark' : 'light'
+}
+
+function loadGiscus () {
+  const config = Object.assign({
+    src: 'https://giscus.app/client.js',
+    'data-repo': 'handsomelky/handsomelky.github.io',
+    'data-repo-id': 'R_kgDOJ58FwA',
+    'data-category-id': 'DIC_kwDOJ58FwM4CX0E8',
+    'data-mapping': 'pathname',
+    'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+    'data-reactions-enabled': '1',
+    crossorigin: 'anonymous',
+    async: true
+  },null)
+
+  let ele = document.createElement('script')
+  for (let key in config) {
+    ele.setAttribute(key, config[key])
+  }
+  document.getElementById('giscus-wrap').insertAdjacentElement('afterbegin',ele)
+}
+
+function changeGiscusTheme (theme) {
+  function sendMessage(message) {
+    const iframe = document.querySelector('iframe.giscus-frame')
+    if (!iframe) return
+    iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+  }
+
+  sendMessage({
+    setConfig: {
+      theme: getGiscusTheme(theme)
+    }
+  });
+}
+
+btf.addModeChange('giscus', changeGiscusTheme)
+
+if ('Giscus' === 'Giscus' || !false) {
+  if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+  else loadGiscus()
+} else {
+  function loadOtherComment () {
+    loadGiscus()
+  }
+}</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script src="/js/FunnyTitle.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
