@@ -5888,7 +5888,11 @@ blockquote.pullquote.right {
   }
   
   #web_bg ~ .page:has(#about-page) {
-    background: transparent;
+    background: url(/images/background.png);
+    background-size: cover;
+    background-attachment: fixed;
+    /* 背景图像大小 */
+
   }
   
   #about-page .author-box {
@@ -6113,7 +6117,7 @@ blockquote.pullquote.right {
     left: 2rem;
   }
   .post-tips a {
-    color: var(--Rick-gray) !important;
+    color: #ac899c !important;
     border: none !important;
   }
   .author-content-item .card-content .banner-button-group {
@@ -6153,6 +6157,7 @@ blockquote.pullquote.right {
     width: 100%;
     height: 290px;
     margin-bottom: 15px;
+
   }
   
   .author-content-item.personalities .image {
@@ -6436,6 +6441,9 @@ blockquote.pullquote.right {
     opacity: 0.8;
     font-size: 0.6rem;
     margin-bottom: 0.5rem;
+  }
+  .author-content .create-site-post.author-content-item.single {
+    background: var(--Rick-describe-bg);
   }
   .author-content-item.maxim .maxim-title {
     display: flex;
@@ -7199,6 +7207,7 @@ blockquote.pullquote.right {
     --Rick-theme: #3b70fc;
     --Rick-theme-op: #4259ef23;
     --Rick-blue: #3b70fc;
+    --Rick-gray: ##959a9b;
     --Rick-red: #d8213c;
     --Rick-pink: #ff7c7c;
     --Rick-green: #57bd6a;
@@ -7229,6 +7238,51 @@ blockquote.pullquote.right {
     --Rick-card-border: #e3e8f7;
     --style-border-always: 1px solid var(--Rick-card-border);
     --Rick-blue: #425AEF;
+    --Rick-describe-bg: #f2f2f2;
+}
+[data-theme="dark"] {
+    --global-bg: #191919;
+    --Rick-theme: #0084ff;
+    --Rick-theme-op: #0084ff23;
+    --Rick-blue: #0084ff;
+    --Rick-gray: #e9e9ea;
+    --Rick-red: #ff3842;
+    --Rick-pink: #ff7c7c;
+    --Rick-green: #57bd6a;
+    --Rick-fontcolor: rgb(225, 225, 225);
+    --Rick-background: #18171d;
+    --Rick-reverse: #fff;
+    --Rick-maskbg: rgba(0, 0, 0, 0.6);
+    --Rick-maskbgdeep: rgba(0, 0, 0, 0.85);
+    --Rick-hovertext: #0a84ff;
+    --Rick-ahoverbg: #fff;
+    --Rick-lighttext: #f2b94b;
+    --Rick-secondtext: #a1a2b8;
+    --Rick-scrollbar: rgba(200, 200, 223, 0.4);
+    --Rick-card-btn-bg: #30343f;
+    --Rick-post-blockquote-bg: #000;
+    --Rick-post-tabs-bg: #121212;
+    --Rick-secondbg: #30343f;
+    --Rick-shadow-nav: 0 5px 20px 0px rgba(28, 28, 28, 0.4);
+    --Rick-card-bg: #1d1e22;
+    --Rick-shadow-lightblack: 0 5px 12px -5px rgba(102, 68, 68, 0);
+    --Rick-shadow-light2black: 0 5px 12px -5px rgba(102, 68, 68, 0);
+    --Rick-card-border: #42444a;
+    --Rick-code-bg: #30343f;
+    --Rick-code-color: #f2b94b;
+    --Rick-copyright-border: #212121;
+    --Rick-float-win-bg: #141414;
+    --Rick-globle-font: white;
+    --Rick-button-dark-hover: #49505d;
+    --Rick-button-dark-bg: #1f1f1f;
+    --Rick-button-font: #66ccff;
+    --Rick-button-shadow: #212121;
+    --Rick-border-color: #42444a;
+    --Rick-card-bg: #1d1b26;
+    --Rick-card-border: #42444a;
+    --style-border-always: 1px solid var(--Rick-card-border);
+    --Rick-blue: #0084FF;
+    --Rick-describe-bg: #1d1b26;
 }
 :root {
   --loadingbar-background-color: #2c2b30;
