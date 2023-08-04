@@ -1,6 +1,6 @@
 function reward(){
     Swal.fire({
-      title: '<strong>您正在为 <u>Peach</u> 充电</strong>',
+      title: '<strong>您正在为 <u>R1ck</u> 充电</strong>',
       html: '<b>请选择您的付款方式</b>',
       icon: 'info',
       showCancelButton: true,
@@ -15,7 +15,7 @@ function reward(){
         Swal.fire({
           title: '感谢您',
           html: '请打开支付宝 <b>[扫一扫]</b> 以充电',
-          imageUrl: '/media/alipay.webp',
+          imageUrl: '/images/alipay.png',
           imageWidth: 175,
           imageHeight: 175,
           imageAlt: 'Custom image'
@@ -32,7 +32,7 @@ function reward(){
         Swal.fire({
           title: '感谢您',
           html: '请打开微信 <b>[扫一扫]</b> 以充电',
-          imageUrl: '/media/wechat.webp',
+          imageUrl: '/images/wechat.png',
           imageWidth: 175,
           imageHeight: 175,
           imageAlt: 'Custom image'
