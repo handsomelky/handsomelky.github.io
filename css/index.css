@@ -6484,14 +6484,7 @@ blockquote.pullquote.right {
     transform: rotate(30deg);
     transition: 2s ease-in-out;
   }
-  .author-content-item.game-yuanshen {
-    background: url(/about/hypixel.jpg) no-repeat top;
-    background-size: cover;
-    min-height: 300px;
-    overflow: hidden;
-    color: var(--Rick-white);
-    width: 59%;
-  }
+
   .author-content-item .content-bottom {
     margin-top: auto;
     display: flex;
@@ -6539,20 +6532,7 @@ blockquote.pullquote.right {
     left: 0;
   }
   
-  .author-content-item.like-technology {
-    background: url(/about/it.webp) no-repeat;
-    background-size: cover;
-    min-height: 230px;
-    color: var(--Rick-white);
-  }
-  
-  .author-content-item.like-music {
-    background: url(/about/marshmello.jpg) no-repeat top;
-    background-size: cover;
-    min-height: 400px;
-    color: var(--Rick-white);
-    overflow: hidden;
-  }
+
   
   .author-content-item .card-content .banner-button-group {
     position: absolute;
@@ -7238,7 +7218,7 @@ blockquote.pullquote.right {
     --Rick-card-border: #e3e8f7;
     --style-border-always: 1px solid var(--Rick-card-border);
     --Rick-blue: #425AEF;
-    --Rick-describe-bg: #f2f2f2;
+    --Rick-describe-bg: #ebebeb;
 }
 [data-theme="dark"] {
     --global-bg: #191919;
