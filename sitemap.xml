@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://rickliu.com/posts/5afb1c66bf9f/</loc>
+    
+    <lastmod>2023-08-05</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://rickliu.com/posts/901c6f233b3c/</loc>
     
     <lastmod>2023-08-04</lastmod>
@@ -83,15 +92,6 @@
   </url>
   
   <url>
-    <loc>https://rickliu.com/posts/5afb1c66bf9f/</loc>
-    
-    <lastmod>2023-07-25</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://rickliu.com/link/index.html</loc>
     
     <lastmod>2023-07-14</lastmod>
@@ -144,6 +144,20 @@
   </url>
   
   <url>
+    <loc>https://rickliu.com/tags/Hexo/</loc>
+    <lastmod>2023-08-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://rickliu.com/tags/Butterfly/</loc>
+    <lastmod>2023-08-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://rickliu.com/tags/CTF/</loc>
     <lastmod>2023-08-05</lastmod>
     <changefreq>weekly</changefreq>
@@ -159,20 +173,6 @@
   
   <url>
     <loc>https://rickliu.com/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2023-08-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://rickliu.com/tags/Hexo/</loc>
-    <lastmod>2023-08-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://rickliu.com/tags/Butterfly/</loc>
     <lastmod>2023-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -216,14 +216,14 @@
 
   
   <url>
-    <loc>https://rickliu.com/categories/CTF-Crypto/</loc>
+    <loc>https://rickliu.com/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/</loc>
     <lastmod>2023-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://rickliu.com/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/</loc>
+    <loc>https://rickliu.com/categories/CTF-Crypto/</loc>
     <lastmod>2023-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
