@@ -1407,7 +1407,7 @@ canvas:not(#ribbon-canvas),
   --zoom-bg: #fff;
   --mark-bg: rgba(0,0,0,0.3);
   --homepage-width: 1200px;
-  --categories-width: 1000px;
+  --categories-width: 900px;
   --tags-width: 1200px;
   --archives-width: 1200px;
 }
