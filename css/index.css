@@ -1406,6 +1406,10 @@ canvas:not(#ribbon-canvas),
   --default-bg-color: #49b1f5;
   --zoom-bg: #fff;
   --mark-bg: rgba(0,0,0,0.3);
+  --homepage-width: 1200px;
+  --categories-width: 1000px;
+  --tags-width: 1200px;
+  --archives-width: 1200px;
 }
 body {
   position: relative;
@@ -2193,6 +2197,18 @@ figure.highlight pre .javascript .function {
   padding: 40px 15px;
   max-width: 1200px;
   width: 100%;
+}
+.page:has(#recent-posts) .layout {
+  max-width: var(--homepage-width);
+}
+.page:has(.article-sort) .layout {
+  max-width: var(--archives-width);
+}
+.page:has(.category-lists) .layout {
+  max-width: var(--categories-width);
+}
+.page:has(.tag-cloud-list) .layout {
+  max-width: var(--tags-width);
 }
 @media screen and (max-width: 900px) {
   .layout {
@@ -5909,7 +5925,7 @@ blockquote.pullquote.right {
     /* 背景图像大小 */
 
   }
-  
+
   #about-page .author-box {
     position: relative;
   }
@@ -7176,8 +7192,6 @@ blockquote.pullquote.right {
     --Rick-black-acrylic1: #0b0b0e !important;
     --Rick-main-none: #b8b8b800 !important;
     --Rick-transparent-border: transparent;
-    --btn-bg: #005ffe;
-    --btn-hover-color: #0047d4;
     --Rick-footer-bg: transparent;
     --Rick-footer-secondbg: transparent;
     --Rick-footer-titlecolor: #6f71d3;
