@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://rickliu.com/posts/25f6527726f2/</loc>
+    
+    <lastmod>2023-09-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://rickliu.com/posts/3dacd76b5d9a/</loc>
     
     <lastmod>2023-09-01</lastmod>
@@ -14,15 +23,6 @@
     <loc>https://rickliu.com/posts/17fd4e606351/</loc>
     
     <lastmod>2023-09-01</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://rickliu.com/posts/25f6527726f2/</loc>
-    
-    <lastmod>2023-08-31</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
