@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://rickliu.com/posts/25f6527726f2/</loc>
+    <loc>https://rickliu.com/posts/0b13dfcee0a2/</loc>
     
     <lastmod>2023-10-05</lastmod>
     
@@ -20,7 +20,7 @@
   </url>
   
   <url>
-    <loc>https://rickliu.com/posts/0b13dfcee0a2/</loc>
+    <loc>https://rickliu.com/posts/25f6527726f2/</loc>
     
     <lastmod>2023-10-05</lastmod>
     
@@ -272,6 +272,20 @@
   </url>
   
   <url>
+    <loc>https://rickliu.com/tags/Web/</loc>
+    <lastmod>2023-10-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://rickliu.com/tags/note/</loc>
+    <lastmod>2023-10-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://rickliu.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
@@ -286,14 +300,7 @@
   </url>
   
   <url>
-    <loc>https://rickliu.com/tags/note/</loc>
-    <lastmod>2023-10-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://rickliu.com/tags/Web/</loc>
+    <loc>https://rickliu.com/tags/todo/</loc>
     <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -301,13 +308,6 @@
   
   <url>
     <loc>https://rickliu.com/tags/Forensics/</loc>
-    <lastmod>2023-10-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://rickliu.com/tags/todo/</loc>
     <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -337,14 +337,14 @@
   </url>
   
   <url>
-    <loc>https://rickliu.com/categories/%E3%80%8A%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%8B%E7%B3%BB%E5%88%97%E7%AC%94%E8%AE%B0/</loc>
+    <loc>https://rickliu.com/categories/CTF-Web/</loc>
     <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://rickliu.com/categories/CTF-Web/</loc>
+    <loc>https://rickliu.com/categories/%E3%80%8A%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%8B%E7%B3%BB%E5%88%97%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
