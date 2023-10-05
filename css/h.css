@@ -1,0 +1,16 @@
+/* 文章页H2-H6图标 显示H2~H6 */
+#article-container.post-content  h2::before {
+  content:'H₂'
+}
+#article-container.post-content  h3::before {
+  content:'H₃'
+}
+#article-container.post-content  h4::before {
+  content:'H₄'
+}
+#article-container.post-content  h5::before {
+  content:'H₅'
+}
+#article-container.post-content  h6::before {
+  content:'H₆'
+}
