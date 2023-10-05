@@ -7777,6 +7777,146 @@ blockquote.pullquote.right {
   .author-content-item.skills:hover .skills-style-group .skills-list {
     opacity: 1;
   }
+/* 文章页H2-H6图标 显示H2~H6 */
+#article-container.post-content  h2::before {
+  content:'H₂'
+}
+#article-container.post-content  h3::before {
+  content:'H₃'
+}
+#article-container.post-content  h4::before {
+  content:'H₄'
+}
+#article-container.post-content  h5::before {
+  content:'H₅'
+}
+#article-container.post-content  h6::before {
+  content:'H₆'
+}
+@font-face {
+  font-family: "iconfont"; /* Project id 4165558 */
+  /* Color fonts */
+  src: 
+       url('//at.alicdn.com/t/c/font_4165558_qccrv7wruet.woff2?t=1689511102900') format('woff2'),
+       url('//at.alicdn.com/t/c/font_4165558_qccrv7wruet.woff?t=1689511102900') format('woff'),
+       url('//at.alicdn.com/t/c/font_4165558_qccrv7wruet.ttf?t=1689511102900') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 22px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-jingyin:before {
+  content: "\e615";
+}
+
+.icon-aixin:before {
+  content: "\e62a";
+  color: red;
+}
+
+.icon-bag:before {
+  content: "\e603";
+}
+
+/* 夜间模式下背景宇宙星光 */
+#universe {  
+    display: block;
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+/* 亮色模式下隐藏 */
+[data-theme='light'] #universe {
+    display: none;
+}
+
+/* 波浪css */
+.main-hero-waves-area {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: -11px;
+  z-index: 5;
+}
+.waves-area .waves-svg {
+  width: 100%;
+  height: 5rem;
+}
+/* Animation */
+
+.parallax > use {
+  animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+}
+.parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+  fill: #f7f9febd;
+}
+.parallax > use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+  fill: #f7f9fe82;
+}
+.parallax > use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+  fill: #f7f9fe36;
+}
+.parallax > use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+  fill: #f7f9fe;
+}
+/* 黑色模式背景 */
+[data-theme="dark"] .parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+  fill: #18171dc8;
+}
+[data-theme="dark"] .parallax > use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+  fill: #18171d80;
+}
+[data-theme="dark"] .parallax > use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+  fill: #18171d3e;
+}
+[data-theme="dark"] .parallax > use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+  fill: #18171d;
+}
+
+@keyframes move-forever {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+  100% {
+    transform: translate3d(85px, 0, 0);
+  }
+}
+/*Shrinking for mobile*/
+@media (max-width: 768px) {
+  .waves-area .waves-svg {
+    height: 40px;
+    min-height: 40px;
+  }
+}
 .search-dialog {
   position: fixed;
   top: 10%;
