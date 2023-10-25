@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://rickliu.com/posts/843a2f5ea22b/</loc>
+    <loc>https://rickliu.com/posts/04d1547e2896/</loc>
     
     <lastmod>2023-10-25</lastmod>
     
@@ -11,7 +11,7 @@
   </url>
   
   <url>
-    <loc>https://rickliu.com/posts/48fc165be41a/</loc>
+    <loc>https://rickliu.com/posts/843a2f5ea22b/</loc>
     
     <lastmod>2023-10-25</lastmod>
     
@@ -317,13 +317,6 @@
   </url>
   
   <url>
-    <loc>https://rickliu.com/tags/music/</loc>
-    <lastmod>2023-10-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://rickliu.com/tags/Crypto/</loc>
     <lastmod>2023-10-25</lastmod>
     <changefreq>weekly</changefreq>
@@ -332,6 +325,13 @@
   
   <url>
     <loc>https://rickliu.com/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/</loc>
+    <lastmod>2023-10-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://rickliu.com/tags/music/</loc>
     <lastmod>2023-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -359,14 +359,14 @@
   </url>
   
   <url>
-    <loc>https://rickliu.com/tags/Forensics/</loc>
+    <loc>https://rickliu.com/tags/todo/</loc>
     <lastmod>2023-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://rickliu.com/tags/todo/</loc>
+    <loc>https://rickliu.com/tags/Forensics/</loc>
     <lastmod>2023-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -389,14 +389,14 @@
   </url>
   
   <url>
-    <loc>https://rickliu.com/categories/%E9%9F%B3%E4%B9%90%E7%AE%80%E8%AF%84/</loc>
+    <loc>https://rickliu.com/categories/CTF-Crypto/</loc>
     <lastmod>2023-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://rickliu.com/categories/CTF-Crypto/</loc>
+    <loc>https://rickliu.com/categories/%E9%9F%B3%E4%B9%90%E7%AE%80%E8%AF%84/</loc>
     <lastmod>2023-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
