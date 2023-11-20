@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://rickliu.com/posts/d3efec41afb2/</loc>
+    
+    <lastmod>2023-11-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rickliu.com/posts/9f249bc44c42/</loc>
+    
+    <lastmod>2023-11-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://rickliu.com/posts/04d1547e2896/</loc>
     
     <lastmod>2023-11-20</lastmod>
@@ -95,24 +113,6 @@
     <loc>https://rickliu.com/posts/ebebb5446193/</loc>
     
     <lastmod>2023-11-15</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://rickliu.com/posts/d3efec41afb2/</loc>
-    
-    <lastmod>2023-11-13</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://rickliu.com/posts/43a33ba4d656/</loc>
-    
-    <lastmod>2023-11-12</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -405,14 +405,14 @@
   </url>
   
   <url>
-    <loc>https://rickliu.com/tags/win10%E5%B0%8F%E6%8A%80%E5%B7%A7/</loc>
+    <loc>https://rickliu.com/tags/%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8-project/</loc>
     <lastmod>2023-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://rickliu.com/tags/%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8-project/</loc>
+    <loc>https://rickliu.com/tags/win10%E5%B0%8F%E6%8A%80%E5%B7%A7/</loc>
     <lastmod>2023-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -475,14 +475,14 @@
   </url>
   
   <url>
-    <loc>https://rickliu.com/tags/Forensics/</loc>
+    <loc>https://rickliu.com/tags/todo/</loc>
     <lastmod>2023-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://rickliu.com/tags/todo/</loc>
+    <loc>https://rickliu.com/tags/Forensics/</loc>
     <lastmod>2023-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
