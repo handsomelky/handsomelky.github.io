@@ -412,6 +412,13 @@
   </url>
   
   <url>
+    <loc>https://rickliu.com/tags/win10%E5%B0%8F%E6%8A%80%E5%B7%A7/</loc>
+    <lastmod>2023-11-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://rickliu.com/tags/Hexo/</loc>
     <lastmod>2023-11-20</lastmod>
     <changefreq>weekly</changefreq>
@@ -420,13 +427,6 @@
   
   <url>
     <loc>https://rickliu.com/tags/Butterfly/</loc>
-    <lastmod>2023-11-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://rickliu.com/tags/win10%E5%B0%8F%E6%8A%80%E5%B7%A7/</loc>
     <lastmod>2023-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -475,14 +475,14 @@
   </url>
   
   <url>
-    <loc>https://rickliu.com/tags/todo/</loc>
+    <loc>https://rickliu.com/tags/Forensics/</loc>
     <lastmod>2023-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://rickliu.com/tags/Forensics/</loc>
+    <loc>https://rickliu.com/tags/todo/</loc>
     <lastmod>2023-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
