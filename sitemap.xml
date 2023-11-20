@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://rickliu.com/posts/04d1547e2896/</loc>
+    
+    <lastmod>2023-11-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rickliu.com/posts/728dfb47b6df/</loc>
+    
+    <lastmod>2023-11-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://rickliu.com/posts/0742023ea0bf/</loc>
     
     <lastmod>2023-11-20</lastmod>
@@ -101,15 +119,6 @@
   </url>
   
   <url>
-    <loc>https://rickliu.com/posts/728dfb47b6df/</loc>
-    
-    <lastmod>2023-11-11</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://rickliu.com/posts/308d7c720973/</loc>
     
     <lastmod>2023-11-04</lastmod>
@@ -122,15 +131,6 @@
     <loc>https://rickliu.com/posts/24259a52c7ee/</loc>
     
     <lastmod>2023-10-28</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://rickliu.com/posts/04d1547e2896/</loc>
-    
-    <lastmod>2023-10-25</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -377,13 +377,6 @@
   </url>
   
   <url>
-    <loc>https://rickliu.com/tags/%E9%9A%90%E7%A7%81%E8%AE%A1%E7%AE%97/</loc>
-    <lastmod>2023-11-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://rickliu.com/tags/MATLAB/</loc>
     <lastmod>2023-11-20</lastmod>
     <changefreq>weekly</changefreq>
@@ -392,6 +385,13 @@
   
   <url>
     <loc>https://rickliu.com/tags/Digital-Image-Processing/</loc>
+    <lastmod>2023-11-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://rickliu.com/tags/%E9%9A%90%E7%A7%81%E8%AE%A1%E7%AE%97/</loc>
     <lastmod>2023-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
