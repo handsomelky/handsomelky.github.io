@@ -1,0 +1,18 @@
+# hexo robots.txt
+User-agent: *
+Allow: /
+Allow: /archives/
+Allow: /about/
+Allow: /posts/
+Allow: /equipment/
+Allow: /categories/
+Allow: /music/
+Allow: /img/
+Allow: /link/
+Allow: /tags/
+
+Disallow: /js/
+Disallow: /css/
+
+Sitemap: http://rickliu.com/sitemap.xml
+Sitemap: http://rickliu.com/baidusitemap.xml
