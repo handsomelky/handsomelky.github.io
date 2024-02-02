@@ -256,21 +256,21 @@
 </div>
 <p>如果想更深入的了解这三种操作，可以参考以下信息提示：</p>
 <div class="note info flat"><div class="tabs" id="三种操作的区别"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="三种操作的区别-1">赋值(复制)</button><button type="button" class="tab " data-href="三种操作的区别-2">浅拷贝</button><button type="button" class="tab " data-href="三种操作的区别-3">深拷贝</button></ul><div class="tab-contents"><div class="tab-item-content active" id="三种操作的区别-1"><p>直接赋值其实就是对象的引用（别名）。</p>
-<p><img src="2023-7-29/image-20230729195815961.png" alt="image-20230729195815961"></p>
-<p><img src="2023-7-29/image-20230729200158322.png" alt="image-20230729200158322"></p></div><div class="tab-item-content" id="三种操作的区别-2"><p>拷贝父对象，不会拷贝对象的内部的子对象。</p>
+<p><img src="/posts/901c6f233b3c/image-20230729195815961.png" class="" title="image-20230729195815961"></p>
+<p><img src="/posts/901c6f233b3c/image-20230729200158322.png" class="" title="image-20230729200158322"></p></div><div class="tab-item-content" id="三种操作的区别-2"><p>拷贝父对象，不会拷贝对象的内部的子对象。</p>
 <p>浅拷贝要分两种情况进行讨论：</p>
 <p>1）当浅拷贝的值是不可变对象（字符串、元组、数值类型）时和“赋值”的情况一样，对象的id值<em>（id()函数用于获取对象的内存地址）</em>与浅拷贝原来的值相同。</p>
 <p>2）当浅拷贝的值是可变对象（列表、字典、集合）时会产生一个“不是那么独立的对象”存在。</p>
-<p><img src="2023-7-29/image-20230729200936655-16906334884741.png" alt="image-20230729200936655"></p>
+<p><img src="/posts/901c6f233b3c/image-20230729200936655-16906334884741.png" class="" title="image-20230729200936655"></p>
 <p><img src="img/image-20230729201711241.png" alt="image-20230729201711241"></p>
-<p><img src="2023-7-29/image-20230729202010740-16906334993083.png" alt="image-20230729202010740"></p></div><div class="tab-item-content" id="三种操作的区别-3"><p> copy 模块的 deepcopy 方法，完全拷贝了父对象及其子对象。</p>
+<p><img src="/posts/901c6f233b3c/image-20230729202010740-16906334993083.png" class="" title="image-20230729202010740"></p></div><div class="tab-item-content" id="三种操作的区别-3"><p> copy 模块的 deepcopy 方法，完全拷贝了父对象及其子对象。</p>
 <p>改变原有被复制对象不会对已经复制出来的新对象产生影响。</p>
-<p><img src="2023-7-29/image-20230729202143832-16906335074795.png" alt="image-20230729202143832"></p>
-<p><img src="2023-7-29/image-20230729202304412-16906335174477.png" alt="image-20230729202304412"></p></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div>
+<p><img src="/posts/901c6f233b3c/image-20230729202143832-16906335074795.png" class="" title="image-20230729202143832"></p>
+<p><img src="/posts/901c6f233b3c/image-20230729202304412-16906335174477.png" class="" title="image-20230729202304412"></p></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div>
 </div>
 <p>那么事实上，在pytorch中，张量作为可变对象来看待</p>
 <p>那么像x.reshape()和x.detach()这样的操作具有浅拷贝的性质：</p>
-<p><img src="2023-7-29/image-20230729204012380.png" alt="image-20230729204012380"></p>
+<img src="/posts/901c6f233b3c/image-20230729204012380.png" class="" title="image-20230729204012380">
 <p>而运行一些操作也可能会导致<strong>为新结果分配内存</strong>。</p>
 <p> 例如，如果我们用<code>Y = X + Y</code>，我们将取消引用<code>Y</code>指向的张量，而是指向新分配的内存处的张量。</p>
 <p>在下面的例子中，我们用Python的<code>id()</code>函数演示了这一点， 它给我们提供了内存中引用对象的确切地址。 运行<code>Y = Y + X</code>后，我们会发现<code>id(Y)</code>指向另一个位置。 这是因为Python首先计算<code>Y + X</code>，为结果分配新的内存，然后使<code>Y</code>指向内存中的这个新位置。</p>
@@ -300,7 +300,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensor([ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>,  <span class="number">5</span>,  <span class="number">6</span>,  <span class="number">7</span>,  <span class="number">8</span>,  <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>])</span><br></pre></td></tr></table></figure>
 <p>而关于张量的浅拷贝和深拷贝其实还有一些更深入的区别：</p>
 <div class="note primary flat"><p><code>.clone()</code>是深拷贝，开辟新的存储地址而不是引用来保存旧的tensor，在梯度回传的时候clone()充当中间变量，会将梯度传给源张量进行叠加，但是本身不保存其grad，值为None。<br><code>.detach()</code>是浅拷贝，新的tensor会脱离计算图，<strong>不会牵扯梯度计算</strong>。</p>
-<p><img src="2023-7-29/image-20230729210152135.png" alt="image-20230729210152135"></p>
+<p><img src="/posts/901c6f233b3c/image-20230729210152135.png" class="" title="image-20230729210152135"></p>
 </div>
 <h3 id="线性代数"><a href="#线性代数" class="headerlink" title="线性代数"></a>线性代数</h3><h4 id="降维"><a href="#降维" class="headerlink" title="降维"></a>降维</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A = torch.arange(<span class="number">20</span>, dtype=torch.float32).reshape(<span class="number">5</span>, <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
 <p>默认情况下，调用求和函数会沿所有的轴降低张量的维度，使它变为一个标量。 我们还可以[<strong>指定张量沿哪一个轴来通过求和降低维度</strong>]。 以矩阵为例，为了通过求和所有行的元素来降维（轴0），可以在调用函数时指定<code>axis=0</code>。 由于输入矩阵沿0轴降维以生成输出向量，因此输入轴0的维数在输出形状中消失。</p>
@@ -354,10 +354,10 @@
 <div class="note info flat"><p><strong>梯度</strong>（gradient）的本意是一个向量（矢量），表示某一函数在该点处的方向导数沿着该方向取得最大值，即函数在该点处沿着该方向（此梯度的方向）变化最快，变化率最大（为该梯度的模）。</p>
 <ul>
 <li><p>当y为标量，x为向量时</p>
-<p><img src="2023-7-29/image-20230731171519300.png" alt="image-20230731171519300" style="zoom: 50%;" /></p>
+<p><style>.hsxietbfbjbm{zoom: 50%;}</style><img src="/posts/901c6f233b3c/image-20230731171519300.png" class="hsxietbfbjbm" alt="image-20230731171519300"></p>
 </li>
 <li><p>当y和x均为向量时</p>
-<p><img src="2023-7-29/image-20230726212743994.png" alt="image-20230726212743994" style="zoom: 67%;" /></p>
+<p><style>.jdwdldalpxnq{zoom: 67%;}</style><img src="/posts/901c6f233b3c/image-20230726212743994.png" class="jdwdldalpxnq" alt="image-20230726212743994"></p>
 </li>
 </ul>
 </div>
@@ -370,24 +370,24 @@
 <p>此时需要用到<strong>反向传播算法</strong></p>
 <p>这里的<strong>反向</strong>二字其实就是指损失函数对参数的梯度通过网络反向流动</p>
 <p>而通过利用<strong>链式法则</strong>，可以计算出<strong>损失函数对各参数的梯度</strong>，具体公式这里就不涉及了</p>
-<div class="note info flat"><p><img src="2023-7-29/image-20230726214825560.png" alt="image-20230726214825560" style="zoom:67%;" /></p>
+<div class="note info flat"><p><style>.wcdnrrwkgoub{zoom:67%;}</style><img src="/posts/901c6f233b3c/image-20230726214825560.png" class="wcdnrrwkgoub" alt="image-20230726214825560"></p>
 </div>
 <p>而该如何<strong>更高效地计算</strong>梯度呢？</p>
 <p>这里涉及到<strong>自动求导</strong>的概念，自动求导是基于<strong>计算图</strong>的</p>
 <div class="note info flat"><p><strong>计算图</strong>被定义为有向图，其中节点对应于数学运算。 计算图是表达和评估数学表达式的一种方式。</p>
 <p>例如，这里有一个简单的数学公式 -</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p = x + y</span><br></pre></td></tr></table></figure>
-<p>我们可以绘制上述方程的计算图如下。<br><img src="2023-7-29/738090622_96682.png" alt="img"></p>
+<p>我们可以绘制上述方程的计算图如下。<br><img src="/posts/901c6f233b3c/738090622_96682.png" class="" title="img"></p>
 <p>上面的计算图具有一个加法节点(具有“+”符号的节点)，其具有两个输入变量<code>x</code>和<code>y</code>以及一个输出<code>q</code>。</p>
 <p>让我们再举一个例子，稍微复杂些。如下等式。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g = ( x + y ) ∗ z</span><br></pre></td></tr></table></figure>
 <p>以上等式由以下计算图表示。</p>
-<p><img src="2023-7-29/829090623_54957.png" alt="img"></p>
+<p><img src="/posts/901c6f233b3c/829090623_54957.png" class="" title="img"></p>
 </div>
 <p>通过一次前向累积和一次反向累积，就能在保证速度的条件下完成自动求导</p>
-<p><img src="2023-7-29/image-20230726221124109.png" alt="image-20230726221124109" style="zoom: 25%;" /></p>
-<p><img src="2023-7-29/image-20230726221205461.png" alt="image-20230726221205461" style="zoom: 67%;" /></p>
-<p><img src="2023-7-29/image-20230726221225754.png" alt="image-20230726221225754" style="zoom: 67%;" /></p>
+<p><style>.lgnqtokmqeec{zoom: 25%;}</style><img src="/posts/901c6f233b3c/image-20230726221124109.png" class="lgnqtokmqeec" alt="image-20230726221124109"></p>
+<p><style>.uohflgqjsjfw{zoom: 67%;}</style><img src="/posts/901c6f233b3c/image-20230726221205461.png" class="uohflgqjsjfw" alt="image-20230726221205461"></p>
+<p><style>.bxbvpzdomglt{zoom: 67%;}</style><img src="/posts/901c6f233b3c/image-20230726221225754.png" class="bxbvpzdomglt" alt="image-20230726221225754"></p>
 <p>在<strong>Pytorch</strong>中，这一过程是<strong>隐式</strong>进行的，只需要我们在设定参数时注明以下代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x.requires_grad_(<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
 <p>以下是一个如何使用反向传播的示例：</p>
@@ -400,10 +400,10 @@
 <p>反向传播：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV16x411V7Qg">https://www.bilibili.com/video/BV16x411V7Qg</a></p>
 <p>梯度下降：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Ux411j7ri">https://www.bilibili.com/video/BV1Ux411j7ri</a></p>
 </div>
-<h2 id="Chapter3-线性神经网络"><a href="#Chapter3-线性神经网络" class="headerlink" title="Chapter3.线性神经网络"></a>Chapter3.线性神经网络</h2><h3 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h3><h4 id="小批量随机梯度下降"><a href="#小批量随机梯度下降" class="headerlink" title="小批量随机梯度下降"></a>小批量随机梯度下降</h4><p><img src="2023-7-29/image-20230728151859106.png" alt="image-20230728151859106" style="zoom: 50%;" /></p>
-<p><img src="2023-7-29/image-20230728151912015.png" alt="image-20230728151912015" style="zoom:67%;" /></p>
+<h2 id="Chapter3-线性神经网络"><a href="#Chapter3-线性神经网络" class="headerlink" title="Chapter3.线性神经网络"></a>Chapter3.线性神经网络</h2><h3 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h3><h4 id="小批量随机梯度下降"><a href="#小批量随机梯度下降" class="headerlink" title="小批量随机梯度下降"></a>小批量随机梯度下降</h4><p><style>.fnptmzbxdtmc{zoom: 50%;}</style><img src="/posts/901c6f233b3c/image-20230728151859106.png" class="fnptmzbxdtmc" alt="image-20230728151859106"></p>
+<p><style>.bmbhmdlyfpwj{zoom:67%;}</style><img src="/posts/901c6f233b3c/image-20230728151912015.png" class="bmbhmdlyfpwj" alt="image-20230728151912015"></p>
 <p>选择批量大小时</p>
-<p><img src="2023-7-29/image-20230728151942500.png" alt="image-20230728151942500" style="zoom: 50%;" /></p>
+<p><style>.yquqppsfuhvf{zoom: 50%;}</style><img src="/posts/901c6f233b3c/image-20230728151942500.png" class="yquqppsfuhvf" alt="image-20230728151942500"></p>
 <h4 id="具体过程"><a href="#具体过程" class="headerlink" title="具体过程"></a>具体过程</h4><ul>
 <li><p>优化算法</p>
 <p>小批量随机梯度下降：</p>
@@ -456,7 +456,7 @@
 </li>
 <li>小批量随机梯度下降使用optim.SGD函数</li>
 </ul>
-<h3 id="softmax回归"><a href="#softmax回归" class="headerlink" title="softmax回归"></a>softmax回归</h3><p><img src="2023-7-29/image-20230803150213005.png" alt="image-20230803150213005"></p>
+<h3 id="softmax回归"><a href="#softmax回归" class="headerlink" title="softmax回归"></a>softmax回归</h3><img src="/posts/901c6f233b3c/image-20230803150213005.png" class="" title="image-20230803150213005">
 <h4 id="softmax函数"><a href="#softmax函数" class="headerlink" title="softmax函数"></a>softmax函数</h4><p> softmax函数能够将未规范化的预测变换为非负数并且总和为1，同时让模型保持 可导的性质。 为了完成这一目标，我们首先对每个未规范化的预测求幂，这样可以确保输出非负。 为了确保最终输出的概率值总和为1，我们再让每个求幂后的结果除以它们的总和。如下式：</p>
 <p>$\hat{\mathbf{y}} = \mathrm{softmax}(\mathbf{o})\quad \text{其中}\quad \hat{y}_j = \frac{\exp(o_j)}{\sum_k \exp(o_k)}$</p>
   <div class="note info flat"><p>exp() 是一个指数函数，用来求 e（底数）的 x 次幂（次方）的值。</p>
@@ -495,7 +495,7 @@
 <p>Out:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">2</span> <span class="number">8</span>]</span><br></pre></td></tr></table></figure>
 <p>上述与二维数组相关的花式索引操作的示意如图：</p>
-<p><img src="2023-7-29/v2-083bae7d7ed496acf5833b1123a195b8_720w.jpg" alt="img"></p></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div>
+<p><img src="/posts/901c6f233b3c/v2-083bae7d7ed496acf5833b1123a195b8_720w.jpg" class="" title="img"></p></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div>
 
 </div>
 <p>我们只需一行代码就可以[<strong>实现交叉熵损失函数</strong>]:</p>

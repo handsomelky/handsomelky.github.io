@@ -175,13 +175,13 @@
 <p>中断应将控制转移到合适的中断服务程序。如果中断程序需要修改处理器状态，则应明确保存当前状态，并在返回之前恢复该状态</p>
 <p><strong>中断向量</strong>包含各种设备的中断处理程序的地址</p>
 <h4 id="存储结构"><a href="#存储结构" class="headerlink" title="存储结构"></a>存储结构</h4><p>内存，也称为随机访问内存，通常为<strong>动态随机访问内存（DRAM）</strong></p>
-<p><img src="2023-12-30/image-20231230222533129.png" alt="image-20231230222533129"></p>
-<p><img src="2023-12-30/image-20231230222640353.png" alt="image-20231230222640353"></p>
+<img src="/posts/fe8248b3d16b/image-20231230222533129.png" class="" title="image-20231230222533129">
+<img src="/posts/fe8248b3d16b/image-20231230222640353.png" class="" title="image-20231230222640353">
 <h4 id="I-O结构"><a href="#I-O结构" class="headerlink" title="I/O结构"></a>I/O结构</h4><p>通用计算机由一个CPU和多个<strong>设备控制器</strong>组成，它们通过共同总线连在一起</p>
 <p>每个设备控制器管理某一特定类型的设备，可以允许多个设备与其相连</p>
 <p>操作系统为每个设备控制器提供一个<strong>设备驱动程序</strong>，其为操作系统的其他部分提供统一的设备访问接口</p>
 <p>磁盘I/O使用<strong>直接内存访问</strong>，设备控制器可以在本地缓冲和内存之间传输整块的数据，每块只产生一个中断</p>
-<h3 id="计算机系统的体系结构"><a href="#计算机系统的体系结构" class="headerlink" title="计算机系统的体系结构"></a>计算机系统的体系结构</h3><h4 id="多处理器系统"><a href="#多处理器系统" class="headerlink" title="多处理器系统"></a>多处理器系统</h4><p><img src="2023-12-30/image-20231230224429891.png" alt="image-20231230224429891"></p>
+<h3 id="计算机系统的体系结构"><a href="#计算机系统的体系结构" class="headerlink" title="计算机系统的体系结构"></a>计算机系统的体系结构</h3><h4 id="多处理器系统"><a href="#多处理器系统" class="headerlink" title="多处理器系统"></a>多处理器系统</h4><img src="/posts/fe8248b3d16b/image-20231230224429891.png" class="" title="image-20231230224429891">
 <h4 id="集群系统"><a href="#集群系统" class="headerlink" title="集群系统"></a>集群系统</h4><p>集群系统由两个或多个独立系统组成，这样的系统称为<strong>松耦合的</strong>，每个节点可为单处理器系统或多核系统</p>
 <p>集群系统共享存储，且使用局域网进行内部连接</p>
 <p><strong>非对称集群</strong>：一台机器处于热备份模式，而另一台运行应用程序，热备份主机只监视活动服务器</p>
@@ -193,22 +193,22 @@
 <p>这需要两种单独运行模式：<strong>用户模式</strong>和<strong>内核模式（也称为监视模式、系统模式或特权模式）</strong></p>
 <p>计算机硬件通过<strong>模式位</strong>来表示当前模式：内核模式（0）和用户模式（1）</p>
 <p>当用户应用通过系统调用，请求操作系统服务时，系统必须从用户模式切换到内核模式，以满足要求</p>
-<p><img src="2023-12-30/image-20231230230301610.png" alt="image-20231230230301610"></p>
+<img src="/posts/fe8248b3d16b/image-20231230230301610.png" class="" title="image-20231230230301610">
 <p> 当系统引导时，硬件从内核模式开始。操作系统加载完毕后，开始在用户模式下执行用户程序。一旦有陷阱或中断，硬件会从用户模式切换到内核模式。每次操作系统控制计算机时，处于内核模式，控制交给用户程序时，系统会切换到用户模式</p>
 <p>为了保护操作系统和用户程序，将可能引起损害的机器指令作为<strong>特权指令</strong>，<strong>硬件只有在内核模式下才允许执行特权指令</strong></p>
 <p>支持虚拟化技术的CPU有一种<strong>单独模式</strong>，用于<strong>表示虚拟机管理器是否在控制系统</strong>，此时模式会超过两个，需要用到多个模式位。</p>
 <h3 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h3><p>程序是<strong>被动实体</strong>，进程是<strong>主动实体</strong></p>
-<p><img src="2023-12-30/image-20231231011433609.png" alt="image-20231231011433609"></p>
+<img src="/posts/fe8248b3d16b/image-20231231011433609.png" class="" title="image-20231231011433609">
 <h3 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h3><p>如果一个程序需要执行，那么它必须映射到绝对地址，并且加载到内存</p>
 <p>为了改进CPU的利用率和用户的计算机响应速度，通用计算机应在内存中保留多个程序，这就需要内存管理</p>
-<p><img src="2023-12-30/image-20231231011659057.png" alt="image-20231231011659057"></p>
+<img src="/posts/fe8248b3d16b/image-20231231011659057.png" class="" title="image-20231231011659057">
 <h3 id="存储管理"><a href="#存储管理" class="headerlink" title="存储管理"></a>存储管理</h3><p>操作系统的逻辑存储单元为<strong>文件</strong></p>
-<p><img src="2023-12-30/image-20231231012249621.png" alt="image-20231231012249621"></p>
-<p><img src="2023-12-30/image-20231231012309165.png" alt="image-20231231012309165"></p>
+<img src="/posts/fe8248b3d16b/image-20231231012249621.png" class="" title="image-20231231012249621">
+<img src="/posts/fe8248b3d16b/image-20231231012309165.png" class="" title="image-20231231012309165">
 <p>大容量存储器除了外存还有更慢、价格更低的三级存储，包括磁带、CD/DVD和光盘</p>
 <p>这些介质分为<strong>一次写多次读</strong>和<strong>读-写</strong></p>
 <p><strong>高速缓存</strong>有时也简称为缓存，是计算机系统的一条重要原理</p>
-<p><img src="2023-12-30/image-20231231013308237.png" alt="image-20231231013308237"></p>
+<img src="/posts/fe8248b3d16b/image-20231231013308237.png" class="" title="image-20231231013308237">
 <h3 id="内核数据结构"><a href="#内核数据结构" class="headerlink" title="内核数据结构"></a>内核数据结构</h3><p>链表包括单向链表、双向链表以及循环链表</p>
 <p>堆栈采用后进先出，而队列采用先进先出</p>
 <p>二叉树的每个父节点最多拥有两个子节点，<strong>二叉查找树要求左子节点小于等于右子节点</strong>。在最佳情况下（树是完全平衡的），查找、插入和删除操作的时间复杂度为O(log n)。然而，在最坏的情况下（树退化成链表），这些操作的时间复杂度为O(n)。</p>
@@ -360,17 +360,17 @@
 </blockquote>
 <p>微内核和宏内核作为两种对立的结构，它们的优缺点也是对立的。微内核OS的主要缺点是性能问题，因为需要频繁地在核心态和用户态之间进行切换，因而切换开销偏大。</p>
 <h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><h3 id="进程概念"><a href="#进程概念" class="headerlink" title="进程概念"></a>进程概念</h3><p>进程是执行的程序。除了<strong>程序代码（文本段）</strong>，进程中还包括当前活动，如程序计数器的值、处理器寄存器的内容</p>
-<p><img src="2023-12-30/image-20231231171542430.png" alt="image-20231231171542430"></p>
+<img src="/posts/fe8248b3d16b/image-20231231171542430.png" class="" title="image-20231231171542430">
 <p>进程堆栈中存储了临时数据，而数据段中存储了全局变量</p>
 <p>程序只是被动实体，进程是活动实体</p>
 <p>进程本身也可作为一个环境，用于执行其他代码</p>
 <p>下面是进程的状态图</p>
-<p><img src="2023-12-30/image-20231231171750183.png" alt="image-20231231171750183"></p>
+<img src="/posts/fe8248b3d16b/image-20231231171750183.png" class="" title="image-20231231171750183">
 <p>进程控制块（任务控制块或PCB）用于表示进程，PCB中包含了许多进程信息</p>
-<p><img src="2023-12-30/image-20231231172048763.png" alt="image-20231231172048763"></p>
+<img src="/posts/fe8248b3d16b/image-20231231172048763.png" class="" title="image-20231231172048763">
 <h3 id="进程调度"><a href="#进程调度" class="headerlink" title="进程调度"></a>进程调度</h3><p> 进程在进入系统时会加入<strong>作业队列</strong>，驻留在内存中的、就绪的、等待运行的进程保存在<strong>就绪队列</strong></p>
 <p>等待特定I/O设备的进程列表称为<strong>设备队列</strong></p>
-<p><img src="2023-12-30/image-20231231192719558.png" alt="image-20231231192719558"></p>
+<img src="/posts/fe8248b3d16b/image-20231231192719558.png" class="" title="image-20231231192719558">
 <p>通常，对于批处理系统，提交的进程多于可以立即执行的。这些进程会被保存到大容量存储设备的缓冲池，以便以后执行。<strong>长期调度程序</strong>从缓冲池中选择进程加到内存，以便执行。<strong>短期调度程序</strong>从准备执行的进程中选择进程，并分配CPU</p>
 <p><strong>长期调度程序</strong>控制<strong>多道程序程度（内存中的进程数量）</strong>。如果多道程序程度稳定，创建进程的平均速度必须等于进程离开系统的平均速度</p>
 <p>大部分进程可以分为<strong>I/O密集型</strong>和<strong>CPU密集型</strong>进程，长期调度程序应该选择I/O密集型和CPU密集型的合理进程组合</p>
@@ -380,20 +380,20 @@
 <p>操作系统中对进程的标识采用位移到<strong>进程标识符（PID）</strong>。</p>
 <p>可以通过PS命令得到一个进程列表</p>
 <p>子进程可以从操作系统那里直接获得资源，也可以只从父进程那里获得资源子集。限制子进程只能使用父进程的资源，可以防止创建过多进程，导致系统超载</p>
-<p><img src="2023-12-30/image-20231231201944251.png" alt="image-20231231201944251"></p>
+<img src="/posts/fe8248b3d16b/image-20231231201944251.png" class="" title="image-20231231201944251">
 <p>如果一个进程终止，那么它的所有子进程也应终止，这种现象称为<strong>级联终止</strong></p>
 <p>当进程已终止，但父进程尚未调用<code>wait()</code>，此时它在进程表中的条目仍然存在，这样的进程称为<strong>僵尸进程</strong></p>
 <h3 id="进程间通信"><a href="#进程间通信" class="headerlink" title="进程间通信"></a>进程间通信</h3><p>进程间通信有两种基本模型：<strong>共享内存</strong>，<strong>消息传递</strong>和<strong>管道通信</strong></p>
 <p>生产者进程生成信息，以供消费者进程消费，共享内存可以用于解决生产者-消费者问题</p>
 <p>缓冲区用于被生产者填充和被消费者清空，<strong>无界缓冲区</strong>没有限制缓冲区的大小，生产者总是可以生成新项，<strong>有界缓冲区</strong>假设固定大小的缓冲区，如果缓冲区已满，生产者必须等待实现缓冲区可以采用一个循环数组和两个逻辑指针：in和out</p>
-<p><img src="2023-12-30/image-20231231203228340.png" alt="image-20231231203228340"></p>
+<img src="/posts/fe8248b3d16b/image-20231231203228340.png" class="" title="image-20231231203228340">
 <p>对于分布式环境，消息传递特别有用，逻辑链路操作包括<code>send</code>和<code>receive</code></p>
 <p><strong>直接通信</strong>需要通信的每个进程指定通信的接收者和发送者，包括对称和非对称的形式</p>
-<p><img src="2023-12-30/image-20231231203701432.png" alt="image-20231231203701432"></p>
+<img src="/posts/fe8248b3d16b/image-20231231203701432.png" class="" title="image-20231231203701432">
 <p>而<strong>间接通信</strong>中，通过邮箱或端口来发送和接收对象</p>
-<p><img src="2023-12-30/image-20231231203728311.png" alt="image-20231231203728311"></p>
+<img src="/posts/fe8248b3d16b/image-20231231203728311.png" class="" title="image-20231231203728311">
 <p>这种模式下允许一次最多一个进程执行<code>receive</code>操作</p>
-<p><img src="2023-12-30/image-20231231203916547.png" alt="image-20231231203916547"></p>
+<img src="/posts/fe8248b3d16b/image-20231231203916547.png" class="" title="image-20231231203916547">
 <p>而消息驻留的临时队列有三种实现方法：<strong>零容忍、有限容量和无限容量</strong></p>
 <h2 id="多线程编程"><a href="#多线程编程" class="headerlink" title="多线程编程"></a>多线程编程</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>每个线程是CPU使用的一个基本单元：它包括线程ID、程序计数器、寄存器组和堆栈</p>
 <p>同一进程的线程共享代码段、数据段和其他操作系统资源</p>
@@ -406,24 +406,24 @@
 </ol>
 <h3 id="多核编程"><a href="#多核编程" class="headerlink" title="多核编程"></a>多核编程</h3><p>并行系统可以同时执行多个任务，并发系统支持多个任务，允许所有任务都能取得进展</p>
 <p>Amdahl定律</p>
-<p><img src="2023-12-30/image-20231231214313428.png" alt="image-20231231214313428"></p>
+<img src="/posts/fe8248b3d16b/image-20231231214313428.png" class="" title="image-20231231214313428">
 <p>若S=25%，N=2，则加速比为1.6倍，若N=4，加速比为2.28倍</p>
 <p>并行分为两种类型：<strong>数据并行</strong>注重将数据分布于多个计算核上，并在每个核上执行相同操作；<strong>任务并行</strong>将任务分配到多个计算核，每个线程都执行一个独特的操作</p>
 <h3 id="多线程模型"><a href="#多线程模型" class="headerlink" title="多线程模型"></a>多线程模型</h3><p>线程分为用户层的<strong>用户线程</strong>和内核层的<strong>内核线程</strong>，用户线程位于内核之上，它的管理无需内核支持，而内核线程有操作系统来支持与管理</p>
 <p><strong>多对一模型</strong>映射多个用户级线程到一个内核线程，如果一个线程执行阻塞系统调用，那么整个进程将会阻塞，且多对一模型中多个线程不能并行允许在多核系统上</p>
-<p><img src="2023-12-30/image-20231231221941701.png" alt="image-20231231221941701"></p>
+<img src="/posts/fe8248b3d16b/image-20231231221941701.png" class="" title="image-20231231221941701">
 <p><strong>一对一模型</strong>映射每个用户线程到一个内核线程，该模型允许一个线程阻塞系统调用时，其他线程继续允许，拥有更好的并发功能。缺点在于创建一个用户线程就要创建一个相应的内核线程，开销更大</p>
-<p><img src="2023-12-30/image-20231231221946720.png" alt="image-20231231221946720"></p>
+<img src="/posts/fe8248b3d16b/image-20231231221946720.png" class="" title="image-20231231221946720">
 <p><strong>多对多模型</strong></p>
 <p>多对多模型多路复用多个用户级线程到同样数量或更少数量的内核线程</p>
-<p><img src="2023-12-30/image-20231231221957298.png" alt="image-20231231221957298"></p>
+<img src="/posts/fe8248b3d16b/image-20231231221957298.png" class="" title="image-20231231221957298">
 <p>当然他也有变种，即<strong>双层模型</strong></p>
-<p><img src="2023-12-30/image-20231231222010277.png" alt="image-20231231222010277"></p>
+<img src="/posts/fe8248b3d16b/image-20231231222010277.png" class="" title="image-20231231222010277">
 <h3 id="多线程问题"><a href="#多线程问题" class="headerlink" title="多线程问题"></a>多线程问题</h3><p><strong>线程撤销</strong>是在线程完成之前终止线程，需要撤销的线程叫<strong>目标线程</strong></p>
 <p><strong>异步撤销</strong>：一个线程立即终止目标线程</p>
 <p><strong>延迟撤销</strong>：目标线程不断检查它是否应终止，这允许目标线程有机会有序终止自己</p>
 <h2 id="进程调度-1"><a href="#进程调度-1" class="headerlink" title="进程调度"></a>进程调度</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>I/O密集型程序通常具有大量短CPU执行</p>
-<p><img src="2023-12-30/image-20231231223202145.png" alt="image-20231231223202145"></p>
+<img src="/posts/fe8248b3d16b/image-20231231223202145.png" class="" title="image-20231231223202145">
 <p>调度程序的功能包括：</p>
 <ul>
 <li>切换上下文</li>
@@ -498,22 +498,22 @@
 </div>
 <p>​        忽略 I/O 以及其他开销时间，若分别按先来先服务（FCFS）、非抢占的短作业优先（SJF）、抢占的短作业优先（SJF）、时间片轮转（RR，时间片=1）、多级反馈队列调度算法（FB，第 i 级队列的时间片=$2^{i-1} $）以及立即抢占的多级反馈队列调度算法（FB，第 i 级队列的时间片=$2^{i-1} $）进行 CPU 调度，请给出各进程的完成时间、周转时间、带权周转时间、平均周转时间和平均带权周转时间并画出甘特图。</p>
 <p><strong>先来先服务(FCFS)</strong></p>
-<p><img src="2023-12-30/image-20231005114018001.png" alt="image-20231005114018001"></p>
-<p><img src="2023-12-30/image-20231005114043003.png" alt="image-20231005114043003"></p>
+<img src="/posts/fe8248b3d16b/image-20231005114018001.png" class="" title="image-20231005114018001">
+<img src="/posts/fe8248b3d16b/image-20231005114043003.png" class="" title="image-20231005114043003">
 <p><strong>非抢占的短作业优先(SJF)</strong></p>
-<p><img src="2023-12-30/image-20231005114117364.png" alt="image-20231005114117364"></p>
-<p><img src="2023-12-30/image-20231005114131365.png" alt="image-20231005114131365"></p>
+<img src="/posts/fe8248b3d16b/image-20231005114117364.png" class="" title="image-20231005114117364">
+<img src="/posts/fe8248b3d16b/image-20231005114131365.png" class="" title="image-20231005114131365">
 <p><strong>抢占的短作业优先(SJF)</strong></p>
-<p><img src="2023-12-30/image-20231005114157757.png" alt="image-20231005114157757"></p>
-<p><img src="2023-12-30/image-20231005114213471.png" alt="image-20231005114213471"></p>
+<img src="/posts/fe8248b3d16b/image-20231005114157757.png" class="" title="image-20231005114157757">
+<img src="/posts/fe8248b3d16b/image-20231005114213471.png" class="" title="image-20231005114213471">
 <p><strong>时间片轮转(PR)</strong></p>
-<p><img src="2023-12-30/image-20231005114246868.png" alt="image-20231005114246868"></p>
-<p><img src="2023-12-30/image-20231005114259107.png" alt="image-20231005114259107"></p>
+<img src="/posts/fe8248b3d16b/image-20231005114246868.png" class="" title="image-20231005114246868">
+<img src="/posts/fe8248b3d16b/image-20231005114259107.png" class="" title="image-20231005114259107">
 <p><strong>多级反馈队列调度算法（第i级队列的时间片=$2^{i-1} $）</strong></p>
-<p><img src="2023-12-30/image-20231005114415019.png" alt="image-20231005114415019"></p>
-<p><img src="2023-12-30/image-20231005114436892.png" alt="image-20231005114436892"></p>
+<img src="/posts/fe8248b3d16b/image-20231005114415019.png" class="" title="image-20231005114415019">
+<img src="/posts/fe8248b3d16b/image-20231005114436892.png" class="" title="image-20231005114436892">
 <p><strong>立即抢占的多级反馈队列调度算法（第i级队列的时间片=$2^{i-1} $）</strong></p>
-<p><img src="2023-12-30/image-20231231235823932.png" alt="image-20231231235823932"></p>
+<img src="/posts/fe8248b3d16b/image-20231231235823932.png" class="" title="image-20231231235823932">
 <h3 id="多处理器调度"><a href="#多处理器调度" class="headerlink" title="多处理器调度"></a>多处理器调度</h3><p>多个CPU需要关注<strong>负载分配</strong></p>
 <p><strong>非对称多处理</strong> ：一个处理器处理所有调度决定等系统活动，其他处理器只执行用户代码</p>
 <p><strong>对称多处理</strong>：每个处理器自我调度（每个处理器的调度程序都检查共同就绪队列，以便选择执行一个进程）</p>
@@ -532,17 +532,17 @@
 <h4 id="单调速率调度"><a href="#单调速率调度" class="headerlink" title="单调速率调度"></a>单调速率调度</h4><p><strong>单调速率</strong>调度算法采用抢占的、静态优先级的策略</p>
 <p><strong>优先级与任务周期成反比</strong></p>
 <p>当较低优先级的进程正在运行并且较高优先级的进程可以运行时，较高优先级进程将抢占低优先级</p>
-<p><img src="2023-12-30/image-20240101130510543.png" alt="image-20240101130510543"></p>
-<p><img src="2023-12-30/image-20240101130522641.png" alt="image-20240101130522641"></p>
+<img src="/posts/fe8248b3d16b/image-20240101130510543.png" class="" title="image-20240101130510543">
+<img src="/posts/fe8248b3d16b/image-20240101130522641.png" class="" title="image-20240101130522641">
 <p>单调速率调度的<strong>限制</strong>即CPU的利用率是有限的</p>
 <h4 id="最早截止期限优先调度"><a href="#最早截止期限优先调度" class="headerlink" title="最早截止期限优先调度"></a>最早截止期限优先调度</h4><p>最早截止期限有限调度根据截止期限动态分配优先级，截止期限越早，优先级越高</p>
 <p><strong>优先级是可以进行动态调整的</strong></p>
-<p><img src="2023-12-30/image-20240101131032901.png" alt="image-20240101131032901"></p>
+<img src="/posts/fe8248b3d16b/image-20240101131032901.png" class="" title="image-20240101131032901">
 <h4 id="比例分享调度"><a href="#比例分享调度" class="headerlink" title="比例分享调度"></a>比例分享调度</h4><p><strong>比例分享</strong>调度在所有应用之间分配T股，如果一个应用程序接收N股时间，那么需要确保它有N/T的总的处理器时间</p>
-<p><img src="2023-12-30/image-20240101131303195.png" alt="image-20240101131303195"></p>
+<img src="/posts/fe8248b3d16b/image-20240101131303195.png" class="" title="image-20240101131303195">
 <h3 id="算法评估"><a href="#算法评估" class="headerlink" title="算法评估"></a>算法评估</h3><h4 id="确定性模型"><a href="#确定性模型" class="headerlink" title="确定性模型"></a>确定性模型</h4><p>确定性模型采用特定的预先确定的负荷，计算在给定负荷下每个算法的性能</p>
 <h4 id="排队模型"><a href="#排队模型" class="headerlink" title="排队模型"></a>排队模型</h4><p>已知到达率和服务率，计算使用率、平均队列长度、平均等待时间</p>
-<p><img src="2023-12-30/image-20240101132227854.png" alt="image-20240101132227854"></p>
+<img src="/posts/fe8248b3d16b/image-20240101132227854.png" class="" title="image-20240101132227854">
 <h4 id="仿真"><a href="#仿真" class="headerlink" title="仿真"></a>仿真</h4><p>通过随机数生成器，根据概率分布生成进程、CPU执行等等驱动仿真的数据</p>
 <h2 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h2><p><strong>竞争条件</strong>：多个进程并发访问和操作同一数据并且执行结果与特定访问顺序有关</p>
 <p>为了解决竞争条件，需要进程按一定方式同步，确保一次只有一个进程在操作共享数据</p>
@@ -550,7 +550,7 @@
 <p>在进入临界区前，会有请求进入临界区许可的<strong>进入区</strong>，在临界区之后可以有<strong>退出区</strong></p>
 <p>其余部分的代码称为<strong>剩余区</strong></p>
 <p>结构如下：</p>
-<p><img src="2023-12-30/image-20231023143845810.png" alt="image-20231023143845810"></p>
+<img src="/posts/fe8248b3d16b/image-20231023143845810.png" class="" title="image-20231023143845810">
 <p>实现临界区的算法需要满足下面三个要求</p>
 <ul>
 <li><strong>互斥</strong>：如果进程P在其临界区执行，那么其他进程都不能在临界区执行</li>
@@ -562,7 +562,7 @@
 <h3 id="Peterson解决方案"><a href="#Peterson解决方案" class="headerlink" title="Peterson解决方案"></a>Peterson解决方案</h3><p><strong>Peterson解决方案</strong>为一种基于软件的解决方案，进程共享两个数据项，turn和flag[]</p>
 <p>turn表示哪个进程可以进入临界区</p>
 <p>而$flag[i]=ture$表示进程$i$想要进入临界区</p>
-<p><img src="2023-12-30/image-20231023150237084.png" alt="image-20231023150237084"></p>
+<img src="/posts/fe8248b3d16b/image-20231023150237084.png" class="" title="image-20231023150237084">
 <h3 id="硬件同步"><a href="#硬件同步" class="headerlink" title="硬件同步"></a>硬件同步</h3><p>上述<strong>基于软件实现</strong>的方案的<strong>缺陷</strong>是不能运行在各种各样与其<strong>不兼容</strong>的现代计算机上</p>
 <p>所以我们寻求硬件上的解决方案，硬件基本上是通过<strong>加锁</strong>来保护临界区</p>
 <p>下面是两种基本的实现<strong>互斥</strong>要求的方法，可以称为<strong>原语</strong></p>
@@ -595,7 +595,7 @@
 <h3 id="经典同步问题"><a href="#经典同步问题" class="headerlink" title="经典同步问题"></a>经典同步问题</h3><h4 id="有界缓冲"><a href="#有界缓冲" class="headerlink" title="有界缓冲"></a>有界缓冲</h4><p>生产者和消费者共享以下数据结构：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n;</span><br><span class="line">semaphore mutex = <span class="number">1</span>; <span class="comment">//提供缓冲池访问的互斥要求</span></span><br><span class="line">semaphore empty = n; <span class="comment">//表示空的缓冲区数量</span></span><br><span class="line">semaphore full =<span class="number">0</span>; <span class="comment">//表示满的缓冲区数量</span></span><br></pre></td></tr></table></figure>
 <p>此时生产者和消费者的代码如下</p>
-<p><img src="2023-12-30/image-20231024201502595.png" alt="image-20231024201502595"></p>
+<img src="/posts/fe8248b3d16b/image-20231024201502595.png" class="" title="image-20231024201502595">
 <h5 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h5><p>一个实例如下</p>
 <div class="note modern"><p>某银行提供 1 个服务窗口和 10 个供顾客等待的座位。顾客到达银行时，若有空座位，则到取号机上领取一个号，等待叫号。取号机每次仅允许一位顾客使用。当营业员空闲时，通过叫号选取一位顾客，并为其服务。顾客和营业员的活动过程描述如下:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">cobegin</span><br><span class="line">&#123;</span><br><span class="line">    process 顾客i</span><br><span class="line">    &#123;</span><br><span class="line">        从取号机获取一个号码;</span><br><span class="line">        等待叫号;</span><br><span class="line">        获取服务;</span><br><span class="line">    &#125;</span><br><span class="line">    process 营业员</span><br><span class="line">    &#123;</span><br><span class="line">        While(TRUE)</span><br><span class="line">        &#123;</span><br><span class="line">            叫号;</span><br><span class="line">            为客户服务;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;coend</span><br></pre></td></tr></table></figure>
@@ -614,7 +614,7 @@
 <p>读者共享以下数据结构：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">semaphore rw_mutex = <span class="number">1</span>; <span class="comment">//供作者作为互斥信号量</span></span><br><span class="line">semaphore mutex = <span class="number">1</span>; <span class="comment">//用于确保更新变量read_count时的互斥</span></span><br><span class="line"><span class="type">int</span> read_count =<span class="number">0</span>; <span class="comment">//跟踪多少进程正在读对象</span></span><br></pre></td></tr></table></figure>
 <p>作者和读者进程的结构如下</p>
-<p><img src="2023-12-30/image-20231024204017098.png" alt="image-20231024204017098"></p>
+<img src="/posts/fe8248b3d16b/image-20231024204017098.png" class="" title="image-20231024204017098">
 <p>mutex保证了只有一个读者能修改read_count的值</p>
 <p>除了使用信号量，该问题也可以通过<strong>读写锁</strong>解决</p>
 <p>多个进程可允许并发获取读模式的读写锁，但只有一个进程可获取写模式的读写锁</p>
@@ -633,14 +633,14 @@
 <h4 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h4><p>管程属于抽象数据类型，封装了数据及对其操作的一组函数</p>
 <p>且<strong>管程中的操作是互斥</strong>的</p>
 <p>只有管程内定义的函数才能访问管程内的局部声明的变量和形式参数</p>
-<p><img src="2023-12-30/image-20231025083841410.png" alt="image-20231025083841410"></p>
+<img src="/posts/fe8248b3d16b/image-20231025083841410.png" class="" title="image-20231025083841410">
 <p>管程很像一个类，<strong>把对共享资源的操作封装起来</strong></p>
 <p>管程结构<strong>确保了每次只有一个进程在管程内处于活动状态</strong></p>
 <p>一些条件结构可以让管程处理更多复杂的同步问题</p>
 <p>将阻塞原因定义为<strong>条件变量</strong>，每个条件变量保存了一个等待队列，用于记录因该条件变量而阻塞的所有进程。对于条件变量，只有操作<code>wait()</code>和<code>signal()</code>可以调用</p>
-<p><img src="2023-12-30/image-20240101154120235.png" alt="image-20240101154120235"></p>
-<p><img src="2023-12-30/image-20240101154135486.png" alt="image-20240101154135486"></p>
-<p><img src="2023-12-30/image-20231025091740818.png" alt="image-20231025091740818"></p>
+<img src="/posts/fe8248b3d16b/image-20240101154120235.png" class="" title="image-20240101154120235">
+<img src="/posts/fe8248b3d16b/image-20240101154135486.png" class="" title="image-20240101154135486">
+<img src="/posts/fe8248b3d16b/image-20231025091740818.png" class="" title="image-20231025091740818">
 <h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><div class="note info flat"><p>当一个进程申请资源时，如果这时没有可用资源，那么这个进程进入等待状态。有时，如果所申请的资源被其他等待进程占有，那么该等待进程有可能再也无法改变状态。这种情况称为<strong>死锁</strong>。</p>
 </div>
 <p>正常操作模式下，进程只能按如下顺序使用资源：</p>
@@ -655,9 +655,9 @@
 <p><strong>非抢占</strong>：资源只能被进程在完成任务后资源释放</p>
 <p><strong>循环等待</strong>：存在一种进程资源的循环等待链，链中每个进程已获得的资源同时被下一个进程所请求</p>
 <h3 id="死锁处理方法"><a href="#死锁处理方法" class="headerlink" title="死锁处理方法"></a>死锁处理方法</h3><p>死锁处理方法包括下面几种</p>
-<p><img src="2023-12-30/image-20240101172956502.png" alt="image-20240101172956502"></p>
+<img src="/posts/fe8248b3d16b/image-20240101172956502.png" class="" title="image-20240101172956502">
 <p>避免死锁相对于预防死锁限制条件较为宽松，但实现起来更复杂</p>
-<p><img src="2023-12-30/image-20240101173146053.png" alt="image-20240101173146053"></p>
+<img src="/posts/fe8248b3d16b/image-20240101173146053.png" class="" title="image-20240101173146053">
 <h3 id="死锁预防"><a href="#死锁预防" class="headerlink" title="死锁预防"></a>死锁预防</h3><p><strong>破坏互斥条件</strong>不太可行，有些资源必须保证不能同时访问</p>
 <p><strong>破坏非抢占条件</strong>：当一个已保持了某些不可剥夺资源的进程请求新的资源而得不到满足时，它必须释放已经保持的所有资源，待以后需要时再重新申请</p>
 <p><strong>破坏占有并等待条件</strong>：预先静态分配，在运行前进程依次申请完他所需要的全部资源</p>
@@ -665,13 +665,13 @@
 <h3 id="死锁避免"><a href="#死锁避免" class="headerlink" title="死锁避免"></a>死锁避免</h3><h4 id="安全状态"><a href="#安全状态" class="headerlink" title="安全状态"></a>安全状态</h4><p>如果系统能按一定顺序为每个进程分配资源（不超过它的最大需求），仍然避免死锁，那么系统的状态就是<strong>安全</strong>的</p>
 <p>安全状态不是死锁状态，死锁状态是非安全状态，但不是所有的非安全状态都能导致死锁状态</p>
 <p><strong>安全序列</strong>$<P_1,P_2,...,P_n>$：对于每个$P_i$，$P_i$仍然可以申请的资源数小于当前可用资源加上所有进程$P_j$（其中$j&lt;i$）所占用的资源</p>
-<p><img src="2023-12-30/image-20240101195027610.png" alt="image-20240101195027610"></p>
-<p><img src="2023-12-30/image-20240101195439338.png" alt="image-20240101195439338"></p>
-<h4 id="银行家算法"><a href="#银行家算法" class="headerlink" title="银行家算法"></a>银行家算法</h4><p><img src="2023-12-30/image-20240101195222385.png" alt="image-20240101195222385"></p>
-<p><img src="2023-12-30/image-20240101200201994.png" alt="image-20240101200201994"></p>
+<img src="/posts/fe8248b3d16b/image-20240101195027610.png" class="" title="image-20240101195027610">
+<img src="/posts/fe8248b3d16b/image-20240101195439338.png" class="" title="image-20240101195439338">
+<h4 id="银行家算法"><a href="#银行家算法" class="headerlink" title="银行家算法"></a>银行家算法</h4><img src="/posts/fe8248b3d16b/image-20240101195222385.png" class="" title="image-20240101195222385">
+<img src="/posts/fe8248b3d16b/image-20240101200201994.png" class="" title="image-20240101200201994">
 <h3 id="死锁检测和死锁解除"><a href="#死锁检测和死锁解除" class="headerlink" title="死锁检测和死锁解除"></a>死锁检测和死锁解除</h3><h4 id="资源分配图"><a href="#资源分配图" class="headerlink" title="资源分配图"></a>资源分配图</h4><p>如果分配图没有环，那么系统就没有进程死锁</p>
 <p>如果分配图有环，那么<strong>可能存在</strong>死锁</p>
-<p><img src="2023-12-30/image-20240101200659705.png" alt="image-20240101200659705"></p>
+<img src="/posts/fe8248b3d16b/image-20240101200659705.png" class="" title="image-20240101200659705">
 <p>可以通过<strong>资源剥夺、撤销进程、进程回退</strong>的方法解除死锁</p>
 <h2 id="王道第二章"><a href="#王道第二章" class="headerlink" title="王道第二章"></a>王道第二章</h2><h3 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h3><h4 id="习题-3"><a href="#习题-3" class="headerlink" title="习题"></a>习题</h4><blockquote>
 <p>下面的说法中，正确的是（ <strong>C</strong>）。</p>

@@ -183,25 +183,25 @@
 <h3 id="横向联邦学习"><a href="#横向联邦学习" class="headerlink" title="横向联邦学习"></a>横向联邦学习</h3><p><strong>本次调研运行的Demo均为横向联邦学习框架</strong></p>
 <p>这里简要介绍一下横向联邦学习</p>
 <p>横向联邦学习适用于数据持有者拥有相似特征但不同样本的情况，例如不同用户的手机数据</p>
-<p><img src="2023-12-20/a9d03be053ee240b0ccb63184db9fcda.png" alt="img"></p>
+<img src="/posts/ec146cb37934/a9d03be053ee240b0ccb63184db9fcda.png" class="" title="img">
 <p>横向联邦学习以数据的特征维度为导向，取出参与方特征相同而用户不完全相同的部分进行联合训练。在此过程中，通过各参与方之间的样本联合，<strong>扩大了训练的样本空间，从而提升了模型的准确度和泛化能力</strong>。</p>
 <p>当然，想要在普通的模型测试中<strong>模拟横向联邦非常简单</strong>，我们只需将同一数据集分割成几份，作为不同的客户端上的数据即可</p>
 <h3 id="客户-服务器架构"><a href="#客户-服务器架构" class="headerlink" title="客户-服务器架构"></a>客户-服务器架构</h3><p>横向和纵向是从参与方拥有的数据类型出发，对联邦学习进行分类</p>
 <p>我们还需要关注具体架构</p>
 <p>联邦学习有两种常用的架构：<strong>客户-服务器架构</strong>以及<strong>对等网络架构</strong></p>
 <p><strong>客户-服务器架构</strong>也被称为主-从（master-worker）架构或者轮辐式（hub-and-spoke）架构。在这种系统中，具有同样数据结构的 K 个参与方（也叫作客户或用户）在服务器（也叫作参数服务器或者聚合服务器）的帮助下，协作地训练一个机器学习模型</p>
-<p><img src="2023-12-20/2c025f8a64564cdbabacbfe4277f5469.png" alt="2c025f8a64564cdbabacbfe4277f5469"></p>
+<img src="/posts/ec146cb37934/2c025f8a64564cdbabacbfe4277f5469.png" class="" title="2c025f8a64564cdbabacbfe4277f5469">
 <p><strong>步骤1</strong>：各参与方在本地计算模型梯度，并使用同态加密、差分隐私或秘密共享等加密技术，对梯度信息进行掩饰，并将掩饰后的结果（简称为加密梯度） 发送给聚合服务器。</p>
 <p><strong>步骤2</strong>：服务器进行安全聚合（secure aggregation）操作，如使用基于同态加密的加权平均。</p>
 <p><strong>步骤3</strong>：服务器将聚合后的结果发送给各参与方。</p>
 <p><strong>步骤4</strong>：各参与方对收到的梯度进行解密，并使用解密后的梯度结果更新各自的模型参数。</p>
 <p>当然除了聚合梯度，服务器端<strong>也可以对收到的模型参数进行聚合</strong></p>
-<p><img src="2023-12-20/image-20231220143615042.png" alt="image-20231220143615042"></p>
+<img src="/posts/ec146cb37934/image-20231220143615042.png" class="" title="image-20231220143615042">
 <h3 id="对等网络架构"><a href="#对等网络架构" class="headerlink" title="对等网络架构"></a>对等网络架构</h3><p>对等网络架构中不存在中央服务器或协调方</p>
-<p><img src="2023-12-20/image-20231220143953129.png" alt="image-20231220143953129"></p>
+<img src="/posts/ec146cb37934/image-20231220143953129.png" class="" title="image-20231220143953129">
 <p>每一个训练方负责只使用本地数据训练同一个机器学习模型（如DNN）</p>
 <p>训练方使用安全链路（channels）在相互之间传输模型参数信息</p>
-<h2 id="开源框架简介"><a href="#开源框架简介" class="headerlink" title="开源框架简介"></a>开源框架简介</h2><h3 id="Flower"><a href="#Flower" class="headerlink" title="Flower"></a>Flower</h3><p><img src="2023-12-20/flower.webp" alt="flower" style="zoom:25%;" /></p>
+<h2 id="开源框架简介"><a href="#开源框架简介" class="headerlink" title="开源框架简介"></a>开源框架简介</h2><h3 id="Flower"><a href="#Flower" class="headerlink" title="Flower"></a>Flower</h3><p><style>.dkvsucnyjwnh{zoom:25%;}</style><img src="/posts/ec146cb37934/flower.webp" class="dkvsucnyjwnh" alt="flower"></p>
 <p>Flower 是一个轻量的联邦学习框架，提出于 2020 年。一直以来，因为设计良好，方便扩展受到了比较多的关注。</p>
 <p>框架设计主要追求下面目标：</p>
 <ol>
@@ -211,7 +211,7 @@
 <p><strong>官网</strong>：<a target="_blank" rel="noopener" href="https://flower.dev/docs/framework/index.html">Flower Framework main</a></p>
 <p><strong>github源码链接</strong>：<a target="_blank" rel="noopener" href="https://github.com/adap/flower">adap/flower: Flower: A Friendly Federated Learning Framework (github.com)</a></p>
 <p>当然，之所以选择调研flower，也是因为它的官方教程较为完善、社区活跃。</p>
-<h3 id="TFF"><a href="#TFF" class="headerlink" title="TFF"></a>TFF</h3><p><img src="2023-12-20/tf-logo-card-16x9.png" alt="img" style="zoom:25%;" /></p>
+<h3 id="TFF"><a href="#TFF" class="headerlink" title="TFF"></a>TFF</h3><p><style>.gvwelgoxiegs{zoom:25%;}</style><img src="/posts/ec146cb37934/tf-logo-card-16x9.png" class="gvwelgoxiegs" alt="img"></p>
 <p>TensorFlow Federated（TFF）是一个开源框架，用于对分散数据实验机器学习和其他计算。TensorFlow Federated使开发人员能够表达和模拟联邦学习系统。</p>
 <p><strong>官网</strong>：<a target="_blank" rel="noopener" href="https://tensorflow.google.cn/federated?hl=zh-cn">TensorFlow Federated (google.cn)</a></p>
 <p><strong>github源码链接</strong>：<a target="_blank" rel="noopener" href="https://github.com/tensorflow/federated">tensorflow/federated: A framework for implementing federated learning (github.com)</a></p>
@@ -222,11 +222,11 @@
 <p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2007.14390.pdf">2007.14390.pdf (arxiv.org)</a></p>
 <p>从论文的摘要部分我们可以了解到，Flower框架的<strong>核心优势在于它支持大规模的联合学习实验</strong>，这对于在现实世界条件下，尤其是在设备性能和网络连接存在巨大差异的情况下，进行研究和实验至关重要。这种框架<strong>能够处理高达数百万级别的客户端</strong>，这对于研究和开发具有深远的意义，因为它允许研究者在真实世界的复杂环境中测试和优化他们的FL算法。此外，它还提供了一个平滑的过渡路径，使研究者能够从大规模模拟实验轻松迁移到真实设备上的实际应用。这表明Flower框架非常注重实用性和灵活性，适合在多种环境下进行FL研究和实践。</p>
 <p>Flower框架的设计理念强调了在实际环境中，特别是在边缘计算环境中实施联合学习的挑战。与其他集中在云计算或数据中心的框架不同，<strong>Flower更加注重边缘设备的异构性和环境因素</strong>。这种方法能更好地反映真实世界中设备的多样性和网络条件的不确定性，使FL算法更加健壮和实用。</p>
-<p><img src="2023-12-20/image-20231220161913275.png" alt="image-20231220161913275"></p>
+<img src="/posts/ec146cb37934/image-20231220161913275.png" class="" title="image-20231220161913275">
 <p>Flower框架<strong>采用客户端-服务器架构</strong>，支持不同类型的设备和操作系统。它提供了高度模块化的设计，允许在不同级别上定制FL算法。Flower还支持跨平台部署，包括移动设备和嵌入式系统，当然<strong>这些内容无法在本次调研中测试到</strong>。</p>
 <h2 id="FFT"><a href="#FFT" class="headerlink" title="FFT"></a>FFT</h2><p>谷歌作为联邦学习的提出者，在其深度学习框架TensorFlow的基础上开发出了一套联邦学习的框架Tensorflow Federated（TFF）</p>
 <p>所以与Flower框架相比，TFF<strong>对tensorflow深度学习框架的支持性更好，同时也更具专业性</strong></p>
-<p><img src="2023-12-20/image-20231220164731851.png" alt="image-20231220164731851"></p>
+<img src="/posts/ec146cb37934/image-20231220164731851.png" class="" title="image-20231220164731851">
 <p>TensorFlow Federated使开发人员能够表达和模拟联邦学习系统。如图所示，每个手机在本地训练模型（A），将它们的更新汇总到（B），然后形成改进的共享模型（C）。</p>
 <p>在浏览官方网站与文档之后，我也体会到了下面几点优势</p>
 <ol>
@@ -246,7 +246,7 @@
 <p>当然，我们也可以通过阅读TFF背后的论文来深入了解它</p>
 <p>论文链接如下：</p>
 <p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1902.01046.pdf">1902.01046.pdf (arxiv.org)</a></p>
-<p><img src="2023-12-20/image-20231222084543366.png" alt="image-20231222084543366"></p>
+<img src="/posts/ec146cb37934/image-20231222084543366.png" class="" title="image-20231222084543366">
 <p>论文中的这张图可以算是google提出的联邦学习技术的核心：图中展示了联邦学习服务器架构中的不同参与者。流程开始于协调者（Coordinator），它负责整个过程的协调。协调者创建主聚合器，它是一个长期存在的参与者，用于创建和管理聚合器。聚合器是短暂的参与者，它们负责从选择器（Selector）处接收设备的模型更新。选择器是连接设备的接口，负责选择哪些设备参与本轮学习。整个架构设计为循环流程，以支持持续的模型训练和更新。</p>
 <h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>在分析代码和运行教程Demo前，我们需要分别搭建这两个开源框架的环境</p>
 <p>在本次调研中，为了对比不同开源框架的效率，我们需要选用相同的深度学习框架、神经网络模型以及数据集</p>
@@ -256,7 +256,7 @@
 <p>使用以下指令为环境安装flower</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install flwr</span><br><span class="line">pip install flwr_datasets</span><br></pre></td></tr></table></figure>
 <p>最后可以执行<code>pip list</code>来验证安装完整性</p>
-<p><img src="2023-12-20/image-20231220172807606.png" alt="image-20231220172807606"></p>
+<img src="/posts/ec146cb37934/image-20231220172807606.png" class="" title="image-20231220172807606">
 <h2 id="TFF-1"><a href="#TFF-1" class="headerlink" title="TFF"></a>TFF</h2><p>同样，我们使用conda包管理创建一个测试用的环境</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create -n TFF python=3.7</span><br><span class="line">conda activate TFF</span><br></pre></td></tr></table></figure>
 <p>需要注意的是，tensorflow的版本需要依靠TFF的版本来指定，且安装TFF时会自动安装对于的tensorflow，所以可以先不装tensorflow</p>
@@ -264,7 +264,7 @@
 <p>使用以下指令为环境安装TFF</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install tensorflow-federated==0.13.1</span><br></pre></td></tr></table></figure>
 <p>这里去掉了官方教程指令中的<code>--quiet</code>选项，目的是为了更清晰地观察安装进度，如果安装中途出错更好定位原因</p>
-<p><img src="2023-12-20/image-20231220210309912.png" alt="image-20231220210309912"></p>
+<img src="/posts/ec146cb37934/image-20231220210309912.png" class="" title="image-20231220210309912">
 <h1 id="代码剖析及改进"><a href="#代码剖析及改进" class="headerlink" title="代码剖析及改进"></a>代码剖析及改进</h1><p>两个开源框架均选择<strong>训练MNIST数据集</strong></p>
 <h2 id="Flower-3"><a href="#Flower-3" class="headerlink" title="Flower"></a>Flower</h2><p>Flower的测试代码非常简洁和直观，同时也能<strong>更好地反应服务端和客户端之间的通信和交互</strong></p>
 <p>客户端的代码为<code>Flower_client.py</code></p>
@@ -327,17 +327,17 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python Flower_client.py</span><br></pre></td></tr></table></figure>
 <p>同样，等待几秒后启动客户端1</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python Flower_client.py</span><br></pre></td></tr></table></figure>
-<p>服务端显示如下<img src="2023-12-20/image-20231222132012014.png" alt="image-20231222132012014"></p>
+<p>服务端显示如下<img src="/posts/ec146cb37934/image-20231222132012014.png" class="" title="image-20231222132012014"></p>
 <p>客户端显示如下</p>
-<p><img src="2023-12-20/image-20231222131934588.png" alt="image-20231222131934588"></p>
+<img src="/posts/ec146cb37934/image-20231222131934588.png" class="" title="image-20231222131934588">
 <p>如下图所示，最后的准确率达到了<code>0.8521</code></p>
-<p><img src="2023-12-20/image-20231222132103889.png" alt="image-20231222132103889"></p>
+<img src="/posts/ec146cb37934/image-20231222132103889.png" class="" title="image-20231222132103889">
 <h2 id="TFF-3"><a href="#TFF-3" class="headerlink" title="TFF"></a>TFF</h2><p>安装Demo运行所需特定版本的依赖库</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install protobuf==3.19.0</span><br></pre></td></tr></table></figure>
 <p>执行如下指令</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python TFF_test.py</span><br></pre></td></tr></table></figure>
 <p>运行结果如下</p>
-<p><img src="2023-12-20/image-20231222132310148.png" alt="image-20231222132310148"></p>
+<img src="/posts/ec146cb37934/image-20231222132310148.png" class="" title="image-20231222132310148">
 <p>可以看到，30轮后准确率达到了<code>0.6843</code></p>
 <h1 id="分析与总结"><a href="#分析与总结" class="headerlink" title="分析与总结"></a>分析与总结</h1><p>下面是实验结果的对比表格</p>
 <div class="table-container">

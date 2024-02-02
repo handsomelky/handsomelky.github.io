@@ -168,12 +168,12 @@
 <p>CPU生成的地址通常称为<strong>逻辑地址（虚拟地址）</strong></p>
 <p>加载到内存地址寄存器的地址称为<strong>物理地址</strong></p>
 <p>从虚拟地址到物理地址的<strong>运行时</strong>映射是由<strong>内存管理单元(MMU)</strong>的硬件设备来完成</p>
-<p><img src="2024-1-1/image-20231106105029643.png" alt="image-20231106105029643"></p>
+<img src="/posts/236ba7f3326b/image-20231106105029643.png" class="" title="image-20231106105029643">
 <p><strong>动态加载</strong>：一个程序只有在调用时才会加载，所有程序都以可重定位加载格式保存在磁盘上</p>
 <p><strong>动态链接库</strong>：常用于系统库，每个库程序的引用都有一个存根。存根是一小段代码，用来指出如何定位适当的内存驻留库程序，或者在程序不在内存内时应如何加载库。当执行存根时，它首先检查所需程序是否已在内存中，如果不在，就将程序加到内存。存根会有程序地址来替换自己，并开始执行程序</p>
 <h3 id="交换"><a href="#交换" class="headerlink" title="交换"></a>交换</h3><p>系统维护一个可运行的所有进程的<strong>就绪队列</strong>，它们的映像在备份存储或内存中</p>
 <p>如果分配器发现队列的下一个要执行的进程不在内存中，就会<strong>换出</strong>当前内存的一个进程，并<strong>换入</strong>所需内存</p>
-<p><img src="2024-1-1/image-20231106111537868.png" alt="image-20231106111537868"></p>
+<img src="/posts/236ba7f3326b/image-20231106111537868.png" class="" title="image-20231106111537868">
 <p>上述方法称为<strong>标准交换</strong></p>
 <p>现代操作系统事实上使用的是该交换的<strong>变种</strong></p>
 <p>变种一：正常情况下，禁止交换；当空闲内存抵御某个阈值时，启用交换。当空闲的内存数量增加，停止交换</p>
@@ -206,12 +206,12 @@
 <p>段表的每个条目都有<strong>段基地址</strong>和<strong>段界限</strong></p>
 <p>逻辑地址由<strong>段号s</strong>和<strong>段偏移d</strong>组成，<strong>段号s用作段表的索引，段偏移d应位于0和段界限之间</strong></p>
 <p>分段管理不会产生内部碎片</p>
-<p><img src="2024-1-1/image-20231106144606381.png" alt="image-20231106144606381"></p>
+<img src="/posts/236ba7f3326b/image-20231106144606381.png" class="" title="image-20231106144606381">
 <h3 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h3><p><strong>分页</strong>是另一种允许进程物理地址空间非连续的方案，但是其<strong>避免了外部碎片和紧缩</strong></p>
 <p>分页将<strong>物理内存</strong>分为<strong>固定大小</strong>的块，称为<strong>帧</strong>或<strong>页帧</strong>，而<strong>逻辑内存</strong>也分为<strong>同样大小</strong>的块，称为<strong>页</strong>和<strong>页面</strong></p>
 <p>虚拟地址分为两部分：<strong>页码</strong>和<strong>页偏移</strong>，页码作为<strong>页表</strong>的索引</p>
 <p>从页表中查询到页的物理内存的基地址，再与页偏移组合便形成了物理内存地址</p>
-<p><img src="2024-1-1/image-20231106145832147.png" alt="image-20231106145832147"></p>
+<img src="/posts/236ba7f3326b/image-20231106145832147.png" class="" title="image-20231106145832147">
 <p>如果逻辑地址空间为$2^m$，且页大小为$2^n$字节，那么逻辑地址的高m-n位表示页码。低n位表示页偏移</p>
 <p>分页本身是一种动态的重定位</p>
 <p>虽然分页不会产生外部碎片，但是分页有<strong>内部碎片</strong></p>
@@ -221,7 +221,7 @@
 <p>TLB中<strong>只包含少数的页表条目</strong></p>
 <p>如果页码不在TLB（<strong>TLB未命中</strong>），那么就需要<strong>访问页表</strong>，<strong>将页码和帧码添加到TLB</strong>，方便下次再用时很快地查到</p>
 <p>在TLB中查找到感兴趣页码的次数的百分比称为<strong>命中率</strong></p>
-<p><img src="2024-1-1/image-20231106154255082.png" alt="image-20231106154255082"></p>
+<img src="/posts/236ba7f3326b/image-20231106154255082.png" class="" title="image-20231106154255082">
 <h4 id="保护"><a href="#保护" class="headerlink" title="保护"></a>保护</h4><p>与每个帧关联的<strong>保护位</strong>用于<strong>定义一个页时可读可写或只可读</strong></p>
 <p>另一个信息位为<strong>有效-无效位</strong>，其表示<strong>相关的页是否在进程的逻辑地址空间中</strong></p>
 <h4 id="共享页"><a href="#共享页" class="headerlink" title="共享页"></a>共享页</h4><p>如果代码是<strong>可重入代码</strong>或<strong>纯代码</strong>，我们就可以共享其分页</p>
@@ -230,8 +230,8 @@
 <h3 id="页表结构"><a href="#页表结构" class="headerlink" title="页表结构"></a>页表结构</h3><p>大多数现代计算机系统的<strong>页表本身可以非常大</strong>，此时我们需要将页表划分为更小的块</p>
 <h4 id="分层分页"><a href="#分层分页" class="headerlink" title="分层分页"></a>分层分页</h4><p>一种方法是使用<strong>分层页表</strong></p>
 <p>例如下面的两层分页算法</p>
-<p><img src="2024-1-1/image-20231106164539618.png" alt="image-20231106164539618"></p>
-<p><img src="2024-1-1/image-20231106164700226.png" alt="image-20231106164700226"></p>
+<img src="/posts/236ba7f3326b/image-20231106164539618.png" class="" title="image-20231106164539618">
+<img src="/posts/236ba7f3326b/image-20231106164700226.png" class="" title="image-20231106164700226">
 <p>这种方案也称为<strong>向前映射页表</strong></p>
 <p>p1是用来访问外部页表的索引，p2是内部页表的页偏移</p>
 <p>但是对于64位的架构，过多的分层会导致过多的内存访问，使用分层页表并不适当</p>
@@ -239,20 +239,20 @@
 <p>哈希页表的每一条目都包括一个链表，<strong>同一链表的元素的虚拟页码的哈希值相同</strong>，每一格链表元素包含<strong>三个字段：虚拟页码、映射的帧码、指向链表内下一个元素的指针</strong></p>
 <p><strong>哈希页表的索引为哈希值</strong></p>
 <p>逻辑地址中的虚拟页码计算哈希值后用来与哈希表的索引对比，找到对应链表后使用<strong>虚拟页码与链表第一个元素的第一个字段比较</strong>，如果匹配，则<strong>第二个字段的帧码被用来形成物理地址</strong>；如果不匹配，则与链表的下一个节点进行比较</p>
-<p><img src="2024-1-1/image-20231106170544561.png" alt="image-20231106170544561"></p>
+<img src="/posts/236ba7f3326b/image-20231106170544561.png" class="" title="image-20231106170544561">
 <p>该方案的一个变体采用<strong>聚簇页表</strong>，不同之处在于其哈希表中每个条目引用多个页，对于<strong>稀疏</strong>地址空间特别有用</p>
 <h4 id="倒置页表"><a href="#倒置页表" class="headerlink" title="倒置页表"></a>倒置页表</h4><p>通常每个进程都有一个关联页表</p>
 <p>但<strong>倒置页表</strong>的方案中，整个系统只有一个页表，该页表中仅为每个真正的内存页或帧保存一个条目。每个条目包含在真正内存位置上页的虚拟地址，以及拥有该页的进程的信息</p>
 <p>每个倒置页表的条目为二元组：$&lt;进程id，页码&gt;$</p>
 <p>而虚拟地址为三元组：$&lt;进程id，页码，偏移&gt;$</p>
 <p>当匹配到页表中的条目$i$，$i$则被用于生成物理地址</p>
-<p><img src="2024-1-1/image-20231106171812830.png" alt="image-20231106171812830"></p>
+<img src="/posts/236ba7f3326b/image-20231106171812830.png" class="" title="image-20231106171812830">
 <p>这种方案增加了由于引用页面查找页表所需的时间</p>
 <h2 id="虚拟内存管理"><a href="#虚拟内存管理" class="headerlink" title="虚拟内存管理"></a>虚拟内存管理</h2><p>操作系统的一个基本要求是执行的指令应处于物理内存</p>
 <p><strong>作业在运行前，不必全部装入内存，且在运行过程中也不必一直驻留内存</strong></p>
 <p>虚拟内存使得程序员不再需要担心有限的物理内存空间，只需要关注所要解决的问题</p>
 <p>进程的<strong>虚拟地址空间</strong>就是进程如何在内存中存放的逻辑</p>
-<p><img src="2024-1-1/image-20231106172918575.png" alt="image-20231106172918575"></p>
+<img src="/posts/236ba7f3326b/image-20231106172918575.png" class="" title="image-20231106172918575">
 <p>包括空白的虚拟地址空间称为<strong>稀疏地址空间</strong></p>
 <p>虚拟内存除了<strong>将逻辑内存与物理内存分开</strong>，还允许文件和内存通过共享页面为多个进程所共享</p>
 <div class="note info flat"><p><strong>逻辑内存（Logical Memory）</strong></p>
@@ -266,7 +266,7 @@
 <p>当换入进程时，调页程序会猜测在该进程被再次换出前会用到哪些页，从而避免读入那些不使用的页</p>
 <p>为了区别内存的页面和磁盘的页面，我们可以在页表添加一个<strong>有效-无效位</strong></p>
 <p>当试图访问标记位位无效的页面时，会发生<strong>缺页错误</strong></p>
-<p><img src="2024-1-1/image-20231118160814827.png" alt="image-20231118160814827"></p>
+<img src="/posts/236ba7f3326b/image-20231118160814827.png" class="" title="image-20231118160814827">
 <p><strong>纯请求调页</strong>：一开始不进行预测，而是通过缺页错误将所有需要的页面调入内存</p>
 <p><strong>外存（或辅助存储）</strong>用于保存不在内存中的那些页面。外存通常为高速硬盘，称为交换设备，用于交换的这部分磁盘称为<strong>交换空间</strong></p>
 <h4 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h4><p><strong>有效访问时间</strong>很大程度上决定了请求调页的性能</p>
@@ -280,12 +280,12 @@
 </ul>
 <h3 id="写时复制"><a href="#写时复制" class="headerlink" title="写时复制"></a>写时复制</h3><p>写时复制允许父进程和子进程最初共享相同的页面来工作，这些共享页面标记为写时复制</p>
 <p>当任何进程<strong>写入共享页面时</strong>，就<strong>创建共享页面的副本</strong></p>
-<p><img src="2024-1-1/image-20231118162636017.png" alt="image-20231118162636017"></p>
+<img src="/posts/236ba7f3326b/image-20231118162636017.png" class="" title="image-20231118162636017">
 <p>写时复制这种技术提供了快速的进程创建，并最小化了必须分配给新创建进程的新页面的数量</p>
 <h3 id="页面置换"><a href="#页面置换" class="headerlink" title="页面置换"></a>页面置换</h3><h4 id="基本页面置换"><a href="#基本页面置换" class="headerlink" title="基本页面置换"></a>基本页面置换</h4><p>当我们使用请求调页时，增加了多道程度，即能允许更多进程</p>
 <p>但也可能会<strong>过度分配</strong>内存，例如某个进程突然试图使用其所有页面</p>
 <p>最常见的解决方案即<strong>页面置换</strong></p>
-<p><img src="2024-1-1/image-20231118164250112.png" alt="image-20231118164250112"></p>
+<img src="/posts/236ba7f3326b/image-20231118164250112.png" class="" title="image-20231118164250112">
 <p>采用<strong>修改位（脏位）</strong>可以减少缺页错误处理时间。每当页面内的任何字节被写入时，它的修改位就会被设置，此时如果该页面要被换出，应将页面写入磁盘；如果修改位未被设置，那么说明页面从磁盘读入后还未被修改，我们不需要将该页面写到磁盘因为它已经存在</p>
 <p>请求调页中需要解决两个问题</p>
 <p><strong>帧分配算法</strong>：如果有多个进程在内存中，如何决定为每个进程分配多少帧</p>
@@ -293,10 +293,10 @@
 <h4 id="FIFO页面置换"><a href="#FIFO页面置换" class="headerlink" title="FIFO页面置换"></a>FIFO页面置换</h4><p>FIFO页面置换算法为每个页面<strong>记录了调到内存的时间（使用FIFO队列）</strong></p>
 <p>当必须置换页面的时候，将<strong>选择最旧的页面，即置换FIFO队列的首个页面</strong></p>
 <p><strong>Belady异常</strong>：随着分配帧数量的增加，缺页错误率可能会增加</p>
-<p><img src="2024-1-1/image-20231118171603258.png" alt="image-20231118171603258"></p>
+<img src="/posts/236ba7f3326b/image-20231118171603258.png" class="" title="image-20231118171603258">
 <h4 id="最优页面置换（OPT）"><a href="#最优页面置换（OPT）" class="headerlink" title="最优页面置换（OPT）"></a>最优页面置换（OPT）</h4><p>最优页面置换具有所有算法中最低的缺页错误率，且不会遭受Belady异常</p>
 <p>主要思想是<strong>置换长时间不会使用的页面</strong></p>
-<p><img src="2024-1-1/image-20231118171945647.png" alt="image-20231118171945647"></p>
+<img src="/posts/236ba7f3326b/image-20231118171945647.png" class="" title="image-20231118171945647">
 <p>然而，最优置换算法<strong>难以实现</strong>，因为它需要来自未来的信息</p>
 <h4 id="LRU页面置换（最近最少使用算法）"><a href="#LRU页面置换（最近最少使用算法）" class="headerlink" title="LRU页面置换（最近最少使用算法）"></a>LRU页面置换（最近最少使用算法）</h4><p>核心思想是<strong>将最近的过去作为不远的将来的近似，置换最长时间没有使用的页</strong></p>
 <p>一种方法时采用<strong>时钟计数器</strong>，存储每个页面最后引用的时间，每次置换具有最小时间的页面</p>
@@ -308,9 +308,9 @@
 <p>此时具有最小寄存器的页面可以被替换</p>
 <h5 id="第二次机会算法（时钟算法CLOCK）"><a href="#第二次机会算法（时钟算法CLOCK）" class="headerlink" title="第二次机会算法（时钟算法CLOCK）"></a>第二次机会算法（时钟算法CLOCK）</h5><p>第二次机会置换更像是一种FIFO置换算法，可以采用<strong>循环队列</strong></p>
 <p>当需要一个帧时，<strong>指针向前移动直到找到一个引用位为0的页面</strong>，并会<strong>沿途清除引用位</strong></p>
-<p><img src="2024-1-1/image-20231118195253081.png" alt="image-20231118195253081"></p>
+<img src="/posts/236ba7f3326b/image-20231118195253081.png" class="" title="image-20231118195253081">
 <h5 id="增强型第二次机会算法"><a href="#增强型第二次机会算法" class="headerlink" title="增强型第二次机会算法"></a>增强型第二次机会算法</h5><p>我们可以将引用位和修改位结合成有序对</p>
-<p><img src="2024-1-1/image-20231118195405996.png" alt="image-20231118195405996"></p>
+<img src="/posts/236ba7f3326b/image-20231118195405996.png" class="" title="image-20231118195405996">
 <p>每次我们根据有序对替换级别最低的页面</p>
 <p>由于为被修改过的页面赋予了更高的级别，<strong>I/O的数量能够有效降低</strong></p>
 <h4 id="基于计数的页面置换"><a href="#基于计数的页面置换" class="headerlink" title="基于计数的页面置换"></a>基于计数的页面置换</h4><p>为每个页面的引用次数<strong>保存一个计数器</strong></p>
@@ -330,20 +330,20 @@
 <p>如果<strong>低优先级进程</strong>所分配的<strong>帧数低于计算机体系结构所需的最小数量</strong>，那么必须<strong>暂停该进程执行并释放它的所有分配的帧</strong></p>
 <p>通过局部置换和优先权置换算法可以限制<strong>系统抖动</strong>，局部置换能够防止一个进程开始抖动时，从另一个进程获取帧而使其也抖动</p>
 <p>局部性模型<strong>工作集策略</strong>研究了一个进程实际使用多少帧</p>
-<p><img src="2024-1-1/image-20231118202328092.png" alt="image-20231118202328092"></p>
+<img src="/posts/236ba7f3326b/image-20231118202328092.png" class="" title="image-20231118202328092">
 <p>我们只需分配大于工作集的帧数即可</p>
 <h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><h3 id="文件概念"><a href="#文件概念" class="headerlink" title="文件概念"></a>文件概念</h3><p>操作系统对存储设备的物理属性加以抽象，从而定义逻辑存储单位，即<strong>文件</strong></p>
 <p>从用户角度来看，文件是<strong>逻辑外存的最小分配单元</strong></p>
 <p>文件可以粗略分为以下几种类型：</p>
-<p><img src="2024-1-1/image-20231202200627385.png" alt="image-20231202200627385"></p>
+<img src="/posts/236ba7f3326b/image-20231202200627385.png" class="" title="image-20231202200627385">
 <p>同时，每个文件也拥有自己的属性</p>
-<p><img src="2024-1-1/image-20231202200239730.png" alt="image-20231202200239730"></p>
+<img src="/posts/236ba7f3326b/image-20231202200239730.png" class="" title="image-20231202200239730">
 <p>系统有一个<strong>打开文件表</strong>，用于维护所有打开文件的信息。当请求文件操作时，可以通过该表的索引指定文件</p>
 <p>操作系统采用两级的内部表：进程表和系统表，每个进程的进程表跟踪他打开的所有文件，<strong>进程表的条目指向系统的打开文件表</strong></p>
 <p>系统表的文件条目具有以下关联信息：</p>
-<p><img src="2024-1-1/image-20231202201254771.png" alt="image-20231202201254771"></p>
+<img src="/posts/236ba7f3326b/image-20231202201254771.png" class="" title="image-20231202201254771">
 <h3 id="访问方法"><a href="#访问方法" class="headerlink" title="访问方法"></a>访问方法</h3><h4 id="顺序访问"><a href="#顺序访问" class="headerlink" title="顺序访问"></a>顺序访问</h4><p>文件信息按顺序加以处理，编辑器和编译器通常以这种方式访问文件</p>
-<p><img src="2024-1-1/image-20231202203352391.png" alt="image-20231202203352391"></p>
+<img src="/posts/236ba7f3326b/image-20231202203352391.png" class="" title="image-20231202203352391">
 <h4 id="直接访问"><a href="#直接访问" class="headerlink" title="直接访问"></a>直接访问</h4><p>在直接访问中，文件由固定长度的逻辑记录组成</p>
 <p>直接访问基于文件的磁盘模型，因为磁盘允许对任何文件块的随机访问</p>
 <p>对于大量信息的立即访问，直接访问文件极为有用，所以数据库通常是这种类型的</p>
@@ -351,37 +351,37 @@
 <p>当然，用户提供的通常为<strong>相对块号</strong></p>
 <h4 id="索引访问"><a href="#索引访问" class="headerlink" title="索引访问"></a>索引访问</h4><p>索引访问通过搜索索引，<strong>根据索引项中包含的块的指针直接访问文件</strong></p>
 <p>对于大文件，索引文件本身可能也会变得很大，一种解决方案时为索引文件创建索引</p>
-<p><img src="2024-1-1/image-20231202210747965.png" alt="image-20231202210747965"></p>
+<img src="/posts/236ba7f3326b/image-20231202210747965.png" class="" title="image-20231202210747965">
 <h3 id="目录与磁盘的结构"><a href="#目录与磁盘的结构" class="headerlink" title="目录与磁盘的结构"></a>目录与磁盘的结构</h3><p>包含文件系统的磁盘分区通常称为卷，卷中包含有关系统内的文件信息，这些信息保存在<strong>设备目录</strong>或<strong>卷目录表</strong></p>
-<h4 id="存储结构"><a href="#存储结构" class="headerlink" title="存储结构"></a>存储结构</h4><p><img src="2024-1-1/image-20231202214734742.png" alt="image-20231202214734742"></p>
+<h4 id="存储结构"><a href="#存储结构" class="headerlink" title="存储结构"></a>存储结构</h4><img src="/posts/236ba7f3326b/image-20231202214734742.png" class="" title="image-20231202214734742">
 <h4 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h4><p>目录可视为符号表，其可将文件名称转为目录条目</p>
 <p>目录结构有很多种</p>
 <p>最简单的目录是<strong>单级目录</strong></p>
-<p><img src="2024-1-1/image-20231202221006514.png" alt="image-20231202221006514"></p>
+<img src="/posts/236ba7f3326b/image-20231202221006514.png" class="" title="image-20231202221006514">
 <p>为了让每个用户有单独的目录，可以使用<strong>双级目录</strong>，此时每个用户都有自己的用户文件目录</p>
-<p><img src="2024-1-1/image-20231202221054592.png" alt="image-20231202221054592"></p>
+<img src="/posts/236ba7f3326b/image-20231202221054592.png" class="" title="image-20231202221054592">
 <p>两级目录可以扩展到树形目录</p>
-<p><img src="2024-1-1/image-20231202221542846.png" alt="image-20231202221542846"></p>
+<img src="/posts/236ba7f3326b/image-20231202221542846.png" class="" title="image-20231202221542846">
 <p>在常规使用中，每个进程都有一个<strong>当前目录</strong>。当前目录包括进程当前感兴趣的大多数文件</p>
 <p>为了共享公共子目录，可以采用无环图结构</p>
-<p><img src="2024-1-1/image-20231202222342520.png" alt="image-20231202222342520"></p>
+<img src="/posts/236ba7f3326b/image-20231202222342520.png" class="" title="image-20231202222342520">
 <p>共享功能通过<strong>链接</strong>来实现，链接实际上是一个文件或子目录的指针，例如链接可以使用绝对路径或相对路径来实现</p>
 <p>使用链接存在两个问题：一个是当查找文件或者统计文件时，共享结构可能不止一次被遍历到；第二个问题是删除共享文件时，分配的控件何时可以被释放和重用，当直接删除时，可能会留下悬挂指针，另一种方法是保留文件直到文件的索引引用都被删除</p>
 <h2 id="文件系统实现"><a href="#文件系统实现" class="headerlink" title="文件系统实现"></a>文件系统实现</h2><h3 id="文件系统结构"><a href="#文件系统结构" class="headerlink" title="文件系统结构"></a>文件系统结构</h3><p>文件系统主要有两个设计方向，一个是用户接口，另外一个就是如何创建算法，以便映射逻辑文件系统到物理外存设备</p>
-<p><img src="2024-1-1/image-20231202235729189.png" alt="image-20231202235729189"></p>
+<img src="/posts/236ba7f3326b/image-20231202235729189.png" class="" title="image-20231202235729189">
 <p><strong>I/O控制层</strong>包括设备驱动程序和中断处理程序，以在主内存和磁盘系统之间传输信息。其中设备驱动程序将高级指令翻译成底层的硬件指令</p>
 <p><strong>基本文件系统</strong>向设备驱动程序发送通用命令，以读取和写入磁盘的物理块</p>
 <p><strong>文件组织模块</strong>知道文件及其逻辑块以及物理块，可以将逻辑块地址转成物理块地址，以供文件系统传输</p>
 <p><strong>逻辑文件系统</strong>管理元数据信息，元数据包括文件系统的所有结构，但不包括实际数据。逻辑文件系统通过文件控制块来维护文件结构，<strong>文件控制块(FCB)</strong>包含有关文件的信息</p>
-<p><img src="2024-1-1/image-20231203005412898.png" alt="image-20231203005412898"></p>
-<h4 id="文件系统布局"><a href="#文件系统布局" class="headerlink" title="文件系统布局"></a>文件系统布局</h4><p><img src="2024-1-1/image-20240102112108585.png" alt="image-20240102112108585"></p>
-<p><img src="2024-1-1/image-20240102112139633.png" alt="image-20240102112139633"></p>
-<p><img src="2024-1-1/image-20240102112148203.png" alt="image-20240102112148203"></p>
+<img src="/posts/236ba7f3326b/image-20231203005412898.png" class="" title="image-20231203005412898">
+<h4 id="文件系统布局"><a href="#文件系统布局" class="headerlink" title="文件系统布局"></a>文件系统布局</h4><img src="/posts/236ba7f3326b/image-20240102112108585.png" class="" title="image-20240102112108585">
+<img src="/posts/236ba7f3326b/image-20240102112139633.png" class="" title="image-20240102112139633">
+<img src="/posts/236ba7f3326b/image-20240102112148203.png" class="" title="image-20240102112148203">
 <h3 id="文件系统实现-1"><a href="#文件系统实现-1" class="headerlink" title="文件系统实现"></a>文件系统实现</h3><p><strong>引导控制块</strong>：包含从该卷引导操作系统的所需信息</p>
 <p><strong>卷控制块</strong>：包含卷或分区的详细信息</p>
 <p>打开文件表的条目有多种名称，UNIX称之为<strong>文件描述符</strong>，Windows称之为<strong>文件句柄</strong></p>
 <p>open()和read()操作的流程如下图所示</p>
-<p><img src="2024-1-1/image-20231203010249605.png" alt="image-20231203010249605"></p>
+<img src="/posts/236ba7f3326b/image-20231203010249605.png" class="" title="image-20231203010249605">
 <h3 id="目录实现"><a href="#目录实现" class="headerlink" title="目录实现"></a>目录实现</h3><h4 id="线性列表"><a href="#线性列表" class="headerlink" title="线性列表"></a>线性列表</h4><p>目录实现的最简单方法是，采用文件名称和数据块指针的线性列表</p>
 <p>线性列表的<strong>缺点</strong>是，<strong>查找文件需要线性搜索</strong></p>
 <p>在线性列表上进一步延申的是<strong>排序列表</strong>，优点是允许二分搜索，而且不需要单独排序步骤就可以生成排序的目录信息</p>
@@ -390,7 +390,7 @@
 <p>一个拓展的方法是使用<strong>溢出链接的哈希表</strong>，此时哈希表的每个条目可以是链表而不是单个值</p>
 <h3 id="分配方法"><a href="#分配方法" class="headerlink" title="分配方法"></a>分配方法</h3><h4 id="连续分配"><a href="#连续分配" class="headerlink" title="连续分配"></a>连续分配</h4><p>连续分配的方案中，每个文件在磁盘上占有一组连续的块</p>
 <p>访问连续分配文件所需的<strong>寻道数量最小</strong>，需要寻道时所需的<strong>寻道时间最小</strong></p>
-<p><img src="2024-1-1/image-20231203141241671.png" alt="image-20231203141241671"></p>
+<img src="/posts/236ba7f3326b/image-20231203141241671.png" class="" title="image-20231203141241671">
 <p>连续分配存在一些问题</p>
 <p>首先是如何为新文件找到，这属于一个动态存储分配问题，已知的算法都会随时间产生外部碎片</p>
 <p>为了防止外部碎片引起的大量磁盘空间的浪费，可以将整个文件系统复制到另一个磁盘再复制回来，将空闲空间<strong>合并</strong>，不过合并的代价是时间长</p>
@@ -398,7 +398,7 @@
 <h4 id="链接分配"><a href="#链接分配" class="headerlink" title="链接分配"></a>链接分配</h4><p>链接分配解决了连续分配的所有问题</p>
 <p>在链接分配中，每个文件是磁盘块的链表，磁盘块可能会散布在磁盘的任何地方</p>
 <p><strong>目录包括文件第一块和最后一块的指针</strong>，且<strong>每块都存有下一块的指针</strong></p>
-<p><img src="2024-1-1/image-20231203142550032.png" alt="image-20231203142550032"></p>
+<img src="/posts/236ba7f3326b/image-20231203142550032.png" class="" title="image-20231203142550032">
 <p>只要有可用的空闲块，文件就可以继续增长大小</p>
 <p>一个<strong>缺点</strong>是，链接分配<strong>只能顺序访问文件</strong>：要找到文件的第i个块，必须从文件的开始起</p>
 <p>另一个缺点是<strong>存储指针需要很多空间</strong>，如果指针需要使用512字节块的4字节，则0.78%的磁盘空间会用于指针。解决这个问题<strong>可以将多个块组成簇</strong>，在磁盘中仅以簇为单位来操作，这样可以降低指针所占磁盘空间的百分比</p>
@@ -406,7 +406,7 @@
 <h4 id="索引分配"><a href="#索引分配" class="headerlink" title="索引分配"></a>索引分配</h4><p>如果不使用FAT，链接分配的块指针与块会一起分散在整个磁盘上，不能高效的直接访问</p>
 <p>索引分配通过将所有指针放在一起，即<strong>索引块</strong>，解决了这个问题</p>
 <p>每个文件都有自己的索引块，文件的目录包含索引块的地址，索引块的第i个条目指向文件的第i个块</p>
-<p><img src="2024-1-1/image-20231203163952867.png" alt="image-20231203163952867"></p>
+<img src="/posts/236ba7f3326b/image-20231203163952867.png" class="" title="image-20231203163952867">
 <p>索引分配直接直接访问，并且没有外部碎片问题</p>
 <p>决定索引块的大小时，目前有几种机制：</p>
 <ul>
@@ -415,7 +415,7 @@
 <li><p><strong>多级索引</strong>：通过第一级索引块指向第二级的索引块，然后第二级索引块再指向文件块</p>
 </li>
 <li><p><strong>组合方案</strong>：</p>
-<p><img src="2024-1-1/image-20231203164519044.png" alt="image-20231203164519044"></p>
+<img src="/posts/236ba7f3326b/image-20231203164519044.png" class="" title="image-20231203164519044">
 </li>
 </ul>
 <h3 id="空闲空间管理"><a href="#空闲空间管理" class="headerlink" title="空闲空间管理"></a>空闲空间管理</h3><p>为了跟踪空闲磁盘空间，系统需要维护一个空闲空间列表。空闲空间列表有几种实现方法</p>
@@ -444,10 +444,10 @@
 <h2 id="I-O系统"><a href="#I-O系统" class="headerlink" title="I/O系统"></a>I/O系统</h2><h3 id="I-O硬件"><a href="#I-O硬件" class="headerlink" title="I/O硬件"></a>I/O硬件</h3><p>设备域计算机的通信通过一个连接点或<strong>端口</strong></p>
 <p><strong>总线</strong>是一组线路和通过线路传输信息的严格定义的一个协议</p>
 <p>如果设备A通过线路连接到设备B，B又通过线路连接到设备C，C通过端口连到计算机，则这种方式称为<strong>菊花链</strong></p>
-<p><img src="2024-1-1/image-20240102122208390.png" alt="image-20240102122208390"></p>
+<img src="/posts/236ba7f3326b/image-20240102122208390.png" class="" title="image-20240102122208390">
 <p>控制器是可以操作端口、总线或设备的一组电子器件 </p>
 <p>I/O端口通常由四个寄存器组成</p>
-<p><img src="2024-1-1/image-20240102123429316.png" alt="image-20240102123429316"></p>
+<img src="/posts/236ba7f3326b/image-20240102123429316.png" class="" title="image-20240102123429316">
 <h3 id="性能-1"><a href="#性能-1" class="headerlink" title="性能"></a>性能</h3><p>I/O是系统性能的一个主要因素</p>
 <p>如果忙等所需的计算机周期并不多，则程序控制I/O比中断驱动I/O更为有效</p>
 <p>网络流量也能导致高的上下文切换速率</p>
@@ -471,9 +471,9 @@
 <p>当用户创建新对象$O_j$时，增加列$O_j$到访问矩阵，且具有创建者指定的适当初始化条目</p>
 <p>当切换一个进程从一个域到另一个域时，我们为域内对象执行switch操作</p>
 <p>从域$D_i$到$D_j$的切换是允许的，当且仅当$switch \in access(i,j)$</p>
-<p><img src="2024-1-1/image-20240102133702328.png" alt="image-20240102133702328"></p>
-<p><img src="2024-1-1/image-20240102134816533.png" alt="2"></p>
-<p><img src="2024-1-1/image-20240102134931013.png" alt="image-20240102134931013"></p>
+<img src="/posts/236ba7f3326b/image-20240102133702328.png" class="" title="image-20240102133702328">
+<img src="/posts/236ba7f3326b/image-20240102134816533.png" class="" width="2">
+<img src="/posts/236ba7f3326b/image-20240102134931013.png" class="" title="image-20240102134931013">
 <p>控制权限只能作用于域对象，即如果access(i,j)包含控制权限，那么域$D_i$中的进程可以删除行j内的任何访问权限</p>
 <p>保证对象最初持有信息不能移到执行环境之外的问题称为<strong>禁闭问题</strong></p>
 <h3 id="访问矩阵的实现"><a href="#访问矩阵的实现" class="headerlink" title="访问矩阵的实现"></a>访问矩阵的实现</h3><h4 id="全局表"><a href="#全局表" class="headerlink" title="全局表"></a>全局表</h4><p>全局表包括一组有序三元组<strong>&lt;域，对象，权限集&gt;</strong></p>
@@ -484,9 +484,9 @@
 <p>能力列表本身是受保护的对象，由操作系统维护，用户只能按简介方式来访问</p>
 <h4 id="锁-钥匙机制"><a href="#锁-钥匙机制" class="headerlink" title="锁-钥匙机制"></a>锁-钥匙机制</h4><p>每个对象都有一个唯一的位模式列表，称为<strong>锁</strong>。每个域也有一个唯一的位模式列表，称为<strong>钥匙</strong>。执行在域中的经常可以访问一个对象，仅当该域具有匹配这个对象锁的一个钥匙时</p>
 <p>钥匙和锁列表必须<strong>通过操作系统来管理</strong></p>
-<h2 id="作业内容小记"><a href="#作业内容小记" class="headerlink" title="作业内容小记"></a>作业内容小记</h2><h3 id="内存分配"><a href="#内存分配" class="headerlink" title="内存分配"></a>内存分配</h3><p><img src="2024-1-1/image-20231106152929799.png" alt=""></p>
-<p><img src="2024-1-1/image-20231106153009060.png" alt="image-20231106153009060"></p>
-<p><img src="2024-1-1/image-20240101215945278.png" alt="image-20240101215945278"></p>
+<h2 id="作业内容小记"><a href="#作业内容小记" class="headerlink" title="作业内容小记"></a>作业内容小记</h2><h3 id="内存分配"><a href="#内存分配" class="headerlink" title="内存分配"></a>内存分配</h3><img src="/posts/236ba7f3326b/image-20231106152929799.png" class="">
+<img src="/posts/236ba7f3326b/image-20231106153009060.png" class="" title="image-20231106153009060">
+<img src="/posts/236ba7f3326b/image-20240101215945278.png" class="" title="image-20240101215945278">
 <p>这题应该选C，首先释放的空线分区域另外两个空闲分区合并，同时由于是采用<strong>最佳适应算法</strong>，<strong>空闲分区按大小递增的顺序排在链上</strong></p>
 <h3 id="页面置换-1"><a href="#页面置换-1" class="headerlink" title="页面置换"></a>页面置换</h3><blockquote>
 <p>下列关于虚拟存储器的叙述中，正确的是（ B）。</p>
@@ -507,7 +507,7 @@
 <p>D. 仅 I、II</p>
 </blockquote>
 <p>系统抖动是由于内存不够</p>
-<p><img src="2024-1-1/image-20240102142109462.png" alt="image-20240102142109462"></p>
+<img src="/posts/236ba7f3326b/image-20240102142109462.png" class="" title="image-20240102142109462">
 <p>页面大小为4KB，低12位是页内偏移。虚拟地址为02A01H，页号为02H, 02H页对应的页表项中存在位为0,进程P分配的页框固定为2，且内存中已有两个页面存在。根据CLOCK算法，选择将3号页换出，将2号页放入60H页框，经过地址变换后得到的物理地址是60A01H</p>
 <h3 id="文件系统-1"><a href="#文件系统-1" class="headerlink" title="文件系统"></a>文件系统</h3><blockquote>
 <p>假设某文件为链接文件，它由 5 个逻辑记录组成，每个逻辑记录的大小与磁盘块的大小相等，均为 512B，并依次存放在 50,121,75,80,63 号磁盘块上。若要存取文件的第 1569 逻辑字节处的信息，则应该访问 ( B) 号磁盘块。</p>

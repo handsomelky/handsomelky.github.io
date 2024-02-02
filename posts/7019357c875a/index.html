@@ -175,26 +175,26 @@
 <li><strong>请求转发</strong>: 当外网的用户或服务请求特定的服务时，FRP服务器接收到这个请求后，通过建立的隧道将请求转发到FRP客户端，再由客户端转发到内网的目标服务。</li>
 <li><strong>响应返回</strong>: 内网服务处理完请求后，响应会通过相同的隧道返回给FRP服务器，然后由FRP服务器发送回原始请求者。</li>
 </ol>
-<p><img src="2024-1-23/2024-1-24-architecture.png" alt="architecture"></p>
+<img src="/posts/7019357c875a/2024-1-24-architecture.png" class="" title="architecture">
 <h2 id="下载安装包"><a href="#下载安装包" class="headerlink" title="下载安装包"></a>下载安装包</h2><p>本次搭建的服务端及客户端环境如下</p>
 <p><strong>服务端</strong>：腾讯云上租的CPU云服务器(ubuntu系统)</p>
 <p><strong>客户端</strong>：学校实验室的工作站(ubuntu系统)</p>
 <p>进入frp的github项目<strong>发行页</strong>，这里我选择的是稍微往前一点的稳定版本<code>0.51.2</code></p>
-<p><img src="2024-1-23/image-20240124225855418.png" alt="image-20240124225855418"></p>
+<img src="/posts/7019357c875a/image-20240124225855418.png" class="" title="image-20240124225855418">
 <p>由于我的两个终端上的系统都是linux/X86_64，选择下载对应版本的压缩包<code>amd64</code></p>
 <p>解压后的目录结构如下</p>
-<p><img src="2024-1-23/image-20240124215642372.png" alt="image-20240124215642372"></p>
+<img src="/posts/7019357c875a/image-20240124215642372.png" class="" title="image-20240124215642372">
 <p>三个客户端文件以及三个服务端文件，还有个LICENSE</p>
 <p>我们将对应文件上传到对应终端即可</p>
 <p>这里服务端直接使用<code>wget</code>命令下载到并解压更加方便</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/fatedier/frp/releases/download/v0.51.2/frp_0.51.2_linux_amd64.tar.gz</span><br><span class="line">tar -zxvf frp_0.51.2_linux_amd64.tar.gz</span><br><span class="line">cd frp_0.51.2_linux_amd64</span><br></pre></td></tr></table></figure>
 <p>但是由于我的腾讯云服务器设在内地，也没搭VPN，所以通过使用<strong>xftp</strong>连接后从本地上传</p>
-<p><img src="2024-1-23/image-20240124221447788.png" alt="image-20240124221447788"></p>
+<img src="/posts/7019357c875a/image-20240124221447788.png" class="" title="image-20240124221447788">
 <p>记得传好后执行<code>chmod</code>指令给上次的frp文件夹提权</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod 777 frp_0.51.2_linux_amd64</span><br></pre></td></tr></table></figure>
 <h2 id="frps配置"><a href="#frps配置" class="headerlink" title="frps配置"></a>frps配置</h2><p>查看<code>frps.ini</code>服务端配置文件</p>
 <p>这里我们主要设置一些与客户端连接的端口以及口令</p>
-<p><img src="2024-1-23/image-20240124223103998.png" alt="image-20240124223103998"></p>
+<img src="/posts/7019357c875a/image-20240124223103998.png" class="" title="image-20240124223103998">
 <p>初始情况下只设置了与客户端连接的端口7000</p>
 <p>当然，frp还提供了仪表盘功能，我们只需在配置文件中设置仪表盘的端口、用户名和密码</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[common]</span></span><br><span class="line"><span class="attr">bind_port</span> = <span class="number">7000</span></span><br><span class="line"><span class="attr">dashboard_port</span> = <span class="number">7001</span></span><br><span class="line"><span class="attr">dashboard_user</span> = root</span><br><span class="line"><span class="attr">dashboard_pwd</span> = <span class="number">123456</span></span><br><span class="line"><span class="attr">token</span> = <span class="number">123456</span></span><br></pre></td></tr></table></figure>
@@ -207,9 +207,9 @@
 </ul>
 <h2 id="启动frps"><a href="#启动frps" class="headerlink" title="启动frps"></a>启动frps</h2><p>我们可以执行以下指令在服务端开启frps服务</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./frps -c frps.ini</span><br></pre></td></tr></table></figure>
-<p><img src="2024-1-23/image-20240124231035256.png" alt="image-20240124231035256"></p>
+<img src="/posts/7019357c875a/image-20240124231035256.png" class="" title="image-20240124231035256">
 <p>此时我们应该能在<code>公网ip:仪表盘端口</code>上访问frp服务端的仪表盘</p>
-<p><img src="2024-1-23/image-20240124231307325.png" alt="image-20240124231307325"></p>
+<img src="/posts/7019357c875a/image-20240124231307325.png" class="" title="image-20240124231307325">
 <h2 id="frpc配置"><a href="#frpc配置" class="headerlink" title="frpc配置"></a>frpc配置</h2><p>同样，客户端则是配置<code>frpc.ini</code>文件</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[common]</span></span><br><span class="line"><span class="attr">server_addr</span> = xxx.xxx.xxx.xxx</span><br><span class="line"><span class="attr">server_port</span> = <span class="number">7000</span></span><br><span class="line"><span class="attr">token</span> = <span class="number">123456</span></span><br><span class="line"></span><br><span class="line"><span class="section">[ocr]</span></span><br><span class="line"><span class="attr">type</span> = tcp</span><br><span class="line"><span class="attr">local_ip</span>= <span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="number">6789</span></span><br><span class="line"><span class="attr">remote_port</span>= <span class="number">6001</span></span><br><span class="line"></span><br><span class="line"><span class="section">[ssh]</span></span><br><span class="line"><span class="attr">type</span> = tcp</span><br><span class="line"><span class="attr">local_ip</span> = <span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="number">22</span></span><br><span class="line"><span class="attr">remote_port</span> = <span class="number">6000</span></span><br></pre></td></tr></table></figure>
 <ul>
@@ -225,7 +225,7 @@
 <h2 id="启动frpc"><a href="#启动frpc" class="headerlink" title="启动frpc"></a>启动frpc</h2><p>我们可以执行以下指令在客户端开启frpc服务</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./frpc -c frpc.ini</span><br></pre></td></tr></table></figure>
 <p>我们可以用ssh连上刚刚配置的ip和端口号，测试下是否搭建成功</p>
-<p><img src="2024-1-23/image-20240125013200847.png" alt="image-20240125013200847"></p>
+<img src="/posts/7019357c875a/image-20240125013200847.png" class="" title="image-20240125013200847">
 <h2 id="持久化frp服务"><a href="#持久化frp服务" class="headerlink" title="持久化frp服务"></a>持久化frp服务</h2><h3 id="后台运行"><a href="#后台运行" class="headerlink" title="后台运行"></a>后台运行</h3><p>我们可以在启动frps和启动frpc的指令后分别加上<code>&amp;</code>，让它们在后台运行，避免终端进程被我们不小心中断</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./frps -c frps.ini &amp;</span><br><span class="line">./frpc -c frpc.ini &amp;</span><br></pre></td></tr></table></figure>
 <h3 id="开机自启动"><a href="#开机自启动" class="headerlink" title="开机自启动"></a>开机自启动</h3><p>腾讯云服务器上的客户端进程运行之后就不需要去管了</p>
