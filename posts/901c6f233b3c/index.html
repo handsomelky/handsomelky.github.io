@@ -354,10 +354,10 @@
 <div class="note info flat"><p><strong>梯度</strong>（gradient）的本意是一个向量（矢量），表示某一函数在该点处的方向导数沿着该方向取得最大值，即函数在该点处沿着该方向（此梯度的方向）变化最快，变化率最大（为该梯度的模）。</p>
 <ul>
 <li><p>当y为标量，x为向量时</p>
-<p><style>.egmpudrumkjc{zoom: 50%;}</style><img src="/posts/901c6f233b3c/image-20230731171519300.png" class="egmpudrumkjc" alt="image-20230731171519300"></p>
+<p><style>.bpsvhrwlupou{zoom: 50%;}</style><img src="/posts/901c6f233b3c/image-20230731171519300.png" class="bpsvhrwlupou" alt="image-20230731171519300"></p>
 </li>
 <li><p>当y和x均为向量时</p>
-<p><style>.wybrbsavrnpp{zoom: 67%;}</style><img src="/posts/901c6f233b3c/image-20230726212743994.png" class="wybrbsavrnpp" alt="image-20230726212743994"></p>
+<p><style>.ijloiefgprmh{zoom: 67%;}</style><img src="/posts/901c6f233b3c/image-20230726212743994.png" class="ijloiefgprmh" alt="image-20230726212743994"></p>
 </li>
 </ul>
 </div>
@@ -370,7 +370,7 @@
 <p>此时需要用到<strong>反向传播算法</strong></p>
 <p>这里的<strong>反向</strong>二字其实就是指损失函数对参数的梯度通过网络反向流动</p>
 <p>而通过利用<strong>链式法则</strong>，可以计算出<strong>损失函数对各参数的梯度</strong>，具体公式这里就不涉及了</p>
-<div class="note info flat"><p><style>.mjjxmipofbot{zoom:67%;}</style><img src="/posts/901c6f233b3c/image-20230726214825560.png" class="mjjxmipofbot" alt="image-20230726214825560"></p>
+<div class="note info flat"><p><style>.smzcdngpprkq{zoom:67%;}</style><img src="/posts/901c6f233b3c/image-20230726214825560.png" class="smzcdngpprkq" alt="image-20230726214825560"></p>
 </div>
 <p>而该如何<strong>更高效地计算</strong>梯度呢？</p>
 <p>这里涉及到<strong>自动求导</strong>的概念，自动求导是基于<strong>计算图</strong>的</p>
@@ -385,9 +385,9 @@
 <p><img src="/posts/901c6f233b3c/829090623_54957.png" class="" title="img"></p>
 </div>
 <p>通过一次前向累积和一次反向累积，就能在保证速度的条件下完成自动求导</p>
-<p><style>.agtrsxqqmlso{zoom: 25%;}</style><img src="/posts/901c6f233b3c/image-20230726221124109.png" class="agtrsxqqmlso" alt="image-20230726221124109"></p>
-<p><style>.vaakbbkylyhx{zoom: 67%;}</style><img src="/posts/901c6f233b3c/image-20230726221205461.png" class="vaakbbkylyhx" alt="image-20230726221205461"></p>
-<p><style>.szfvryhmrunh{zoom: 67%;}</style><img src="/posts/901c6f233b3c/image-20230726221225754.png" class="szfvryhmrunh" alt="image-20230726221225754"></p>
+<p><style>.vtmqvnbibqpj{zoom: 25%;}</style><img src="/posts/901c6f233b3c/image-20230726221124109.png" class="vtmqvnbibqpj" alt="image-20230726221124109"></p>
+<p><style>.dfotylpxsgxw{zoom: 67%;}</style><img src="/posts/901c6f233b3c/image-20230726221205461.png" class="dfotylpxsgxw" alt="image-20230726221205461"></p>
+<p><style>.tvyqsxqgyeyq{zoom: 67%;}</style><img src="/posts/901c6f233b3c/image-20230726221225754.png" class="tvyqsxqgyeyq" alt="image-20230726221225754"></p>
 <p>在<strong>Pytorch</strong>中，这一过程是<strong>隐式</strong>进行的，只需要我们在设定参数时注明以下代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x.requires_grad_(<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
 <p>以下是一个如何使用反向传播的示例：</p>
@@ -400,10 +400,10 @@
 <p>反向传播：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV16x411V7Qg">https://www.bilibili.com/video/BV16x411V7Qg</a></p>
 <p>梯度下降：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Ux411j7ri">https://www.bilibili.com/video/BV1Ux411j7ri</a></p>
 </div>
-<h2 id="Chapter3-线性神经网络"><a href="#Chapter3-线性神经网络" class="headerlink" title="Chapter3.线性神经网络"></a>Chapter3.线性神经网络</h2><h3 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h3><h4 id="小批量随机梯度下降"><a href="#小批量随机梯度下降" class="headerlink" title="小批量随机梯度下降"></a>小批量随机梯度下降</h4><p><style>.ucbqmtidcikz{zoom: 50%;}</style><img src="/posts/901c6f233b3c/image-20230728151859106.png" class="ucbqmtidcikz" alt="image-20230728151859106"></p>
-<p><style>.dcuskoyvgjae{zoom:67%;}</style><img src="/posts/901c6f233b3c/image-20230728151912015.png" class="dcuskoyvgjae" alt="image-20230728151912015"></p>
+<h2 id="Chapter3-线性神经网络"><a href="#Chapter3-线性神经网络" class="headerlink" title="Chapter3.线性神经网络"></a>Chapter3.线性神经网络</h2><h3 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h3><h4 id="小批量随机梯度下降"><a href="#小批量随机梯度下降" class="headerlink" title="小批量随机梯度下降"></a>小批量随机梯度下降</h4><p><style>.fjqrulgsvwmd{zoom: 50%;}</style><img src="/posts/901c6f233b3c/image-20230728151859106.png" class="fjqrulgsvwmd" alt="image-20230728151859106"></p>
+<p><style>.oyfqzuqpkxyn{zoom:67%;}</style><img src="/posts/901c6f233b3c/image-20230728151912015.png" class="oyfqzuqpkxyn" alt="image-20230728151912015"></p>
 <p>选择批量大小时</p>
-<p><style>.zibqumcenxom{zoom: 50%;}</style><img src="/posts/901c6f233b3c/image-20230728151942500.png" class="zibqumcenxom" alt="image-20230728151942500"></p>
+<p><style>.jgexxymvpbiw{zoom: 50%;}</style><img src="/posts/901c6f233b3c/image-20230728151942500.png" class="jgexxymvpbiw" alt="image-20230728151942500"></p>
 <h4 id="具体过程"><a href="#具体过程" class="headerlink" title="具体过程"></a>具体过程</h4><ul>
 <li><p>优化算法</p>
 <p>小批量随机梯度下降：</p>
