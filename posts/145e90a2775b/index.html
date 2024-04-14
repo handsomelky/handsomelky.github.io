@@ -269,7 +269,7 @@
 <img src="/posts/145e90a2775b/image-20231226104737315.png" class="" title="image-20231226104737315">
 <p><strong>往返时间(RTT)</strong>：1个小分组从客户主机到服务器再到客户主机所花费的时间</p>
 <p><strong>响应时间</strong>：2RTT+传输文件的时间</p>
-<p><style>.xftzvmhpvlya{zoom: 67%;}</style><img src="/posts/145e90a2775b/image-20231226105340998.png" class="xftzvmhpvlya" alt="image-20231226105340998"></p>
+<p><style>.ijxdrxhbnqgg{zoom: 67%;}</style><img src="/posts/145e90a2775b/image-20231226105340998.png" class="ijxdrxhbnqgg" alt="image-20231226105340998"></p>
 <p><strong>不带流水线的持久HTTP连接</strong>：客户收到之前的响应消息，才发出新的请求消息，每个引用对象经历1个RTT</p>
 <p><strong>带流水线的持久HTTP连接</strong>：HTTP/1.1默认使用，客户遇到1个引用对象就发送请求消息，所有引用对象只经历1个RTT（<strong>并行</strong>）</p>
 <p><strong>HTTP/1.1</strong>使用FCFS即先到先得模型，默认使用<strong>流水线、持久连接。</strong>此时小对象可能必须在大对象后面等待传输</p>
@@ -295,7 +295,7 @@
 <h4 id="Cookies"><a href="#Cookies" class="headerlink" title="Cookies"></a>Cookies</h4><img src="/posts/145e90a2775b/image-20231226112212311.png" class="" title="image-20231226112212311">
 <p>Cookie可以用于身份认证、虚拟购物车、推荐广告以及保存用户会话状态</p>
 <h4 id="Web缓存"><a href="#Web缓存" class="headerlink" title="Web缓存"></a>Web缓存</h4><p><strong>Web缓存器也叫代理服务器</strong></p>
-<p><style>.aofxpliagiyw{zoom:67%;}</style><img src="/posts/145e90a2775b/image-20231226112710763.png" class="aofxpliagiyw" alt="image-20231226112710763"></p>
+<p><style>.ginlfxxgawge{zoom:67%;}</style><img src="/posts/145e90a2775b/image-20231226112710763.png" class="ginlfxxgawge" alt="image-20231226112710763"></p>
 <p>当浏览器向Web缓存器发送请求时，Web缓存器会先检查本地是否存储了该对象的副本，如果没有则会与初始服务器进行TCP连接，并在本地生成副本</p>
 <p><strong>条件GET方法</strong>：在请求报文中包含对象最后修改时间来证实缓存器中的对象是否为最新</p>
 <h3 id="传输协议"><a href="#传输协议" class="headerlink" title="传输协议"></a>传输协议</h3><h4 id="文件传输协议"><a href="#文件传输协议" class="headerlink" title="文件传输协议"></a>文件传输协议</h4><img src="/posts/145e90a2775b/image-20231226114134219.png" class="" title="image-20231226114134219">
