@@ -313,7 +313,7 @@
 </ol>
 </blockquote>
 <p>原图如下</p>
-<p><style>.nljpbsaxkdrx{zoom: 67%;}</style><img src="/posts/e5cbd5436bd8/book_cover.jpg" class="nljpbsaxkdrx" alt="book_cover"></p>
+<p><style>.sejqpscvdmno{zoom: 67%;}</style><img src="/posts/e5cbd5436bd8/book_cover.jpg" class="sejqpscvdmno" alt="book_cover"></p>
 <p>在开始任务之前，考虑到后续生成的中间图像的像素值范围可能超过$[0,255]$，我们需要<strong>定义一个归一化函数</strong>，方便后续归一化并保存中间图像</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">result</span> = <span class="title">normalize_image</span><span class="params">(image)</span></span></span><br><span class="line">    result = image - <span class="built_in">min</span>(image(:)); <span class="comment">% 将图像平移到最小值为0</span></span><br><span class="line">    result = result / <span class="built_in">max</span>(result(:)); <span class="comment">% 缩放图像使最大值为1</span></span><br><span class="line">    result = uint8(result * <span class="number">255</span>); <span class="comment">% 转换为0-255的uint8图像</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 <h2 id="图像模糊"><a href="#图像模糊" class="headerlink" title="图像模糊"></a>图像模糊</h2><p>首先完成第一个任务</p>
@@ -330,23 +330,23 @@
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">G = H .* F;</span><br><span class="line">blurred_image = normalize_image(<span class="built_in">abs</span>(ifft2(G)));</span><br><span class="line">imwrite(blurred_image, <span class="string">&#x27;./result/blurred_image.png&#x27;</span>);</span><br></pre></td></tr></table></figure>
 <p><strong>注意在最后需要对空域的模糊图像进行归一化</strong></p>
 <p>得到下图结果</p>
-<p><style>.fbdfdmlorrvp{zoom: 67%;}</style><img src="/posts/e5cbd5436bd8/blurred_image.png" class="fbdfdmlorrvp" alt="blurred_image"></p>
+<p><style>.rzegxoaklvmj{zoom: 67%;}</style><img src="/posts/e5cbd5436bd8/blurred_image.png" class="rzegxoaklvmj" alt="blurred_image"></p>
 <p>可以发现非常接近现实生活中因为物体运动而产生的模糊图片</p>
 <h2 id="添加噪声"><a href="#添加噪声" class="headerlink" title="添加噪声"></a>添加噪声</h2><p>第二个任务是<strong>向模糊图像添加高斯噪声</strong>，这样可以得到完整的退化模型</p>
 <p>首先我们根据题目的要求，生成一个<strong>均值为0、方差为500</strong>的高斯噪声</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">noise = <span class="built_in">randn</span>(M,N) * <span class="built_in">sqrt</span>(<span class="number">500</span>);</span><br><span class="line">Fn = fftshift(fft2(noise));</span><br></pre></td></tr></table></figure>
 <p>将噪声与模糊图像相加，得到模糊噪声图像</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Gn = G + Fn;</span><br><span class="line">blurred_noisy_image = normalize_image(<span class="built_in">abs</span>(ifft2(Gn)));</span><br><span class="line">imwrite(blurred_noisy_image, <span class="string">&#x27;./result/blurred_noisy_image.png&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<p><style>.tqlbdcrylugg{zoom: 67%;}</style><img src="/posts/e5cbd5436bd8/blurred_noisy_image.png" class="tqlbdcrylugg" alt="blurred_noisy_image"></p>
+<p><style>.atymlvvvkwlp{zoom: 67%;}</style><img src="/posts/e5cbd5436bd8/blurred_noisy_image.png" class="atymlvvvkwlp" alt="blurred_noisy_image"></p>
 <p>我们可以将原图和两张生成的退化图像进行对比</p>
 <img src="/posts/e5cbd5436bd8/degradation_comparison.png" class="" title="degradation_comparison">
 <h2 id="逆滤波复原"><a href="#逆滤波复原" class="headerlink" title="逆滤波复原"></a>逆滤波复原</h2><p>将模糊图像和模糊噪声图像分别除以退化函数，得到复原后的图像</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% 逆滤波恢复模糊噪声图像</span></span><br><span class="line">F_hat1 = G ./ H;</span><br><span class="line">F_hat1(<span class="built_in">isnan</span>(F_hat1)) = <span class="number">0</span>; </span><br><span class="line">F_hat1(<span class="built_in">isinf</span>(F_hat1)) = <span class="number">0</span>; </span><br><span class="line">inverse_filtered_image = normalize_image(<span class="built_in">abs</span>(ifft2(F_hat1)));</span><br><span class="line">imwrite(inverse_filtered_image, <span class="string">&#x27;./result/inverse_filtered_image.png&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 逆滤波恢复模糊噪声图像</span></span><br><span class="line">F_hat2 = Gn ./ H;</span><br><span class="line">F_hat2(<span class="built_in">isnan</span>(F_hat2)) = <span class="number">0</span>; </span><br><span class="line">F_hat2(<span class="built_in">isinf</span>(F_hat2)) = <span class="number">0</span>; </span><br><span class="line">inverse_filtered_noisy_image = normalize_image(<span class="built_in">abs</span>(ifft2(F_hat2)));</span><br><span class="line">imwrite(inverse_filtered_noisy_image, <span class="string">&#x27;./result/inverse_filtered_noisy_image.png&#x27;</span>);</span><br></pre></td></tr></table></figure>
 <p>下图是<strong>模糊图像的逆滤波复原图</strong></p>
-<p><style>.ynuubocvqhgs{zoom:67%;}</style><img src="/posts/e5cbd5436bd8/inverse_filtered_image.png" class="ynuubocvqhgs" alt="inverse_filtered_image"></p>
+<p><style>.ktaoiqwabbsb{zoom:67%;}</style><img src="/posts/e5cbd5436bd8/inverse_filtered_image.png" class="ktaoiqwabbsb" alt="inverse_filtered_image"></p>
 <p>可以发现和原图基本一致</p>
 <p>而下图是<strong>模糊噪声图像的逆滤波复原图</strong></p>
-<p><style>.dnvlnmhlyyqb{zoom:67%;}</style><img src="/posts/e5cbd5436bd8/inverse_filtered_noisy_image.png" class="dnvlnmhlyyqb" alt="inverse_filtered_noisy_image"></p>
+<p><style>.qmbghyfofiwh{zoom:67%;}</style><img src="/posts/e5cbd5436bd8/inverse_filtered_noisy_image.png" class="qmbghyfofiwh" alt="inverse_filtered_noisy_image"></p>
 <p>可以发现比原来的噪声强度还大</p>
 <p>我们可以从逆滤波的公式中找到原因</p>
 <p>$F(u,v) = \frac{G(u,v)}{H(u,v)}-\frac{N(u,v)}{H(u,v)}$</p>
