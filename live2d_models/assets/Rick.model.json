@@ -3,6 +3,6 @@
 	"name": "Rick",
 	"model": "Rick.moc",
 	"textures": [
-		"Rick.1024/texture_00.png"
+		"Rick/texture_00.png"
 	]
 }

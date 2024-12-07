@@ -825,13 +825,6 @@
   </url>
   
   <url>
-    <loc>https://rickliu.com/tags/windows/</loc>
-    <lastmod>2024-12-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://rickliu.com/tags/Hexo/</loc>
     <lastmod>2024-12-07</lastmod>
     <changefreq>weekly</changefreq>
@@ -861,6 +854,13 @@
   
   <url>
     <loc>https://rickliu.com/tags/music/</loc>
+    <lastmod>2024-12-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://rickliu.com/tags/windows/</loc>
     <lastmod>2024-12-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -951,7 +951,7 @@
   </url>
   
   <url>
-    <loc>https://rickliu.com/tags/LLM/</loc>
+    <loc>https://rickliu.com/tags/wsl/</loc>
     <lastmod>2024-12-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -965,14 +965,7 @@
   </url>
   
   <url>
-    <loc>https://rickliu.com/tags/wsl/</loc>
-    <lastmod>2024-12-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://rickliu.com/tags/todo/</loc>
+    <loc>https://rickliu.com/tags/LLM/</loc>
     <lastmod>2024-12-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -980,6 +973,13 @@
   
   <url>
     <loc>https://rickliu.com/tags/git/</loc>
+    <lastmod>2024-12-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://rickliu.com/tags/todo/</loc>
     <lastmod>2024-12-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
