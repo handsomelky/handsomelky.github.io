@@ -690,6 +690,13 @@
   </url>
   
   <url>
+    <loc>https://rickliu.com/tags/Hackergame/</loc>
+    <lastmod>2025-05-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://rickliu.com/tags/MATLAB/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
@@ -705,13 +712,6 @@
   
   <url>
     <loc>https://rickliu.com/tags/project/</loc>
-    <lastmod>2025-05-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://rickliu.com/tags/Hackergame/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -879,14 +879,14 @@
   </url>
   
   <url>
-    <loc>https://rickliu.com/tags/LLM/</loc>
+    <loc>https://rickliu.com/tags/%E8%93%9D%E9%98%9F/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://rickliu.com/tags/%E8%93%9D%E9%98%9F/</loc>
+    <loc>https://rickliu.com/tags/LLM/</loc>
     <lastmod>2025-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
