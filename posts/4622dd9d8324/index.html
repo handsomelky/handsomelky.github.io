@@ -1,0 +1,1433 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>从参加蓝帽杯2023入门取证 | R1ck's Portal</title><meta name="author" content="R1ck Liu"><meta name="copyright" content="R1ck Liu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="通过复现wp以及查阅资料，形成初步的取证知识体系，为以后的大赛做好准备。本文章包括蓝帽杯2023初赛、半决赛，蓝帽杯2022半决赛的取证板块赛题复现，同时也从这些题目中总结了apk取证、手机取证、计算机取证、内存取证等电子取证解题经验。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从参加蓝帽杯2023入门取证">
+<meta property="og:url" content="https://rickliu.com/posts/4622dd9d8324/index.html">
+<meta property="og:site_name" content="R1ck&#39;s Portal">
+<meta property="og:description" content="通过复现wp以及查阅资料，形成初步的取证知识体系，为以后的大赛做好准备。本文章包括蓝帽杯2023初赛、半决赛，蓝帽杯2022半决赛的取证板块赛题复现，同时也从这些题目中总结了apk取证、手机取证、计算机取证、内存取证等电子取证解题经验。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-9-1-cover.png">
+<meta property="article:published_time" content="2023-09-01T10:11:17.000Z">
+<meta property="article:modified_time" content="2024-07-24T10:04:09.823Z">
+<meta property="article:author" content="R1ck Liu">
+<meta property="article:tag" content="note">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="WriteUp">
+<meta property="article:tag" content="Forensics">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-9-1-cover.png"><link rel="shortcut icon" href="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/favicon.png"><link rel="canonical" href="https://rickliu.com/posts/4622dd9d8324/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="CCDD774EA967D60E5C877121C6572BF5"/><meta name="baidu-site-verification" content="codeva-13aVmkscyC"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?6c032eabab6689261ec86024f386af87";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: R1ck Liu","link":"链接: ","source":"来源: R1ck's Portal","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '从参加蓝帽杯2023入门取证',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-24 18:04:09'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/equipment.css"><script type="text/javascript" src ="/js/reward.js" ></script><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.16/dist/sweetalert2.all.min.js"></script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">62</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-9-1-top_img.png')"><nav id="nav"><span id="blog-info"><a href="/" title="R1ck's Portal"><span class="site-name">R1ck's Portal</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">从参加蓝帽杯2023入门取证</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-09-01T10:11:17.000Z" title="发表于 2023-09-01 18:11:17">2023-09-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-24T10:04:09.823Z" title="更新于 2024-07-24 18:04:09">2024-07-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CTF-%E5%8F%96%E8%AF%81/">CTF 取证</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">11k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>35分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="从参加蓝帽杯2023入门取证"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>虽说这次蓝帽杯2023是取证题型初体验，而且只解出来6道取证，但取证给我的印象还是挺<strong>有趣</strong>的</p>
+<p>颇有一种模拟侦探收集信息的感觉</p>
+<p>希望通过复现wp以及查阅资料，能够形成初步的取证知识体系，为以后的大赛做好准备</p>
+<div class="note primary flat"><p>在复现过程中，我会尽量使用不需要授权的<strong>开源取证软件</strong>，一是因为过于依赖<strong>国产的傻瓜式取证软件</strong>不利于对取证原理的学习，同时也是防止在以后的比赛中万一没有及时获得像盘古、火眼的授权时，陷入无工具可用的尴尬场面</p>
+</div>
+<h2 id="复现wp"><a href="#复现wp" class="headerlink" title="复现wp"></a>复现wp</h2><h3 id="蓝帽杯2023初赛"><a href="#蓝帽杯2023初赛" class="headerlink" title="蓝帽杯2023初赛"></a>蓝帽杯2023初赛</h3><p>由于赛题的镜像经过了加密，首先使用<strong>VeraCrypt</strong>将其解密为磁盘分卷</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230901202222577.png" alt="image-20230901202222577"></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230901202441360.png" alt="image-20230901202441360"></p>
+<p>此时<strong>取证检材容器</strong>被加载到对应盘符中</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230901202631237.png" alt="image-20230901202631237"></p>
+<h4 id="apk分析"><a href="#apk分析" class="headerlink" title="apk分析"></a>apk分析</h4><h5 id="涉案apk的包名是？"><a href="#涉案apk的包名是？" class="headerlink" title="涉案apk的包名是？"></a>涉案apk的包名是？</h5><p>将apk文件拖入APK Messenger中进行分析，得到包名:<code>com.vestas.app</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230905103912013.png" alt="image-20230905103912013"></p>
+<h5 id="涉案apk的签名序列号是？"><a href="#涉案apk的签名序列号是？" class="headerlink" title="涉案apk的签名序列号是？"></a>涉案apk的签名序列号是？</h5><p>使用工具<strong>MobSF</strong>分析apk数据包，签名序列号为报告中<strong>SIGNER CERTIFICATE</strong>模块的<strong>Serial Number</strong>：<code>0x563b45ca</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230905105427472.png" alt="image-20230905105427472"></p>
+<h5 id="涉案apk中DCLOUD-AD-ID的值是？"><a href="#涉案apk中DCLOUD-AD-ID的值是？" class="headerlink" title="涉案apk中DCLOUD_AD_ID的值是？"></a>涉案apk中DCLOUD_AD_ID的值是？</h5><p>使用工具jadx反编译apk安装包，在得到的资源文件全局查询<strong>dcloud_ad_id</strong>，整改的相应属性及对应的值<code>2147483647</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230905220127485.png" alt="image-20230905220127485"></p>
+<h5 id="涉案apk的服务器域名是？"><a href="#涉案apk的服务器域名是？" class="headerlink" title="涉案apk的服务器域名是？"></a>涉案apk的服务器域名是？</h5><p>将软件安装在雷电模拟器上，打开后使用bupsuite进行抓包</p>
+<p>服务器域名为打开app时请求的<strong>目的地host</strong><code>vip.licai.com</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230905224347406.png" alt="image-20230905224347406"></p>
+<h5 id="涉案apk的主入口是？"><a href="#涉案apk的主入口是？" class="headerlink" title="涉案apk的主入口是？"></a>涉案apk的主入口是？</h5><p>使用工具<strong>MobSF</strong>分析apk数据包，签名序列号为报告中的<strong>Main Activity</strong><code>io.dcloud.PandoraEntry</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230905225011434.png" alt="image-20230905225011434"></p>
+<h5 id="该镜像是用的什么模拟器？"><a href="#该镜像是用的什么模拟器？" class="headerlink" title="该镜像是用的什么模拟器？"></a>该镜像是用的什么模拟器？</h5><p>在题目给出的配置文件中可以发现<code>雷电模拟器</code>的配置文件</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230906084732386.png" alt="image-20230906084732386"></p>
+<h4 id="手机取证"><a href="#手机取证" class="headerlink" title="手机取证"></a>手机取证</h4><h5 id="该镜像中用的聊天软件名称是什么？"><a href="#该镜像中用的聊天软件名称是什么？" class="headerlink" title="该镜像中用的聊天软件名称是什么？"></a>该镜像中用的聊天软件名称是什么？</h5><p>使用雷电模拟器进行仿真，发现聊天软件名称叫<code>与你</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230906084914731.png" alt="image-20230906084914731"></p>
+<h5 id="聊天软件的包名是？"><a href="#聊天软件的包名是？" class="headerlink" title="聊天软件的包名是？"></a>聊天软件的包名是？</h5><p>使用软件Magnet AXIOM加载证据<strong>data.vmdk</strong></p>
+<p>选择使用痕迹中的移动设备</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230906092239093.png" alt="image-20230906092239093"></p>
+<p>可以看到相关软件的包名<code>com.uneed.yuni</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230906092400947.png" alt="image-20230906092400947"></p>
+<h5 id="投资理财产品中，受害人最后投资的产品最低要求投资多少钱？"><a href="#投资理财产品中，受害人最后投资的产品最低要求投资多少钱？" class="headerlink" title="投资理财产品中，受害人最后投资的产品最低要求投资多少钱？"></a>投资理财产品中，受害人最后投资的产品最低要求投资多少钱？</h5><p>使用雷电模拟器仿真，查看聊天软件<strong>与你</strong>中的聊天记录</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230906090822562.png" alt="image-20230906090822562"></p>
+<h5 id="受害人是经过谁介绍认识王哥？"><a href="#受害人是经过谁介绍认识王哥？" class="headerlink" title="受害人是经过谁介绍认识王哥？"></a>受害人是经过谁介绍认识王哥？</h5><p>使用雷电模拟器仿真，查看聊天软件<strong>与你</strong>中的聊天记录</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230906090807208.png" alt="image-20230906090807208"></p>
+<h4 id="计算机取证"><a href="#计算机取证" class="headerlink" title="计算机取证"></a>计算机取证</h4><h5 id="请给出计算机镜像pc-e01的SHA-1值？"><a href="#请给出计算机镜像pc-e01的SHA-1值？" class="headerlink" title="请给出计算机镜像pc.e01的SHA-1值？"></a>请给出计算机镜像pc.e01的SHA-1值？</h5><p>将镜像文件添加到工具<strong>X-Ways</strong>，右键选择属性</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910144738100.png" alt="image-20230910144738100"></p>
+<p>得到SHA-1值</p>
+<h5 id="给出pc-e01在提取时候的检查员？"><a href="#给出pc-e01在提取时候的检查员？" class="headerlink" title="给出pc.e01在提取时候的检查员？"></a>给出pc.e01在提取时候的检查员？</h5><p>将镜像文件添加到工具<strong>X-Ways</strong>，右键选择属性</p>
+<p>检察员为案件描述中<strong>Examiner</strong>字段的值<code>pgs</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910144836605.png" alt="image-20230910144836605"></p>
+<h5 id="请给出嫌疑人计算机内IE浏览器首页地址？"><a href="#请给出嫌疑人计算机内IE浏览器首页地址？" class="headerlink" title="请给出嫌疑人计算机内IE浏览器首页地址？"></a>请给出嫌疑人计算机内IE浏览器首页地址？</h5><p>对镜像进行<strong>系统仿真</strong>，选择清除密码，方便登录取证</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910150550050.png" alt="image-20230910150550050"></p>
+<p>打开IE浏览器的Internet选项即可看到首页设置</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910152718075.png" alt="image-20230910152718075"></p>
+<h5 id="请给出嫌疑人杨某登录理财网站前台所用账号密码？"><a href="#请给出嫌疑人杨某登录理财网站前台所用账号密码？" class="headerlink" title="请给出嫌疑人杨某登录理财网站前台所用账号密码？"></a>请给出嫌疑人杨某登录理财网站前台所用账号密码？</h5><p>在仿真系统中发现只有IE和Chrome两个浏览器</p>
+<p>打开Chrome的自动填充设置，查看账号和密码</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910154436525.png" alt="image-20230910154436525"></p>
+<h5 id="请给出嫌疑人电脑内pdf文件默认打开程序的当前版本号？"><a href="#请给出嫌疑人电脑内pdf文件默认打开程序的当前版本号？" class="headerlink" title="请给出嫌疑人电脑内pdf文件默认打开程序的当前版本号？"></a>请给出嫌疑人电脑内pdf文件默认打开程序的当前版本号？</h5><p>在系统仿真下新建一个文件，修改后缀为pdf，打开时发现默认打开程序为<strong>WPS</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910154919266.png" alt="image-20230910154919266"></p>
+<p>在wps的设置中点击关于WPS</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910155144625.png" alt="image-20230910155144625"></p>
+<p>点击<strong>查看更多信息</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910155213917.png" alt="image-20230910155213917"></p>
+<p>得到版本号</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910155237874.png" alt="image-20230910155237874"></p>
+<h5 id="请给出嫌疑人计算机内文件名为“C盘清理-bat”的SHA-1？"><a href="#请给出嫌疑人计算机内文件名为“C盘清理-bat”的SHA-1？" class="headerlink" title="请给出嫌疑人计算机内文件名为“C盘清理.bat”的SHA-1？"></a>请给出嫌疑人计算机内文件名为“C盘清理.bat”的SHA-1？</h5><p>在盘古石计算机取证分析系统中查找可执行文件<code>C盘清理.bat</code>，并未找到</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910155540883.png" alt="image-20230910155540883"></p>
+<p>猜测是文件被加密了，在D盘发现一个disk.2023-9-1的镜像文件</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910160041865.png" alt="image-20230910160041865"></p>
+<p>将其导出后重新在盘古石中对其进行分析，发现确实存在目标文件</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910160834201.png" alt="image-20230910160834201"></p>
+<p>导出的同时勾选<strong>计算哈希值</strong>即可</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910161031189.png" alt="image-20230910161031189"></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910161144214.png" alt="image-20230910161144214"></p>
+<h5 id="请给出嫌疑人Vera-Crypt加密容器的解密密码？"><a href="#请给出嫌疑人Vera-Crypt加密容器的解密密码？" class="headerlink" title="请给出嫌疑人Vera Crypt加密容器的解密密码？"></a>请给出嫌疑人Vera Crypt加密容器的解密密码？</h5><p>由于disk.2023-9-1中存在Vera Crypt软件，考虑密码也在该镜像中</p>
+<p>分析<strong>加密容器文件</strong>，找到目标文件</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910162702277.png" alt="image-20230910162702277"></p>
+<p>分析memdump.mem，得到<strong>Veracrypt密钥</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910163007593.png" alt="image-20230910163007593"></p>
+<p>将其导出为内存密钥，并应用到刚刚发现的目标文件上</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910163317952.png" alt="image-20230910163317952"></p>
+<p>在<code>重要资料.xlsx</code>中找到密码</p>
+<h5 id="请给出嫌疑人电脑内iSCSI服务器对外端口号？"><a href="#请给出嫌疑人电脑内iSCSI服务器对外端口号？" class="headerlink" title="请给出嫌疑人电脑内iSCSI服务器对外端口号？"></a>请给出嫌疑人电脑内iSCSI服务器对外端口号？</h5><p>windows上的iSCSI服务器一般会搭在虚拟机上</p>
+<p>在仿真系统上找到与虚拟机相关的软件</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910163723642.png" alt="image-20230910163723642"></p>
+<p>运行软件后找到端口</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910163820698.png" alt="image-20230910163820698"></p>
+<h5 id="请给出嫌疑人电脑内iSCSI服务器CHAP认证的账号密码？"><a href="#请给出嫌疑人电脑内iSCSI服务器CHAP认证的账号密码？" class="headerlink" title="请给出嫌疑人电脑内iSCSI服务器CHAP认证的账号密码？"></a>请给出嫌疑人电脑内iSCSI服务器CHAP认证的账号密码？</h5><p>CHAP认证中的密码被隐去，但可以得知用户名为user</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910164054907.png" alt="image-20230910164054907"></p>
+<p>导出软件的文件夹，用vscode暴力搜索user，成功在配置文件中搜索到密码</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910165137622.png" alt="image-20230910165137622"></p>
+<h5 id="分析嫌疑人电脑内提现记录表，用户“mi51888”提现总额为多少？"><a href="#分析嫌疑人电脑内提现记录表，用户“mi51888”提现总额为多少？" class="headerlink" title="分析嫌疑人电脑内提现记录表，用户“mi51888”提现总额为多少？"></a>分析嫌疑人电脑内提现记录表，用户“mi51888”提现总额为多少？</h5><p>在刚刚解密的文件中找到提现记录的表格</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910165536539.png" alt="image-20230910165536539"></p>
+<p>在excel表格中使用公式计算</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910170058435.png" alt="image-20230910170058435"></p>
+<h4 id="内存取证"><a href="#内存取证" class="headerlink" title="内存取证"></a>内存取证</h4><h5 id="请给出计算机内存创建北京时间？"><a href="#请给出计算机内存创建北京时间？" class="headerlink" title="请给出计算机内存创建北京时间？"></a>请给出计算机内存创建北京时间？</h5><p>使用工具<strong>volatility</strong>查看内存镜像信息</p>
+<p><code>python2 vol.py -f memdump.mem imageinfo</code></p>
+<p>下方时间为本地时间，即北京时间</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910203828708.png" alt="image-20230910203828708"></p>
+<h5 id="请给出计算机内用户yang88的开机密码？"><a href="#请给出计算机内用户yang88的开机密码？" class="headerlink" title="请给出计算机内用户yang88的开机密码？"></a>请给出计算机内用户yang88的开机密码？</h5><p>使用volatility工具的插件<strong>mimikatz</strong></p>
+<p>此处系统格式尝试imageinfo中搜索到的第一种<code>Win7SP1x64</code></p>
+<p>命令为<code>python2 vol.py -f memdump.mem --profile=Win7SP1x64 mimikatz</code></p>
+<p>得到如下账号和密码</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910210120621.png" alt="image-20230910210120621"></p>
+<h5 id="提取内存镜像中的USB设备信息，给出该USB设备的最后连接北京时间？"><a href="#提取内存镜像中的USB设备信息，给出该USB设备的最后连接北京时间？" class="headerlink" title="提取内存镜像中的USB设备信息，给出该USB设备的最后连接北京时间？"></a>提取内存镜像中的USB设备信息，给出该USB设备的最后连接北京时间？</h5><p>使用volatility工具的插件<strong>usbstor</strong></p>
+<div class="note warning flat"><p>注意此处为格林威治时间，需要还原成北京时间</p>
+</div>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910211358767.png" alt="image-20230910211358767"></p>
+<h5 id="请给出用户yang88的LMHASH值？"><a href="#请给出用户yang88的LMHASH值？" class="headerlink" title="请给出用户yang88的LMHASH值？"></a>请给出用户yang88的LMHASH值？</h5><p>使用volatility工具的插件<strong>hashdump</strong></p>
+<p>LMHash为左边那一段</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910212715121.png" alt="image-20230910212715121"></p>
+<h5 id="请给出用户yang88访问过文件“提现记录-xlsx”的北京时间？"><a href="#请给出用户yang88访问过文件“提现记录-xlsx”的北京时间？" class="headerlink" title="请给出用户yang88访问过文件“提现记录.xlsx”的北京时间？"></a>请给出用户yang88访问过文件“提现记录.xlsx”的北京时间？</h5><p>使用volatility工具的插件<strong>shellbag</strong></p>
+<p>命令为<code>python2 vol.py -f memdump.mem --profile=Win7SP1x64 timeliner &gt; ../timeliner.txt</code></p>
+<p>输出结果在上一层目录的<code>timeliner.txt</code>中，再到其中查找记录</p>
+<p>此处需要将文件名转为<strong>url编码</strong>再查询，匹配字符串为<code>%E6%8F%90%E7%8E%B0%E8%AE%B0%E5%BD%95.xlsx</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910220422026.png" alt="image-20230910220422026"></p>
+<h5 id="请给出“VeraCrypt”最后一次执行的北京时间？"><a href="#请给出“VeraCrypt”最后一次执行的北京时间？" class="headerlink" title="请给出“VeraCrypt”最后一次执行的北京时间？"></a>请给出“VeraCrypt”最后一次执行的北京时间？</h5><p>使用volatility工具的插件<strong>pslist</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910221225937.png" alt="image-20230910221225937"></p>
+<p>时间需要换算</p>
+<h5 id="分析内存镜像，请给出用户在“2023-06-20-16-56-57-UTC-0”访问过“维斯塔斯”后台多少次？"><a href="#分析内存镜像，请给出用户在“2023-06-20-16-56-57-UTC-0”访问过“维斯塔斯”后台多少次？" class="headerlink" title="分析内存镜像，请给出用户在“2023-06-20 16:56:57 UTC+0”访问过“维斯塔斯”后台多少次？"></a>分析内存镜像，请给出用户在“2023-06-20 16:56:57 UTC+0”访问过“维斯塔斯”后台多少次？</h5><p>由于维斯塔斯为网页端程序，可以从浏览器节录中查询访问记录</p>
+<p>使用<strong>盘古石计算机取证分析系统</strong>分析Chrome</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910221800612.png" alt="image-20230910221800612"></p>
+<p>检索关键字<strong>后台登录</strong>，得到结果</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910221917275.png" alt="image-20230910221917275"></p>
+<h5 id="请给出用户最后一次访问chrome浏览器的进程PID？"><a href="#请给出用户最后一次访问chrome浏览器的进程PID？" class="headerlink" title="请给出用户最后一次访问chrome浏览器的进程PID？"></a>请给出用户最后一次访问chrome浏览器的进程PID？</h5><p>使用volatility工具的插件<strong>pslist</strong></p>
+<p>由于结果是按结束时间来排序，所以很好定位</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910222158513.png" alt="image-20230910222158513"></p>
+<h4 id="服务器取证"><a href="#服务器取证" class="headerlink" title="服务器取证"></a>服务器取证</h4><h5 id="分析涉案服务器，请给出涉案服务器的内核版本？"><a href="#分析涉案服务器，请给出涉案服务器的内核版本？" class="headerlink" title="分析涉案服务器，请给出涉案服务器的内核版本？"></a>分析涉案服务器，请给出涉案服务器的内核版本？</h5><p>由于已知该镜像涉及到服务器，所以丢入盘古石计算机取证分析系统时在应用分析处勾选<strong>服务器</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911104657292.png" alt="image-20230911104657292"></p>
+<p>提前勾选linux，则软件可以分析到内核版本</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911104806315.png" alt="image-20230911104806315"></p>
+<h5 id="分析涉案服务器，请给出MySQL数据库的root账号密码？"><a href="#分析涉案服务器，请给出MySQL数据库的root账号密码？" class="headerlink" title="分析涉案服务器，请给出MySQL数据库的root账号密码？"></a>分析涉案服务器，请给出MySQL数据库的root账号密码？</h5><p>使用<strong>盘古石计算机取证分析系统</strong>找到网站目录</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911110704591.png" alt="image-20230911110704591"></p>
+<p>发现密码就在涉案网站的环境配置文件中，说明这题爆搜也可以搜出来</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911110935367.png" alt="image-20230911110935367"></p>
+<h5 id="分析涉案服务器，请给出涉案网站RDS数据库地址？"><a href="#分析涉案服务器，请给出涉案网站RDS数据库地址？" class="headerlink" title="分析涉案服务器，请给出涉案网站RDS数据库地址？"></a>分析涉案服务器，请给出涉案网站RDS数据库地址？</h5><p>同样在环境配置文件中</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911111223494.png" alt="image-20230911111223494"></p>
+<h5 id="请给出涉网网站数据库版本号"><a href="#请给出涉网网站数据库版本号" class="headerlink" title="请给出涉网网站数据库版本号?"></a>请给出涉网网站数据库版本号?</h5><p>开始仿真，首先在centos中查看ip和端口</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911133919792.png" alt="image-20230911133919792"></p>
+<p>用xshell连接系统，因为xshell的终端不会有中文乱码等问题</p>
+<p>修改宝塔面板密码后启动宝塔面板服务</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911144527084.png" alt="image-20230911144527084"></p>
+<p>使用<code>mysql -Version</code>即可查看数据库版本</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911145106845.png" alt="image-20230911145106845"></p>
+<h5 id="请给出嫌疑人累计推广人数？"><a href="#请给出嫌疑人累计推广人数？" class="headerlink" title="请给出嫌疑人累计推广人数？"></a>请给出嫌疑人累计推广人数？</h5><p>将题目给的检材中的<strong>数据库备份文件恢复</strong>到服务器中，得到viplicai数据库</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911161033185.png" alt="image-20230911161033185"></p>
+<p>前面分析计算机时得到后台地址为<code>http://vip.licai.com:8083/AdminV9YY/Login</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911204731064.png" alt="image-20230911204731064"></p>
+<p>此时将域名替换为服务器ip，即<code>http://192.168.58.132:8083/AdminV9YY/Login</code>，成功进入后台登录界面</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911204905936.png" alt="image-20230911204905936"></p>
+<p>由于没有账号密码，我们尝试修改源文件改变登录规则，在宝塔面板中进行修改</p>
+<p>查找登录文件</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911205848607.png" alt="image-20230911205848607"></p>
+<p>将<strong>账号不存在</strong>的结果改为登录成功，同时<strong>去除密码错误的判断</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911210605613.png" alt="image-20230911210605613"></p>
+<p>发现页面报错连接不上数据库</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911212510974.png" alt="image-20230911212510974"></p>
+<p>到环境配置文件中将数据库域名改为本地，密码也改为当前root密码</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911212716694.png" alt="image-20230911212716694"></p>
+<p>搜索嫌疑人账号即可找到推广人数</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911212914384.png" alt="image-20230911212914384"></p>
+<h5 id="请给出涉案网站后台启用的超级管理员"><a href="#请给出涉案网站后台启用的超级管理员" class="headerlink" title="请给出涉案网站后台启用的超级管理员?"></a>请给出涉案网站后台启用的超级管理员?</h5><p>来到管理账号界面，可以查看当前启用的超级管理员</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911213131176.png" alt="image-20230911213131176"></p>
+<h5 id="投资项目“贵州六盘水市风力发电基建工程”的日化收益为？"><a href="#投资项目“贵州六盘水市风力发电基建工程”的日化收益为？" class="headerlink" title="投资项目“贵州六盘水市风力发电基建工程”的日化收益为？"></a>投资项目“贵州六盘水市风力发电基建工程”的日化收益为？</h5><p>在<strong>项目管理</strong>这一部分查看</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/7-1693233460.png" alt="2023第七届蓝帽杯全国大学生网络安全技能大赛电子取证参考题解"></p>
+<h5 id="最早访问涉案网站后台的IP地址为？"><a href="#最早访问涉案网站后台的IP地址为？" class="headerlink" title="最早访问涉案网站后台的IP地址为？"></a>最早访问涉案网站后台的IP地址为？</h5><p>在<strong>登录日志</strong>中查看</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2-1693233461.png" alt="2023第七届蓝帽杯全国大学生网络安全技能大赛电子取证参考题解"></p>
+<h5 id="分析涉案网站数据库或者后台VIP2的会员有多少个"><a href="#分析涉案网站数据库或者后台VIP2的会员有多少个" class="headerlink" title="分析涉案网站数据库或者后台VIP2的会员有多少个"></a>分析涉案网站数据库或者后台VIP2的会员有多少个</h5><p>在会员管理界面查找vip2会员数量</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911222736838.png" alt="image-20230911222736838"></p>
+<h5 id="分析涉案网站数据库的用户表中账户余额大于零且银行卡开户行归属于上海市的潜在受害人的数量为"><a href="#分析涉案网站数据库的用户表中账户余额大于零且银行卡开户行归属于上海市的潜在受害人的数量为" class="headerlink" title="分析涉案网站数据库的用户表中账户余额大于零且银行卡开户行归属于上海市的潜在受害人的数量为"></a>分析涉案网站数据库的用户表中账户余额大于零且银行卡开户行归属于上海市的潜在受害人的数量为</h5><p>使用sql语句<code>SELECT * FROM member WHERE bankaddress LIKE &#39;%上海%&#39;</code>查询</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911223516705.png" alt="image-20230911223516705"></p>
+<h5 id="分析涉案网站数据库或者后台，统计嫌疑人的下线成功提现多少钱？"><a href="#分析涉案网站数据库或者后台，统计嫌疑人的下线成功提现多少钱？" class="headerlink" title="分析涉案网站数据库或者后台，统计嫌疑人的下线成功提现多少钱？"></a>分析涉案网站数据库或者后台，统计嫌疑人的下线成功提现多少钱？</h5><p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911223748483.png" alt="image-20230911223748483"></p>
+<h5 id="分析涉案网站数据库或者后台受害人上线在平台内共有下线多少人？"><a href="#分析涉案网站数据库或者后台受害人上线在平台内共有下线多少人？" class="headerlink" title="分析涉案网站数据库或者后台受害人上线在平台内共有下线多少人？"></a>分析涉案网站数据库或者后台受害人上线在平台内共有下线多少人？</h5><p>该嫌疑人ID为513935</p>
+<p>使用sql语句<code>SELECT COUNT(*) FROM member WHERE inviter = &#39;513935&#39;</code>查询</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911223339630-16944428199608.png" alt="image-20230911223339630"></p>
+<h5 id="分析涉案网站数据库或者后台网站内下线大于2的代理有多少个？"><a href="#分析涉案网站数据库或者后台网站内下线大于2的代理有多少个？" class="headerlink" title="分析涉案网站数据库或者后台网站内下线大于2的代理有多少个？"></a>分析涉案网站数据库或者后台网站内下线大于2的代理有多少个？</h5><p>使用sql语句<code>SELECT COUNT(*) AS inviter_count, inviter FROM member GROUP BY inviter HAVING COUNT(*) &gt; 2;</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912125136474.png" alt="image-20230912125136474"></p>
+<p>共60人下线超过2个</p>
+<h5 id="分析涉案网站数据库或者后台网站内下线最多的代理真实名字为"><a href="#分析涉案网站数据库或者后台网站内下线最多的代理真实名字为" class="headerlink" title="分析涉案网站数据库或者后台网站内下线最多的代理真实名字为"></a>分析涉案网站数据库或者后台网站内下线最多的代理真实名字为</h5><p>给上题的语句加一个<code>order by inviter_count</code>进行排序</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912125123598.png" alt="image-20230912125123598"></p>
+<p>最多的人的inviteid为618731，回到系统查询真实姓名即可</p>
+<h5 id="分析涉案网站数据库或者后台流水明细，本网站总共盈利多少钱"><a href="#分析涉案网站数据库或者后台流水明细，本网站总共盈利多少钱" class="headerlink" title="分析涉案网站数据库或者后台流水明细，本网站总共盈利多少钱"></a>分析涉案网站数据库或者后台流水明细，本网站总共盈利多少钱</h5><p>使用数据库的账号密码登录<strong>phpMyAdmin</strong></p>
+<p>发现资金明细表的名字为<strong>moneylog</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911232156194.png" alt="image-20230911232156194"></p>
+<p>moneylog_status为’+’代表流入，为’-’代表流出，所以需要分开计算资金流入流出</p>
+<p>使用sql语句<code>SELECT SUM(moneylog_money) FROM moneylog WHERE moneylog_status=&#39;+&#39;</code></p>
+<p>和<code>SELECT SUM(moneylog_money) FROM moneylog WHERE moneylog_status=&#39;-&#39;</code></p>
+<h3 id="蓝帽杯2022半决赛"><a href="#蓝帽杯2022半决赛" class="headerlink" title="蓝帽杯2022半决赛"></a>蓝帽杯2022半决赛</h3><h4 id="手机取证-1"><a href="#手机取证-1" class="headerlink" title="手机取证"></a>手机取证</h4><h5 id="iPhone手机的iBoot固件版本号"><a href="#iPhone手机的iBoot固件版本号" class="headerlink" title="iPhone手机的iBoot固件版本号:"></a>iPhone手机的iBoot固件版本号:</h5><p>使用盘古石手机取证分析系统</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912213655200.png" alt="image-20230912213655200"></p>
+<h5 id="该手机制作完备份UTC-8的时间（非提取时间）"><a href="#该手机制作完备份UTC-8的时间（非提取时间）" class="headerlink" title="该手机制作完备份UTC+8的时间（非提取时间）:"></a>该手机制作完备份UTC+8的时间（非提取时间）:</h5><p>在数据文件下的<strong>数据库</strong>栏查看最后一个数据库备份生成的时间</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912214112466.png" alt="image-20230912214112466"></p>
+<h4 id="exe分析"><a href="#exe分析" class="headerlink" title="exe分析"></a>exe分析</h4><h5 id="文件services-exe创建可执行文件的路径是"><a href="#文件services-exe创建可执行文件的路径是" class="headerlink" title="文件services.exe创建可执行文件的路径是:"></a>文件services.exe创建可执行文件的路径是:</h5><p>由于受害者检材除了手机镜像外没有其他文件</p>
+<p>所以先<strong>从手机镜像恢复的聊天记录入手</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912215349289.png" alt="image-20230912215349289"></p>
+<p>找到嫌疑软件，下载到本地</p>
+<p><code>service.exe</code>就在压缩包中</p>
+<p>传到奇安信情报沙箱<a target="_blank" rel="noopener" href="https://sandbox.ti.qianxin.com/sandbox/page">奇安信情报沙箱 (qianxin.com)</a></p>
+<p>在行为异常报告中得到可执行文件的路径</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912221000322.png" alt="image-20230912221000322"></p>
+<h5 id="文件HackTool-FlyStudio-acz-unpack-exe是否调用了advapi32-dll动态函式链接库？"><a href="#文件HackTool-FlyStudio-acz-unpack-exe是否调用了advapi32-dll动态函式链接库？" class="headerlink" title="文件HackTool.FlyStudio.acz_unpack.exe是否调用了advapi32.dll动态函式链接库？"></a>文件HackTool.FlyStudio.acz_unpack.exe是否调用了advapi32.dll动态函式链接库？</h5><p>将文件拖入奇安信情报沙盒</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912221329428.png" alt="image-20230912221329428"></p>
+<h5 id="文件aspnet-wp-v-exe执行后的启动的进程是什么"><a href="#文件aspnet-wp-v-exe执行后的启动的进程是什么" class="headerlink" title="文件aspnet_wp.v.exe执行后的启动的进程是什么:"></a>文件aspnet_wp.v.exe执行后的启动的进程是什么:</h5><p>将文件拖入奇安信情报沙盒</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912221602752.png" alt="image-20230912221602752"></p>
+<h5 id="文件-4085034a23cccebefd374e4a77aea4f1-是什么类型的木马"><a href="#文件-4085034a23cccebefd374e4a77aea4f1-是什么类型的木马" class="headerlink" title="文件[4085034a23cccebefd374e4a77aea4f1]是什么类型的木马:"></a>文件[4085034a23cccebefd374e4a77aea4f1]是什么类型的木马:</h5><p>将文件拖入奇安信情报沙盒</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912221943419.png" alt="image-20230912221943419"></p>
+<h5 id="文件-4085034a23cccebefd374e4a77aea4f1-网络连接的IP地址的归属地是哪个国家"><a href="#文件-4085034a23cccebefd374e4a77aea4f1-网络连接的IP地址的归属地是哪个国家" class="headerlink" title="文件[4085034a23cccebefd374e4a77aea4f1]网络连接的IP地址的归属地是哪个国家:"></a>文件[4085034a23cccebefd374e4a77aea4f1]网络连接的IP地址的归属地是哪个国家:</h5><p>将文件拖入<strong>微步云沙箱</strong></p>
+<p>综合分析多个虚拟机上的网络行为，判断为<strong>韩国</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912222646165.png" alt="image-20230912222646165"></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912222707735.png" alt="image-20230912222707735"></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912222726172.png" alt="image-20230912222726172"></p>
+<h4 id="apk分析-1"><a href="#apk分析-1" class="headerlink" title="apk分析"></a>apk分析</h4><h5 id="受害人手机中exec的序列号是"><a href="#受害人手机中exec的序列号是" class="headerlink" title="受害人手机中exec的序列号是:"></a>受害人手机中exec的序列号是:</h5><p>发现题目中给的安卓手机使用的是雷电模拟器的镜像格式</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912224610521.png" alt="image-20230912224610521"></p>
+<p>使用<strong>雷电模拟器</strong>进行仿真</p>
+<p>发现EXEC文件在其中</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912230214531.png" alt="image-20230912230214531"></p>
+<p>长按导出得到安装包</p>
+<p>丢到<strong>雷电app智能分析</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912231603645.png" alt="image-20230912231603645"></p>
+<h5 id="受害人手机中exec关联服务器地址是"><a href="#受害人手机中exec关联服务器地址是" class="headerlink" title="受害人手机中exec关联服务器地址是:"></a>受害人手机中exec关联服务器地址是:</h5><p>打开APP，得到服务器地址</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230913002901924.png" alt="image-20230913002901924"></p>
+<h5 id="受害人手机中exec加载服务器的函数是"><a href="#受害人手机中exec加载服务器的函数是" class="headerlink" title="受害人手机中exec加载服务器的函数是:"></a>受害人手机中exec加载服务器的函数是:</h5><p>找到MainActivity类，发现启动时使用d.a.a.h</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230913092143906.png" alt="image-20230913092143906"></p>
+<p>找到调用t()的函数</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230913092420847.png" alt="image-20230913092420847"></p>
+<h5 id="受害人手机中exec的打包ID是"><a href="#受害人手机中exec的打包ID是" class="headerlink" title="受害人手机中exec的打包ID是:"></a>受害人手机中exec的打包ID是:</h5><p>在配置文件中</p>
+<p>打包ID的字段一般会跟在包名之后</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230913093635896.png" alt="image-20230913093635896"></p>
+<h5 id="受害人手机中exec的是否有安全检测行为？"><a href="#受害人手机中exec的是否有安全检测行为？" class="headerlink" title="受害人手机中exec的是否有安全检测行为？"></a>受害人手机中exec的是否有安全检测行为？</h5><p>一般app如果有安全检测行为，那么会在不合规后进行提醒</p>
+<p>在jadx中暴搜“安全”即可</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230913130323570.png" alt="image-20230913130323570"></p>
+<h5 id="受害人手机中exec的检测方法的完整路径和方法名是"><a href="#受害人手机中exec的检测方法的完整路径和方法名是" class="headerlink" title="受害人手机中exec的检测方法的完整路径和方法名是:"></a>受害人手机中exec的检测方法的完整路径和方法名是:</h5><p>查看刚刚暴搜到的文件，均通过<code>d.a.a.c.a.a()</code>方法来检测</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230913130421526.png" alt="image-20230913130421526"></p>
+<h5 id="受害人手机中exec有几个界面"><a href="#受害人手机中exec有几个界面" class="headerlink" title="受害人手机中exec有几个界面:"></a>受害人手机中exec有几个界面:</h5><p>数Activity标签个数</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230913143117223.png" alt="image-20230913143117223"></p>
+<h5 id="受害人手机中红星IPA的包名是"><a href="#受害人手机中红星IPA的包名是" class="headerlink" title="受害人手机中红星IPA的包名是:"></a>受害人手机中红星IPA的包名是:</h5><p>将3个模拟器镜像文件丢到<strong>盘古石手机取证分析系统</strong></p>
+<p>暴搜<code>.ipa</code>后缀的文件</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230914092159623.png" alt="image-20230914092159623"></p>
+<p>将其导出</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230914092223558.png" alt="image-20230914092223558"></p>
+<p>红星.ipa改后缀为zip，然后解压，里面就有<strong>info.pslist</strong></p>
+<p>ipa的包名一般是指<strong>BundleID</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230914092849826.png" alt="image-20230914092849826"></p>
+<h5 id="受害人手机中红星IPA的APIKEY是"><a href="#受害人手机中红星IPA的APIKEY是" class="headerlink" title="受害人手机中红星IPA的APIKEY是:"></a>受害人手机中红星IPA的APIKEY是:</h5><p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230914092805699.png" alt="image-20230914092805699"></p>
+<h5 id="受害人手机中红星IPA的权限有哪些？"><a href="#受害人手机中红星IPA的权限有哪些？" class="headerlink" title="受害人手机中红星IPA的权限有哪些？"></a>受害人手机中红星IPA的权限有哪些？</h5><p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230914100842347.png" alt="image-20230914100842347"></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230914100859812.png" alt="image-20230914100859812"></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230914100915677.png" alt="image-20230914100915677"></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230914101028202.png" alt="image-20230914101028202"></p>
+<h5 id="嫌疑人手机中红星APK的服务器地址是"><a href="#嫌疑人手机中红星APK的服务器地址是" class="headerlink" title="嫌疑人手机中红星APK的服务器地址是:"></a>嫌疑人手机中红星APK的服务器地址是:</h5><p>将红星安装到模拟器上，打开软件</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230914104718531.png" alt="image-20230914104718531"></p>
+<h5 id="嫌疑人手机中红星APK的程序入口是"><a href="#嫌疑人手机中红星APK的程序入口是" class="headerlink" title="嫌疑人手机中红星APK的程序入口是:"></a>嫌疑人手机中红星APK的程序入口是:</h5><p>丢到雷电APP智能分析</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230914104912163.png" alt="image-20230914104912163"></p>
+<h5 id="嫌疑人手机中分析聊天工具，服务器的登录端口是"><a href="#嫌疑人手机中分析聊天工具，服务器的登录端口是" class="headerlink" title="嫌疑人手机中分析聊天工具，服务器的登录端口是:"></a>嫌疑人手机中分析聊天工具，服务器的登录端口是:</h5><p>打开聊天工具，点击右下角的聊天设置</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230914105027156.png" alt="image-20230914105027156"></p>
+<h5 id="嫌疑人手机中分析聊天工具，用户归属的机构是"><a href="#嫌疑人手机中分析聊天工具，用户归属的机构是" class="headerlink" title="嫌疑人手机中分析聊天工具，用户归属的机构是:"></a>嫌疑人手机中分析聊天工具，用户归属的机构是:</h5><p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230914105114806.png" alt="image-20230914105114806">ss</p>
+<h5 id="结合手机流量分析聊天工具的登录账号和密码是"><a href="#结合手机流量分析聊天工具的登录账号和密码是" class="headerlink" title="结合手机流量分析聊天工具的登录账号和密码是:"></a>结合手机流量分析聊天工具的登录账号和密码是:</h5><p>使用<strong>Fiddler</strong>分析流量</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230914000443957.png" alt="image-20230914000443957"></p>
+<p>找md5网站<a target="_blank" rel="noopener" href="https://www.cmd5.com/">md5在线解密破解,md5解密加密 (cmd5.com)</a>破解密码</p>
+<p>得到用户名:<code>17317289056</code> 密码:<code>b123456b</code></p>
+<h3 id="蓝帽杯2023半决赛"><a href="#蓝帽杯2023半决赛" class="headerlink" title="蓝帽杯2023半决赛"></a>蓝帽杯2023半决赛</h3><h4 id="手机取证-2"><a href="#手机取证-2" class="headerlink" title="手机取证"></a>手机取证</h4><h5 id="检材数据开始提取是今年什么时候？"><a href="#检材数据开始提取是今年什么时候？" class="headerlink" title="检材数据开始提取是今年什么时候？"></a>检材数据开始提取是今年什么时候？</h5><p>导入手机分析系统</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230916093804638.png" alt="image-20230916093804638"></p>
+<p>09-11 17:21</p>
+<h5 id="嫌疑人手机SD卡存储空间一共多少GB？"><a href="#嫌疑人手机SD卡存储空间一共多少GB？" class="headerlink" title="嫌疑人手机SD卡存储空间一共多少GB？"></a>嫌疑人手机SD卡存储空间一共多少GB？</h5><p>丢到盘古石手机分析</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230916135113497.png" alt="image-20230916135113497"></p>
+<p>24.32GB</p>
+<h5 id="嫌疑人手机设备名称是？"><a href="#嫌疑人手机设备名称是？" class="headerlink" title="嫌疑人手机设备名称是？"></a>嫌疑人手机设备名称是？</h5><p>盘古石手机分析</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230916092906912.png" alt="image-20230916092906912"></p>
+<p>sailfish</p>
+<h5 id="嫌疑人手机IMEI是？"><a href="#嫌疑人手机IMEI是？" class="headerlink" title="嫌疑人手机IMEI是？"></a>嫌疑人手机IMEI是？</h5><p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230916093912060.png" alt="image-20230916093912060"></p>
+<p>352531082716257</p>
+<h5 id="嫌疑人手机通讯录数据存放在那个数据库文件中？"><a href="#嫌疑人手机通讯录数据存放在那个数据库文件中？" class="headerlink" title="嫌疑人手机通讯录数据存放在那个数据库文件中？"></a>嫌疑人手机通讯录数据存放在那个数据库文件中？</h5><p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230916095654847.png" alt="image-20230916095654847"></p>
+<p>contacts.db</p>
+<h5 id="嫌疑人手机一共使用过多少个应用？"><a href="#嫌疑人手机一共使用过多少个应用？" class="headerlink" title="嫌疑人手机一共使用过多少个应用？"></a>嫌疑人手机一共使用过多少个应用？</h5><p>这题没太搞懂出题人的意思</p>
+<p>比赛的时候想的是计算有使用痕迹的应用</p>
+<p>于是将应用日志导出，统计表格中使用时间不为空的格数，得到100</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230916100654390.png" alt="image-20230916100654390"></p>
+<p>但答案是<strong>206</strong></p>
+<p>我猜是把盘古石分析系统里分析出来的应用数量直接当作答案了</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230918220528455.png" alt="image-20230918220528455"></p>
+<h4 id="apk分析-2"><a href="#apk分析-2" class="headerlink" title="apk分析"></a>apk分析</h4><h5 id="测试apk的包名是？"><a href="#测试apk的包名是？" class="headerlink" title="测试apk的包名是？"></a>测试apk的包名是？</h5><p>将目标apk导出，丢到<strong>雷电APP智能分析</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230918221932892.png" alt="image-20230918221932892"></p>
+<p>com.example.myapplication</p>
+<h5 id="测试apk的签名算法是？"><a href="#测试apk的签名算法是？" class="headerlink" title="测试apk的签名算法是？"></a>测试apk的签名算法是？</h5><p>使用<strong>jadx</strong>反编译apk</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230918222558524.png" alt="image-20230918222558524"></p>
+<p>SHA256withRSA</p>
+<h5 id="测试apk的主入口是？"><a href="#测试apk的主入口是？" class="headerlink" title="测试apk的主入口是？"></a>测试apk的主入口是？</h5><p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230918222621086.png" alt="image-20230918222621086"></p>
+<p>com.tencent.testvuln.MainActivity</p>
+<h5 id="测试apk一共申请了几个权限？"><a href="#测试apk一共申请了几个权限？" class="headerlink" title="测试apk一共申请了几个权限？"></a>测试apk一共申请了几个权限？</h5><p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230918222721043.png" alt="image-20230918222721043"></p>
+<p>3</p>
+<h5 id="测试apk对Calllog-txt文件内的数据进行了什么加密？"><a href="#测试apk对Calllog-txt文件内的数据进行了什么加密？" class="headerlink" title="测试apk对Calllog.txt文件内的数据进行了什么加密？"></a>测试apk对Calllog.txt文件内的数据进行了什么加密？</h5><p>将callog.txt导出后尝试解密，发现是Base64编码</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230916103845439.png" alt="image-20230916103845439"></p>
+<p>base64</p>
+<h5 id="10086对嫌疑人拨打过几次电话？"><a href="#10086对嫌疑人拨打过几次电话？" class="headerlink" title="10086对嫌疑人拨打过几次电话？"></a>10086对嫌疑人拨打过几次电话？</h5><p>分析解码后的callout文件，10086一共打进过2次</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230916104131281.png" alt="image-20230916104131281"></p>
+<p>2</p>
+<h5 id="测试apk对短信记录进行了几次加密？"><a href="#测试apk对短信记录进行了几次加密？" class="headerlink" title="测试apk对短信记录进行了几次加密？"></a>测试apk对短信记录进行了几次加密？</h5><p>找到短信记录SMS.txt</p>
+<p>现在分析apk中的加密方式</p>
+<p>用jadx反编译</p>
+<p>分析主入口，找到短信加密的部分</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230918222911500.png" alt="image-20230918222911500"></p>
+<p>encryptData</p>
+<p>使用了AES+Base64的加密方式</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230918223027781.png" alt="image-20230918223027781"></p>
+<p>所以是<strong>2层</strong>加密</p>
+<h5 id="测试apk对短信记录进行加密的秘钥是？"><a href="#测试apk对短信记录进行加密的秘钥是？" class="headerlink" title="测试apk对短信记录进行加密的秘钥是？"></a>测试apk对短信记录进行加密的秘钥是？</h5><p>密钥是通过Getkey()函数得到</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230918223127609.png" alt="image-20230918223127609"></p>
+<p>发现使用的静态文件</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230918223255414.png" alt="image-20230918223255414"></p>
+<p>使用ida解析<strong>so文件</strong></p>
+<p>搜索到Getkey函数</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230918224254514.png" alt="image-20230918224254514"></p>
+<p>生成的key由first变量得到</p>
+<p>且对其进行base64编码</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230918224545981.png" alt="image-20230918224545981"></p>
+<p><strong>first</strong>值为<code>lijubdyhfurindhcbxdw</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230918224636131.png" alt="image-20230918224636131"></p>
+<p>base编码后取前16位</p>
+<p>key为<code>bGlqdWJkeWhmdXJp</code></p>
+<h5 id="嫌疑人在2021年登录支付宝的验证码是？"><a href="#嫌疑人在2021年登录支付宝的验证码是？" class="headerlink" title="嫌疑人在2021年登录支付宝的验证码是？"></a>嫌疑人在2021年登录支付宝的验证码是？</h5><p>使用得到的key对base64解码后的SMS.txt进行AES解密</p>
+<p>得到原文</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230918225232527.png" alt="image-20230918225232527"></p>
+<p>验证码为<strong>9250</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230918225315750.png" alt="image-20230918225315750"></p>
+<h2 id="电子取证解题经验"><a href="#电子取证解题经验" class="headerlink" title="电子取证解题经验"></a>电子取证解题经验</h2><h3 id="apk取证"><a href="#apk取证" class="headerlink" title="apk取证"></a>apk取证</h3><h4 id="apk文件结构"><a href="#apk文件结构" class="headerlink" title="apk文件结构"></a>apk文件结构</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Asset 文件夹</td>
+<td>存放需要打包到APK中的静态文件</td>
+</tr>
+<tr>
+<td>Lib文件夹</td>
+<td>程序依赖的native库</td>
+</tr>
+<tr>
+<td>META-INF文件夹</td>
+<td>签名信息（安装验证）</td>
+</tr>
+<tr>
+<td>Res文件夹</td>
+<td>资源文件夹</td>
+</tr>
+<tr>
+<td>AndroidManifest.xml</td>
+<td>应用程序的配置文件</td>
+</tr>
+<tr>
+<td>classes.dex</td>
+<td>可执行文件（java代码编译后）可以使用jadx反编译为源码</td>
+</tr>
+<tr>
+<td>Resources.arsc</td>
+<td>资源列表</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="从手机模拟器中导出apk文件"><a href="#从手机模拟器中导出apk文件" class="headerlink" title="从手机模拟器中导出apk文件"></a>从手机模拟器中导出apk文件</h4><p>这里以<strong>雷电模拟器</strong>为例</p>
+<p>按住桌面上的应用，托向左边的导出即可</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912231142077.png" alt="image-20230912231142077"></p>
+<h4 id="包名"><a href="#包名" class="headerlink" title="包名"></a>包名</h4><div class="note info flat"><p><strong>包名(Package Name)</strong>作为应用的唯一标识。即：包名必须唯一，一个包名代表一个应用，不允许两个应用使用同样的包名。</p>
+<p>android系统使用包名(package name)来判定应用程序的同一性，但是由于包名可以由开发者自由设置，为了保护应用程序不被其他开发者开发的同包名应用覆盖，用于发布的Android应用程序需要加上开发者签名。</p>
+<p><strong>包（packages）</strong>: 采用反写域名命名规则，即<code>com.xx.xxx.xxxx</code>形式</p>
+<p>全部使用小写字母。一级包名为com，二级包名为xx（一般为公司或个人域名），三级包名根据应用进行命名，四级包名为功能模块名。如：<code>com.tencent.qq.activitys</code>，这样具备较高可读性，一看就知道是腾讯公司QQ软件中存放activity的包。</p>
+</div>
+<p>取证题目中问到apk的包名，即问应用的唯一标识，一般存放于AndroidManifest.xml</p>
+<p><strong>分析工具</strong></p>
+<ol>
+<li><p><strong>APK Messenger</strong></p>
+<p>将apk文件拖入APK Messenger后会自动显示包名</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230905103912013.png" alt="image-20230905103912013"></p>
+</li>
+</ol>
+<ol>
+<li><p><strong>MobSF</strong>（启动时最好打开梯子，因为要检查更新）</p>
+<p>在apk检查报告中，同样会显示包名</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230905105042200.png" alt="image-20230905105042200"></p>
+</li>
+<li><p><strong>雷电APP智能分析</strong></p>
+<p>在<strong>基本信息</strong>栏中</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912231755590.png" alt="image-20230912231755590"></p>
+</li>
+</ol>
+<h4 id="打包ID"><a href="#打包ID" class="headerlink" title="打包ID"></a>打包ID</h4><p>在配置文件<strong>AndroidManifest.xml</strong>中，打包ID一般跟在apk的包名之后</p>
+<p>使用jadx暴搜即可</p>
+<h4 id="打包时间"><a href="#打包时间" class="headerlink" title="打包时间"></a>打包时间</h4><p><strong>分析工具</strong></p>
+<p><strong>APK Messenger</strong></p>
+<p>将apk文件拖入APK Messenger后，可以查看apk打包时间</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230905232026881.png" alt="image-20230905232026881"></p>
+<h4 id="签名序列号"><a href="#签名序列号" class="headerlink" title="签名序列号"></a>签名序列号</h4><p>签名信息一般隐藏在<code>META-INF</code>目录下的RSA文件</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230905113728668.png" alt="image-20230905113728668"></p>
+<p>使用工具可以直观地查看签名序列号</p>
+<p><strong>分析工具</strong></p>
+<ol>
+<li><p><strong>MobSF</strong>（启动时最好打开梯子，因为要检查更新）</p>
+<p>使用工具<strong>MobSF</strong>分析apk数据包，签名序列号为报告中<strong>SIGNER CERTIFICATE</strong>模块的<strong>Serial Number</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230905105427472.png" alt="image-20230905105427472"></p>
+</li>
+<li><p><strong>jadx</strong></p>
+<p>使用工具jadx反编译apk安装包，可以在<strong>APK signature报告</strong>中找到签名序列号</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230905114444521.png" alt="image-20230905114444521"></p>
+</li>
+<li><p><strong>雷电APP智能分析</strong></p>
+<p>在<strong>详细信息</strong>栏中</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912232028022.png" alt="image-20230912232028022"></p>
+</li>
+</ol>
+<h4 id="主入口-Main-Activity"><a href="#主入口-Main-Activity" class="headerlink" title="主入口(Main Activity)"></a>主入口(Main Activity)</h4><div class="note info flat"><p><strong>Activity</strong>是Android的核心类（android.app.Activity）,在Activity类有onCreate事件方法，一般用于对Activity进行初始化，并且通过setContentView方法将View放到Activity上，绑定后，Activity会显示View上的控件。</p>
+</div>
+<p>每种语言都有一个程序入口（如：C#main函数），而Android程序的入口就是Main Activity函数。</p>
+<p><strong>分析工具</strong></p>
+<ol>
+<li><p><strong>APK Messenger</strong></p>
+<p>将apk文件拖入APK Messenger，在更多信息中会显示主入口</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230905231410219.png" alt="image-20230905231410219"></p>
+</li>
+<li><p><strong>MobSF</strong>（启动时最好打开梯子，因为要检查更新）</p>
+<p>使用工具<strong>MobSF</strong>分析apk数据包，签名序列号为报告中的<strong>Main Activity</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230905225011434.png" alt="image-20230905225011434"></p>
+</li>
+<li><p><strong>雷电APP智能分析</strong></p>
+<p>在<strong>详细信息</strong>栏中</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912232931505.png" alt="image-20230912232931505"></p>
+</li>
+</ol>
+<h4 id="DCLOUD-AD-ID"><a href="#DCLOUD-AD-ID" class="headerlink" title="DCLOUD_AD_ID"></a>DCLOUD_AD_ID</h4><div class="note info flat"><p><strong>DCLOUD_AD_ID</strong>值是uni-AD联盟ID，用于配置离线广告。Android平台已经合并到DCLOUD_STREAMAPP_CHANNEL中，已不再使用</p>
+</div>
+<p><strong>分析工具</strong></p>
+<ol>
+<li><p><strong>jadx</strong></p>
+<p>使用工具jadx反编译apk安装包，在得到的资源文件全局查询<strong>dcloud_ad_id</strong>，整改的相应属性及对应的值<code>2147483647</code></p>
+</li>
+<li><p><strong>雷电APP智能分析</strong></p>
+<p>在<strong>第三方服务栏</strong>中</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912232122054.png" alt="image-20230912232122054"></p>
+</li>
+</ol>
+<h4 id="服务器域名"><a href="#服务器域名" class="headerlink" title="服务器域名"></a>服务器域名</h4><p>apk的服务器域名即为app提供服务器服务的域名</p>
+<p><strong>分析工具</strong></p>
+<ol>
+<li><p><strong>burpsuite</strong>+<strong>雷电模拟器</strong></p>
+<p>将软件安装在雷电模拟器上，打开后使用bupsuite进行抓包</p>
+<details class="toggle" ><summary class="toggle-button" style="">为Burp Suite配置手机端的抓包</summary><div class="toggle-content"><p>为burp配置本机的IP和端口</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230905223249457.png" alt="image-20230905223249457"></p>
+<p>在模拟器中点击连接上的wifi，将代理设置为手动</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230905223429802.png" alt="image-20230905223429802"></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230905223622087.png" alt="image-20230905223622087"></p>
+<p>配置本机ip和端口</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230905223733330.png" alt="image-20230905223733330"></p>
+</div></details>
+<p>服务器域名为打开app时请求的<strong>目的地host</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230905224347406.png" alt="image-20230905224347406"></p>
+</li>
+<li><p>雷电APP智能分析</p>
+<div class="note info flat"><p>雷电APP智能分析软件目前提</p>
+<p>供了4种抓包方式，分别是 HTTP、TCP、代理模式、TCPDump，Android 支持</p>
+<p>全部4种方式，iOS 目前只支持代理模式抓包，下面分别介绍四种方式的应用</p>
+<p>场景：</p>
+<p>1、<strong>HTTP 方式</strong>是基于手机 VPN 原理实现的抓包，一般情况下如果是要抓HTTP</p>
+<p>协议的网络数据包推荐这种方式，不过后台服务器已经不在运行的情况下使用该</p>
+<p>方式无法抓取到网络数据包。</p>
+<p>2、<strong>TCP 方式</strong>同样是基于手机 VPN 原理实现的抓包，如果网络数据包是原生</p>
+<p>TCP 协议的话推荐使用这种方式。</p>
+<p>3、<strong>代理模式</strong>是基于在手机或者模拟器上设置代理地址实现的抓包（和</p>
+<p>fiddler、charles 原理相同），软件会自动设置代理 IP 地址，无需手动填写代</p>
+<p>理地址，这种方式的优点是后台服务器不在运行的情况下也能抓到请求的网络数</p>
+<p>据包。</p>
+<p>4、<strong>TCPDump 模式</strong>是基于 libpcap 库的抓包，根据使用者的定义对网络上的</p>
+<p>数据包进行截获，可以将网络中传送的数据包完全截获下来提供分析，这种方式</p>
+<p>的优点是可以抓取到所有协议的网络数据包。</p>
+</div>
+<p>使用<strong>网络数据包</strong>栏中的HTTP数据包抓取功能</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912233218880.png" alt="image-20230912233218880"></p>
+</li>
+<li><p><strong>模拟器仿真</strong></p>
+<p>在模拟器中直接打开APP，有时会显示连接的网页，即服务器域名</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230913002844293.png" alt="image-20230913002844293"></p>
+</li>
+</ol>
+<h4 id="危险权限"><a href="#危险权限" class="headerlink" title="危险权限"></a>危险权限</h4><p>申请权限信息的记录，一般存放于AndroidManifest.xml</p>
+<p><strong>分析工具</strong></p>
+<ol>
+<li><p><strong>MobSF</strong>（启动时最好打开梯子，因为要检查更新）</p>
+<p><strong>Permissions模块*</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230905235754416.png" alt="image-20230905235754416"></p>
+</li>
+<li><p><strong>APK Messenger</strong></p>
+<p>将apk文件拖入APK Messenger后，可以查看权限信息</p>
+</li>
+<li><p><strong>雷电APP智能分析</strong></p>
+<p>在<strong>静态权限</strong>栏中</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230912233846479.png" alt="image-20230912233846479"></p>
+</li>
+</ol>
+<h4 id="窗口（界面）数量"><a href="#窗口（界面）数量" class="headerlink" title="窗口（界面）数量"></a>窗口（界面）数量</h4><p>在Android系统中<strong>窗口被成为Activity（活动）</strong></p>
+<p>每个活动都必须在<code>AndroidManifest.xml</code>清单中声明</p>
+<p>所以数该文件中有几个activity标签即可</p>
+<p>例如下面这个软件就有3个界面</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230913143039578.png" alt="image-20230913143039578"></p>
+<h3 id="ipa取证"><a href="#ipa取证" class="headerlink" title="ipa取证"></a>ipa取证</h3><p>将ipa安装包文件的后缀改为<code>.zip</code>后解压，可以在目录下找到找到<code>info.plist</code>文件。</p>
+<p>有关苹果app的大部分信息都能在中间找到</p>
+<h4 id="包名-1"><a href="#包名-1" class="headerlink" title="包名"></a>包名</h4><p>在info.plist中暴搜<code>CFBundleIdentifier</code></p>
+<h4 id="进程id"><a href="#进程id" class="headerlink" title="进程id"></a>进程id</h4><p>在info.plist中暴搜<code>CFBundleExecutable</code>或<code>CFBundleName</code></p>
+<h4 id="APIKEY"><a href="#APIKEY" class="headerlink" title="APIKEY"></a>APIKEY</h4><p>在info.plist中暴搜<code>APIKey</code></p>
+<h4 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h4><p>在info.plist中也可以找到</p>
+<h3 id="手机取证-3"><a href="#手机取证-3" class="headerlink" title="手机取证"></a>手机取证</h3><h4 id="安卓文件结构"><a href="#安卓文件结构" class="headerlink" title="安卓文件结构"></a>安卓文件结构</h4><ul>
+<li>/data 数据分区存放用户安装的软件以及各种数据（存放着比如微信聊天记录等应用数据）</li>
+<li>/system 系统分区 /app 存放系统应用（天气、设置等）</li>
+<li>/recovery 恢复分区</li>
+<li>/cache 缓存临时文件</li>
+<li>/boot 内核分区</li>
+<li>/init 系统启动文件</li>
+<li>/SDCard分区 挂载的SD卡 （可能存放一些图片音频）</li>
+</ul>
+<h4 id="移动终端取证分析"><a href="#移动终端取证分析" class="headerlink" title="移动终端取证分析"></a>移动终端取证分析</h4><h5 id="确定手机操作系统"><a href="#确定手机操作系统" class="headerlink" title="确定手机操作系统"></a>确定手机操作系统</h5><p><strong>苹果手机</strong>的备份一般包含<strong>AppleBackupFS</strong>文件</p>
+<p><strong>华为手机</strong>的备份则为<strong>HuaweiBackup</strong></p>
+<h4 id="手机模拟器取证分析"><a href="#手机模拟器取证分析" class="headerlink" title="手机模拟器取证分析"></a>手机模拟器取证分析</h4><p>有的手机取证题目会给出手机的内存镜像文件，后缀为<strong>vmdk</strong>，可供解题者进行仿真</p>
+<p>使用手机模拟器能够还原系统文件以及数据，并在可视化界面中进行<strong>更符合直觉的操作</strong></p>
+<p>比如说如果你想查看图片，直接打开模拟器中的相册即可；</p>
+<p>如果想要取证某个聊天软件，直接打开软件就能直观地看到聊天记录</p>
+<h5 id="确认模拟器"><a href="#确认模拟器" class="headerlink" title="确认模拟器"></a>确认模拟器</h5><p><strong>雷电模拟器</strong>的镜像文件特点为包含<code>data.vmdk</code>、<code>sdcard.vmdk</code>、<code>system.vmdk</code>三个文件</p>
+<p><strong>雷电模拟器</strong>的备份文件的后缀为<code>.ldbk</code></p>
+<p><strong>逍遥模拟器</strong>的镜像文件格式如下图</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910103811053.png" alt="image-20230910103811053"></p>
+<p><strong>MuMu模拟器</strong>的镜像文件格式如下图</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910103853719.png" alt="image-20230910103853719"></p>
+<h5 id="还原镜像和备份"><a href="#还原镜像和备份" class="headerlink" title="还原镜像和备份"></a>还原镜像和备份</h5><div class="note warning flat"><p>这里只演示雷电模拟器还原镜像和备份的操作，其他模拟器类似</p>
+</div>
+<ol>
+<li><p><strong>处理镜像文件</strong></p>
+<p>在雷电模拟器的vms目录下新建一个文件夹</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910102400599.png" alt="image-20230910102400599"></p>
+<p><strong>将题目检材拖拽到该文件夹下</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910102514537.png" alt="image-20230910102514537"></p>
+<p>打开<strong>雷电多开器</strong>后即可看到刚刚创建的手机仿真<img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910102550888.png" alt="image-20230910102550888"></p>
+<p>点击启动即可</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910102714206.png" alt="image-20230910102714206"></p>
+</li>
+<li><p><strong>处理备份文件</strong></p>
+<p>打开雷电多开器，新建一个模拟器</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910103258663.png" alt="image-20230910103258663"></p>
+<p>选择<strong>备份与还原</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910103331124.png" alt="image-20230910103331124"></p>
+<p>点击还原，并选中<code>.ldbk</code>的备份文件即可</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910103433596.png" alt="image-20230910103433596"></p>
+</li>
+</ol>
+<h5 id="软件包名"><a href="#软件包名" class="headerlink" title="软件包名"></a>软件包名</h5><p><strong>分析工具</strong></p>
+<ol>
+<li><p><strong>Magnet AXIOM</strong></p>
+<p>证据来源选择移动&gt;</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230906091718529.png" alt="image-20230906091718529"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230906091809692.png" alt="image-20230906091809692"></p>
+<p>加载证据选择<strong>镜像data.vmdk</strong></p>
+<p>选择使用痕迹中的移动设备</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230906092239093.png" alt="image-20230906092239093"></p>
+<p>可以看到相关软件的包名</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230906092400947.png" alt="image-20230906092400947"></p>
+</li>
+</ol>
+<h5 id="本机与模拟器文件交互"><a href="#本机与模拟器文件交互" class="headerlink" title="本机与模拟器文件交互"></a>本机与模拟器文件交互</h5><p>这里用到<strong>adb</strong>工具</p>
+<p>该工具一般会伴随模拟器一起下载，一般在模拟器的主目录下，双击即可运行</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910110310592.png" alt="image-20230910110310592"></p>
+<p><strong>雷电模拟器</strong>adb为默认端口</p>
+<p><strong>夜神模拟器</strong>adb调试端口为<code>adb connect 127.0.0.1:62001</code>，如果不正确可以参考逍遥的方法</p>
+<p><strong>逍遥模拟器</strong>adb调试端口可以在镜像的配置文件中查找</p>
+<p>在逍遥模拟器的vms目录下找到对应模拟器文件夹，找到后缀为<code>.memi-prev</code>的文件，文件内搜索adb即可找到端口</p>
+<p>adb<strong>常用命令</strong>如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看当前已连接的设备</span></span><br><span class="line">adb devices</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">连接当前设备</span></span><br><span class="line">adb shell</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">连接指定设备</span></span><br><span class="line">adb -s 设备名 shell</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装app</span></span><br><span class="line">adb install 要安装的apk路径</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">卸载app</span></span><br><span class="line">adb uninstall apk的包名</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将外部数据导入模拟器或手机</span></span><br><span class="line">adb push 本地路径 设备路径</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将模拟器或者手机数据导出到外部</span></span><br><span class="line">adb pull 设备路径 本地路径</span><br></pre></td></tr></table></figure>
+<div class="note primary flat"><p>在模拟器中也可以通过拖拽实现本机和模拟器文件交互</p>
+</div>
+<h3 id="exe分析-1"><a href="#exe分析-1" class="headerlink" title="exe分析"></a>exe分析</h3><h4 id="分析工具"><a href="#分析工具" class="headerlink" title="分析工具"></a>分析工具</h4><p>分析exe类型的文件时通常会用到沙箱平台</p>
+<p>比较好用的有以下这些：</p>
+<p><a target="_blank" rel="noopener" href="https://s.threatbook.com/">微步在线云沙箱 (threatbook.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://sandbox.ti.qianxin.com/sandbox/page">奇安信情报沙箱 (qianxin.com)</a></p>
+<h3 id="计算机取证-1"><a href="#计算机取证-1" class="headerlink" title="计算机取证"></a>计算机取证</h3><h4 id="镜像哈希值"><a href="#镜像哈希值" class="headerlink" title="镜像哈希值"></a>镜像哈希值</h4><p><strong>分析工具</strong></p>
+<ol>
+<li><p><strong>盘古石计算机取证分析系统</strong></p>
+<p>导入镜像文件，在检材文件阶段就能看到有关镜像的一些信息</p>
+<p>属性中有<strong>MD5、SHA256、SHA1</strong>三种哈希值</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910143358932.png" alt="image-20230910143358932"></p>
+</li>
+<li><p><strong>X-Ways</strong></p>
+<p>将镜像文件添加之后，右键选择属性</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910144615328.png" alt="image-20230910144615328"></p>
+<p>可以得到镜像的SHA-1值和MD5值</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910144654733.png" alt="image-20230910144654733"></p>
+</li>
+</ol>
+<h4 id="取证员-exmainer"><a href="#取证员-exmainer" class="headerlink" title="取证员(exmainer)"></a>取证员(exmainer)</h4><p><strong>分析工具</strong></p>
+<p><strong>Xways</strong></p>
+<p>将镜像文件添加到工具<strong>X-Ways</strong>，右键选择属性</p>
+<p>检察员为案件描述中<strong>Examiner</strong>字段的值<code>pgs</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910144836605.png" alt="image-20230910144836605"></p>
+<h4 id="操作系统基本信息"><a href="#操作系统基本信息" class="headerlink" title="操作系统基本信息"></a>操作系统基本信息</h4><p>比如安装时间、用户ID、上一次登录时间等等</p>
+<p><strong>分析工具</strong></p>
+<p><strong>盘古石计算机取证分析系统</strong></p>
+<p>在导入镜像后选择分析基本信息</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910172137871.png" alt="image-20230910172137871"></p>
+<p>可以得到与操作系统相关的信息</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910172326744.png" alt="image-20230910172326744"></p>
+<h4 id="安装过的软件"><a href="#安装过的软件" class="headerlink" title="安装过的软件"></a>安装过的软件</h4><p>分析系统安装过的软件时，不仅要分析注册在系统内的安装信息，还要结合用户使用痕迹来看</p>
+<p><strong>分析工具</strong></p>
+<p><strong>盘古石计算机取证分析系统</strong></p>
+<p>在<strong>盘古石计算机取证分析系统</strong>中需要在导入镜像后选择分析基本信息</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910173048893.png" alt="image-20230910173048893"></p>
+<h4 id="浏览器保存的密码"><a href="#浏览器保存的密码" class="headerlink" title="浏览器保存的密码"></a>浏览器保存的密码</h4><p>Chrome的密钥填充具有保护机制，一旦清除windows开机密码后登录，Chrome保存的密钥就会被破坏</p>
+<p>所以当有题目涉及到浏览器保存的密码时，使用仿真系统一定要<strong>保留开机密码</strong></p>
+<h3 id="内存取证-1"><a href="#内存取证-1" class="headerlink" title="内存取证"></a>内存取证</h3><h4 id="内存镜像后缀"><a href="#内存镜像后缀" class="headerlink" title="内存镜像后缀"></a>内存镜像后缀</h4><p>常见的内存镜像后缀有<code>.raw</code> 、<code>.vmem</code> 、<code>.img</code>、<code>.mem</code></p>
+<h4 id="常用工具"><a href="#常用工具" class="headerlink" title="常用工具"></a>常用工具</h4><p>内存取证主要会用到工具<strong>volatility</strong>（推荐在kali下使用）</p>
+<p>语法：<code>python2 vol.py -f [对象] --profile=[操作系统] [插件参数]</code></p>
+<div class="note primary flat"><p>使用时为了输入路径方便可以把内存文件丢到volatility目录下</p>
+</div>
+<h4 id="内存镜像中的操作系统"><a href="#内存镜像中的操作系统" class="headerlink" title="内存镜像中的操作系统"></a>内存镜像中的操作系统</h4><p>内存取证的第一步是确定操作系统的类型</p>
+<p>首先用<code>python2 vol.py -f xxx.mem imageinfo</code>命令判断是什么操作系统</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910203408442.png" alt="image-20230910203408442"></p>
+<h4 id="内存创建时间"><a href="#内存创建时间" class="headerlink" title="内存创建时间"></a>内存创建时间</h4><p>内存创建时间同样是在imageinfo中查看</p>
+<p>上方为<strong>格林尼治时间</strong>，下方为<strong>按本地时区换算后的时间</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910203520398.png" alt="image-20230910203520398"></p>
+<h4 id="内存中计算机开机密码"><a href="#内存中计算机开机密码" class="headerlink" title="内存中计算机开机密码"></a>内存中计算机开机密码</h4><p>使用volatility工具的插件<strong>mimikatz</strong></p>
+<p>在使用还需安装依赖包<code>pip2 install construct</code></p>
+<p>命令为<code>python2 vol.py -f xxx.mem --profile=xxx mimikatz</code></p>
+<p>得到账号和密码</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910210120621.png" alt="image-20230910210120621"></p>
+<h4 id="USB设备信息"><a href="#USB设备信息" class="headerlink" title="USB设备信息"></a>USB设备信息</h4><p>使用volatility工具的插件<strong>usbstor</strong></p>
+<p>命令为<code>python2 vol.py -f xxx.mem --profile=xxx usbstor</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910212431982.png" alt="image-20230910212431982"></p>
+<h4 id="用户哈希值"><a href="#用户哈希值" class="headerlink" title="用户哈希值"></a>用户哈希值</h4><p>使用volatility工具的插件<strong>hashdump</strong></p>
+<p>显示结果中左边为<strong>LMHash</strong>，右边是<strong>NTLM Hash</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910213113328.png" alt="image-20230910213113328"></p>
+<h4 id="用户密码"><a href="#用户密码" class="headerlink" title="用户密码"></a>用户密码</h4><p>使用volatility工具的插件<strong>mimikatz</strong></p>
+<p>或者用<strong>hashdump</strong>获得密码的哈希值以后用hashcat爆破或者用解密网站解密</p>
+<h4 id="访问文件记录"><a href="#访问文件记录" class="headerlink" title="访问文件记录"></a>访问文件记录</h4><p>使用volatility工具的插件<strong>timeliner</strong>（时间可能较慢）</p>
+<p>timeliner会将所有操作系统事件以时间线的方式展开，包括各种痕迹信息</p>
+<p>命令为<code>python2 vol.py -f xxx.mem --profile=xxx timeliner &gt; ../timeliner.txt</code></p>
+<p>输出结果在上一层目录的<code>timeliner.txt</code>中，再到其中查找记录</p>
+<p>其中文件名中的中文均用url编码表示</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910220528039.png" alt="image-20230910220528039"></p>
+<h4 id="系统进程信息"><a href="#系统进程信息" class="headerlink" title="系统进程信息"></a>系统进程信息</h4><p>使用volatility工具的插件<strong>pslist</strong>和<strong>psscan</strong>可以查看存在的进程</p>
+<p><strong>pslist</strong>会按照EPROCESS列表打印所有<strong>正在运行</strong>的进程，包括其PID信息及最后一次执行的时间</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910222745497.png" alt="image-20230910222745497"></p>
+<p><strong>psscan</strong>会扫描进程对象池，显示<strong>非活跃或隐藏</strong>进程</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910223141990.png" alt="image-20230910223141990"></p>
+<h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><p>使用插件<strong>envars</strong>可以查看进程环境变量</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910230227607.png" alt="image-20230910230227607"></p>
+<h4 id="IE浏览器历史记录"><a href="#IE浏览器历史记录" class="headerlink" title="IE浏览器历史记录"></a>IE浏览器历史记录</h4><p>使用volatility工具的插件<strong>iehistory</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230910225703137.png" alt="image-20230910225703137"></p>
+<h4 id="cmd命令记录"><a href="#cmd命令记录" class="headerlink" title="cmd命令记录"></a>cmd命令记录</h4><p>使用volatility工具的插件<strong>cmdscan</strong>和<strong>consoles</strong></p>
+<p><strong>cmdscan</strong>检查从cmd.exe输入的命令记录</p>
+<p><strong>consoles</strong>收集键入cmd.exe的命令和返回内容</p>
+<h4 id="剪贴板信息"><a href="#剪贴板信息" class="headerlink" title="剪贴板信息"></a>剪贴板信息</h4><p>使用volatility工具的插件<strong>clipboard</strong></p>
+<h4 id="系统IP"><a href="#系统IP" class="headerlink" title="系统IP"></a>系统IP</h4><p>使用volatility工具的插件<strong>netscan</strong></p>
+<h4 id="volatility插件速查表"><a href="#volatility插件速查表" class="headerlink" title="volatility插件速查表"></a>volatility插件速查表</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>apihooks</td>
+<td>检测内核及进程的内存空间中的API hook</td>
+</tr>
+<tr>
+<td>atoms</td>
+<td>列出会话及窗口站atom表</td>
+</tr>
+<tr>
+<td>atomscan</td>
+<td>Atom表的池扫描(Pool scanner)</td>
+</tr>
+<tr>
+<td>auditpol</td>
+<td>列出注册表HKLMSECURITYPolicyPolAdtEv的审计策略信息</td>
+</tr>
+<tr>
+<td>bigpools</td>
+<td>使用BigPagePoolScanner转储大分页池(big page pools)</td>
+</tr>
+<tr>
+<td>bioskbd</td>
+<td>从实时模式内存中读取键盘缓冲数据(早期电脑可以读取出BIOS开机密码)</td>
+</tr>
+<tr>
+<td>cachedump</td>
+<td>获取内存中缓存的域帐号的密码哈希</td>
+</tr>
+<tr>
+<td>callbacks</td>
+<td>打印全系统通知例程</td>
+</tr>
+<tr>
+<td>crashinfo</td>
+<td>提取崩溃转储信息</td>
+</tr>
+<tr>
+<td>deskscan</td>
+<td>tagDESKTOP池扫描(Poolscaner)</td>
+</tr>
+<tr>
+<td>devicetree</td>
+<td>显示设备树信息</td>
+</tr>
+<tr>
+<td>dlldump</td>
+<td>从进程地址空间转储动态链接库</td>
+</tr>
+<tr>
+<td>driverirp</td>
+<td>IRP hook驱动检测</td>
+</tr>
+<tr>
+<td>drivermodule</td>
+<td>关联驱动对象至内核模块</td>
+</tr>
+<tr>
+<td>driverscan</td>
+<td>驱动对象池扫描</td>
+</tr>
+<tr>
+<td>dumpcerts</td>
+<td>提取RAS私钥及SSL公钥</td>
+</tr>
+<tr>
+<td>dumpregistry</td>
+<td>转储内存中注册表信息至磁盘</td>
+</tr>
+<tr>
+<td>eventhooks</td>
+<td>打印Windows事件hook详细信息</td>
+</tr>
+<tr>
+<td>evtlogs</td>
+<td>提取Windows事件日志（仅支持XP/2003)</td>
+</tr>
+<tr>
+<td>gahti</td>
+<td>转储用户句柄（handle）类型信息</td>
+</tr>
+<tr>
+<td>gditimers</td>
+<td>打印已安装的GDI计时器(timers)及回调(callbacks)</td>
+</tr>
+<tr>
+<td>gdt</td>
+<td>显示全局描述符表(Global Deor Table)</td>
+</tr>
+<tr>
+<td>getservicesids</td>
+<td>获取注册表中的服务名称并返回SID信息</td>
+</tr>
+<tr>
+<td>getsids</td>
+<td>打印每个进程的SID信息</td>
+</tr>
+<tr>
+<td>handles</td>
+<td>打印每个进程打开的句柄的列表</td>
+</tr>
+<tr>
+<td>hivescan</td>
+<td>注册表配置单元池扫描</td>
+</tr>
+<tr>
+<td>hpakextract</td>
+<td>从HPAK文件（Fast Dump格式）提取物理内存数据</td>
+</tr>
+<tr>
+<td>hpakinfo</td>
+<td>查看HPAK文件属性及相关信息</td>
+</tr>
+<tr>
+<td>idt</td>
+<td>显示中断描述符表(Interrupt Deor Table)</td>
+</tr>
+<tr>
+<td>hibinfo</td>
+<td>转储休眠文件信息</td>
+</tr>
+<tr>
+<td>imagecopy</td>
+<td>将物理地址空间导出原生DD镜像文件</td>
+</tr>
+<tr>
+<td>impscan</td>
+<td>扫描对导入函数的调用</td>
+</tr>
+<tr>
+<td>joblinks</td>
+<td>打印进程任务链接信息</td>
+</tr>
+<tr>
+<td>kdbgscan</td>
+<td>搜索和转储潜在KDBG值</td>
+</tr>
+<tr>
+<td>kpcrscan</td>
+<td>搜索和转储潜在KPCR值</td>
+</tr>
+<tr>
+<td>ldrmodules</td>
+<td>检测未链接的动态链接DLL</td>
+</tr>
+<tr>
+<td>lsadump</td>
+<td>从注册表中提取LSA密钥信息（已解密）</td>
+</tr>
+<tr>
+<td>machoinfo</td>
+<td>转储Mach-O 文件格式信息</td>
+</tr>
+<tr>
+<td>malfind</td>
+<td>查找隐藏的和插入的代码</td>
+</tr>
+<tr>
+<td>mbrparser</td>
+<td>扫描并解析潜在的主引导记录(MBR)</td>
+</tr>
+<tr>
+<td>memmap</td>
+<td>打印内存映射</td>
+</tr>
+<tr>
+<td>messagehooks</td>
+<td>桌面和窗口消息钩子的线程列表</td>
+</tr>
+<tr>
+<td>moddump</td>
+<td>转储内核驱动程序到可执行文件的示例</td>
+</tr>
+<tr>
+<td>modscan</td>
+<td>内核模块池扫描</td>
+</tr>
+<tr>
+<td>modules</td>
+<td>打印加载模块的列表</td>
+</tr>
+<tr>
+<td>multiscan</td>
+<td>批量扫描各种对象</td>
+</tr>
+<tr>
+<td>mutantscan</td>
+<td>对互斥对象池扫描</td>
+</tr>
+<tr>
+<td>objtypescan</td>
+<td>扫描窗口对象类型对象</td>
+</tr>
+<tr>
+<td>patcher</td>
+<td>基于页面扫描的补丁程序内存</td>
+</tr>
+<tr>
+<td>poolpeek</td>
+<td>可配置的池扫描器插件</td>
+</tr>
+<tr>
+<td>privs</td>
+<td>显示进程权限</td>
+</tr>
+<tr>
+<td>procdump</td>
+<td>进程转储到一个可执行文件示例</td>
+</tr>
+<tr>
+<td>psxview</td>
+<td>查找带有隐藏进程的所有进程列表</td>
+</tr>
+<tr>
+<td>qemuinfo</td>
+<td>转储 Qemu 信息</td>
+</tr>
+<tr>
+<td>raw2dmp</td>
+<td>将物理内存原生数据转换为windbg崩溃转储格式</td>
+</tr>
+<tr>
+<td>servicediff</td>
+<td>Windows服务列表(ala Plugx)</td>
+</tr>
+<tr>
+<td>sessions</td>
+<td><code>_MM_SESSION_SPACE</code>的详细信息列表(用户登录会话)</td>
+</tr>
+<tr>
+<td>shellbags</td>
+<td>打印Shellbags信息</td>
+</tr>
+<tr>
+<td>shutdowntime</td>
+<td>从内存中的注册表信息获取机器关机时间</td>
+</tr>
+<tr>
+<td>sockets</td>
+<td>打印已打开套接字列表</td>
+</tr>
+<tr>
+<td>sockscan</td>
+<td>TCP套接字对象池扫描</td>
+</tr>
+<tr>
+<td>ssdt</td>
+<td>显示SSDT条目</td>
+</tr>
+<tr>
+<td>strings</td>
+<td>物理到虚拟地址的偏移匹配(需要一些时间，带详细信息)</td>
+</tr>
+<tr>
+<td>timers</td>
+<td>打印内核计时器及关联模块的DPC</td>
+</tr>
+<tr>
+<td>truecryptmaster Recover</td>
+<td>恢复TrueCrypt 7.1a主密钥</td>
+</tr>
+<tr>
+<td>truecryptpassphrase</td>
+<td>查找并提取TrueCrypt密码</td>
+</tr>
+<tr>
+<td>truecryptsummary</td>
+<td>TrueCrypt摘要信息</td>
+</tr>
+<tr>
+<td>unloadedmodules</td>
+<td>打印卸载的模块信息列表</td>
+</tr>
+<tr>
+<td>userhandles</td>
+<td>转储用户句柄表</td>
+</tr>
+<tr>
+<td>vaddump</td>
+<td>转储VAD数据为文件</td>
+</tr>
+<tr>
+<td>vadinfo</td>
+<td>转储VAD信息</td>
+</tr>
+<tr>
+<td>vadtree</td>
+<td>以树形方式显示VAD树信息</td>
+</tr>
+<tr>
+<td>vadwalk</td>
+<td>显示遍历VAD树</td>
+</tr>
+<tr>
+<td>vboxinfo</td>
+<td>转储Virtualbox信息（虚拟机）</td>
+</tr>
+<tr>
+<td>windows</td>
+<td>打印桌面窗口(详细信息)</td>
+</tr>
+<tr>
+<td>wintree</td>
+<td>顺序打印桌面窗口树</td>
+</tr>
+<tr>
+<td>wndscan</td>
+<td>池扫描窗口站</td>
+</tr>
+<tr>
+<td>yarascan</td>
+<td>以Yara签名扫描进程或内核内存</td>
+</tr>
+<tr>
+<td>vmwareinfo</td>
+<td>转储VMware VMSS/VMSN 信息</td>
+</tr>
+<tr>
+<td>symlinkscan</td>
+<td>符号链接对象池扫描</td>
+</tr>
+<tr>
+<td>thrdscan</td>
+<td>线程对象池扫描</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="服务器取证-1"><a href="#服务器取证-1" class="headerlink" title="服务器取证"></a>服务器取证</h3><p>一般服务器都是搭载在<strong>linux系统</strong>之上，所以服务器取证更多的是对linux指令、运维知识以及数据库语句的考察</p>
+<p>由于Linux系统是开源的，因此许多操作系统和安全工具都可以在Linux系统上运行，这为电子数据取证提供了更多的可能性和工具。</p>
+<h4 id="取证中常用linux指令"><a href="#取证中常用linux指令" class="headerlink" title="取证中常用linux指令"></a>取证中常用linux指令</h4><p>linux指令的<strong>基本格式</strong>为：<code>command [-options] [parameter]</code></p>
+<p>其中command为指令名</p>
+<p>options为一些附加功能的选项</p>
+<p>而parameter为参数，如文件名、目录名</p>
+<p>在服务器取证中，linux常用的指令有ls、pwd、cat、chmod、find等等</p>
+<p>下面我会一一说明使用方法</p>
+<h5 id="ls"><a href="#ls" class="headerlink" title="ls"></a>ls</h5><p><strong>功能</strong></p>
+<p><code>ls</code>会默认列出当前目录中的子目录或文件。</p>
+<p><code>ls 路径</code>可以指定想要查看的目录。</p>
+<p><strong>选项</strong></p>
+<p><code>-l</code>可以查看某一个目录中内容的相关信息，包括权限、所有者、大小、创建时间等。</p>
+<p><code>-A</code>会把某一个目录中的隐藏文件也显示出来，有<code>.</code>前缀的为隐藏文件</p>
+<p><code>-t</code>会按照修改时间排序显示当前目录中的文件和目录</p>
+<p><strong>搭配模式匹配</strong></p>
+<p>ls命令还可以使用通配符进行模式匹配，例如 <strong>*</strong> 表示匹配任意字符，<strong>?</strong> 表示匹配一个字符，<strong>[…]</strong> 表示匹配指定范围内的字符。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ls *.txt         # 列出所有扩展名为.txt的文件</span><br><span class="line">ls file?.txt     # 列出文件名为file?.txt的文件，其中?表示任意一个字符</span><br><span class="line">ls [abc]*.txt    # 列出以a、b或c开头、扩展名为.txt的文件</span><br></pre></td></tr></table></figure>
+<p>以下指令列出目前工作目录下所有名称是 s 开头的文件，越新的排越后面:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -ltr s*</span><br></pre></td></tr></table></figure>
+<h5 id="pwd"><a href="#pwd" class="headerlink" title="pwd"></a>pwd</h5><p><strong>功能</strong></p>
+<p><code>pwd</code>显示用户当前所在的目录</p>
+<h5 id="cat"><a href="#cat" class="headerlink" title="cat"></a>cat</h5><p><strong>功能</strong></p>
+<p><code>cat</code>能查看目标文件的内容，多用于文本文件或查看日志。会将目标文件的全部内容打印到屏幕上，如果文件内容超出屏幕则会刷屏到最后。</p>
+<p><strong>选项</strong></p>
+<p><code>-s</code>当遇到有连续两行以上的空白行，就代换为一行的空白行。</p>
+<p><code>-T</code>将 TAB 字符显示为 ^I。</p>
+<h5 id="chmod"><a href="#chmod" class="headerlink" title="chmod"></a>chmod</h5><p><strong>功能</strong></p>
+<p><code>chmod</code>可以控制用户对文件的权限</p>
+<p><strong>模式</strong></p>
+<p>Linux/Unix 的文件调用权限分为三级 : 文件所有者（Owner）、用户组（Group）、其它用户（Other Users）。</p>
+<p>而chmod指令模式的三个数字就对应三种用户类型的权限</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">#</th>
+<th style="text-align:left">权限</th>
+<th style="text-align:left">rwx</th>
+<th style="text-align:left">二进制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">7</td>
+<td style="text-align:left">读 + 写 + 执行</td>
+<td style="text-align:left">rwx</td>
+<td style="text-align:left">111</td>
+</tr>
+<tr>
+<td style="text-align:left">6</td>
+<td style="text-align:left">读 + 写</td>
+<td style="text-align:left">rw-</td>
+<td style="text-align:left">110</td>
+</tr>
+<tr>
+<td style="text-align:left">5</td>
+<td style="text-align:left">读 + 执行</td>
+<td style="text-align:left">r-x</td>
+<td style="text-align:left">101</td>
+</tr>
+<tr>
+<td style="text-align:left">4</td>
+<td style="text-align:left">只读</td>
+<td style="text-align:left">r—</td>
+<td style="text-align:left">100</td>
+</tr>
+<tr>
+<td style="text-align:left">3</td>
+<td style="text-align:left">写 + 执行</td>
+<td style="text-align:left">-wx</td>
+<td style="text-align:left">011</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:left">只写</td>
+<td style="text-align:left">-w-</td>
+<td style="text-align:left">010</td>
+</tr>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:left">只执行</td>
+<td style="text-align:left">—x</td>
+<td style="text-align:left">001</td>
+</tr>
+<tr>
+<td style="text-align:left">0</td>
+<td style="text-align:left">无</td>
+<td style="text-align:left">—-</td>
+<td style="text-align:left">000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>例如， 765 将这样解释：</p>
+<ul>
+<li>所有者的权限用数字表达：属主的那三个权限位的数字加起来的总和。如 rwx ，也就是 4+2+1 ，应该是 7。</li>
+<li>用户组的权限用数字表达：属组的那个权限位数字的相加的总和。如 rw- ，也就是 4+2+0 ，应该是 6。</li>
+<li>其它用户的权限数字表达：其它用户权限位的数字相加的总和。如 r-x ，也就是 4+0+1 ，应该是 5。</li>
+</ul>
+<p><strong>选项</strong></p>
+<p><code>-R</code>对目前目录下的所有文件与子目录进行相同的权限变更(即以递归的方式逐个变更)</p>
+<h5 id="find"><a href="#find" class="headerlink" title="find"></a>find</h5><p><strong>功能</strong></p>
+<p><code>find</code>命令用来在指定目录下查找文件。</p>
+<p>语法为<code>find 欲查找的目录 选项</code></p>
+<p>任何位于选项之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何选项，则 find 命令将在当前目录下查找子目录与文件。</p>
+<p><strong>选项</strong></p>
+<p><code>-name pattern</code> 按文件名查找，支持使用通配符 <code>*</code> 和 <code>?</code>。</p>
+<p><code>-type type</code>按文件类型查找，可以是 <code>f</code>（普通文件）、<code>d</code>（目录）、<code>l</code>（符号链接）等。</p>
+<p><code>-pid n</code>process id 是 n 的文件</p>
+<h4 id="服务器信息"><a href="#服务器信息" class="headerlink" title="服务器信息"></a>服务器信息</h4><p>服务器信息可以用分析软件，也可以通过仿真</p>
+<p><strong>分析工具</strong></p>
+<ol>
+<li><p><strong>盘古石计算机取证分析系统</strong></p>
+<p>使用<strong>盘古石计算机取证分析系统</strong>勾选系统类型为<strong>linux</strong>，则可以在应用分析报告查看系统信息</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911104806315.png" alt=""></p>
+</li>
+<li><p><strong>系统仿真</strong></p>
+<p>登录到目标系统后，执行<code>uname</code>命令</p>
+<p>可以显示系统的全部信息，包括内核名称、主机名、操作系统版本、处理器类型和硬件架构等</p>
+<p>显示<strong>系统信息</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># uname -a</span><br><span class="line">Linux iZbp19byk2t6khuqj437q6Z 4.11.0-14-generic #20~16.04.1-Ubuntu SMP Wed Aug 9 09:06:22 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
+<p>显示<strong>计算机类型</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># uname -m</span><br><span class="line">x86_64</span><br></pre></td></tr></table></figure>
+<p>显示<strong>计算机名</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># uname -n</span><br><span class="line">runoob-linux</span><br></pre></td></tr></table></figure>
+<p>显示<strong>操作系统发行编号</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># uname -r</span><br><span class="line">4.11.0-14-generic</span><br></pre></td></tr></table></figure>
+<p>显示<strong>操作系统名称</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># uname -s</span><br><span class="line">Linux</span><br></pre></td></tr></table></figure>
+<p>显示<strong>系统版本与时间</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># uname -v</span><br><span class="line">#20~16.04.1-Ubuntu SMP Wed Aug 9 09:06:22 UTC 2017</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="显示过去执行的命令"><a href="#显示过去执行的命令" class="headerlink" title="显示过去执行的命令"></a>显示过去执行的命令</h4><p>使用linux的指令<code>history</code></p>
+<p><code>history n</code>显示最近n条命令历史</p>
+<p><code>!N</code>执行第N条命令</p>
+<p><code>!-N</code>执行倒数第N条命令</p>
+<h4 id="宝塔面板"><a href="#宝塔面板" class="headerlink" title="宝塔面板"></a>宝塔面板</h4><p>如果发现镜像中存在面板，输入命令<code>bt</code>即可调出面板</p>
+<p><strong>修改密码</strong></p>
+<p>拿到宝塔后首先输入<code>5</code>修改密码，密码长度需要大于8位，这样方便启动面板服务后登录</p>
+<div class="note warning flat"><p>一定要在获取记录完宝塔的账户和密码后再来修改密码，有时题目会直接问密码是多少</p>
+</div>
+<p><strong>启动面板服务</strong></p>
+<p>输入<code>14</code>启动面板服务，此时会给出<strong>外网和内网面板地址</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911143925804.png" alt="image-20230911143925804"></p>
+<p>使用本地浏览器访问内网地址</p>
+<p>使用刚刚修改后的账号密码访问即可</p>
+<p><strong>phpAdmin</strong></p>
+<p>宝塔面板大概率安装了phpAdmin</p>
+<p>可以使用数据库账号密码登录，在可视化界面方便地查看库名、表名、数据库结构</p>
+<h4 id="还原qp-xb数据库"><a href="#还原qp-xb数据库" class="headerlink" title="还原qp.xb数据库"></a>还原qp.xb数据库</h4><p>当检材中存在<strong>分离的数据库备份</strong>，即后缀为<code>qp.xb</code>的文件时，可以尝试将其恢复到系统服务器中</p>
+<p><strong>安装qpress</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget &quot;http://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/assets/attach/183466/cn_zh/1608011575185/qpress-11-linux-x64.tar&quot;</span><br><span class="line">tar xvf qpress-11-linux-x64.tar</span><br><span class="line">chmod 775 qpress</span><br><span class="line">cp qpress /usr/bin</span><br></pre></td></tr></table></figure>
+<p><strong>安装xtrabackup</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://www.percona.com/downloads/XtraBackup/Percona-XtraBackup-2.4.9/binary/redhat/7/x86_64/percona-xtrabackup-24-2.4.9-1.el7.x86_64.rpm</span><br><span class="line">yum install -y percona-xtrabackup-24-2.4.9-1.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<p><strong>将备份文件上传至服务器系统</strong></p>
+<p>可以使用工具<strong>xftp</strong>连接到服务器上</p>
+<p><strong>处理qp.xb文件</strong></p>
+<p>使用xbstream处理qp.xb文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat xxxqp.xb | xbstream -x -v -C /www/server/data</span><br></pre></td></tr></table></figure>
+<p>进入/www/server/data进行解压</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /www/server/data</span><br><span class="line">innobackupex --decompress --remove-original /www/server/data</span><br><span class="line">innobackupex --defaults-file=/etc/my.cnf --apply-log /www/server/data</span><br><span class="line">chown -R mysql:mysql /www/server/data</span><br></pre></td></tr></table></figure>
+<p><strong>修改mysql配置文件</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/my.cnf</span><br><span class="line">#在[mysqld]块下添加</span><br><span class="line">lower_case_table_names=1</span><br></pre></td></tr></table></figure>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230911154237605.png" alt="image-20230911154237605"></p>
+<h4 id="数据库统计时常用聚合函数"><a href="#数据库统计时常用聚合函数" class="headerlink" title="数据库统计时常用聚合函数"></a>数据库统计时常用聚合函数</h4><h5 id="COUNT"><a href="#COUNT" class="headerlink" title="COUNT"></a>COUNT</h5><p><strong>基础语法</strong></p>
+<p><code>COUNT()</code> 函数返回匹配指定条件的行数。</p>
+<p>COUNT(column_name) 函数返回指定列的值的数目（NULL 不计入）：</p>
+<p>语法：<code>SELECT COUNT(column_name) FROM table_name;</code></p>
+<p>COUNT(DISTINCT column_name) 函数返回指定列的不同值的数目：</p>
+<p>语法：<code>SELECT COUNT(DISTINCT column_name) FROM table_name;</code></p>
+<div class="note warning flat"><p>COUNT(DISTINCT) 适用于 ORACLE 和 Microsoft SQL Server，但是无法用于 Microsoft Access。</p>
+</div>
+<h5 id="SUM"><a href="#SUM" class="headerlink" title="SUM"></a>SUM</h5><p>SUM() 函数返回数值列的总数。</p>
+<p>语法：<code>SELECT SUM(column_name) FROM table_name;</code></p>
+<h5 id="MAX"><a href="#MAX" class="headerlink" title="MAX"></a>MAX</h5><p>MAX() 函数返回指定列的最大值。</p>
+<p>语法：<code>SELECT MAX(column_name) FROM table_name;</code></p>
+<h5 id="MIN"><a href="#MIN" class="headerlink" title="MIN"></a>MIN</h5><p>MIN() 函数返回指定列的最小值。</p>
+<p>语法：<code>SELECT MIN(column_name) FROM table_name;</code></p>
+<h5 id="AVG"><a href="#AVG" class="headerlink" title="AVG"></a>AVG</h5><p>AVG() 函数返回数值列的平均值。</p>
+<p>语法：<code>SELECT AVG(column_name) FROM table_name</code></p>
+<h4 id="数据库统计时常用语句"><a href="#数据库统计时常用语句" class="headerlink" title="数据库统计时常用语句"></a>数据库统计时常用语句</h4><h5 id="GROUP-BY"><a href="#GROUP-BY" class="headerlink" title="GROUP BY"></a>GROUP BY</h5><p>GROUP BY 语句用于结合聚合函数（如 COUNT()、MAX() 等），根据一个或多个列对结果集进行分组。</p>
+<p>一般情况下，GROUP BY 必须要<strong>配合聚合函数一起使用</strong>，通过使用聚合函数，在分组之后可以对<strong>组内结果</strong>进行计数（COUNT）、求和（SUM），求平均数（AVG）操作等。</p>
+<p>GROUP BY会先<strong>按照指定字段的值是否相同</strong>来将<strong>数据分组</strong></p>
+<p>更加详细的介绍可以看下面这篇：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/liu_shi_jun/article/details/51329472">GROUP BY与COUNT用法详解<em>group by count</em>鲲鹏之上的博客-CSDN博客</a></p>
+<h5 id="HAVING"><a href="#HAVING" class="headerlink" title="HAVING"></a>HAVING</h5><p>HAVING 子句可以<strong>筛选</strong>通过 GROUP BY 分组且聚合后的各组数据。</p>
+<p>聚合函数（avg、sum、max、min、count），<strong>不能作为条件放在where之后</strong>，但<strong>可以放在having之后</strong></p>
+<h5 id="GROUP-BY、HAVING、WHERE之间的关系"><a href="#GROUP-BY、HAVING、WHERE之间的关系" class="headerlink" title="GROUP BY、HAVING、WHERE之间的关系"></a>GROUP BY、HAVING、WHERE之间的关系</h5><p>在语句的位置上，where在group by前， having在group by 之后</p>
+<p>在执行顺序上，以下面这个SQL语句为例</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select city ,count(*) as num from staff  where age&gt; 19 group by city having num &gt;= 3;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>执行where子句查找符合年龄大于19的员工数据</li>
+<li>group by子句对员工数据，根据城市分组。</li>
+<li>对group by子句形成的城市组，运行聚集函数计算每一组的员工数量值；</li>
+<li>最后用having子句选出员工数量大于等于3的城市组。</li>
+</ol>
+<p>所以执行顺序为：<strong>WHERE</strong>➡<strong>GROUP BY</strong>➡<strong>聚合函数</strong>➡<strong>HAVING</strong></p>
+<h4 id="数据库可视化工具"><a href="#数据库可视化工具" class="headerlink" title="数据库可视化工具"></a>数据库可视化工具</h4><h5 id="navicat"><a href="#navicat" class="headerlink" title="navicat"></a>navicat</h5><p><strong>安装</strong></p>
+<p>参考文章：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/kkdaj/p/16260681.html">https://www.cnblogs.com/kkdaj/p/16260681.html</a></p>
+<h3 id="取证软件使用要点"><a href="#取证软件使用要点" class="headerlink" title="取证软件使用要点"></a>取证软件使用要点</h3><h4 id="盘古石计算机仿真取证系统"><a href="#盘古石计算机仿真取证系统" class="headerlink" title="盘古石计算机仿真取证系统"></a>盘古石计算机仿真取证系统</h4><p>使用该软件会在本地创建镜像文件并使用<strong>VMware虚拟机</strong>进行仿真。但是对该镜像<strong>取证完毕前请勿关闭计算机仿真取证系统</strong>软件，否则可能会导致虚拟机中的镜像无法再打开，而此前所做的操作也无法被保存。</p>
+<h4 id="盘古石手机取证分析系统"><a href="#盘古石手机取证分析系统" class="headerlink" title="盘古石手机取证分析系统"></a>盘古石手机取证分析系统</h4><p>导入模拟器的镜像格式文件时一定要一次性将镜像导入完再分析，而不是单个导入单个分析</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://rickliu.com">R1ck Liu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://rickliu.com/posts/4622dd9d8324/">https://rickliu.com/posts/4622dd9d8324/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://rickliu.com" target="_blank">R1ck's Portal</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/note/">note</a><a class="post-meta__tags" href="/tags/CTF/">CTF</a><a class="post-meta__tags" href="/tags/WriteUp/">WriteUp</a><a class="post-meta__tags" href="/tags/Forensics/">Forensics</a></div><div class="post_share"><div class="social-share" data-image="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-9-1-cover.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/25f6527726f2/" title="近期密码学wp整理"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-8-30-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">近期密码学wp整理</div></div></a></div><div class="next-post pull-right"><a href="/posts/1dc1c5acd0e2/" title="CTF Web SQL注入"><img class="cover" src="/posts/1dc1c5acd0e2/cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CTF Web SQL注入</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/8f6810bb2033/" title="文件包含漏洞"><img class="cover" src="/posts/8f6810bb2033/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-17</div><div class="title">文件包含漏洞</div></div></a></div><div><a href="/posts/ef9c5fde59cd/" title="命令注入漏洞 远程命令&#x2F;代码执行"><img class="cover" src="/posts/ef9c5fde59cd/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-07</div><div class="title">命令注入漏洞 远程命令&#x2F;代码执行</div></div></a></div><div><a href="/posts/31658dca3489/" title="ctfshow 命令执行模块"><img class="cover" src="/posts/31658dca3489/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-09</div><div class="title">ctfshow 命令执行模块</div></div></a></div><div><a href="/posts/e97ca1a52d81/" title="文件上传漏洞"><img class="cover" src="/posts/e97ca1a52d81/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-10</div><div class="title">文件上传漏洞</div></div></a></div><div><a href="/posts/ad095ca75f58/" title="ctfshow 文件上传模块"><img class="cover" src="/posts/ad095ca75f58/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-11</div><div class="title">ctfshow 文件上传模块</div></div></a></div><div><a href="/posts/24259a52c7ee/" title="CTF Web信息搜集"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-8-21-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-21</div><div class="title">CTF Web信息搜集</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E7%8E%B0wp"><span class="toc-number">2.</span> <span class="toc-text">复现wp</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%93%9D%E5%B8%BD%E6%9D%AF2023%E5%88%9D%E8%B5%9B"><span class="toc-number">2.1.</span> <span class="toc-text">蓝帽杯2023初赛</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#apk%E5%88%86%E6%9E%90"><span class="toc-number">2.1.1.</span> <span class="toc-text">apk分析</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B6%89%E6%A1%88apk%E7%9A%84%E5%8C%85%E5%90%8D%E6%98%AF%EF%BC%9F"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">涉案apk的包名是？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B6%89%E6%A1%88apk%E7%9A%84%E7%AD%BE%E5%90%8D%E5%BA%8F%E5%88%97%E5%8F%B7%E6%98%AF%EF%BC%9F"><span class="toc-number">2.1.1.2.</span> <span class="toc-text">涉案apk的签名序列号是？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B6%89%E6%A1%88apk%E4%B8%ADDCLOUD-AD-ID%E7%9A%84%E5%80%BC%E6%98%AF%EF%BC%9F"><span class="toc-number">2.1.1.3.</span> <span class="toc-text">涉案apk中DCLOUD_AD_ID的值是？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B6%89%E6%A1%88apk%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%9F%9F%E5%90%8D%E6%98%AF%EF%BC%9F"><span class="toc-number">2.1.1.4.</span> <span class="toc-text">涉案apk的服务器域名是？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B6%89%E6%A1%88apk%E7%9A%84%E4%B8%BB%E5%85%A5%E5%8F%A3%E6%98%AF%EF%BC%9F"><span class="toc-number">2.1.1.5.</span> <span class="toc-text">涉案apk的主入口是？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%A5%E9%95%9C%E5%83%8F%E6%98%AF%E7%94%A8%E7%9A%84%E4%BB%80%E4%B9%88%E6%A8%A1%E6%8B%9F%E5%99%A8%EF%BC%9F"><span class="toc-number">2.1.1.6.</span> <span class="toc-text">该镜像是用的什么模拟器？</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%8B%E6%9C%BA%E5%8F%96%E8%AF%81"><span class="toc-number">2.1.2.</span> <span class="toc-text">手机取证</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%A5%E9%95%9C%E5%83%8F%E4%B8%AD%E7%94%A8%E7%9A%84%E8%81%8A%E5%A4%A9%E8%BD%AF%E4%BB%B6%E5%90%8D%E7%A7%B0%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">2.1.2.1.</span> <span class="toc-text">该镜像中用的聊天软件名称是什么？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%81%8A%E5%A4%A9%E8%BD%AF%E4%BB%B6%E7%9A%84%E5%8C%85%E5%90%8D%E6%98%AF%EF%BC%9F"><span class="toc-number">2.1.2.2.</span> <span class="toc-text">聊天软件的包名是？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2%E4%BA%A7%E5%93%81%E4%B8%AD%EF%BC%8C%E5%8F%97%E5%AE%B3%E4%BA%BA%E6%9C%80%E5%90%8E%E6%8A%95%E8%B5%84%E7%9A%84%E4%BA%A7%E5%93%81%E6%9C%80%E4%BD%8E%E8%A6%81%E6%B1%82%E6%8A%95%E8%B5%84%E5%A4%9A%E5%B0%91%E9%92%B1%EF%BC%9F"><span class="toc-number">2.1.2.3.</span> <span class="toc-text">投资理财产品中，受害人最后投资的产品最低要求投资多少钱？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%97%E5%AE%B3%E4%BA%BA%E6%98%AF%E7%BB%8F%E8%BF%87%E8%B0%81%E4%BB%8B%E7%BB%8D%E8%AE%A4%E8%AF%86%E7%8E%8B%E5%93%A5%EF%BC%9F"><span class="toc-number">2.1.2.4.</span> <span class="toc-text">受害人是经过谁介绍认识王哥？</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8F%96%E8%AF%81"><span class="toc-number">2.1.3.</span> <span class="toc-text">计算机取证</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E7%BB%99%E5%87%BA%E8%AE%A1%E7%AE%97%E6%9C%BA%E9%95%9C%E5%83%8Fpc-e01%E7%9A%84SHA-1%E5%80%BC%EF%BC%9F"><span class="toc-number">2.1.3.1.</span> <span class="toc-text">请给出计算机镜像pc.e01的SHA-1值？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%99%E5%87%BApc-e01%E5%9C%A8%E6%8F%90%E5%8F%96%E6%97%B6%E5%80%99%E7%9A%84%E6%A3%80%E6%9F%A5%E5%91%98%EF%BC%9F"><span class="toc-number">2.1.3.2.</span> <span class="toc-text">给出pc.e01在提取时候的检查员？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E7%BB%99%E5%87%BA%E5%AB%8C%E7%96%91%E4%BA%BA%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%86%85IE%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A6%96%E9%A1%B5%E5%9C%B0%E5%9D%80%EF%BC%9F"><span class="toc-number">2.1.3.3.</span> <span class="toc-text">请给出嫌疑人计算机内IE浏览器首页地址？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E7%BB%99%E5%87%BA%E5%AB%8C%E7%96%91%E4%BA%BA%E6%9D%A8%E6%9F%90%E7%99%BB%E5%BD%95%E7%90%86%E8%B4%A2%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E6%89%80%E7%94%A8%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81%EF%BC%9F"><span class="toc-number">2.1.3.4.</span> <span class="toc-text">请给出嫌疑人杨某登录理财网站前台所用账号密码？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E7%BB%99%E5%87%BA%E5%AB%8C%E7%96%91%E4%BA%BA%E7%94%B5%E8%84%91%E5%86%85pdf%E6%96%87%E4%BB%B6%E9%BB%98%E8%AE%A4%E6%89%93%E5%BC%80%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%BD%93%E5%89%8D%E7%89%88%E6%9C%AC%E5%8F%B7%EF%BC%9F"><span class="toc-number">2.1.3.5.</span> <span class="toc-text">请给出嫌疑人电脑内pdf文件默认打开程序的当前版本号？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E7%BB%99%E5%87%BA%E5%AB%8C%E7%96%91%E4%BA%BA%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%86%85%E6%96%87%E4%BB%B6%E5%90%8D%E4%B8%BA%E2%80%9CC%E7%9B%98%E6%B8%85%E7%90%86-bat%E2%80%9D%E7%9A%84SHA-1%EF%BC%9F"><span class="toc-number">2.1.3.6.</span> <span class="toc-text">请给出嫌疑人计算机内文件名为“C盘清理.bat”的SHA-1？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E7%BB%99%E5%87%BA%E5%AB%8C%E7%96%91%E4%BA%BAVera-Crypt%E5%8A%A0%E5%AF%86%E5%AE%B9%E5%99%A8%E7%9A%84%E8%A7%A3%E5%AF%86%E5%AF%86%E7%A0%81%EF%BC%9F"><span class="toc-number">2.1.3.7.</span> <span class="toc-text">请给出嫌疑人Vera Crypt加密容器的解密密码？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E7%BB%99%E5%87%BA%E5%AB%8C%E7%96%91%E4%BA%BA%E7%94%B5%E8%84%91%E5%86%85iSCSI%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AF%B9%E5%A4%96%E7%AB%AF%E5%8F%A3%E5%8F%B7%EF%BC%9F"><span class="toc-number">2.1.3.8.</span> <span class="toc-text">请给出嫌疑人电脑内iSCSI服务器对外端口号？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E7%BB%99%E5%87%BA%E5%AB%8C%E7%96%91%E4%BA%BA%E7%94%B5%E8%84%91%E5%86%85iSCSI%E6%9C%8D%E5%8A%A1%E5%99%A8CHAP%E8%AE%A4%E8%AF%81%E7%9A%84%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81%EF%BC%9F"><span class="toc-number">2.1.3.9.</span> <span class="toc-text">请给出嫌疑人电脑内iSCSI服务器CHAP认证的账号密码？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E5%AB%8C%E7%96%91%E4%BA%BA%E7%94%B5%E8%84%91%E5%86%85%E6%8F%90%E7%8E%B0%E8%AE%B0%E5%BD%95%E8%A1%A8%EF%BC%8C%E7%94%A8%E6%88%B7%E2%80%9Cmi51888%E2%80%9D%E6%8F%90%E7%8E%B0%E6%80%BB%E9%A2%9D%E4%B8%BA%E5%A4%9A%E5%B0%91%EF%BC%9F"><span class="toc-number">2.1.3.10.</span> <span class="toc-text">分析嫌疑人电脑内提现记录表，用户“mi51888”提现总额为多少？</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81"><span class="toc-number">2.1.4.</span> <span class="toc-text">内存取证</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E7%BB%99%E5%87%BA%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%86%85%E5%AD%98%E5%88%9B%E5%BB%BA%E5%8C%97%E4%BA%AC%E6%97%B6%E9%97%B4%EF%BC%9F"><span class="toc-number">2.1.4.1.</span> <span class="toc-text">请给出计算机内存创建北京时间？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E7%BB%99%E5%87%BA%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%86%85%E7%94%A8%E6%88%B7yang88%E7%9A%84%E5%BC%80%E6%9C%BA%E5%AF%86%E7%A0%81%EF%BC%9F"><span class="toc-number">2.1.4.2.</span> <span class="toc-text">请给出计算机内用户yang88的开机密码？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8F%90%E5%8F%96%E5%86%85%E5%AD%98%E9%95%9C%E5%83%8F%E4%B8%AD%E7%9A%84USB%E8%AE%BE%E5%A4%87%E4%BF%A1%E6%81%AF%EF%BC%8C%E7%BB%99%E5%87%BA%E8%AF%A5USB%E8%AE%BE%E5%A4%87%E7%9A%84%E6%9C%80%E5%90%8E%E8%BF%9E%E6%8E%A5%E5%8C%97%E4%BA%AC%E6%97%B6%E9%97%B4%EF%BC%9F"><span class="toc-number">2.1.4.3.</span> <span class="toc-text">提取内存镜像中的USB设备信息，给出该USB设备的最后连接北京时间？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E7%BB%99%E5%87%BA%E7%94%A8%E6%88%B7yang88%E7%9A%84LMHASH%E5%80%BC%EF%BC%9F"><span class="toc-number">2.1.4.4.</span> <span class="toc-text">请给出用户yang88的LMHASH值？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E7%BB%99%E5%87%BA%E7%94%A8%E6%88%B7yang88%E8%AE%BF%E9%97%AE%E8%BF%87%E6%96%87%E4%BB%B6%E2%80%9C%E6%8F%90%E7%8E%B0%E8%AE%B0%E5%BD%95-xlsx%E2%80%9D%E7%9A%84%E5%8C%97%E4%BA%AC%E6%97%B6%E9%97%B4%EF%BC%9F"><span class="toc-number">2.1.4.5.</span> <span class="toc-text">请给出用户yang88访问过文件“提现记录.xlsx”的北京时间？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E7%BB%99%E5%87%BA%E2%80%9CVeraCrypt%E2%80%9D%E6%9C%80%E5%90%8E%E4%B8%80%E6%AC%A1%E6%89%A7%E8%A1%8C%E7%9A%84%E5%8C%97%E4%BA%AC%E6%97%B6%E9%97%B4%EF%BC%9F"><span class="toc-number">2.1.4.6.</span> <span class="toc-text">请给出“VeraCrypt”最后一次执行的北京时间？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E5%86%85%E5%AD%98%E9%95%9C%E5%83%8F%EF%BC%8C%E8%AF%B7%E7%BB%99%E5%87%BA%E7%94%A8%E6%88%B7%E5%9C%A8%E2%80%9C2023-06-20-16-56-57-UTC-0%E2%80%9D%E8%AE%BF%E9%97%AE%E8%BF%87%E2%80%9C%E7%BB%B4%E6%96%AF%E5%A1%94%E6%96%AF%E2%80%9D%E5%90%8E%E5%8F%B0%E5%A4%9A%E5%B0%91%E6%AC%A1%EF%BC%9F"><span class="toc-number">2.1.4.7.</span> <span class="toc-text">分析内存镜像，请给出用户在“2023-06-20 16:56:57 UTC+0”访问过“维斯塔斯”后台多少次？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E7%BB%99%E5%87%BA%E7%94%A8%E6%88%B7%E6%9C%80%E5%90%8E%E4%B8%80%E6%AC%A1%E8%AE%BF%E9%97%AEchrome%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E8%BF%9B%E7%A8%8BPID%EF%BC%9F"><span class="toc-number">2.1.4.8.</span> <span class="toc-text">请给出用户最后一次访问chrome浏览器的进程PID？</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%8F%96%E8%AF%81"><span class="toc-number">2.1.5.</span> <span class="toc-text">服务器取证</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E6%B6%89%E6%A1%88%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%8C%E8%AF%B7%E7%BB%99%E5%87%BA%E6%B6%89%E6%A1%88%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E5%86%85%E6%A0%B8%E7%89%88%E6%9C%AC%EF%BC%9F"><span class="toc-number">2.1.5.1.</span> <span class="toc-text">分析涉案服务器，请给出涉案服务器的内核版本？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E6%B6%89%E6%A1%88%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%8C%E8%AF%B7%E7%BB%99%E5%87%BAMySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84root%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81%EF%BC%9F"><span class="toc-number">2.1.5.2.</span> <span class="toc-text">分析涉案服务器，请给出MySQL数据库的root账号密码？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E6%B6%89%E6%A1%88%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%8C%E8%AF%B7%E7%BB%99%E5%87%BA%E6%B6%89%E6%A1%88%E7%BD%91%E7%AB%99RDS%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9C%B0%E5%9D%80%EF%BC%9F"><span class="toc-number">2.1.5.3.</span> <span class="toc-text">分析涉案服务器，请给出涉案网站RDS数据库地址？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E7%BB%99%E5%87%BA%E6%B6%89%E7%BD%91%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E5%BA%93%E7%89%88%E6%9C%AC%E5%8F%B7"><span class="toc-number">2.1.5.4.</span> <span class="toc-text">请给出涉网网站数据库版本号?</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E7%BB%99%E5%87%BA%E5%AB%8C%E7%96%91%E4%BA%BA%E7%B4%AF%E8%AE%A1%E6%8E%A8%E5%B9%BF%E4%BA%BA%E6%95%B0%EF%BC%9F"><span class="toc-number">2.1.5.5.</span> <span class="toc-text">请给出嫌疑人累计推广人数？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E7%BB%99%E5%87%BA%E6%B6%89%E6%A1%88%E7%BD%91%E7%AB%99%E5%90%8E%E5%8F%B0%E5%90%AF%E7%94%A8%E7%9A%84%E8%B6%85%E7%BA%A7%E7%AE%A1%E7%90%86%E5%91%98"><span class="toc-number">2.1.5.6.</span> <span class="toc-text">请给出涉案网站后台启用的超级管理员?</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8A%95%E8%B5%84%E9%A1%B9%E7%9B%AE%E2%80%9C%E8%B4%B5%E5%B7%9E%E5%85%AD%E7%9B%98%E6%B0%B4%E5%B8%82%E9%A3%8E%E5%8A%9B%E5%8F%91%E7%94%B5%E5%9F%BA%E5%BB%BA%E5%B7%A5%E7%A8%8B%E2%80%9D%E7%9A%84%E6%97%A5%E5%8C%96%E6%94%B6%E7%9B%8A%E4%B8%BA%EF%BC%9F"><span class="toc-number">2.1.5.7.</span> <span class="toc-text">投资项目“贵州六盘水市风力发电基建工程”的日化收益为？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9C%80%E6%97%A9%E8%AE%BF%E9%97%AE%E6%B6%89%E6%A1%88%E7%BD%91%E7%AB%99%E5%90%8E%E5%8F%B0%E7%9A%84IP%E5%9C%B0%E5%9D%80%E4%B8%BA%EF%BC%9F"><span class="toc-number">2.1.5.8.</span> <span class="toc-text">最早访问涉案网站后台的IP地址为？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E6%B6%89%E6%A1%88%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E5%BA%93%E6%88%96%E8%80%85%E5%90%8E%E5%8F%B0VIP2%E7%9A%84%E4%BC%9A%E5%91%98%E6%9C%89%E5%A4%9A%E5%B0%91%E4%B8%AA"><span class="toc-number">2.1.5.9.</span> <span class="toc-text">分析涉案网站数据库或者后台VIP2的会员有多少个</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E6%B6%89%E6%A1%88%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E7%94%A8%E6%88%B7%E8%A1%A8%E4%B8%AD%E8%B4%A6%E6%88%B7%E4%BD%99%E9%A2%9D%E5%A4%A7%E4%BA%8E%E9%9B%B6%E4%B8%94%E9%93%B6%E8%A1%8C%E5%8D%A1%E5%BC%80%E6%88%B7%E8%A1%8C%E5%BD%92%E5%B1%9E%E4%BA%8E%E4%B8%8A%E6%B5%B7%E5%B8%82%E7%9A%84%E6%BD%9C%E5%9C%A8%E5%8F%97%E5%AE%B3%E4%BA%BA%E7%9A%84%E6%95%B0%E9%87%8F%E4%B8%BA"><span class="toc-number">2.1.5.10.</span> <span class="toc-text">分析涉案网站数据库的用户表中账户余额大于零且银行卡开户行归属于上海市的潜在受害人的数量为</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E6%B6%89%E6%A1%88%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E5%BA%93%E6%88%96%E8%80%85%E5%90%8E%E5%8F%B0%EF%BC%8C%E7%BB%9F%E8%AE%A1%E5%AB%8C%E7%96%91%E4%BA%BA%E7%9A%84%E4%B8%8B%E7%BA%BF%E6%88%90%E5%8A%9F%E6%8F%90%E7%8E%B0%E5%A4%9A%E5%B0%91%E9%92%B1%EF%BC%9F"><span class="toc-number">2.1.5.11.</span> <span class="toc-text">分析涉案网站数据库或者后台，统计嫌疑人的下线成功提现多少钱？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E6%B6%89%E6%A1%88%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E5%BA%93%E6%88%96%E8%80%85%E5%90%8E%E5%8F%B0%E5%8F%97%E5%AE%B3%E4%BA%BA%E4%B8%8A%E7%BA%BF%E5%9C%A8%E5%B9%B3%E5%8F%B0%E5%86%85%E5%85%B1%E6%9C%89%E4%B8%8B%E7%BA%BF%E5%A4%9A%E5%B0%91%E4%BA%BA%EF%BC%9F"><span class="toc-number">2.1.5.12.</span> <span class="toc-text">分析涉案网站数据库或者后台受害人上线在平台内共有下线多少人？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E6%B6%89%E6%A1%88%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E5%BA%93%E6%88%96%E8%80%85%E5%90%8E%E5%8F%B0%E7%BD%91%E7%AB%99%E5%86%85%E4%B8%8B%E7%BA%BF%E5%A4%A7%E4%BA%8E2%E7%9A%84%E4%BB%A3%E7%90%86%E6%9C%89%E5%A4%9A%E5%B0%91%E4%B8%AA%EF%BC%9F"><span class="toc-number">2.1.5.13.</span> <span class="toc-text">分析涉案网站数据库或者后台网站内下线大于2的代理有多少个？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E6%B6%89%E6%A1%88%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E5%BA%93%E6%88%96%E8%80%85%E5%90%8E%E5%8F%B0%E7%BD%91%E7%AB%99%E5%86%85%E4%B8%8B%E7%BA%BF%E6%9C%80%E5%A4%9A%E7%9A%84%E4%BB%A3%E7%90%86%E7%9C%9F%E5%AE%9E%E5%90%8D%E5%AD%97%E4%B8%BA"><span class="toc-number">2.1.5.14.</span> <span class="toc-text">分析涉案网站数据库或者后台网站内下线最多的代理真实名字为</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E6%B6%89%E6%A1%88%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE%E5%BA%93%E6%88%96%E8%80%85%E5%90%8E%E5%8F%B0%E6%B5%81%E6%B0%B4%E6%98%8E%E7%BB%86%EF%BC%8C%E6%9C%AC%E7%BD%91%E7%AB%99%E6%80%BB%E5%85%B1%E7%9B%88%E5%88%A9%E5%A4%9A%E5%B0%91%E9%92%B1"><span class="toc-number">2.1.5.15.</span> <span class="toc-text">分析涉案网站数据库或者后台流水明细，本网站总共盈利多少钱</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%93%9D%E5%B8%BD%E6%9D%AF2022%E5%8D%8A%E5%86%B3%E8%B5%9B"><span class="toc-number">2.2.</span> <span class="toc-text">蓝帽杯2022半决赛</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%8B%E6%9C%BA%E5%8F%96%E8%AF%81-1"><span class="toc-number">2.2.1.</span> <span class="toc-text">手机取证</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#iPhone%E6%89%8B%E6%9C%BA%E7%9A%84iBoot%E5%9B%BA%E4%BB%B6%E7%89%88%E6%9C%AC%E5%8F%B7"><span class="toc-number">2.2.1.1.</span> <span class="toc-text">iPhone手机的iBoot固件版本号:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%A5%E6%89%8B%E6%9C%BA%E5%88%B6%E4%BD%9C%E5%AE%8C%E5%A4%87%E4%BB%BDUTC-8%E7%9A%84%E6%97%B6%E9%97%B4%EF%BC%88%E9%9D%9E%E6%8F%90%E5%8F%96%E6%97%B6%E9%97%B4%EF%BC%89"><span class="toc-number">2.2.1.2.</span> <span class="toc-text">该手机制作完备份UTC+8的时间（非提取时间）:</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#exe%E5%88%86%E6%9E%90"><span class="toc-number">2.2.2.</span> <span class="toc-text">exe分析</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%87%E4%BB%B6services-exe%E5%88%9B%E5%BB%BA%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84%E8%B7%AF%E5%BE%84%E6%98%AF"><span class="toc-number">2.2.2.1.</span> <span class="toc-text">文件services.exe创建可执行文件的路径是:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%87%E4%BB%B6HackTool-FlyStudio-acz-unpack-exe%E6%98%AF%E5%90%A6%E8%B0%83%E7%94%A8%E4%BA%86advapi32-dll%E5%8A%A8%E6%80%81%E5%87%BD%E5%BC%8F%E9%93%BE%E6%8E%A5%E5%BA%93%EF%BC%9F"><span class="toc-number">2.2.2.2.</span> <span class="toc-text">文件HackTool.FlyStudio.acz_unpack.exe是否调用了advapi32.dll动态函式链接库？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%87%E4%BB%B6aspnet-wp-v-exe%E6%89%A7%E8%A1%8C%E5%90%8E%E7%9A%84%E5%90%AF%E5%8A%A8%E7%9A%84%E8%BF%9B%E7%A8%8B%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">2.2.2.3.</span> <span class="toc-text">文件aspnet_wp.v.exe执行后的启动的进程是什么:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%87%E4%BB%B6-4085034a23cccebefd374e4a77aea4f1-%E6%98%AF%E4%BB%80%E4%B9%88%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%9C%A8%E9%A9%AC"><span class="toc-number">2.2.2.4.</span> <span class="toc-text">文件[4085034a23cccebefd374e4a77aea4f1]是什么类型的木马:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%87%E4%BB%B6-4085034a23cccebefd374e4a77aea4f1-%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5%E7%9A%84IP%E5%9C%B0%E5%9D%80%E7%9A%84%E5%BD%92%E5%B1%9E%E5%9C%B0%E6%98%AF%E5%93%AA%E4%B8%AA%E5%9B%BD%E5%AE%B6"><span class="toc-number">2.2.2.5.</span> <span class="toc-text">文件[4085034a23cccebefd374e4a77aea4f1]网络连接的IP地址的归属地是哪个国家:</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#apk%E5%88%86%E6%9E%90-1"><span class="toc-number">2.2.3.</span> <span class="toc-text">apk分析</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%97%E5%AE%B3%E4%BA%BA%E6%89%8B%E6%9C%BA%E4%B8%ADexec%E7%9A%84%E5%BA%8F%E5%88%97%E5%8F%B7%E6%98%AF"><span class="toc-number">2.2.3.1.</span> <span class="toc-text">受害人手机中exec的序列号是:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%97%E5%AE%B3%E4%BA%BA%E6%89%8B%E6%9C%BA%E4%B8%ADexec%E5%85%B3%E8%81%94%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%9C%B0%E5%9D%80%E6%98%AF"><span class="toc-number">2.2.3.2.</span> <span class="toc-text">受害人手机中exec关联服务器地址是:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%97%E5%AE%B3%E4%BA%BA%E6%89%8B%E6%9C%BA%E4%B8%ADexec%E5%8A%A0%E8%BD%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E5%87%BD%E6%95%B0%E6%98%AF"><span class="toc-number">2.2.3.3.</span> <span class="toc-text">受害人手机中exec加载服务器的函数是:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%97%E5%AE%B3%E4%BA%BA%E6%89%8B%E6%9C%BA%E4%B8%ADexec%E7%9A%84%E6%89%93%E5%8C%85ID%E6%98%AF"><span class="toc-number">2.2.3.4.</span> <span class="toc-text">受害人手机中exec的打包ID是:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%97%E5%AE%B3%E4%BA%BA%E6%89%8B%E6%9C%BA%E4%B8%ADexec%E7%9A%84%E6%98%AF%E5%90%A6%E6%9C%89%E5%AE%89%E5%85%A8%E6%A3%80%E6%B5%8B%E8%A1%8C%E4%B8%BA%EF%BC%9F"><span class="toc-number">2.2.3.5.</span> <span class="toc-text">受害人手机中exec的是否有安全检测行为？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%97%E5%AE%B3%E4%BA%BA%E6%89%8B%E6%9C%BA%E4%B8%ADexec%E7%9A%84%E6%A3%80%E6%B5%8B%E6%96%B9%E6%B3%95%E7%9A%84%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%E5%92%8C%E6%96%B9%E6%B3%95%E5%90%8D%E6%98%AF"><span class="toc-number">2.2.3.6.</span> <span class="toc-text">受害人手机中exec的检测方法的完整路径和方法名是:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%97%E5%AE%B3%E4%BA%BA%E6%89%8B%E6%9C%BA%E4%B8%ADexec%E6%9C%89%E5%87%A0%E4%B8%AA%E7%95%8C%E9%9D%A2"><span class="toc-number">2.2.3.7.</span> <span class="toc-text">受害人手机中exec有几个界面:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%97%E5%AE%B3%E4%BA%BA%E6%89%8B%E6%9C%BA%E4%B8%AD%E7%BA%A2%E6%98%9FIPA%E7%9A%84%E5%8C%85%E5%90%8D%E6%98%AF"><span class="toc-number">2.2.3.8.</span> <span class="toc-text">受害人手机中红星IPA的包名是:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%97%E5%AE%B3%E4%BA%BA%E6%89%8B%E6%9C%BA%E4%B8%AD%E7%BA%A2%E6%98%9FIPA%E7%9A%84APIKEY%E6%98%AF"><span class="toc-number">2.2.3.9.</span> <span class="toc-text">受害人手机中红星IPA的APIKEY是:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%97%E5%AE%B3%E4%BA%BA%E6%89%8B%E6%9C%BA%E4%B8%AD%E7%BA%A2%E6%98%9FIPA%E7%9A%84%E6%9D%83%E9%99%90%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-number">2.2.3.10.</span> <span class="toc-text">受害人手机中红星IPA的权限有哪些？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AB%8C%E7%96%91%E4%BA%BA%E6%89%8B%E6%9C%BA%E4%B8%AD%E7%BA%A2%E6%98%9FAPK%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%9C%B0%E5%9D%80%E6%98%AF"><span class="toc-number">2.2.3.11.</span> <span class="toc-text">嫌疑人手机中红星APK的服务器地址是:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AB%8C%E7%96%91%E4%BA%BA%E6%89%8B%E6%9C%BA%E4%B8%AD%E7%BA%A2%E6%98%9FAPK%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%85%A5%E5%8F%A3%E6%98%AF"><span class="toc-number">2.2.3.12.</span> <span class="toc-text">嫌疑人手机中红星APK的程序入口是:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AB%8C%E7%96%91%E4%BA%BA%E6%89%8B%E6%9C%BA%E4%B8%AD%E5%88%86%E6%9E%90%E8%81%8A%E5%A4%A9%E5%B7%A5%E5%85%B7%EF%BC%8C%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E7%99%BB%E5%BD%95%E7%AB%AF%E5%8F%A3%E6%98%AF"><span class="toc-number">2.2.3.13.</span> <span class="toc-text">嫌疑人手机中分析聊天工具，服务器的登录端口是:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AB%8C%E7%96%91%E4%BA%BA%E6%89%8B%E6%9C%BA%E4%B8%AD%E5%88%86%E6%9E%90%E8%81%8A%E5%A4%A9%E5%B7%A5%E5%85%B7%EF%BC%8C%E7%94%A8%E6%88%B7%E5%BD%92%E5%B1%9E%E7%9A%84%E6%9C%BA%E6%9E%84%E6%98%AF"><span class="toc-number">2.2.3.14.</span> <span class="toc-text">嫌疑人手机中分析聊天工具，用户归属的机构是:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%93%E5%90%88%E6%89%8B%E6%9C%BA%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%E8%81%8A%E5%A4%A9%E5%B7%A5%E5%85%B7%E7%9A%84%E7%99%BB%E5%BD%95%E8%B4%A6%E5%8F%B7%E5%92%8C%E5%AF%86%E7%A0%81%E6%98%AF"><span class="toc-number">2.2.3.15.</span> <span class="toc-text">结合手机流量分析聊天工具的登录账号和密码是:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%93%9D%E5%B8%BD%E6%9D%AF2023%E5%8D%8A%E5%86%B3%E8%B5%9B"><span class="toc-number">2.3.</span> <span class="toc-text">蓝帽杯2023半决赛</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%8B%E6%9C%BA%E5%8F%96%E8%AF%81-2"><span class="toc-number">2.3.1.</span> <span class="toc-text">手机取证</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A3%80%E6%9D%90%E6%95%B0%E6%8D%AE%E5%BC%80%E5%A7%8B%E6%8F%90%E5%8F%96%E6%98%AF%E4%BB%8A%E5%B9%B4%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%EF%BC%9F"><span class="toc-number">2.3.1.1.</span> <span class="toc-text">检材数据开始提取是今年什么时候？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AB%8C%E7%96%91%E4%BA%BA%E6%89%8B%E6%9C%BASD%E5%8D%A1%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E4%B8%80%E5%85%B1%E5%A4%9A%E5%B0%91GB%EF%BC%9F"><span class="toc-number">2.3.1.2.</span> <span class="toc-text">嫌疑人手机SD卡存储空间一共多少GB？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AB%8C%E7%96%91%E4%BA%BA%E6%89%8B%E6%9C%BA%E8%AE%BE%E5%A4%87%E5%90%8D%E7%A7%B0%E6%98%AF%EF%BC%9F"><span class="toc-number">2.3.1.3.</span> <span class="toc-text">嫌疑人手机设备名称是？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AB%8C%E7%96%91%E4%BA%BA%E6%89%8B%E6%9C%BAIMEI%E6%98%AF%EF%BC%9F"><span class="toc-number">2.3.1.4.</span> <span class="toc-text">嫌疑人手机IMEI是？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AB%8C%E7%96%91%E4%BA%BA%E6%89%8B%E6%9C%BA%E9%80%9A%E8%AE%AF%E5%BD%95%E6%95%B0%E6%8D%AE%E5%AD%98%E6%94%BE%E5%9C%A8%E9%82%A3%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93%E6%96%87%E4%BB%B6%E4%B8%AD%EF%BC%9F"><span class="toc-number">2.3.1.5.</span> <span class="toc-text">嫌疑人手机通讯录数据存放在那个数据库文件中？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AB%8C%E7%96%91%E4%BA%BA%E6%89%8B%E6%9C%BA%E4%B8%80%E5%85%B1%E4%BD%BF%E7%94%A8%E8%BF%87%E5%A4%9A%E5%B0%91%E4%B8%AA%E5%BA%94%E7%94%A8%EF%BC%9F"><span class="toc-number">2.3.1.6.</span> <span class="toc-text">嫌疑人手机一共使用过多少个应用？</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#apk%E5%88%86%E6%9E%90-2"><span class="toc-number">2.3.2.</span> <span class="toc-text">apk分析</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95apk%E7%9A%84%E5%8C%85%E5%90%8D%E6%98%AF%EF%BC%9F"><span class="toc-number">2.3.2.1.</span> <span class="toc-text">测试apk的包名是？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95apk%E7%9A%84%E7%AD%BE%E5%90%8D%E7%AE%97%E6%B3%95%E6%98%AF%EF%BC%9F"><span class="toc-number">2.3.2.2.</span> <span class="toc-text">测试apk的签名算法是？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95apk%E7%9A%84%E4%B8%BB%E5%85%A5%E5%8F%A3%E6%98%AF%EF%BC%9F"><span class="toc-number">2.3.2.3.</span> <span class="toc-text">测试apk的主入口是？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95apk%E4%B8%80%E5%85%B1%E7%94%B3%E8%AF%B7%E4%BA%86%E5%87%A0%E4%B8%AA%E6%9D%83%E9%99%90%EF%BC%9F"><span class="toc-number">2.3.2.4.</span> <span class="toc-text">测试apk一共申请了几个权限？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95apk%E5%AF%B9Calllog-txt%E6%96%87%E4%BB%B6%E5%86%85%E7%9A%84%E6%95%B0%E6%8D%AE%E8%BF%9B%E8%A1%8C%E4%BA%86%E4%BB%80%E4%B9%88%E5%8A%A0%E5%AF%86%EF%BC%9F"><span class="toc-number">2.3.2.5.</span> <span class="toc-text">测试apk对Calllog.txt文件内的数据进行了什么加密？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#10086%E5%AF%B9%E5%AB%8C%E7%96%91%E4%BA%BA%E6%8B%A8%E6%89%93%E8%BF%87%E5%87%A0%E6%AC%A1%E7%94%B5%E8%AF%9D%EF%BC%9F"><span class="toc-number">2.3.2.6.</span> <span class="toc-text">10086对嫌疑人拨打过几次电话？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95apk%E5%AF%B9%E7%9F%AD%E4%BF%A1%E8%AE%B0%E5%BD%95%E8%BF%9B%E8%A1%8C%E4%BA%86%E5%87%A0%E6%AC%A1%E5%8A%A0%E5%AF%86%EF%BC%9F"><span class="toc-number">2.3.2.7.</span> <span class="toc-text">测试apk对短信记录进行了几次加密？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95apk%E5%AF%B9%E7%9F%AD%E4%BF%A1%E8%AE%B0%E5%BD%95%E8%BF%9B%E8%A1%8C%E5%8A%A0%E5%AF%86%E7%9A%84%E7%A7%98%E9%92%A5%E6%98%AF%EF%BC%9F"><span class="toc-number">2.3.2.8.</span> <span class="toc-text">测试apk对短信记录进行加密的秘钥是？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AB%8C%E7%96%91%E4%BA%BA%E5%9C%A82021%E5%B9%B4%E7%99%BB%E5%BD%95%E6%94%AF%E4%BB%98%E5%AE%9D%E7%9A%84%E9%AA%8C%E8%AF%81%E7%A0%81%E6%98%AF%EF%BC%9F"><span class="toc-number">2.3.2.9.</span> <span class="toc-text">嫌疑人在2021年登录支付宝的验证码是？</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E5%AD%90%E5%8F%96%E8%AF%81%E8%A7%A3%E9%A2%98%E7%BB%8F%E9%AA%8C"><span class="toc-number">3.</span> <span class="toc-text">电子取证解题经验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#apk%E5%8F%96%E8%AF%81"><span class="toc-number">3.1.</span> <span class="toc-text">apk取证</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#apk%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="toc-number">3.1.1.</span> <span class="toc-text">apk文件结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8E%E6%89%8B%E6%9C%BA%E6%A8%A1%E6%8B%9F%E5%99%A8%E4%B8%AD%E5%AF%BC%E5%87%BAapk%E6%96%87%E4%BB%B6"><span class="toc-number">3.1.2.</span> <span class="toc-text">从手机模拟器中导出apk文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%85%E5%90%8D"><span class="toc-number">3.1.3.</span> <span class="toc-text">包名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%93%E5%8C%85ID"><span class="toc-number">3.1.4.</span> <span class="toc-text">打包ID</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%93%E5%8C%85%E6%97%B6%E9%97%B4"><span class="toc-number">3.1.5.</span> <span class="toc-text">打包时间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AD%BE%E5%90%8D%E5%BA%8F%E5%88%97%E5%8F%B7"><span class="toc-number">3.1.6.</span> <span class="toc-text">签名序列号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E5%85%A5%E5%8F%A3-Main-Activity"><span class="toc-number">3.1.7.</span> <span class="toc-text">主入口(Main Activity)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DCLOUD-AD-ID"><span class="toc-number">3.1.8.</span> <span class="toc-text">DCLOUD_AD_ID</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%9F%9F%E5%90%8D"><span class="toc-number">3.1.9.</span> <span class="toc-text">服务器域名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%B1%E9%99%A9%E6%9D%83%E9%99%90"><span class="toc-number">3.1.10.</span> <span class="toc-text">危险权限</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AA%97%E5%8F%A3%EF%BC%88%E7%95%8C%E9%9D%A2%EF%BC%89%E6%95%B0%E9%87%8F"><span class="toc-number">3.1.11.</span> <span class="toc-text">窗口（界面）数量</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ipa%E5%8F%96%E8%AF%81"><span class="toc-number">3.2.</span> <span class="toc-text">ipa取证</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%85%E5%90%8D-1"><span class="toc-number">3.2.1.</span> <span class="toc-text">包名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8Bid"><span class="toc-number">3.2.2.</span> <span class="toc-text">进程id</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#APIKEY"><span class="toc-number">3.2.3.</span> <span class="toc-text">APIKEY</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%83%E9%99%90"><span class="toc-number">3.2.4.</span> <span class="toc-text">权限</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E6%9C%BA%E5%8F%96%E8%AF%81-3"><span class="toc-number">3.3.</span> <span class="toc-text">手机取证</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E5%8D%93%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="toc-number">3.3.1.</span> <span class="toc-text">安卓文件结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%BB%E5%8A%A8%E7%BB%88%E7%AB%AF%E5%8F%96%E8%AF%81%E5%88%86%E6%9E%90"><span class="toc-number">3.3.2.</span> <span class="toc-text">移动终端取证分析</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A1%AE%E5%AE%9A%E6%89%8B%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">3.3.2.1.</span> <span class="toc-text">确定手机操作系统</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%8B%E6%9C%BA%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%8F%96%E8%AF%81%E5%88%86%E6%9E%90"><span class="toc-number">3.3.3.</span> <span class="toc-text">手机模拟器取证分析</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A1%AE%E8%AE%A4%E6%A8%A1%E6%8B%9F%E5%99%A8"><span class="toc-number">3.3.3.1.</span> <span class="toc-text">确认模拟器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BF%98%E5%8E%9F%E9%95%9C%E5%83%8F%E5%92%8C%E5%A4%87%E4%BB%BD"><span class="toc-number">3.3.3.2.</span> <span class="toc-text">还原镜像和备份</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E5%8C%85%E5%90%8D"><span class="toc-number">3.3.3.3.</span> <span class="toc-text">软件包名</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9C%AC%E6%9C%BA%E4%B8%8E%E6%A8%A1%E6%8B%9F%E5%99%A8%E6%96%87%E4%BB%B6%E4%BA%A4%E4%BA%92"><span class="toc-number">3.3.3.4.</span> <span class="toc-text">本机与模拟器文件交互</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#exe%E5%88%86%E6%9E%90-1"><span class="toc-number">3.4.</span> <span class="toc-text">exe分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7"><span class="toc-number">3.4.1.</span> <span class="toc-text">分析工具</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8F%96%E8%AF%81-1"><span class="toc-number">3.5.</span> <span class="toc-text">计算机取证</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%95%9C%E5%83%8F%E5%93%88%E5%B8%8C%E5%80%BC"><span class="toc-number">3.5.1.</span> <span class="toc-text">镜像哈希值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%96%E8%AF%81%E5%91%98-exmainer"><span class="toc-number">3.5.2.</span> <span class="toc-text">取证员(exmainer)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-number">3.5.3.</span> <span class="toc-text">操作系统基本信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%BF%87%E7%9A%84%E8%BD%AF%E4%BB%B6"><span class="toc-number">3.5.4.</span> <span class="toc-text">安装过的软件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E4%BF%9D%E5%AD%98%E7%9A%84%E5%AF%86%E7%A0%81"><span class="toc-number">3.5.5.</span> <span class="toc-text">浏览器保存的密码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81-1"><span class="toc-number">3.6.</span> <span class="toc-text">内存取证</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E9%95%9C%E5%83%8F%E5%90%8E%E7%BC%80"><span class="toc-number">3.6.1.</span> <span class="toc-text">内存镜像后缀</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7"><span class="toc-number">3.6.2.</span> <span class="toc-text">常用工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E9%95%9C%E5%83%8F%E4%B8%AD%E7%9A%84%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">3.6.3.</span> <span class="toc-text">内存镜像中的操作系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%88%9B%E5%BB%BA%E6%97%B6%E9%97%B4"><span class="toc-number">3.6.4.</span> <span class="toc-text">内存创建时间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E4%B8%AD%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%BC%80%E6%9C%BA%E5%AF%86%E7%A0%81"><span class="toc-number">3.6.5.</span> <span class="toc-text">内存中计算机开机密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#USB%E8%AE%BE%E5%A4%87%E4%BF%A1%E6%81%AF"><span class="toc-number">3.6.6.</span> <span class="toc-text">USB设备信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E5%93%88%E5%B8%8C%E5%80%BC"><span class="toc-number">3.6.7.</span> <span class="toc-text">用户哈希值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81"><span class="toc-number">3.6.8.</span> <span class="toc-text">用户密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E6%96%87%E4%BB%B6%E8%AE%B0%E5%BD%95"><span class="toc-number">3.6.9.</span> <span class="toc-text">访问文件记录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E8%BF%9B%E7%A8%8B%E4%BF%A1%E6%81%AF"><span class="toc-number">3.6.10.</span> <span class="toc-text">系统进程信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">3.6.11.</span> <span class="toc-text">环境变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IE%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95"><span class="toc-number">3.6.12.</span> <span class="toc-text">IE浏览器历史记录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cmd%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95"><span class="toc-number">3.6.13.</span> <span class="toc-text">cmd命令记录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%AA%E8%B4%B4%E6%9D%BF%E4%BF%A1%E6%81%AF"><span class="toc-number">3.6.14.</span> <span class="toc-text">剪贴板信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9FIP"><span class="toc-number">3.6.15.</span> <span class="toc-text">系统IP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#volatility%E6%8F%92%E4%BB%B6%E9%80%9F%E6%9F%A5%E8%A1%A8"><span class="toc-number">3.6.16.</span> <span class="toc-text">volatility插件速查表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%8F%96%E8%AF%81-1"><span class="toc-number">3.7.</span> <span class="toc-text">服务器取证</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%96%E8%AF%81%E4%B8%AD%E5%B8%B8%E7%94%A8linux%E6%8C%87%E4%BB%A4"><span class="toc-number">3.7.1.</span> <span class="toc-text">取证中常用linux指令</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#ls"><span class="toc-number">3.7.1.1.</span> <span class="toc-text">ls</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pwd"><span class="toc-number">3.7.1.2.</span> <span class="toc-text">pwd</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#cat"><span class="toc-number">3.7.1.3.</span> <span class="toc-text">cat</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#chmod"><span class="toc-number">3.7.1.4.</span> <span class="toc-text">chmod</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#find"><span class="toc-number">3.7.1.5.</span> <span class="toc-text">find</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BF%A1%E6%81%AF"><span class="toc-number">3.7.2.</span> <span class="toc-text">服务器信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E8%BF%87%E5%8E%BB%E6%89%A7%E8%A1%8C%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="toc-number">3.7.3.</span> <span class="toc-text">显示过去执行的命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF"><span class="toc-number">3.7.4.</span> <span class="toc-text">宝塔面板</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%98%E5%8E%9Fqp-xb%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">3.7.5.</span> <span class="toc-text">还原qp.xb数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%BB%9F%E8%AE%A1%E6%97%B6%E5%B8%B8%E7%94%A8%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0"><span class="toc-number">3.7.6.</span> <span class="toc-text">数据库统计时常用聚合函数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#COUNT"><span class="toc-number">3.7.6.1.</span> <span class="toc-text">COUNT</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#SUM"><span class="toc-number">3.7.6.2.</span> <span class="toc-text">SUM</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MAX"><span class="toc-number">3.7.6.3.</span> <span class="toc-text">MAX</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MIN"><span class="toc-number">3.7.6.4.</span> <span class="toc-text">MIN</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#AVG"><span class="toc-number">3.7.6.5.</span> <span class="toc-text">AVG</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%BB%9F%E8%AE%A1%E6%97%B6%E5%B8%B8%E7%94%A8%E8%AF%AD%E5%8F%A5"><span class="toc-number">3.7.7.</span> <span class="toc-text">数据库统计时常用语句</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#GROUP-BY"><span class="toc-number">3.7.7.1.</span> <span class="toc-text">GROUP BY</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HAVING"><span class="toc-number">3.7.7.2.</span> <span class="toc-text">HAVING</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#GROUP-BY%E3%80%81HAVING%E3%80%81WHERE%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">3.7.7.3.</span> <span class="toc-text">GROUP BY、HAVING、WHERE之间的关系</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7"><span class="toc-number">3.7.8.</span> <span class="toc-text">数据库可视化工具</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#navicat"><span class="toc-number">3.7.8.1.</span> <span class="toc-text">navicat</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%96%E8%AF%81%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E8%A6%81%E7%82%B9"><span class="toc-number">3.8.</span> <span class="toc-text">取证软件使用要点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%98%E5%8F%A4%E7%9F%B3%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BB%BF%E7%9C%9F%E5%8F%96%E8%AF%81%E7%B3%BB%E7%BB%9F"><span class="toc-number">3.8.1.</span> <span class="toc-text">盘古石计算机仿真取证系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%98%E5%8F%A4%E7%9F%B3%E6%89%8B%E6%9C%BA%E5%8F%96%E8%AF%81%E5%88%86%E6%9E%90%E7%B3%BB%E7%BB%9F"><span class="toc-number">3.8.2.</span> <span class="toc-text">盘古石手机取证分析系统</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-9-1-top_img.png')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By R1ck Liu</div><div class="footer_custom_text"><p><object style="margin-inline:5px" data="https://img.shields.io/badge/Frame-Hexo-blue?logo=Hexo&style=plastic&link=https://hexo.io/&https://hexo.io/zh-cn/docs/"></object><object style="margin-inline:5px" data="https://img.shields.io/badge/Theme-Butterfly-6513df?style=plastic&logo=bitdefender&link=https://butterfly.js.org/"></object></p><p><a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备2023083766号</a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><script>(()=>{
+  const getGiscusTheme = theme => {
+    return theme === 'dark' ? 'dark' : 'light'
+  }
+
+  const loadGiscus = () => {
+    const config = Object.assign({
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'handsomelky/handsomelky.github.io',
+      'data-repo-id': 'R_kgDOJ58FwA',
+      'data-category-id': 'DIC_kwDOJ58FwM4CX0E8',
+      'data-mapping': 'pathname',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true
+    },null)
+
+    const ele = document.createElement('script')
+    for (let key in config) {
+      ele.setAttribute(key, config[key])
+    }
+    document.getElementById('giscus-wrap').appendChild(ele)
+  }
+
+  const changeGiscusTheme = theme => {
+    const sendMessage = message => {
+      const iframe = document.querySelector('iframe.giscus-frame')
+      if (!iframe) return
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+    }
+
+    sendMessage({
+      setConfig: {
+        theme: getGiscusTheme(theme)
+      }
+    });
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment= loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script src="/js/FunnyTitle.js"></script><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://cdn.staticfile.org/hexo-theme-butterfly/4.9.0/js/search/local-search.min.js"></script></div></div><script src="/live2d_models/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2d_models/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2d_models/assets/Rick.model.json"},"display":{"position":"right","width":225,"height":450,"hOffset":30,"vOffset":-50},"mobile":{"show":false},"react":{"opacity":0.85},"log":false});</script></body></html>

@@ -1,0 +1,591 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>《动手学深度学习》笔记（前三章） | R1ck's Portal</title><meta name="author" content="R1ck Liu"><meta name="copyright" content="R1ck Liu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="趁着暑假的闲暇时光系统性学习一下深度学习。本着学习的最高境界是能将学到的知识复述出来这一理念，我打算在这个系列里分享一些学习笔记与收获。本文内容包括广播机制、深拷贝与浅拷贝、自动求导、反向传播、梯度下降、torch.no_grad()的用法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《动手学深度学习》笔记（前三章）">
+<meta property="og:url" content="https://rickliu.com/posts/901c6f233b3c/index.html">
+<meta property="og:site_name" content="R1ck&#39;s Portal">
+<meta property="og:description" content="趁着暑假的闲暇时光系统性学习一下深度学习。本着学习的最高境界是能将学到的知识复述出来这一理念，我打算在这个系列里分享一些学习笔记与收获。本文内容包括广播机制、深拷贝与浅拷贝、自动求导、反向传播、梯度下降、torch.no_grad()的用法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-7-29-cover.png">
+<meta property="article:published_time" content="2023-07-28T17:11:00.000Z">
+<meta property="article:modified_time" content="2023-10-05T11:52:56.000Z">
+<meta property="article:author" content="R1ck Liu">
+<meta property="article:tag" content="note">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="深度学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-7-29-cover.png"><link rel="shortcut icon" href="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/favicon.png"><link rel="canonical" href="https://rickliu.com/posts/901c6f233b3c/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="CCDD774EA967D60E5C877121C6572BF5"/><meta name="baidu-site-verification" content="codeva-13aVmkscyC"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?6c032eabab6689261ec86024f386af87";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: R1ck Liu","link":"链接: ","source":"来源: R1ck's Portal","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '《动手学深度学习》笔记（前三章）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-10-05 19:52:56'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/equipment.css"><script type="text/javascript" src ="/js/reward.js" ></script><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.16/dist/sweetalert2.all.min.js"></script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">62</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/posts/901c6f233b3c/top_img.png')"><nav id="nav"><span id="blog-info"><a href="/" title="R1ck's Portal"><span class="site-name">R1ck's Portal</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">《动手学深度学习》笔记（前三章）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-28T17:11:00.000Z" title="发表于 2023-07-29 01:11:00">2023-07-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-10-05T11:52:56.000Z" title="更新于 2023-10-05 19:52:56">2023-10-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E3%80%8A%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%8B%E7%B3%BB%E5%88%97%E7%AC%94%E8%AE%B0/">《动手学深度学习》系列笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">8.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>26分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="《动手学深度学习》笔记（前三章）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上个学期搞<strong>大学生创新创业</strong>的时候，我对机器学习和OCR领域的各种方法都还是<strong>一知半解</strong>。只知道怎么看懂代码、复现代码和掌握论文的大体框架，但是对具体实现细节和原理还是一无所知。</p>
+<p>遂趁着暑假的闲暇时光系统性学习一下<strong>深度学习</strong></p>
+<p>本着 <mark class="hl-label blue">学习的最高境界是能将学到的知识复述出来</mark>  这一理念，我打算在这个系列里分享一些学习笔记与收获</p>
+<p>这次自学用到的教材是<strong>李沐</strong>老师等深度学习领域的大牛编著的<strong>《动手学深度学习(PyTorch版)》</strong>一书</p>
+<div class="note warning flat"><p>本书同时覆盖深度学习的方法和实践，主要面向<strong>在校大学生、技术人员和研究人员</strong>。阅读本书需要读者了解<strong>基本的Python编程</strong>或附录中描述的<strong>线性代数、微分和概率基础</strong>。</p>
+</div>
+<div class="note info flat"><p>购买链接：<a target="_blank" rel="noopener" href="https://item.jd.com/13628339.html">《动手学深度学习 PyTorch版 - 京东图书 (jd.com)</a></p>
+<p>在线学习：<a target="_blank" rel="noopener" href="http://zh-v2.d2l.ai/chapter_preface/index.html">前言 — 动手学深度学习 2.0.0 documentation (d2l.ai)</a></p>
+</div>
+<p>废话不多说，本文章的笔记内容范围覆盖原书的<strong>前三章</strong>：</p>
+<h2 id="Chapter1-序言"><a href="#Chapter1-序言" class="headerlink" title="Chapter1.序言"></a>Chapter1.序言</h2><p>序言主要是介绍机器学习，里面大体的内容还是有些浅的认知，但也有一些我觉得比较重要的知识点：</p>
+<p><strong>无监督学习</strong></p>
+<p>数据中不含有“目标”的机器学习问题通常被为<em>无监督学习</em>（unsupervised learning）</p>
+<ul>
+<li><em>聚类</em>（clustering）问题：没有标签的情况下，我们是否能给数据分类呢？比如，给定一组照片，我们能把它们分成风景照片、狗、婴儿、猫和山峰的照片吗？同样，给定一组用户的网页浏览记录，我们能否将具有相似行为的用户聚类呢？</li>
+<li><em>主成分分析</em>（principal component analysis）问题：我们能否找到少量的参数来准确地捕捉数据的线性相关属性？比如，一个球的运动轨迹可以用球的速度、直径和质量来描述。再比如，裁缝们已经开发出了一小部分参数，这些参数相当准确地描述了人体的形状，以适应衣服的需要。另一个例子：在欧几里得空间中是否存在一种（任意结构的）对象的表示，使其符号属性能够很好地匹配?这可以用来描述实体及其关系，例如“罗马” −− “意大利” ++ “法国” == “巴黎”。</li>
+<li><em>因果关系</em>（causality）和<em>概率图模型</em>（probabilistic graphical models）问题：我们能否描述观察到的许多数据的根本原因？例如，如果我们有关于房价、污染、犯罪、地理位置、教育和工资的人口统计数据，我们能否简单地根据经验数据发现它们之间的关系？</li>
+<li><em>生成对抗性网络</em>（generative adversarial networks）：为我们提供一种合成数据的方法，甚至像图像和音频这样复杂的非结构化数据。潜在的统计机制是检查真实和虚假数据是否相同的测试，它是无监督学习的另一个重要而令人兴奋的领域。</li>
+</ul>
+<p><strong>近十年的里程碑式idea</strong></p>
+<ul>
+<li><strong>新的容量控制方法</strong>，如<em>dropout</em> :cite:<code>Srivastava.Hinton.Krizhevsky.ea.2014</code>，有助于减轻过拟合的危险。这是通过在整个神经网络中应用噪声注入 :cite:<code>Bishop.1995</code> 来实现的，出于训练目的，用随机变量来代替权重。</li>
+<li><strong>注意力机制</strong>解决了困扰统计学一个多世纪的问题：如何在不增加可学习参数的情况下增加系统的记忆和复杂性。研究人员通过使用只能被视为可学习的指针结构 :cite:<code>Bahdanau.Cho.Bengio.2014</code> 找到了一个优雅的解决方案。不需要记住整个文本序列（例如用于固定维度表示中的机器翻译），所有需要存储的都是指向翻译过程的中间状态的指针。这大大提高了长序列的准确性，因为模型在开始生成新序列之前不再需要记住整个序列。</li>
+<li><strong>多阶段设计</strong>。例如，存储器网络 :cite:<code>Sukhbaatar.Weston.Fergus.ea.2015</code> 和神经编程器-解释器 :cite:<code>Reed.De-Freitas.2015</code>。它们允许统计建模者描述用于推理的迭代方法。这些工具允许重复修改深度神经网络的内部状态，从而执行推理链中的后续步骤，类似于处理器如何修改用于计算的存储器。</li>
+<li>另一个关键的发展是<strong>生成对抗网络</strong> :cite:<code>Goodfellow.Pouget-Abadie.Mirza.ea.2014</code> 的发明。传统模型中，密度估计和生成模型的统计方法侧重于找到合适的概率分布（通常是近似的）和抽样算法。因此，这些算法在很大程度上受到统计模型固有灵活性的限制。生成式对抗性网络的关键创新是用具有可微参数的任意算法代替采样器。然后对这些数据进行调整，使得鉴别器（实际上是一个双样本测试）不能区分假数据和真实数据。通过使用任意算法生成数据的能力，它为各种技术打开了密度估计的大门。驰骋的斑马 :cite:<code>Zhu.Park.Isola.ea.2017</code> 和假名人脸 :cite:<code>Karras.Aila.Laine.ea.2017</code> 的例子都证明了这一进展。即使是业余的涂鸦者也可以根据描述场景布局的草图生成照片级真实图像（ :cite:<code>Park.Liu.Wang.ea.2019</code> ）。</li>
+<li>在许多情况下，单个GPU不足以处理可用于训练的大量数据。在过去的十年中，<strong>构建并行和分布式训练算法</strong>的能力有了显著提高。设计可伸缩算法的关键挑战之一是深度学习优化的主力——随机梯度下降，它依赖于相对较小的小批量数据来处理。同时，小批量限制了GPU的效率。因此，在1024个GPU上进行训练，例如每批32个图像的小批量大小相当于总计约32000个图像的小批量。最近的工作，首先是由 :cite:<code>Li.2017</code> 完成的，随后是 :cite:<code>You.Gitman.Ginsburg.2017</code> 和 :cite:<code>Jia.Song.He.ea.2018</code> ，将观察大小提高到64000个，将ResNet-50模型在ImageNet数据集上的训练时间减少到不到7分钟。作为比较——最初的训练时间是按天为单位的。</li>
+<li>并行计算的能力也对<strong>强化学习的进步</strong>做出了相当关键的贡献。这导致了计算机在围棋、雅达里游戏、星际争霸和物理模拟（例如，使用MuJoCo）中实现超人性能的重大进步。有关如何在AlphaGo中实现这一点的说明，请参见如 :cite:<code>Silver.Huang.Maddison.ea.2016</code> 。简而言之，如果有大量的（状态、动作、奖励）三元组可用，即只要有可能尝试很多东西来了解它们之间的关系，强化学习就会发挥最好的作用。仿真提供了这样一条途径。</li>
+<li><strong>深度学习框架</strong>在传播思想方面发挥了至关重要的作用。允许轻松建模的第一代框架包括<a target="_blank" rel="noopener" href="https://github.com/BVLC/caffe">Caffe</a>、<a target="_blank" rel="noopener" href="https://github.com/torch">Torch</a>和<a target="_blank" rel="noopener" href="https://github.com/Theano/Theano">Theano</a>。许多开创性的论文都是用这些工具写的。到目前为止，它们已经被<a target="_blank" rel="noopener" href="https://github.com/tensorflow/tensorflow">TensorFlow</a>（通常通过其高级API <a target="_blank" rel="noopener" href="https://github.com/keras-team/keras">Keras</a>使用）、<a target="_blank" rel="noopener" href="https://github.com/Microsoft/CNTK">CNTK</a>、<a target="_blank" rel="noopener" href="https://github.com/caffe2/caffe2">Caffe 2</a>和<a target="_blank" rel="noopener" href="https://github.com/apache/incubator-mxnet">Apache MXNet</a>所取代。第三代工具，即用于深度学习的命令式工具，可以说是由<a target="_blank" rel="noopener" href="https://github.com/chainer/chainer">Chainer</a>率先推出的，它使用类似于Python NumPy的语法来描述模型。这个想法被<a target="_blank" rel="noopener" href="https://github.com/pytorch/pytorch">PyTorch</a>、MXNet的<a target="_blank" rel="noopener" href="https://github.com/apache/incubator-mxnet">Gluon API</a>和<a target="_blank" rel="noopener" href="https://github.com/google/jax">Jax</a>都采纳了。</li>
+</ul>
+<div class="note primary flat"><p>原书中有一段话我觉得说的挺好的，在这里摘抄一下：</p>
+<blockquote>
+<p>我们离一个能够控制人类创造者的有知觉的人工智能系统还很远。 首先，人工智能系统是以一种特定的、面向目标的方式设计、训练和部署的。 虽然他们的行为可能会给人一种通用智能的错觉，但设计的基础是规则、启发式和统计模型的结合。 其次，目前还不存在能够自我改进、自我推理、能够在试图解决一般任务的同时，修改、扩展和改进自己的架构的“人工通用智能”工具。</p>
+<p>一个更紧迫的问题是人工智能在日常生活中的应用。 卡车司机和店员完成的许多琐碎的工作很可能也将是自动化的。 农业机器人可能会降低有机农业的成本，它们也将使收割作业自动化。 工业革命的这一阶段可能对社会的大部分地区产生深远的影响，因为卡车司机和店员是许多国家最常见的工作之一。 此外，如果不加注意地应用统计模型，可能会导致种族、性别或年龄偏见，如果自动驱动相应的决策，则会引起对程序公平性的合理关注。 重要的是要确保小心使用这些算法。 就我们今天所知，这比恶意超级智能毁灭人类的风险更令人担忧。</p>
+</blockquote>
+</div>
+<h2 id="Chapter2-预备知识"><a href="#Chapter2-预备知识" class="headerlink" title="Chapter2.预备知识"></a>Chapter2.预备知识</h2><h3 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h3><h4 id="广播机制"><a href="#广播机制" class="headerlink" title="广播机制"></a>广播机制</h4><p>数据操作中比较重要的一个点是<strong>广播机制</strong>：</p>
+<p>在某些情况下，即使形状不同，我们仍然可以通过调用 <em>广播机制</em>（broadcasting mechanism）来执行按元素操作。 这种机制的工作方式如下：</p>
+<ol>
+<li>通过适当复制元素来扩展一个或两个数组，以便在转换之后，两个张量具有相同的形状；</li>
+<li>对生成的数组执行按元素操作。</li>
+</ol>
+<p>在大多数情况下，我们将沿着数组中长度为1的轴进行广播，如下例子：</p>
+<p>In:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = torch.arange(<span class="number">3</span>).reshape((<span class="number">3</span>, <span class="number">1</span>))</span><br><span class="line">b = torch.arange(<span class="number">2</span>).reshape((<span class="number">1</span>, <span class="number">2</span>))</span><br><span class="line">a, b</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(tensor([[<span class="number">0</span>],</span><br><span class="line">         [<span class="number">1</span>],</span><br><span class="line">         [<span class="number">2</span>]]),</span><br><span class="line"> tensor([[<span class="number">0</span>, <span class="number">1</span>]]))</span><br></pre></td></tr></table></figure>
+<p>由于<code>a</code>和<code>b</code>分别是3×1和1×2矩阵，如果让它们相加，它们的形状不匹配。 我们将两个矩阵<em>广播</em>为一个更大的3×2矩阵，如下所示：矩阵<code>a</code>将复制列， 矩阵<code>b</code>将复制行，然后再按元素相加。<br>In:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a + b</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tensor([[<span class="number">0</span>, <span class="number">1</span>],</span><br><span class="line">        [<span class="number">1</span>, <span class="number">2</span>],</span><br><span class="line">        [<span class="number">2</span>, <span class="number">3</span>]])</span><br></pre></td></tr></table></figure>
+<h4 id="节省内存"><a href="#节省内存" class="headerlink" title="节省内存"></a>节省内存</h4><p>这里涉及到python中的<strong>赋值(复制)、浅拷贝与深拷贝</strong></p>
+<p>首先有几个关于python的基本概念要搞清楚：</p>
+<div class="note info flat"><p><strong>变量</strong>：是一个系统表的元素，拥有指向对象的连接空间</p>
+<p><strong>对象</strong>：被分配的一块内存，存储其所代表的值</p>
+<p><strong>引用</strong>：是自动形成的从变量到对象的指针</p>
+<p><strong>类型</strong>：属于对象，而非变量</p>
+<p><strong>不可变对象</strong>：一旦创建就不可修改的对象，包括字符串、元组、数值类型</p>
+<p><em>（该对象所指向的内存中的值不能被改变。当改变某个变量时候，由于其所指的值不能被改变，相当于把原来的值复制一份后再改变，这会开辟一个新的地址，变量再指向这个新的地址。）</em></p>
+<p><strong>可变对象</strong>：可以修改的对象，包括列表、字典、集合</p>
+<p><em>（该对象所指向的内存中的值可以被改变。变量（准确的说是引用）改变后，实际上是其所指的值直接发生改变，并没有发生复制行为，也没有开辟新的地址，通俗点说就是原地改变。）</em></p>
+</div>
+<p>那么本文只会涉及赋值(复制)、浅拷贝与深拷贝三种操作的一点细微区别</p>
+<p>即若改变新变量的值，原变量会不会随着发生变化</p>
+<p>如下表所示：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>不可变对象</th>
+<th>可变对象</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>赋值(复制)</td>
+<td>不变</td>
+<td>变化</td>
+</tr>
+<tr>
+<td>浅拷贝</td>
+<td>不变</td>
+<td>变化</td>
+</tr>
+<tr>
+<td>深拷贝</td>
+<td>不变</td>
+<td>不变</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>如果想更深入的了解这三种操作，可以参考以下信息提示：</p>
+<div class="note info flat"><div class="tabs" id="三种操作的区别"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="三种操作的区别-1">赋值(复制)</button><button type="button" class="tab " data-href="三种操作的区别-2">浅拷贝</button><button type="button" class="tab " data-href="三种操作的区别-3">深拷贝</button></ul><div class="tab-contents"><div class="tab-item-content active" id="三种操作的区别-1"><p>直接赋值其实就是对象的引用（别名）。</p>
+<p><img src="/posts/901c6f233b3c/image-20230729195815961.png" class="" title="image-20230729195815961"></p>
+<p><img src="/posts/901c6f233b3c/image-20230729200158322.png" class="" title="image-20230729200158322"></p></div><div class="tab-item-content" id="三种操作的区别-2"><p>拷贝父对象，不会拷贝对象的内部的子对象。</p>
+<p>浅拷贝要分两种情况进行讨论：</p>
+<p>1）当浅拷贝的值是不可变对象（字符串、元组、数值类型）时和“赋值”的情况一样，对象的id值<em>（id()函数用于获取对象的内存地址）</em>与浅拷贝原来的值相同。</p>
+<p>2）当浅拷贝的值是可变对象（列表、字典、集合）时会产生一个“不是那么独立的对象”存在。</p>
+<p><img src="/posts/901c6f233b3c/image-20230729200936655-16906334884741.png" class="" title="image-20230729200936655"></p>
+<p><img src="img/image-20230729201711241.png" alt="image-20230729201711241"></p>
+<p><img src="/posts/901c6f233b3c/image-20230729202010740-16906334993083.png" class="" title="image-20230729202010740"></p></div><div class="tab-item-content" id="三种操作的区别-3"><p> copy 模块的 deepcopy 方法，完全拷贝了父对象及其子对象。</p>
+<p>改变原有被复制对象不会对已经复制出来的新对象产生影响。</p>
+<p><img src="/posts/901c6f233b3c/image-20230729202143832-16906335074795.png" class="" title="image-20230729202143832"></p>
+<p><img src="/posts/901c6f233b3c/image-20230729202304412-16906335174477.png" class="" title="image-20230729202304412"></p></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div>
+</div>
+<p>那么事实上，在pytorch中，张量作为可变对象来看待</p>
+<p>那么像x.reshape()和x.detach()这样的操作具有浅拷贝的性质：</p>
+<img src="/posts/901c6f233b3c/image-20230729204012380.png" class="" title="image-20230729204012380">
+<p>而运行一些操作也可能会导致<strong>为新结果分配内存</strong>。</p>
+<p> 例如，如果我们用<code>Y = X + Y</code>，我们将取消引用<code>Y</code>指向的张量，而是指向新分配的内存处的张量。</p>
+<p>在下面的例子中，我们用Python的<code>id()</code>函数演示了这一点， 它给我们提供了内存中引用对象的确切地址。 运行<code>Y = Y + X</code>后，我们会发现<code>id(Y)</code>指向另一个位置。 这是因为Python首先计算<code>Y + X</code>，为结果分配新的内存，然后使<code>Y</code>指向内存中的这个新位置。</p>
+<p>In :</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">before = <span class="built_in">id</span>(Y)</span><br><span class="line">Y = Y + X</span><br><span class="line"><span class="built_in">id</span>(Y) == before</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<p>这可能是不可取的，原因有两个：</p>
+<ol>
+<li>首先，我们不想总是不必要地分配内存。在机器学习中，我们可能有数百兆的参数，并且在一秒内多次更新所有参数。通常情况下，我们希望原地执行这些更新；</li>
+<li>如果我们不原地更新，其他引用仍然会指向旧的内存位置，这样我们的某些代码可能会无意中引用旧的参数。</li>
+</ol>
+<p>幸运的是，(<strong>执行原地操作</strong>)非常简单。 我们可以使用切片表示法将操作的结果分配给先前分配的数组，例如<code>Y[:] = &lt;expression&gt;</code>。 为了说明这一点，我们首先创建一个新的矩阵<code>Z</code>，其形状与另一个<code>Y</code>相同， 使用<code>zeros_like</code>来分配一个全00的块。</p>
+<p>In :</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Z = torch.zeros_like(Y)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;id(Z):&#x27;</span>, <span class="built_in">id</span>(Z))</span><br><span class="line">Z[:] = X + Y</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;id(Z):&#x27;</span>, <span class="built_in">id</span>(Z))</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">id</span>(Z): <span class="number">139931132035296</span></span><br><span class="line"><span class="built_in">id</span>(Z): <span class="number">139931132035296</span></span><br></pre></td></tr></table></figure>
+<p>[<strong>如果在后续计算中没有重复使用<code>X</code>， 我们也可以使用<code>X[:] = X + Y</code>或<code>X += Y</code>来减少操作的内存开销。</strong>]</p>
+<p>In :</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">before = id(X)</span><br><span class="line">X += Y</span><br><span class="line">id(X) == before</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">True</span><br></pre></td></tr></table></figure>
+<h4 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h4><p>而如果我们如果想对张量进行深拷贝，则可以使用clone()函数：</p>
+<p>In:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = torch.arange(<span class="number">12</span>)</span><br><span class="line">b=a.clone</span><br><span class="line">b[:] = <span class="number">2</span></span><br><span class="line">a</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensor([ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>,  <span class="number">5</span>,  <span class="number">6</span>,  <span class="number">7</span>,  <span class="number">8</span>,  <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>])</span><br></pre></td></tr></table></figure>
+<p>而关于张量的浅拷贝和深拷贝其实还有一些更深入的区别：</p>
+<div class="note primary flat"><p><code>.clone()</code>是深拷贝，开辟新的存储地址而不是引用来保存旧的tensor，在梯度回传的时候clone()充当中间变量，会将梯度传给源张量进行叠加，但是本身不保存其grad，值为None。<br><code>.detach()</code>是浅拷贝，新的tensor会脱离计算图，<strong>不会牵扯梯度计算</strong>。</p>
+<p><img src="/posts/901c6f233b3c/image-20230729210152135.png" class="" title="image-20230729210152135"></p>
+</div>
+<h3 id="线性代数"><a href="#线性代数" class="headerlink" title="线性代数"></a>线性代数</h3><h4 id="降维"><a href="#降维" class="headerlink" title="降维"></a>降维</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A = torch.arange(<span class="number">20</span>, dtype=torch.float32).reshape(<span class="number">5</span>, <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<p>默认情况下，调用求和函数会沿所有的轴降低张量的维度，使它变为一个标量。 我们还可以[<strong>指定张量沿哪一个轴来通过求和降低维度</strong>]。 以矩阵为例，为了通过求和所有行的元素来降维（轴0），可以在调用函数时指定<code>axis=0</code>。 由于输入矩阵沿0轴降维以生成输出向量，因此输入轴0的维数在输出形状中消失。</p>
+<p>In :</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A_sum_axis0 = A.<span class="built_in">sum</span>(axis=<span class="number">0</span>)</span><br><span class="line">A_sum_axis0, A_sum_axis0.shape</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(tensor([<span class="number">40.</span>, <span class="number">45.</span>, <span class="number">50.</span>, <span class="number">55.</span>]), torch.Size([<span class="number">4</span>]))</span><br></pre></td></tr></table></figure>
+<p>指定<code>axis=1</code>将通过汇总所有列的元素降维（轴1）。因此，输入轴1的维数在输出形状中消失。</p>
+<p>In :</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A_sum_axis1 = A.<span class="built_in">sum</span>(axis=<span class="number">1</span>)</span><br><span class="line">A_sum_axis1, A_sum_axis1.shape</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(tensor([ <span class="number">6.</span>, <span class="number">22.</span>, <span class="number">38.</span>, <span class="number">54.</span>, <span class="number">70.</span>]), torch.Size([<span class="number">5</span>]))</span><br></pre></td></tr></table></figure>
+<p>沿着行和列对矩阵求和，等价于对矩阵的所有元素进行求和。</p>
+<p>In:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A.<span class="built_in">sum</span>(axis=[<span class="number">0</span>, <span class="number">1</span>])  <span class="comment"># 结果和A.sum()相同</span></span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensor(<span class="number">190.</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="非降维求和"><a href="#非降维求和" class="headerlink" title="非降维求和"></a>非降维求和</h4><p>但是，有时在调用函数来[<strong>计算总和或均值时保持轴数不变</strong>]会很有用。</p>
+<p>In:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sum_A = A.<span class="built_in">sum</span>(axis=<span class="number">1</span>, keepdims=<span class="literal">True</span>)</span><br><span class="line">sum_A</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tensor([[ <span class="number">6.</span>],</span><br><span class="line">        [<span class="number">22.</span>],</span><br><span class="line">        [<span class="number">38.</span>],</span><br><span class="line">        [<span class="number">54.</span>],</span><br><span class="line">        [<span class="number">70.</span>]])</span><br></pre></td></tr></table></figure>
+<p>例如，由于<code>sum_A</code>在对每行进行求和后仍保持两个轴，我们可以(<strong>通过广播将<code>A</code>除以<code>sum_A</code></strong>)。</p>
+<p>In:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A / sum_A</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tensor([[<span class="number">0.0000</span>, <span class="number">0.1667</span>, <span class="number">0.3333</span>, <span class="number">0.5000</span>],</span><br><span class="line">        [<span class="number">0.1818</span>, <span class="number">0.2273</span>, <span class="number">0.2727</span>, <span class="number">0.3182</span>],</span><br><span class="line">        [<span class="number">0.2105</span>, <span class="number">0.2368</span>, <span class="number">0.2632</span>, <span class="number">0.2895</span>],</span><br><span class="line">        [<span class="number">0.2222</span>, <span class="number">0.2407</span>, <span class="number">0.2593</span>, <span class="number">0.2778</span>],</span><br><span class="line">        [<span class="number">0.2286</span>, <span class="number">0.2429</span>, <span class="number">0.2571</span>, <span class="number">0.2714</span>]])</span><br></pre></td></tr></table></figure>
+<p>如果我们想沿[<strong>某个轴计算<code>A</code>元素的累积总和</strong>]， 比如<code>axis=0</code>（按行计算），可以调用<code>cumsum</code>函数。 此函数不会沿任何轴降低输入张量的维度。</p>
+<p>In:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A.cumsum(axis=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tensor([[ <span class="number">0.</span>,  <span class="number">1.</span>,  <span class="number">2.</span>,  <span class="number">3.</span>],</span><br><span class="line">        [ <span class="number">4.</span>,  <span class="number">6.</span>,  <span class="number">8.</span>, <span class="number">10.</span>],</span><br><span class="line">        [<span class="number">12.</span>, <span class="number">15.</span>, <span class="number">18.</span>, <span class="number">21.</span>],</span><br><span class="line">        [<span class="number">24.</span>, <span class="number">28.</span>, <span class="number">32.</span>, <span class="number">36.</span>],</span><br><span class="line">        [<span class="number">40.</span>, <span class="number">45.</span>, <span class="number">50.</span>, <span class="number">55.</span>]])</span><br></pre></td></tr></table></figure>
+<h4 id="范数"><a href="#范数" class="headerlink" title="范数"></a>范数</h4><p>类似于向量的$L_2$范数，[<strong>矩阵</strong>]$\mathbf{X} \in \mathbb{R}^{m \times n}$(<strong>的<em>Frobenius范数</em>（Frobenius norm）是矩阵元素平方和的平方根：</strong></p>
+<p>$|\mathbf{X}|<em>F = \sqrt{\sum</em>{i=1}^m \sum<em>{j=1}^n x</em>{ij}^2}.$</p>
+<p>Frobenius范数满足向量范数的所有性质，它就像是矩阵形向量的$L_2$范数。 调用以下函数将计算矩阵的Frobenius范数。</p>
+<p>In:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.norm(torch.ones((<span class="number">4</span>, <span class="number">9</span>)))</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensor(<span class="number">6.</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="自动求导、反向传播、梯度下降（重点）"><a href="#自动求导、反向传播、梯度下降（重点）" class="headerlink" title="自动求导、反向传播、梯度下降（重点）"></a>自动求导、反向传播、梯度下降（重点）</h3><p>这里其实是理解深度学习时<strong>最关键</strong>的一个知识点，基本上如果能将这一部分搞清楚，那么之后自己训练模型的时候也能更胸有成竹一些，而不是仅仅成为一个“调参小子”（仿照“脚本小子”的叫法🤣</p>
+<div class="note info flat"><p><strong>脚本小子</strong>（英语：<strong>script kiddie</strong>）是一个贬义词，用来描述以“<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/黑客">黑客</a>”自居并沾沾自喜的初学者。脚本小子不像真正的黑客那样发现系统漏洞，他们通常使用别人开发的程序来恶意破坏他人系统。通常的刻板印象为一位没有专科经验的少年，破坏无辜网站企图使得他的朋友感到惊讶，因而称之为脚本小子。</p>
+<p>脚本小子常常从某些网站上复制脚本代码，然后到处粘贴，却并不一定明白它们的方法与原理。他们钦慕于黑客的能力与探索精神，但与黑客所不同的是，脚本小子通常只是对计算机系统有基础了解与爱好，但并不注重<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/程序語言">程序语言</a>、<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/算法">算法</a>和<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/数据结构">数据结构</a>的研究，虽然这些对于真正的黑客来说是必须具备的素质。</p>
+</div>
+<p>在学习了原书以及一些在线资料之后，我分享一下自己对自动求导、反向传播和梯度下降这几个概念的理解</p>
+<div class="note warning flat"><p><strong>以下内容均为个人理解</strong>，如有纰漏或者有更好的表达请在评论区指出😊</p>
+</div>
+<p>我们都知道，深度学习的最终目标是找到一组最终的参数，使得当前的损失函数(Loss Function)最小</p>
+<p>那么这里其实可以简化为一个求函数最小值的问题，此时网络的中间参数为<strong>自变量</strong>，损失函数的值为<strong>因变量</strong></p>
+<p>其实如果自变量只有一个，那么此时问题就变成了在直角坐标系的曲线上寻找最低点的问题，我们只需要找到x使得导数$\frac{\partial y(x)}{\partial x} = 0$，那么此处的因变量值y就为函数的局部最小值</p>
+<p>由于真实的神经网络结构中中间参数的个数很多，我们需要将自变量推广为一个<strong>向量</strong>，而此时导数则推广为<strong>梯度</strong></p>
+<div class="note info flat"><p><strong>梯度</strong>（gradient）的本意是一个向量（矢量），表示某一函数在该点处的方向导数沿着该方向取得最大值，即函数在该点处沿着该方向（此梯度的方向）变化最快，变化率最大（为该梯度的模）。</p>
+<ul>
+<li><p>当y为标量，x为向量时</p>
+<p><style>.nbyfgmxcsiiu{zoom: 50%;}</style><img src="/posts/901c6f233b3c/image-20230731171519300.png" class="nbyfgmxcsiiu" alt="image-20230731171519300"></p>
+</li>
+<li><p>当y和x均为向量时</p>
+<p><style>.thpfwkxqrpje{zoom: 67%;}</style><img src="/posts/901c6f233b3c/image-20230726212743994.png" class="thpfwkxqrpje" alt="image-20230726212743994"></p>
+</li>
+</ul>
+</div>
+<p>但是很多情况下，并不能直接找到令梯度为0的值，所以只能够逐渐调整中间参数，使得损失函数的值不断减小</p>
+<p>此时就要用到<strong>梯度下降法</strong></p>
+<p>梯度这个概念的名称其实非常直观，我们可以将它<strong>与山脉的坡度类比</strong>⛰</p>
+<p>当我们需要下山到山谷时，如果沿着坡度的反方向走，下山的速度是最快的</p>
+<p>所以当我们每次需要调整中间参数时，可以用它减去学习率乘以梯度向量取反，这里的学习率可以与下山时走路的步长类比</p>
+<p>而<strong>更新参数的具体细节</strong>是如何实现的呢？</p>
+<p>此时需要用到<strong>反向传播算法</strong></p>
+<p>这里的<strong>反向</strong>二字其实就是指损失函数对参数的梯度通过网络反向流动</p>
+<p>而通过利用<strong>链式法则</strong>，可以计算出<strong>损失函数对各参数的梯度</strong>，具体公式这里就不涉及了</p>
+<div class="note info flat"><p><style>.yglhilmscyhm{zoom:67%;}</style><img src="/posts/901c6f233b3c/image-20230726214825560.png" class="yglhilmscyhm" alt="image-20230726214825560"></p>
+</div>
+<p>而该如何<strong>更高效地计算</strong>梯度呢？</p>
+<p>这里涉及到<strong>自动求导</strong>的概念，自动求导是基于<strong>计算图</strong>的</p>
+<div class="note info flat"><p><strong>计算图</strong>被定义为有向图，其中节点对应于数学运算。 计算图是表达和评估数学表达式的一种方式。</p>
+<p>例如，这里有一个简单的数学公式 -</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p = x + y</span><br></pre></td></tr></table></figure>
+<p>我们可以绘制上述方程的计算图如下。<br><img src="/posts/901c6f233b3c/738090622_96682.png" class="" title="img"></p>
+<p>上面的计算图具有一个加法节点(具有“+”符号的节点)，其具有两个输入变量<code>x</code>和<code>y</code>以及一个输出<code>q</code>。</p>
+<p>让我们再举一个例子，稍微复杂些。如下等式。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g = ( x + y ) ∗ z</span><br></pre></td></tr></table></figure>
+<p>以上等式由以下计算图表示。</p>
+<p><img src="/posts/901c6f233b3c/829090623_54957.png" class="" title="img"></p>
+</div>
+<p>通过一次前向累积和一次反向累积，就能在保证速度的条件下完成自动求导</p>
+<p><style>.mknldnvelymt{zoom: 25%;}</style><img src="/posts/901c6f233b3c/image-20230726221124109.png" class="mknldnvelymt" alt="image-20230726221124109"></p>
+<p><style>.cqlxotjkivlf{zoom: 67%;}</style><img src="/posts/901c6f233b3c/image-20230726221205461.png" class="cqlxotjkivlf" alt="image-20230726221205461"></p>
+<p><style>.qjhkuctjmfem{zoom: 67%;}</style><img src="/posts/901c6f233b3c/image-20230726221225754.png" class="qjhkuctjmfem" alt="image-20230726221225754"></p>
+<p>在<strong>Pytorch</strong>中，这一过程是<strong>隐式</strong>进行的，只需要我们在设定参数时注明以下代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x.requires_grad_(<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<p>以下是一个如何使用反向传播的示例：</p>
+<p>In:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">x = torch.arrange(<span class="number">4</span>,<span class="number">0</span>)</span><br><span class="line">x.requires_grad_(<span class="literal">True</span>)</span><br><span class="line"><span class="comment">#前两个语句可压缩成x = torch.arange(4.0,requires_grad=True)</span></span><br><span class="line">y = <span class="number">2</span> * torch.dot(x,x)</span><br><span class="line">y.backward()</span><br><span class="line">x.grad</span><br><span class="line">x.grad == <span class="number">4</span> * x</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tensor([<span class="number">0.</span>, <span class="number">4.</span>, <span class="number">8.</span>, <span class="number">12.</span>])</span><br><span class="line">tensor([<span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>])</span><br></pre></td></tr></table></figure>
+<div class="note primary flat"><p>如果想要加深对这几个概念的理解，下面这几个视频也讲的还不错</p>
+<p>自动求导：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1yG411x7Cc">https://www.bilibili.com/video/BV1yG411x7Cc</a></p>
+<p>反向传播：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV16x411V7Qg">https://www.bilibili.com/video/BV16x411V7Qg</a></p>
+<p>梯度下降：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Ux411j7ri">https://www.bilibili.com/video/BV1Ux411j7ri</a></p>
+</div>
+<h2 id="Chapter3-线性神经网络"><a href="#Chapter3-线性神经网络" class="headerlink" title="Chapter3.线性神经网络"></a>Chapter3.线性神经网络</h2><h3 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h3><h4 id="小批量随机梯度下降"><a href="#小批量随机梯度下降" class="headerlink" title="小批量随机梯度下降"></a>小批量随机梯度下降</h4><p><style>.ryllrkhmrqpt{zoom: 50%;}</style><img src="/posts/901c6f233b3c/image-20230728151859106.png" class="ryllrkhmrqpt" alt="image-20230728151859106"></p>
+<p><style>.ybaezhtxvmum{zoom:67%;}</style><img src="/posts/901c6f233b3c/image-20230728151912015.png" class="ybaezhtxvmum" alt="image-20230728151912015"></p>
+<p>选择批量大小时</p>
+<p><style>.rwphlkrduvod{zoom: 50%;}</style><img src="/posts/901c6f233b3c/image-20230728151942500.png" class="rwphlkrduvod" alt="image-20230728151942500"></p>
+<h4 id="具体过程"><a href="#具体过程" class="headerlink" title="具体过程"></a>具体过程</h4><ul>
+<li><p>优化算法</p>
+<p>小批量随机梯度下降：</p>
+<p>在每一步中，使用从数据集中随机抽取的一个小批量，然后根据参数计算损失的梯度。 接下来，朝着减少损失的方向更新我们的参数。 下面的函数实现小批量随机梯度下降更新。 该函数接受模型参数集合、学习速率和批量大小作为输入。每 一步更新的大小由学习速率<code>lr</code>决定。 因为我们计算的损失是一个批量样本的总和，所以我们用批量大小（<code>batch_size</code>） 来规范化步长，这样步长大小就不会取决于我们对批量大小的选择</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sgd</span>(<span class="params">params, lr, batch_size</span>):  <span class="comment">#@save</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;小批量随机梯度下降&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        <span class="keyword">for</span> param <span class="keyword">in</span> params:</span><br><span class="line">            param -= lr * param.grad / batch_size</span><br><span class="line">            param.grad.zero_()</span><br></pre></td></tr></table></figure>
+<div class="note warning flat"><p>每个batch计算时，需要使用x.grad.zero_()把梯度先清零（此处x为特征参数），若不清零，则</p>
+<p>下次调用x.grad时会在之前梯度数值上累加。</p>
+</div>
+</li>
+<li><p>训练流程：</p>
+<p>执行以下循环：</p>
+<ul>
+<li>初始化参数</li>
+<li>重复以下训练，直到完成<ul>
+<li>计算梯度$\mathbf{g} \leftarrow \partial<em>{(\mathbf{w},b)} \frac{1}{|\mathcal{B}|} \sum</em>{i \in \mathcal{B}} l(\mathbf{x}^{(i)}, y^{(i)}, \mathbf{w}, b)$</li>
+<li>更新参数$(\mathbf{w}, b) \leftarrow (\mathbf{w}, b) - \eta \mathbf{g}$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>具体代码：</p>
+<p>In:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">lr = <span class="number">0.03</span></span><br><span class="line">num_epochs = <span class="number">3</span></span><br><span class="line">net = linreg</span><br><span class="line">loss = squared_loss</span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(num_epochs):</span><br><span class="line">    <span class="keyword">for</span> X, y <span class="keyword">in</span> data_iter(batch_size, features, labels):</span><br><span class="line">        l = loss(net(X, w, b), y)  <span class="comment"># X和y的小批量损失</span></span><br><span class="line">        <span class="comment"># 因为l形状是(batch_size,1)，而不是一个标量。l中的所有元素被加到一起，</span></span><br><span class="line">        <span class="comment"># 并以此计算关于[w,b]的梯度</span></span><br><span class="line">        l.<span class="built_in">sum</span>().backward()</span><br><span class="line">        sgd([w, b], lr, batch_size)  <span class="comment"># 使用参数的梯度更新参数</span></span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        train_l = loss(net(features, w, b), labels)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;epoch <span class="subst">&#123;epoch + <span class="number">1</span>&#125;</span>, loss <span class="subst">&#123;<span class="built_in">float</span>(train_l.mean()):f&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">epoch <span class="number">1</span>, loss <span class="number">0.043705</span></span><br><span class="line">epoch <span class="number">2</span>, loss <span class="number">0.000172</span></span><br><span class="line">epoch <span class="number">3</span>, loss <span class="number">0.000047</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="使用with-torch-no-grad-的原因"><a href="#使用with-torch-no-grad-的原因" class="headerlink" title="使用with torch.no_grad():的原因"></a>使用<code>with torch.no_grad():</code>的原因</h4>  <div class="note info flat"><p>有一些任务，可能事先需要设置，事后做清理工作。对于这种场景，Python的<strong>with语句</strong>提供了一种非常方便的处理方式。其中一个很好的例子是文件处理，你需要获取一个文件句柄，从文件中读取数据，然后关闭文件句柄。</p>
+<p>with 语句适用于对资源进行访问的场合，确保不管使用过程中是否发生异常都会执行必要的“清理”操作，释放资源，比如文件使用后自动关闭／线程中锁的自动获取和释放等。</p>
+<p>例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">file = <span class="built_in">open</span>(<span class="string">&quot;１.txt&quot;</span>)</span><br><span class="line">data = file.read()</span><br><span class="line">file.close()</span><br></pre></td></tr></table></figure>
+<p>存在问题如下：<br>（１）文件读取发生异常，但没有进行任何处理；<br>（２）可能忘记关闭文件句柄；</p>
+<p>初步改进：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    f = <span class="built_in">open</span>(<span class="string">&#x27;xxx&#x27;</span>)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;fail to open&#x27;</span>)</span><br><span class="line">    exit(-<span class="number">1</span>)</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    do something</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    do something</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    f.close()</span><br></pre></td></tr></table></figure>
+<p>虽然上面这段代码运行良好，但比较冗长。<br>而使用with的话，能够减少冗长，还能自动处理上下文环境产生的异常。如下面代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;１.txt&quot;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    data = file.read()</span><br></pre></td></tr></table></figure>
+<p>总结with工作原理：<br>（１）紧跟with后面的语句被求值后，返回对象的“–enter–()”方法被调用，这个方法的返回值将被赋值给as后面的变量；<br>（２）当with后面的代码块全部被执行完之后，将调用前面返回对象的“–exit–()”方法。</p>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/sazass/article/details/116668755">https://blog.csdn.net/sazass/article/details/116668755</a></p>
+</div>
+<p>  了解了python中<strong>with语句</strong>的用法，那么此处的<code>torch.no_grad()</code>就是作为后面代码块的执行条件</p>
+<p>  而<code>torch.no_grad()</code>的作用就是使所有计算得出的tensor的requires_grad都自动设置为False，这样可以大大减少显存或内存占用。</p>
+<p>  现在我们可以找找前面线性回归的过程中有哪些位置用到了<code>torch.no_grad()</code></p>
+<p>  一处是<strong>小批量随机梯度下降</strong>，一处是<strong>计算训练时的中间结果</strong>，由于我们不需要这两个过程中产生的<strong>新tensor</strong>自动求导，所以我们将其放在<code>torch.no_grad()</code>的条件下</p>
+<h4 id="简洁实现"><a href="#简洁实现" class="headerlink" title="简洁实现"></a>简洁实现</h4><ul>
+<li><p>读取数据集使用TensorDataset和DataLoader函数</p>
+</li>
+<li><p>线性回归使用Linear函数</p>
+</li>
+<li><p>损失函数使用MSELoss函数</p>
+</li>
+<li>小批量随机梯度下降使用optim.SGD函数</li>
+</ul>
+<h3 id="softmax回归"><a href="#softmax回归" class="headerlink" title="softmax回归"></a>softmax回归</h3><img src="/posts/901c6f233b3c/image-20230803150213005.png" class="" title="image-20230803150213005">
+<h4 id="softmax函数"><a href="#softmax函数" class="headerlink" title="softmax函数"></a>softmax函数</h4><p> softmax函数能够将未规范化的预测变换为非负数并且总和为1，同时让模型保持 可导的性质。 为了完成这一目标，我们首先对每个未规范化的预测求幂，这样可以确保输出非负。 为了确保最终输出的概率值总和为1，我们再让每个求幂后的结果除以它们的总和。如下式：</p>
+<p>$\hat{\mathbf{y}} = \mathrm{softmax}(\mathbf{o})\quad \text{其中}\quad \hat{y}_j = \frac{\exp(o_j)}{\sum_k \exp(o_k)}$</p>
+  <div class="note info flat"><p>exp() 是一个指数函数，用来求 e（底数）的 x 次幂（次方）的值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exp(<span class="number">4</span>) = <span class="number">54.598150</span></span><br></pre></td></tr></table></figure>
+</div>
+<p>这里，对于所有的$𝑗$总有$0 \leq \hat{y}_j \leq 1$。 因此，$\hat{\mathbf{y}}$可以视为一个正确的概率分布。 softmax运算不会改变未规范化的预测$𝐨$之间的大小次序，只会确定分配给每个类别的概率。 因此，在预测过程中，我们仍然可以用下式来选择最有可能的类别。</p>
+<p>$\operatorname<em>{argmax}_j \hat y_j = \operatorname</em>{argmax}_j o_j.$</p>
+<p>尽管softmax是一个非线性函数，但softmax回归的输出仍然由输入特征的仿射变换决定。 因此，softmax回归是一个<em>线性模型</em>（linear model）。</p>
+<h4 id="具体过程-1"><a href="#具体过程-1" class="headerlink" title="具体过程"></a>具体过程</h4><p>训练集数据读取的速度应该要设定得比模型训练的速度要快</p>
+<p><strong>实现softmax函数</strong></p>
+<p>实现softmax函数由三个步骤组成：</p>
+<ol>
+<li>对每个项求幂（使用<code>exp</code>）；</li>
+<li>对每一行求和（小批量中每个样本是一行），得到每个样本的规范化常数；</li>
+<li>将每一行除以其规范化常数，确保结果的和为1。</li>
+</ol>
+<p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">softmax</span>(<span class="params">X</span>):</span><br><span class="line">    X_exp = torch.exp(X)</span><br><span class="line">    partition = X_exp.<span class="built_in">sum</span>(<span class="number">1</span>, keepdim=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">return</span> X_exp / partition  <span class="comment"># 这里应用了广播机制</span></span><br></pre></td></tr></table></figure>
+<p><strong>定义损失函数</strong></p>
+<p>这里的交叉熵损失函数在定义时用到了<strong>花式索引</strong>的概念</p>
+  <div class="note info flat"><p><strong>花式索引</strong>（Fancy indexing）是指利用整数数组进行索引，这里的整数数组可以是Numpy数组也可以是Python中列表、元组等可迭代类型。</p>
+<div class="tabs" id="花式索引"><ul class="nav-tabs"><button type="button" class="tab " data-href="花式索引-1">一维数组的花式索引</button><button type="button" class="tab  active" data-href="花式索引-2">二维数组的花式索引</button></ul><div class="tab-contents"><div class="tab-item-content" id="花式索引-1"><p>当使用花式索引访问一维数组时，程序会将花式索引对应的数组或列表的元素作为索引，依次根据各个索引获取对应位置的元素，并将这些元素以数组的形式返回。</p>
+<p>代码示例如下：</p>
+<p>In:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">array_1d = np.arange(<span class="number">1</span>, <span class="number">10</span>) </span><br><span class="line"><span class="built_in">print</span>(array_1d)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;------------&quot;</span>)</span><br><span class="line"><span class="comment"># 访问索引为[2,5,8]的元素</span></span><br><span class="line"><span class="built_in">print</span>(array_1d[[<span class="number">2</span>, <span class="number">5</span>, <span class="number">8</span>]])</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">8</span> <span class="number">9</span>]</span><br><span class="line">------------</span><br><span class="line">[<span class="number">3</span> <span class="number">6</span> <span class="number">9</span>]</span><br></pre></td></tr></table></figure></div><div class="tab-item-content active" id="花式索引-2"><p>当使用花式索引访问二维数组时，程序会将花式索引对应的数组或列表的元素作为索引，依次根据各个索引获取对应位置的一行元素，并将这些行元素以数组的形式返回。</p>
+<p>代码示例如下：</p>
+<p>In:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">array_2d = np.arange(<span class="number">1</span>, <span class="number">10</span>).reshape((<span class="number">3</span>, <span class="number">3</span>)) </span><br><span class="line"><span class="built_in">print</span>(array_2d)</span><br><span class="line"><span class="comment"># 访问索引为[0,2]的元素</span></span><br><span class="line"><span class="built_in">print</span>(array_2d[[<span class="number">0</span>, <span class="number">2</span>]])</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>]</span><br><span class="line"> [<span class="number">4</span> <span class="number">5</span> <span class="number">6</span>]</span><br><span class="line"> [<span class="number">7</span> <span class="number">8</span> <span class="number">9</span>]]</span><br><span class="line">------------</span><br><span class="line">[[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>]</span><br><span class="line"> [<span class="number">7</span> <span class="number">8</span> <span class="number">9</span>]]</span><br></pre></td></tr></table></figure>
+<p>需要说明的是，在使用两个花式索引，即通过“二维数组 [ 花式索引 , 花式索引 ]”的形式访问数组时，会将第一个花式索引对应数组或列表的各元素作为行索引，将第二个花式索引对应数组或列表的各元素作为列索引，再按照“二维数组 [ 行索引 , 列索引 ]”的形式获取对应位置的元素。例如，使用两个花式索引访问二维数组 array_2d 的元素，代码如下：</p>
+<p>In:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用两个花式索引访问元素</span></span><br><span class="line"><span class="built_in">print</span>(array_2d[[<span class="number">0</span>, <span class="number">2</span>], [<span class="number">1</span>, <span class="number">1</span>]])</span><br></pre></td></tr></table></figure>
+<p>Out:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">2</span> <span class="number">8</span>]</span><br></pre></td></tr></table></figure>
+<p>上述与二维数组相关的花式索引操作的示意如图：</p>
+<p><img src="/posts/901c6f233b3c/v2-083bae7d7ed496acf5833b1123a195b8_720w.jpg" class="" title="img"></p></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div>
+
+</div>
+<p>我们只需一行代码就可以[<strong>实现交叉熵损失函数</strong>]:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">cross_entropy</span>(<span class="params">y_hat, y</span>):</span><br><span class="line">    <span class="keyword">return</span> - torch.log(y_hat[<span class="built_in">range</span>(<span class="built_in">len</span>(y_hat)), y])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>计算精度</strong></p>
+<p>为了计算精度，我们执行以下操作。 首先，如果<code>y_hat</code>是矩阵，那么假定第二个维度存储每个类的预测分数。 我们使用<code>argmax</code>获得每行中最大元素的索引来获得预测类别。 然后我们[<strong>将预测类别与真实<code>y</code>元素进行比较</strong>]。 由于等式运算符“<code>==</code>”对数据类型很敏感， 因此我们将<code>y_hat</code>的数据类型转换为与<code>y</code>的数据类型一致。 结果是一个包含0（错）和1（对）的张量。 最后，我们求和会得到正确预测的数量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">accuracy</span>(<span class="params">y_hat, y</span>):  <span class="comment">#@save</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;计算预测正确的数量&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(y_hat.shape) &gt; <span class="number">1</span> <span class="keyword">and</span> y_hat.shape[<span class="number">1</span>] &gt; <span class="number">1</span>:</span><br><span class="line">        y_hat = y_hat.argmax(axis=<span class="number">1</span>)</span><br><span class="line">    cmp = y_hat.<span class="built_in">type</span>(y.dtype) == y</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">float</span>(cmp.<span class="built_in">type</span>(y.dtype).<span class="built_in">sum</span>())</span><br></pre></td></tr></table></figure>
+<h4 id="简洁实现-1"><a href="#简洁实现-1" class="headerlink" title="简洁实现"></a>简洁实现</h4><ul>
+<li>损失函数使用nn.CrossEntropyLoss函数</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://rickliu.com">R1ck Liu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://rickliu.com/posts/901c6f233b3c/">https://rickliu.com/posts/901c6f233b3c/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://rickliu.com" target="_blank">R1ck's Portal</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/note/">note</a><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="post-meta__tags" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></div><div class="post_share"><div class="social-share" data-image="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-7-29-cover.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/3dd78927ff1e/" title="简析《爱爱爱》(方大同)"><img class="cover" src="/posts/3dd78927ff1e/cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">简析《爱爱爱》(方大同)</div></div></a></div><div class="next-post pull-right"><a href="/posts/f9538327001b/" title="butterfly主题插入数学公式LaTeX"><img class="cover" src="/posts/f9538327001b/cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">butterfly主题插入数学公式LaTeX</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/cd0d11b6cb14/" title="python3 网络爬虫笔记"><img class="cover" src="/posts/cd0d11b6cb14/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-11</div><div class="title">python3 网络爬虫笔记</div></div></a></div><div><a href="/posts/8f6810bb2033/" title="文件包含漏洞"><img class="cover" src="/posts/8f6810bb2033/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-17</div><div class="title">文件包含漏洞</div></div></a></div><div><a href="/posts/ef9c5fde59cd/" title="命令注入漏洞 远程命令&#x2F;代码执行"><img class="cover" src="/posts/ef9c5fde59cd/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-07</div><div class="title">命令注入漏洞 远程命令&#x2F;代码执行</div></div></a></div><div><a href="/posts/ebc439ef19b2/" title="python3 pyside6学习笔记及实践（一）"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-26</div><div class="title">python3 pyside6学习笔记及实践（一）</div></div></a></div><div><a href="/posts/31658dca3489/" title="ctfshow 命令执行模块"><img class="cover" src="/posts/31658dca3489/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-09</div><div class="title">ctfshow 命令执行模块</div></div></a></div><div><a href="/posts/e97ca1a52d81/" title="文件上传漏洞"><img class="cover" src="/posts/e97ca1a52d81/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-10</div><div class="title">文件上传漏洞</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">R1ck Liu</div><div class="author-info__description">技术分享和生活记录</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">62</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/handsomelky"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/handsomelky" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_27489877" target="_blank" title="CSDN"><i class="fa-solid fa-c" style="color: #e85211;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果本博客加载速度慢，请开启魔法~</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Chapter1-%E5%BA%8F%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text">Chapter1.序言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Chapter2-%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="toc-number">3.</span> <span class="toc-text">Chapter2.预备知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C"><span class="toc-number">3.1.</span> <span class="toc-text">数据操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%BF%E6%92%AD%E6%9C%BA%E5%88%B6"><span class="toc-number">3.1.1.</span> <span class="toc-text">广播机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8A%82%E7%9C%81%E5%86%85%E5%AD%98"><span class="toc-number">3.1.2.</span> <span class="toc-text">节省内存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%B1%E6%8B%B7%E8%B4%9D"><span class="toc-number">3.1.3.</span> <span class="toc-text">深拷贝</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0"><span class="toc-number">3.2.</span> <span class="toc-text">线性代数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%99%8D%E7%BB%B4"><span class="toc-number">3.2.1.</span> <span class="toc-text">降维</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%9E%E9%99%8D%E7%BB%B4%E6%B1%82%E5%92%8C"><span class="toc-number">3.2.2.</span> <span class="toc-text">非降维求和</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8C%83%E6%95%B0"><span class="toc-number">3.2.3.</span> <span class="toc-text">范数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E6%B1%82%E5%AF%BC%E3%80%81%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E3%80%81%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">自动求导、反向传播、梯度下降（重点）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Chapter3-%E7%BA%BF%E6%80%A7%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="toc-number">4.</span> <span class="toc-text">Chapter3.线性神经网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">4.1.</span> <span class="toc-text">线性回归</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%8F%E6%89%B9%E9%87%8F%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D"><span class="toc-number">4.1.1.</span> <span class="toc-text">小批量随机梯度下降</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E8%BF%87%E7%A8%8B"><span class="toc-number">4.1.2.</span> <span class="toc-text">具体过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8with-torch-no-grad-%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-number">4.1.3.</span> <span class="toc-text">使用with torch.no_grad():的原因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%80%E6%B4%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">4.1.4.</span> <span class="toc-text">简洁实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#softmax%E5%9B%9E%E5%BD%92"><span class="toc-number">4.2.</span> <span class="toc-text">softmax回归</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#softmax%E5%87%BD%E6%95%B0"><span class="toc-number">4.2.1.</span> <span class="toc-text">softmax函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E8%BF%87%E7%A8%8B-1"><span class="toc-number">4.2.2.</span> <span class="toc-text">具体过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%80%E6%B4%81%E5%AE%9E%E7%8E%B0-1"><span class="toc-number">4.2.3.</span> <span class="toc-text">简洁实现</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/43e60ea4b856/" title="2024年终总结">2024年终总结</a><time datetime="2024-12-31T15:42:01.000Z" title="发表于 2024-12-31 23:42:01">2024-12-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/401b31cb03e1/" title="Git原理与用法系统总结"><img src="/posts/401b31cb03e1/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Git原理与用法系统总结"/></a><div class="content"><a class="title" href="/posts/401b31cb03e1/" title="Git原理与用法系统总结">Git原理与用法系统总结</a><time datetime="2024-07-27T13:51:15.000Z" title="发表于 2024-07-27 21:51:15">2024-07-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/10a98f25092d/" title="个人隐私保护手册">个人隐私保护手册</a><time datetime="2024-07-22T15:08:07.000Z" title="发表于 2024-07-22 23:08:07">2024-07-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c12b1506032a/" title="WSL kali安装及无缝模式部署"><img src="/posts/c12b1506032a/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WSL kali安装及无缝模式部署"/></a><div class="content"><a class="title" href="/posts/c12b1506032a/" title="WSL kali安装及无缝模式部署">WSL kali安装及无缝模式部署</a><time datetime="2024-07-20T05:01:59.000Z" title="发表于 2024-07-20 13:01:59">2024-07-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/4c025cd5aca8/" title="SQL注入 各种过滤的绕过姿势总结">SQL注入 各种过滤的绕过姿势总结</a><time datetime="2024-04-26T13:58:02.000Z" title="发表于 2024-04-26 21:58:02">2024-04-26</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/posts/901c6f233b3c/top_img.png')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By R1ck Liu</div><div class="footer_custom_text"><p><object style="margin-inline:5px" data="https://img.shields.io/badge/Frame-Hexo-blue?logo=Hexo&style=plastic&link=https://hexo.io/&https://hexo.io/zh-cn/docs/"></object><object style="margin-inline:5px" data="https://img.shields.io/badge/Theme-Butterfly-6513df?style=plastic&logo=bitdefender&link=https://butterfly.js.org/"></object></p><p><a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备2023083766号</a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><script>(()=>{
+  const getGiscusTheme = theme => {
+    return theme === 'dark' ? 'dark' : 'light'
+  }
+
+  const loadGiscus = () => {
+    const config = Object.assign({
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'handsomelky/handsomelky.github.io',
+      'data-repo-id': 'R_kgDOJ58FwA',
+      'data-category-id': 'DIC_kwDOJ58FwM4CX0E8',
+      'data-mapping': 'pathname',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true
+    },null)
+
+    const ele = document.createElement('script')
+    for (let key in config) {
+      ele.setAttribute(key, config[key])
+    }
+    document.getElementById('giscus-wrap').appendChild(ele)
+  }
+
+  const changeGiscusTheme = theme => {
+    const sendMessage = message => {
+      const iframe = document.querySelector('iframe.giscus-frame')
+      if (!iframe) return
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+    }
+
+    sendMessage({
+      setConfig: {
+        theme: getGiscusTheme(theme)
+      }
+    });
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment= loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script src="/js/FunnyTitle.js"></script><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://cdn.staticfile.org/hexo-theme-butterfly/4.9.0/js/search/local-search.min.js"></script></div></div><script src="/live2d_models/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2d_models/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2d_models/assets/Rick.model.json"},"display":{"position":"right","width":225,"height":450,"hOffset":30,"vOffset":-50},"mobile":{"show":false},"react":{"opacity":0.85},"log":false});</script></body></html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>python3 pyside6学习笔记及实践（二） | R1ck's Portal</title><meta name="author" content="R1ck Liu"><meta name="copyright" content="R1ck Liu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本系列文章为b站PySide6教程以及官方文档的学习笔记。本文内容包括常用控件、布局、对话框以及子窗口&#x2F;多窗口。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python3 pyside6学习笔记及实践（二）">
+<meta property="og:url" content="https://rickliu.com/posts/d765094b05e7/index.html">
+<meta property="og:site_name" content="R1ck&#39;s Portal">
+<meta property="og:description" content="本系列文章为b站PySide6教程以及官方文档的学习笔记。本文内容包括常用控件、布局、对话框以及子窗口&#x2F;多窗口。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png">
+<meta property="article:published_time" content="2023-11-15T03:22:54.000Z">
+<meta property="article:modified_time" content="2025-04-28T16:52:57.924Z">
+<meta property="article:author" content="R1ck Liu">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="note">
+<meta property="article:tag" content="GUI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png"><link rel="shortcut icon" href="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/favicon.png"><link rel="canonical" href="https://rickliu.com/posts/d765094b05e7/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="CCDD774EA967D60E5C877121C6572BF5"/><meta name="baidu-site-verification" content="codeva-13aVmkscyC"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?6c032eabab6689261ec86024f386af87";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: R1ck Liu","link":"链接: ","source":"来源: R1ck's Portal","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'python3 pyside6学习笔记及实践（二）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-04-29 00:52:57'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/equipment.css"><script type="text/javascript" src ="/js/reward.js" ></script><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.16/dist/sweetalert2.all.min.js"></script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">62</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-top_img.png')"><nav id="nav"><span id="blog-info"><a href="/" title="R1ck's Portal"><span class="site-name">R1ck's Portal</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">python3 pyside6学习笔记及实践（二）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-11-15T03:22:54.000Z" title="发表于 2023-11-15 11:22:54">2023-11-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-28T16:52:57.924Z" title="更新于 2025-04-29 00:52:57">2025-04-29</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>19分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="python3 pyside6学习笔记及实践（二）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本系列文章为b站PySide6教程以及官方文档的学习笔记</p>
+<p>原视频传送门如下</p>
+<div class="flink"> <div class="flink-list">
+          <div class="flink-list-item">
+            <a href="https://www.bilibili.com/video/BV1c84y1N7iL" title="【已完结】PySide6百炼成真，带你系统性入门Qt" target="_blank">
+              <div class="flink-item-icon">
+                <img class="no-lightbox" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/a0589121b678174899c451c1a47538260e1b6e70.jpg@320w_200h_1c_!web-space-favlist-video.webp" onerror='this.onerror=null;this.src="/img/friend_404.gif"' alt="【已完结】PySide6百炼成真，带你系统性入门Qt" />
+              </div>
+              <div class="flink-item-name">【已完结】PySide6百炼成真，带你系统性入门Qt</div> 
+              <div class="flink-item-desc" title="祝大家百炼成真，早日做出自己心仪的界面">祝大家百炼成真，早日做出自己心仪的界面</div>
+            </a>
+          </div></div></div>
+<p>官方文档链接：<a target="_blank" rel="noopener" href="https://doc.qt.io/qtforpython-6/">Qt for Python</a></p>
+<h2 id="常用控件"><a href="#常用控件" class="headerlink" title="常用控件"></a>常用控件</h2><h3 id="下拉框-QComboBox"><a href="#下拉框-QComboBox" class="headerlink" title="下拉框(QComboBox)"></a>下拉框(QComboBox)</h3><p>下拉框在QtDesigner中的控件名为<strong>Combo Box</strong></p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QComboBox</span><br><span class="line">cb = QComboBox()</span><br></pre></td></tr></table></figure>
+<p>当然一个下拉框只有框架是无法发挥作用的</p>
+<p>我们可以通过<code>.addItems</code>的方法通过列表参数向下拉框中添加元素</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cb.addItems([<span class="string">&#x27;1&#x27;</span>,<span class="string">&#x27;2&#x27;</span>,<span class="string">&#x27;3&#x27;</span>,<span class="string">&#x27;4&#x27;</span>,<span class="string">&#x27;5&#x27;</span>])</span><br></pre></td></tr></table></figure>
+<p>效果如下</p>
+<img src="/posts/d765094b05e7/image-20231115145726028.png" class="" title="image-20231115145726028">
+<p>当然我们还需要将对下拉框的一些操作作为信号，并为其绑定槽</p>
+<p>例如<code>currentIndexChanged</code>可以在下拉框选定项目改变时发出信号</p>
+<p>而<code>highlighted</code> 会于用户在下拉列表中高亮（但未选择）一个项目时发射信号。</p>
+<p>当然这些信号也会有返回值传递给槽</p>
+<p>例如我们如果想写一个程序在控制台打印当前选中的项目时，有以下两种方法实现</p>
+<ol>
+<li><p>使用控件的<code>currentText</code>属性获取当前选中项目</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cb.currentIndexChanged.connect(<span class="keyword">lambda</span>:<span class="built_in">print</span>(cb.currentText()))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>利用信号的返回的当前选中项目传递给槽</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cb.currentTextChanged.connect(self.<span class="built_in">print</span>)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">print</span>(<span class="params">self,choose</span>):</span><br><span class="line">    <span class="built_in">print</span>(choose)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="复选框-QCheckBox"><a href="#复选框-QCheckBox" class="headerlink" title="复选框(QCheckBox)"></a>复选框(QCheckBox)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QCheckBox</span><br><span class="line">cb = QCheckBox(<span class="string">&quot;我是复选框&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>复选框控件有且只有一种信号<code>stateChanged</code>，用于传递复选框选中状态改变的信号</p>
+<p>并且该信号会返回一个int类型的参数，选中时返回2，未选择返回0</p>
+<p>当然我们也可以通过该控件的<code>isChecked</code>方法来获取当前状态，选中时返回True，未选中返回False</p>
+<h3 id="单选框-QRadioButton"><a href="#单选框-QRadioButton" class="headerlink" title="单选框(QRadioButton)"></a>单选框(QRadioButton)</h3><p>单选框一般需要搭配<strong>Group Box</strong>来一起使用</p>
+<p>当我们将几个单选框加到同一个group后，同组的单选框每次就只能勾选其中的某一个</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">self.group1 = QButtonGroup(self)</span><br><span class="line">label1 = QLabel(<span class="string">&quot;请选择你的CTF方向&quot;</span>)</span><br><span class="line">btn1 = QRadioButton(<span class="string">&quot;Web&quot;</span>)</span><br><span class="line">btn2 = QRadioButton(<span class="string">&quot;Crypto&quot;</span>)</span><br><span class="line">btn3 = QRadioButton(<span class="string">&quot;Pwn&quot;</span>)</span><br><span class="line">btn4 = QRadioButton(<span class="string">&quot;Misc&quot;</span>)</span><br><span class="line">btn5 = QRadioButton(<span class="string">&quot;Reverse&quot;</span>)</span><br><span class="line">self.group1.addButton(btn1)</span><br><span class="line">self.group1.addButton(btn2)</span><br><span class="line">self.group1.addButton(btn3)</span><br><span class="line">self.group1.addButton(btn4)</span><br><span class="line">self.group1.addButton(btn5)</span><br></pre></td></tr></table></figure>
+<p>如果我们想获得此时被选中的单选框，可以通过QButtonGroup的<code>checkedButton</code>来获得</p>
+<h3 id="文本框-QTextEdit和QPlainTextEdit"><a href="#文本框-QTextEdit和QPlainTextEdit" class="headerlink" title="文本框(QTextEdit和QPlainTextEdit)"></a>文本框(QTextEdit和QPlainTextEdit)</h3><p>当我们想要输出大段的文本信息时，考虑使用文本框</p>
+<p>在PySide6中，分为富文本框和纯文本框</p>
+<p>在<strong>富文本框</strong>中，我们能<strong>输出一些特殊格式，例如Markdown、HTML</strong>等等</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">text1 = QTextEdit()</span><br><span class="line">text2 = QTextEdit()</span><br><span class="line">text1.setHtml(<span class="string">&quot;&lt;h1&gt;我是一级标题&lt;/h1&gt;&lt;h2&gt;我是二级标题&lt;/h2&gt;&quot;</span>)</span><br><span class="line">text2.setMarkdown(<span class="string">&quot;### 我是三级标题\n\n**我是加粗的文字**\n\n*我是斜体文字*&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>效果如下：</p>
+<img src="/posts/d765094b05e7/image-20231115225149471.png" class="" title="image-20231115225149471">
+<p><strong>纯文本框</strong>虽然只能输出纯文本，但是<strong>优化做得更好</strong>，在载入大批量文本时能<strong>更快加载</strong></p>
+<p>搭配文本框的方法我们能做到一些特殊效果</p>
+<p>例如我们可以使用<code>appendPlainText</code>实现一个程序运行日志的打印效果</p>
+<img src="/posts/d765094b05e7/2023-11-15-23-10-41.gif" class="" title="2023-11-15-23-10-41">
+<h3 id="滑块-QSlider"><a href="#滑块-QSlider" class="headerlink" title="滑块(QSlider)"></a>滑块(QSlider)</h3><p><code>QSlider</code> 用于提供一个滑动条，允许用户通过拖动滑块在一个范围内选择值。它通常用于获取用户输入的数值，特别是当需要从一个预定义范围中选择时</p>
+<p>我们可以设置滑块的一些基本属性，像<strong>方向、值范围和步进</strong>等等</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置滑条为水平，这里需要从PyQt6.QtCore中导入Qt</span></span><br><span class="line">self.slider1 = QSlider(Qt.Orientation.Horizontal)</span><br><span class="line"><span class="comment"># 设置刻度的位置 </span></span><br><span class="line">self.slider1.setTickPosition(QSlider.TickPosition.TicksBelow)</span><br><span class="line"><span class="comment"># 设置最小值和最大值</span></span><br><span class="line">self.slider1.setMinimum(<span class="number">50</span>)</span><br><span class="line">self.slider1.setMaximum(<span class="number">150</span>)</span><br></pre></td></tr></table></figure>
+<p>通常我们会使用滑块的<code>valueChanged</code>信号，来侦测滑块是否滑动</p>
+<p>而滑块的值我们可以通过<code>value()</code>方法获取</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">    self.value = QLabel()</span><br><span class="line">    self.bind()</span><br><span class="line"></span><br><span class="line">    mainlayout = QVBoxLayout() </span><br><span class="line">    mainlayout.addWidget(self.value)</span><br><span class="line">    mainlayout.addWidget(self.slider1)</span><br><span class="line">    self.setLayout(mainlayout)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">bind</span>(<span class="params">self</span>):</span><br><span class="line">    self.slider1.valueChanged.connect(self.showSlider)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">showSlider</span>(<span class="params">self</span>):</span><br><span class="line">    self.value.setText(<span class="built_in">str</span>(self.slider1.value()))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>效果如下：</p>
+<img src="/posts/d765094b05e7/2023-11-16-00-30-38.gif" class="" title="2023-11-16-00-30-38">
+<h2 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h2><p>布局是UI设计中的重要功能</p>
+<h3 id="常见布局控件"><a href="#常见布局控件" class="headerlink" title="常见布局控件"></a>常见布局控件</h3><p>常见的布局控件有以下几种</p>
+<ol>
+<li><p><strong>QVBoxLayout</strong></p>
+<ul>
+<li>垂直布局，小部件会被垂直堆叠。</li>
+<li>用法示例：用于将一组控件从上到下垂直排列。</li>
+</ul>
+</li>
+<li><p><strong>QHBoxLayout</strong></p>
+<ul>
+<li>水平布局，小部件会被水平排列。</li>
+<li>用法示例：用于将一组控件从左到右水平排列。</li>
+</ul>
+</li>
+<li><p><strong>QGridLayout</strong></p>
+<ul>
+<li>网格布局，小部件按行和列排列，形成一个网格。</li>
+<li>用法示例：在需要更精细的控制来放置小部件时使用，如科学应用程序的复杂表单。</li>
+</ul>
+</li>
+<li><p><strong>QFormLayout</strong></p>
+<ul>
+<li>表单布局，专为表单设计，提供了标签和字段的垂直布局。</li>
+<li>用法示例：用于快速创建标准表单，如登录界面或设置面板。</li>
+</ul>
+</li>
+<li><p><strong>QStackedLayout</strong></p>
+<ul>
+<li>堆叠布局，小部件堆叠在一起，每次只显示一个。</li>
+<li>用法示例：用于创建向导或多步骤界面。</li>
+</ul>
+</li>
+</ol>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>让我们假设一个场景：</p>
+<p>我们的应用程序由上半部分的设置区与下半部分的功能区组成</p>
+<img src="/posts/d765094b05e7/image-20231116112928282.png" class="" title="image-20231116112928282">
+<p>首先我们需要创建布局控件的对象实例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QVBoxLayout,QHBoxLayout</span><br><span class="line">...</span><br><span class="line">mainlayout = QVBoxLayout()</span><br><span class="line">settinglayout = QHBoxLayout()</span><br><span class="line">visiblelayout = QHBoxLayout()</span><br></pre></td></tr></table></figure>
+<p>我们能往布局控件中放入普通控件，也能在布局控件中<strong>嵌套</strong>布局控件</p>
+<p>在本例中，设置区的水平布局和可视化区的水平布局都被嵌套在最大的垂直布局中</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">btn1 = QPushButton(<span class="string">&quot;按钮1&quot;</span>)</span><br><span class="line">btn2 = QPushButton(<span class="string">&quot;按钮2&quot;</span>)</span><br><span class="line">lb1 = QLabel(<span class="string">&quot;标签1&quot;</span>)</span><br><span class="line">lb2 = QLabel(<span class="string">&quot;标签2&quot;</span>)</span><br><span class="line"></span><br><span class="line">mainlayout = QVBoxLayout()</span><br><span class="line">settinglayout = QHBoxLayout()</span><br><span class="line">visiblelayout = QHBoxLayout()</span><br><span class="line"></span><br><span class="line">settinglayout.addWidget(btn1)</span><br><span class="line">settinglayout.addWidget(btn2)</span><br><span class="line">visiblelayout.addWidget(lb1)</span><br><span class="line">visiblelayout.addWidget(lb2)</span><br><span class="line">mainlayout.addLayout(settinglayout)</span><br><span class="line">mainlayout.addLayout(visiblelayout)</span><br><span class="line">self.setLayout(mainlayout)</span><br></pre></td></tr></table></figure>
+<p>向布局中添加控件使用<code>addWidget</code>，嵌套布局则使用<code>addLayout</code></p>
+<p>效果如下</p>
+<img src="/posts/d765094b05e7/image-20231116142828596.png" class="" title="image-20231116142828596">
+<p>当然，上述代码可以通过改用QFormLayout来简化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">formlayout = QFormLayout()</span><br><span class="line">formlayout.addRow(btn1,btn2)</span><br><span class="line">formlayout.addRow(lb1,lb2)</span><br><span class="line">mainlayout.addLayout(formlayout)</span><br></pre></td></tr></table></figure>
+<p>在格子布局中，我们可以将整个界面想象成由行列索引的格子组成</p>
+<p>向格子布局控件传入的参数有5个</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">addwidget(控件名,行数,列数,长,宽)</span><br></pre></td></tr></table></figure>
+<p>下面的代码则是利于格子布局简化的代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">gridlayout = QGridLayout()</span><br><span class="line">gridlayout.addWidget(btn1,<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">gridlayout.addWidget(btn2,<span class="number">0</span>,<span class="number">1</span>)</span><br><span class="line">gridlayout.addWidget(lb1,<span class="number">1</span>,<span class="number">0</span>)</span><br><span class="line">gridlayout.addWidget(lb2,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">mainlayout.addLayout(gridlayout)</span><br></pre></td></tr></table></figure>
+<h3 id="布局的好处"><a href="#布局的好处" class="headerlink" title="布局的好处"></a>布局的好处</h3><p>在 PySide6中使用布局有许多好处，主要包括：</p>
+<ol>
+<li><strong>自动调整大小和位置</strong>：布局自动管理窗口组件（widgets）的大小和位置。当用户调整主窗口的大小时，布局确保内部组件适当地调整其大小和位置，使界面保持一致和专业的外观。</li>
+<li><strong>更容易的界面维护</strong>：使用布局可以使代码更加清晰和易于维护。你可以更容易地添加、移除或修改组件，而不用担心手动更新每个组件的位置和大小。</li>
+<li><strong>跨平台一致性</strong>：布局帮助确保应用程序在不同操作系统和设备上提供一致的用户体验，因为它们会根据不同平台的显示特性（如分辨率和字体大小）自动调整组件。</li>
+<li><strong>适应性和响应性</strong>：布局提供了更好的适应性，使得界面能够适应不同的屏幕尺寸和方向，这对于现代多设备应用程序特别重要。</li>
+</ol>
+<h2 id="对话框"><a href="#对话框" class="headerlink" title="对话框"></a>对话框</h2><p>对话框是一种特殊的窗口，用于短暂的、特定目的的交互，通常在完成其任务后就会被关闭。它们与主应用程序窗口相比较独立，但通常是<strong>模态</strong>的，即在对话框关闭之前，用户不能与主应用程序的其他部分交互。</p>
+<h3 id="消息框-QMessageBox"><a href="#消息框-QMessageBox" class="headerlink" title="消息框(QMessageBox)"></a>消息框(QMessageBox)</h3><p><code>QMessageBox</code>是用于显示消息的标准对话框。这些对话框通常用于提供信息、询问问题或显示警告。</p>
+<ol>
+<li><strong>模态性质</strong>：<code>QMessageBox</code> 是模态对话框，这意味着当它打开时，它会阻止用户与程序的其他部分交互，直到对话框被关闭。</li>
+<li><strong>标准按钮</strong>：它提供了一组标准按钮（如 Ok, Cancel, Yes, No 等），可以根据需要选择哪些按钮出现在对话框中。</li>
+<li><strong>图标显示</strong>：<code>QMessageBox</code> 可以显示不同类型的图标（如信息、警告、错误、问号），这有助于向用户传达对话框的性质或重要性。</li>
+<li><strong>简单的文本和格式化文本</strong>：它可以显示简单的文本信息或更复杂的格式化文本，如富文本。</li>
+<li><strong>返回值</strong>：用户对 <code>QMessageBox</code> 的响应（如点击哪个按钮）可以通过对话框的返回值来捕获，这对于程序的决策流程非常重要。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QMessageBox</span><br></pre></td></tr></table></figure>
+<p>不同的消息框显示效果如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QMessageBox.information(self, <span class="string">&quot;标题&quot;</span>, <span class="string">&quot;这是一个提示&quot;</span>)</span><br></pre></td></tr></table></figure>
+<img src="/posts/d765094b05e7/image-20231116212542576.png" class="" title="image-20231116212542576">
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QMessageBox.warning(self, <span class="string">&quot;标题&quot;</span>, <span class="string">&quot;这是一个警告&quot;</span>)</span><br></pre></td></tr></table></figure>
+<img src="/posts/d765094b05e7/image-20231116212619782.png" class="" title="image-20231116212619782">
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QMessageBox.critical(self, <span class="string">&quot;标题&quot;</span>, <span class="string">&quot;这是一个错误&quot;</span>)</span><br></pre></td></tr></table></figure>
+<img src="/posts/d765094b05e7/image-20231116212628253.png" class="" title="image-20231116212628253">
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QMessageBox.question(self, <span class="string">&quot;标题&quot;</span>, <span class="string">&quot;这是一个提问&quot;</span>)</span><br></pre></td></tr></table></figure>
+<img src="/posts/d765094b05e7/image-20231116212637232.png" class="" title="image-20231116212637232">
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QMessageBox.about(self, <span class="string">&quot;标题&quot;</span>, <span class="string">&quot;这是一个关于&quot;</span>)</span><br></pre></td></tr></table></figure>
+<img src="/posts/d765094b05e7/image-20231116212648422.png" class="" title="image-20231116212648422">
+<p>第四个和第五个参数用于设置可供用户点击的选项以及默认选项</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QMessageBox.information(self, <span class="string">&quot;标题&quot;</span>, <span class="string">&quot;这是一个提示&quot;</span>, QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)</span><br></pre></td></tr></table></figure>
+<img src="/posts/d765094b05e7/image-20231116213020453.png" class="" title="image-20231116213020453">
+<p>我们可以将消息框赋值给一个变量，这样我们就能从返回值中得知用户的选择</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">answer = QMessageBox.information(self, <span class="string">&quot;标题&quot;</span>, <span class="string">&quot;这是一个提示&quot;</span>, QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)</span><br><span class="line"><span class="keyword">if</span> answer == QMessageBox.Yes:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;yes&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="输入对话框-QInputDialog"><a href="#输入对话框-QInputDialog" class="headerlink" title="输入对话框(QInputDialog)"></a>输入对话框(QInputDialog)</h3><p><code>QInputDialog</code>提供了一个简单方便的方式来获取用户输入的单个值。这些值可以是字符串、数字或列表中的选项。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QInputDialog</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取用户输入的字符串</span></span><br><span class="line">text, ok = QInputDialog.getText(<span class="literal">None</span>, <span class="string">&quot;输入对话框&quot;</span>, <span class="string">&quot;请输入文本:&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> ok <span class="keyword">and</span> text:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;用户输入:&quot;</span>, text)</span><br></pre></td></tr></table></figure>
+<p>使用这个对话框可以方便地从用户那里获取输入，而不必创建复杂的表单。</p>
+<img src="/posts/d765094b05e7/image-20231116215004394.png" class="" title="image-20231116215004394">
+<p><strong>当且仅当用户点击OK</strong>时，返回的<strong>第二个参数为True</strong></p>
+<p>当然，除了让用户输入文本，我们也可以让用户输入数字或列表中的选项。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">    btn1 = QPushButton(<span class="string">&#x27;获取一个整形数字&#x27;</span>)</span><br><span class="line">    btn1.clicked.connect(self.getIntDialog)</span><br><span class="line"></span><br><span class="line">    btn2 = QPushButton(<span class="string">&#x27;获取一个浮点数字&#x27;</span>)</span><br><span class="line">    btn2.clicked.connect(self.getFloatDialog)</span><br><span class="line"></span><br><span class="line">    btn3 = QPushButton(<span class="string">&#x27;获取一个Item&#x27;</span>)</span><br><span class="line">    btn3.clicked.connect(self.getItemDialog)</span><br><span class="line"></span><br><span class="line">    mainlayout = QVBoxLayout()</span><br><span class="line">    mainlayout.addWidget(btn1)</span><br><span class="line">    mainlayout.addWidget(btn2)</span><br><span class="line">    mainlayout.addWidget(btn3)</span><br><span class="line">    self.setLayout(mainlayout)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getIntDialog</span>(<span class="params">self</span>):</span><br><span class="line">    num,ok = QInputDialog.getInt(self,<span class="string">&quot;获取一个整形数字&quot;</span>,<span class="string">&quot;请输入一个整数&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> ok:</span><br><span class="line">        <span class="built_in">print</span>(num)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;用户取消了&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getFloatDialog</span>(<span class="params">self</span>):</span><br><span class="line">    num,ok = QInputDialog.getDouble(self,<span class="string">&quot;获取一个浮点数字&quot;</span>,<span class="string">&quot;请输入一个浮点数&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> ok:</span><br><span class="line">        <span class="built_in">print</span>(num)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;用户取消了&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getItemDialog</span>(<span class="params">self</span>):</span><br><span class="line">    items = [<span class="string">&quot;C&quot;</span>,<span class="string">&quot;C++&quot;</span>,<span class="string">&quot;Python&quot;</span>,<span class="string">&quot;Java&quot;</span>,<span class="string">&quot;Rust&quot;</span>]</span><br><span class="line">    item,ok = QInputDialog.getItem(self,<span class="string">&quot;获取一个Item&quot;</span>,<span class="string">&quot;请选择一个编程语言&quot;</span>,items)</span><br><span class="line">    <span class="keyword">if</span> ok:</span><br><span class="line">        <span class="built_in">print</span>(item)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;用户取消了&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>当然设置输入框时，我们也能<strong>限制输入范围和设置默认值</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">num,ok = QInputDialog.getInt(self,<span class="string">&quot;获取一个整形数字&quot;</span>,<span class="string">&quot;请输入一个整数&quot;</span>,<span class="number">20</span>,<span class="number">0</span>,<span class="number">100</span>,<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<p>此时我们设置输入框的选择范围为0-100，步长为10，默认值为20</p>
+<img src="/posts/d765094b05e7/2023-11-16-22-06-07.gif" class="" title="2023-11-16-22-06-07">
+<h3 id="文件对话框-QFileDialog"><a href="#文件对话框-QFileDialog" class="headerlink" title="文件对话框(QFileDialog)"></a>文件对话框(QFileDialog)</h3><p><code>QFileDialog</code>允许用户选择文件或文件夹，这在需要打开或保存文件时非常有用。</p>
+<p>文件对话框支持过滤文件类型，使用户能够更容易地找到或保存特定类型的文件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">btn = QPushButton(<span class="string">&#x27;上传文件&#x27;</span>)</span><br><span class="line">       btn.clicked.connect(<span class="keyword">lambda</span>:<span class="built_in">print</span>(QFileDialog.getOpenFileName(self,<span class="string">&#x27;标题&#x27;</span>,<span class="string">&#x27;.&#x27;</span>,<span class="string">&#x27;py文件(*.py)&#x27;</span>)))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>我们为按钮绑定上文件对话框，点击后会弹出如下窗口</p>
+<img src="/posts/d765094b05e7/image-20231116225146511.png" class="" title="image-20231116225146511">
+<p>由于我们传入的第三个参数为<code>.</code>，文件对话框一开始所在的目录即为当前目录</p>
+<p>同时第四个参数括号中的类型限制了我们能选择的文件名和文件类型<code>*.py</code>，这里<code>*</code>为通配符</p>
+<p>返回值有两个，分别是<strong>选中文件的绝对路径</strong>和<strong>选择的文件过滤规则</strong></p>
+<p>我们能设置多种文件过滤规则，只需在中间用<code>;;</code>隔开</p>
+<p>例如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">btn.clicked.connect(<span class="keyword">lambda</span>:<span class="built_in">print</span>(QFileDialog.getOpenFileName(self,<span class="string">&#x27;标题&#x27;</span>,<span class="string">&#x27;.&#x27;</span>,<span class="string">&#x27;py文件(*.py);;png文件(*.png);;ui文件(*.ui)&#x27;</span>)))</span><br></pre></td></tr></table></figure>
+<img src="/posts/d765094b05e7/image-20231116225915240.png" class="" title="image-20231116225915240">
+<p>当然除了打开单个文件，QFileDialog还支持打开多个文件、打开文件夹等操作</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>功能</th>
+<th>参数</th>
+<th>返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>getOpenFileNames</td>
+<td>打开多个文件</td>
+<td>self,窗体名称,对话框默认打开目录.文件过滤规则</td>
+<td>文件路径(绝对)[列表]，选择的过滤规则</td>
+</tr>
+<tr>
+<td>getExistingDirectory</td>
+<td>打开一个文件夹</td>
+<td>self,窗体名称,对话框默认打开目录.</td>
+<td>文件夹路径(绝对)</td>
+</tr>
+<tr>
+<td>getSaveFileName</td>
+<td>保存一个文件</td>
+<td>self,窗体名称,对话框默认打开目录.保存文件类型</td>
+<td>文件路径(绝对)，选择的文件类型</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="字体对话框-QFontDialog"><a href="#字体对话框-QFontDialog" class="headerlink" title="字体对话框(QFontDialog)"></a>字体对话框(QFontDialog)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QFontDialog</span><br><span class="line">self.edit = QTextEdit()</span><br><span class="line">btn = QPushButton(<span class="string">&#x27;点我选择字体&#x27;</span>)</span><br><span class="line">btn.clicked.connect(self.changeFont)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">changeFont</span>(<span class="params">self</span>):</span><br><span class="line">    ok,font = QFontDialog.getFont()</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> ok: <span class="keyword">return</span></span><br><span class="line">    self.edit.setCurrentFont(font)</span><br></pre></td></tr></table></figure>
+<p>该对话框可供用户选择字体</p>
+<p>窗口效果如下</p>
+<img src="/posts/d765094b05e7/image-20231117113316946.png" class="" title="image-20231117113316946">
+<p>返回值中的第二个参数font可以直接用于设置字体</p>
+<h3 id="颜色对话框-QColorDialog"><a href="#颜色对话框-QColorDialog" class="headerlink" title="颜色对话框(QColorDialog)"></a>颜色对话框(QColorDialog)</h3><p>相比于字体对话框，颜色对话框只会有一个返回值，即<code>color</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">color = QColorDialog.getColor()</span><br></pre></td></tr></table></figure>
+<h2 id="小项目：图像处理"><a href="#小项目：图像处理" class="headerlink" title="小项目：图像处理"></a>小项目：图像处理</h2><p>我们来做一个基于刚学的对话框、下拉框、滑块等控件的图像处理小程序</p>
+<p>业务逻辑如下</p>
+<ol>
+<li><p><strong>上传图片</strong>：用户可以通过点击“上传图片”按钮来选择并上传一张图片。</p>
+<p>这里需要用到<code>QFileDialog</code>，并设置文件过滤规则为图片格式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">self.uploadButton = QPushButton(<span class="string">&quot;上传图片&quot;</span>)</span><br><span class="line">self.uploadButton.clicked.connect(self.uploadImage)</span><br><span class="line">layout.addWidget(self.uploadButton)</span><br><span class="line">...</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">uploadImage</span>(<span class="params">self</span>):</span><br><span class="line">    filePath, _ = QFileDialog.getOpenFileName(self, <span class="string">&quot;选择图片&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="string">&quot;Image files (*.jpg *.png)&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> filePath:</span><br><span class="line">        self.currentImage = Image.<span class="built_in">open</span>(filePath)</span><br><span class="line">        self.applyEffect()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>选择处理效果</strong>：用户可以从下拉框中选择想要应用的图像处理效果：去噪、模糊或锐化。</p>
+<p>当有需要用户做出选择的场景时，下拉框是不错的选择</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">self.effectComboBox = QComboBox()</span><br><span class="line">self.effectComboBox.addItems([<span class="string">&quot;去噪&quot;</span>, <span class="string">&quot;模糊&quot;</span>, <span class="string">&quot;锐化&quot;</span>])</span><br><span class="line">layout.addWidget(self.effectComboBox)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>调整效果强度</strong>：通过滑动条，用户可以调整所选图像处理效果的强度。</p>
+<p>在实际应用场景时，滑动条的上下范围往往受到实际功能的限制</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 滑动条</span></span><br><span class="line">self.slider = QSlider(Qt.Horizontal)</span><br><span class="line">self.slider.setMinimum(<span class="number">1</span>)</span><br><span class="line">self.slider.setMaximum(<span class="number">10</span>)</span><br><span class="line">self.slider.setTickInterval(<span class="number">1</span>)</span><br><span class="line">self.slider.setTickPosition(QSlider.TicksBelow)</span><br><span class="line">self.slider.valueChanged.connect(self.applyEffect)</span><br><span class="line">layout.addWidget(self.slider)</span><br><span class="line">...</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">applyEffect</span>(<span class="params">self</span>):</span><br><span class="line">    <span class="keyword">if</span> self.currentImage:</span><br><span class="line">        effect = self.effectComboBox.currentText()</span><br><span class="line">        value = self.slider.value()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 对于去噪和锐化，确保滤波器大小是奇数且大于等于3</span></span><br><span class="line">        filter_size = <span class="built_in">max</span>(<span class="number">3</span>, <span class="number">2</span> * value + <span class="number">1</span>) <span class="keyword">if</span> effect != <span class="string">&quot;模糊&quot;</span> <span class="keyword">else</span> value</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> effect == <span class="string">&quot;去噪&quot;</span>:</span><br><span class="line">            self.processedImage = self.currentImage.<span class="built_in">filter</span>(ImageFilter.MedianFilter(filter_size))</span><br><span class="line">        <span class="keyword">elif</span> effect == <span class="string">&quot;模糊&quot;</span>:</span><br><span class="line">            self.processedImage = self.currentImage.<span class="built_in">filter</span>(ImageFilter.GaussianBlur(filter_size))</span><br><span class="line">        <span class="keyword">elif</span> effect == <span class="string">&quot;锐化&quot;</span>:</span><br><span class="line">            self.processedImage = self.currentImage.<span class="built_in">filter</span>(ImageFilter.UnsharpMask(radius=filter_size, percent=<span class="number">150</span>))</span><br><span class="line">        self.displayImage()</span><br></pre></td></tr></table></figure>
+<p>在本例中，滑条的值传给滤波器，在传入之前也需要做一些处理</p>
+</li>
+<li><p><strong>实时预览</strong>：应用所选效果后，处理后的图像将实时显示在界面上。</p>
+<p>我们直接将处理后的图片设置到<code>label</code>上即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">self.imageLabel = QLabel(<span class="string">&quot;这里显示处理后的图像&quot;</span>)</span><br><span class="line">layout.addWidget(self.imageLabel)</span><br><span class="line">...</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">displayImage</span>(<span class="params">self</span>):</span><br><span class="line">  self.imageLabel.setPixmap(self.processedImage.toqpixmap())</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>最终应用程序的效果如下</p>
+<img src="/posts/d765094b05e7/2023-11-17-09-36-52.gif" class="" title="2023-11-17-09-36-52">
+<h2 id="子窗口-多窗口"><a href="#子窗口-多窗口" class="headerlink" title="子窗口/多窗口"></a>子窗口/多窗口</h2><p><strong>子窗口（Child Windows）</strong></p>
+<p>子窗口是指附属于主窗口的窗口。它们通常用于显示应用程序的次要功能或额外信息。子窗口的一些特点包括：</p>
+<ol>
+<li><strong>依赖性</strong>：子窗口依赖于父窗口。当父窗口被关闭时，子窗口也会随之关闭。</li>
+<li><strong>空间范围</strong>：子窗口通常在父窗口的内部空间中显示，但也可以浮动或被拖出父窗口。</li>
+<li><strong>功能性</strong>：子窗口通常用于与主窗口内容相关的特定功能，如设置面板、帮助文档、附加工具等。</li>
+<li><strong>生命周期管理</strong>：子窗口的生命周期通常由父窗口管理。</li>
+</ol>
+<p><strong>多窗口（Multiple Windows）</strong></p>
+<p>多窗口指的是独立的、可以同时运行的多个窗口。在多窗口应用中，每个窗口都可以独立执行操作，而不一定要依赖于主窗口。多窗口的特点包括：</p>
+<ol>
+<li><strong>独立性</strong>：每个窗口都是独立的实例，可以单独打开、关闭，而不影响其他窗口。</li>
+<li><strong>功能分离</strong>：每个窗口可以承担不同的任务，功能之间的独立性较强。</li>
+<li><strong>用户交互</strong>：用户可以同时与多个窗口交互，窗口之间可能有或没有数据和事件的交互。</li>
+<li><strong>生命周期管理</strong>：每个窗口可能有自己的生命周期管理，关闭一个窗口不会影响其他窗口。</li>
+</ol>
+<h3 id="创建子窗口"><a href="#创建子窗口" class="headerlink" title="创建子窗口"></a>创建子窗口</h3><p>与主窗口一样，子窗口需要我们再继承一个窗口的类</p>
+<p>而在父窗口的部分实例化子窗口的类</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyWindow</span>(<span class="title class_ inherited__">QWidget</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        </span><br><span class="line">        self.lb = QLabel(<span class="string">&#x27;这个是主窗口&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">        self.subWindow = SubWindow()</span><br><span class="line">        self.subWindow.show()</span><br><span class="line">        </span><br><span class="line">        self.mainlayout = QVBoxLayout()</span><br><span class="line">        self.mainlayout.addWidget(self.lb)</span><br><span class="line">        self.setLayout(self.mainlayout)</span><br><span class="line">        </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SubWindow</span>(<span class="title class_ inherited__">QWidget</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line"></span><br><span class="line">        self.lb = QLabel(<span class="string">&#x27;这个是子窗口&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">        self.mainlayout = QVBoxLayout()</span><br><span class="line">        self.mainlayout.addWidget(self.lb)</span><br><span class="line">        self.setLayout(self.mainlayout)</span><br></pre></td></tr></table></figure>
+<p>实例化子窗口后，我们通过<code>show()</code>方法来展示</p>
+<div class="note warning flat"><p>当在主窗口中定义子窗口的实例时，一定要将其定义为self的变量，否则它将会在展示的一瞬间被垃圾回收机制给回收</p>
+</div>
+<h3 id="窗口的开闭"><a href="#窗口的开闭" class="headerlink" title="窗口的开闭"></a>窗口的开闭</h3><p>在 PySide6 中，<code>show()</code>, <code>close()</code>, 和 <code>hide()</code> 是窗口对象常用的几个方法，用于控制窗口的可见性和生命周期。</p>
+<ol>
+<li><p><code>show()</code></p>
+<ul>
+<li><strong>用法</strong>：<code>show()</code> 方法用于显示窗口。如果一个窗口是新创建的或者之前被隐藏了，使用 <code>show()</code> 可以使其变为可见状态。</li>
+<li><strong>场景</strong>：这个方法通常在窗口首次初始化之后调用，或者在窗口被隐藏之后需要再次显示时调用。</li>
+</ul>
+</li>
+<li><p><code>close()</code></p>
+<ul>
+<li><strong>用法</strong>：<code>close()</code> 方法用于关闭窗口。这不仅会隐藏窗口，而且会触发窗口的关闭事件（<code>closeEvent</code>），可以在其中执行一些清理操作。</li>
+<li><strong>场景</strong>：当你想要结束窗口的生命周期时，例如用户完成了操作，或者不再需要显示该窗口时，可以调用 <code>close()</code>。对于子窗口，<code>close()</code> 会使其从父窗口的子窗口列表中移除。</li>
+<li><strong>注意</strong>：关闭主窗口通常会导致整个应用程序退出。</li>
+</ul>
+</li>
+<li><p><code>hide()</code></p>
+<ul>
+<li><strong>用法</strong>：<code>hide()</code> 方法用于临时隐藏窗口，而不是关闭。窗口仍然存在于内存中，但用户界面上不可见。</li>
+<li><strong>场景</strong>：当你想临时从视图中移除窗口，但可能稍后需要重新显示它时，使用 <code>hide()</code> 是合适的。这对于不想终止窗口实例，而只是暂时不显示它的情况很有用。</li>
+</ul>
+</li>
+</ol>
+<h3 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h3><p>我们将关闭、显示、隐藏子窗口的按钮集成到主窗口中，方便进行测试</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyWindow</span>(<span class="title class_ inherited__">QWidget</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        </span><br><span class="line">        self.lb = QLabel(<span class="string">&#x27;这个是主窗口&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">        self.subWindow = SubWindow()</span><br><span class="line">        self.subWindow.show()</span><br><span class="line"></span><br><span class="line">        self.btnClose = QPushButton(<span class="string">&#x27;关闭子窗口&#x27;</span>)</span><br><span class="line">        self.btnClose.clicked.connect(<span class="keyword">lambda</span>: self.subWindow.close())</span><br><span class="line">        </span><br><span class="line">        self.btnShow = QPushButton(<span class="string">&#x27;显示子窗口&#x27;</span>)</span><br><span class="line">        self.btnShow.clicked.connect(<span class="keyword">lambda</span>: self.subWindow.show())</span><br><span class="line"></span><br><span class="line">        self.btnHide = QPushButton(<span class="string">&#x27;隐藏子窗口&#x27;</span>)</span><br><span class="line">        self.btnHide.clicked.connect(<span class="keyword">lambda</span>: self.subWindow.hide())</span><br><span class="line"></span><br><span class="line">        self.mainlayout = QVBoxLayout()</span><br><span class="line">        self.mainlayout.addWidget(self.lb)</span><br><span class="line">        self.mainlayout.addWidget(self.btnClose)</span><br><span class="line">        self.mainlayout.addWidget(self.btnShow)</span><br><span class="line">        self.mainlayout.addWidget(self.btnHide)</span><br><span class="line">        self.setLayout(self.mainlayout)</span><br><span class="line"> <span class="keyword">class</span> <span class="title class_">SubWindow</span>(<span class="title class_ inherited__">QWidget</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line"></span><br><span class="line">        self.lb = QLabel(<span class="string">&#x27;这个是子窗口&#x27;</span>)</span><br><span class="line">        self.lineEdit = QTextEdit()</span><br><span class="line">        self.lineEdit.setText(<span class="string">&#x27;这是子窗口的文本框&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        self.mainlayout = QVBoxLayout()</span><br><span class="line">        self.mainlayout.addWidget(self.lb)</span><br><span class="line">        self.mainlayout.addWidget(self.lineEdit)</span><br><span class="line">        self.setLayout(self.mainlayout)</span><br></pre></td></tr></table></figure>
+<p>下面是测试效果</p>
+<img src="/posts/d765094b05e7/2023-12-13-11-34-33.gif" class="" title="2023-12-13-11-34-33">
+<p>可以发现，当我们关闭子窗口并重新展示后，子窗口会回到一个固定的地方，这说明原来的子窗口被彻底清除，重新创建了一个子窗口；而当我们将子窗口隐藏后重新展示时，子窗口仍然在隐藏前的地方。</p>
+<h3 id="自定义信号"><a href="#自定义信号" class="headerlink" title="自定义信号"></a>自定义信号</h3><p>通常自定义一个信号时共有以下<strong>三个步骤</strong></p>
+<ol>
+<li><p>定义信号名以及传参类型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">From Pyside6.QtCore <span class="keyword">import</span> Signal</span><br><span class="line">signalname = Signal(<span class="built_in">object</span>)</span><br></pre></td></tr></table></figure>
+<p>这里的参数类型除了object对象，还可以是str、int等等</p>
+<div class="note warning flat"><p>信号需要在窗口类中定义，而非<code>__init__</code>函数中</p>
+</div>
+</li>
+<li><p>将信号绑定到槽</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">signalname.connect(function)</span><br></pre></td></tr></table></figure>
+<p><code>connect()</code>中绑定的槽会接收信号传递的参数</p>
+</li>
+<li><p>发送(激活)信号</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">signalname.emit(signal)</span><br></pre></td></tr></table></figure>
+<p><code>emit()</code>方法中的参数即希望信号传递的参数</p>
+</li>
+</ol>
+<h3 id="父子窗口间通信"><a href="#父子窗口间通信" class="headerlink" title="父子窗口间通信"></a>父子窗口间通信</h3><p>父子窗口间通信很大程度上需要依赖自定义信号</p>
+<p>但更重要的是，如何在父窗口中操作子窗口，以及如何在子窗口中操作父窗口</p>
+<p>在<strong>父窗口操作子窗口可以直接通过调用定义的子窗口对象</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sendValueToSub = Signal(<span class="built_in">str</span>)</span><br><span class="line">self.subWindow = SubWindow(self)</span><br><span class="line">...</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">bind</span>(<span class="params">self</span>):</span><br><span class="line">    self.sendValueToSub.connect(self.subWindow.lineEditSub.setText)</span><br><span class="line">    self.btn.clicked.connect(self.sendValue)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sendValue</span>(<span class="params">self</span>):</span><br><span class="line">    self.sendValueToSub.emit(self.lineEditMain.text())</span><br></pre></td></tr></table></figure>
+<p>在上述代码中，父窗口直接将<code>subWindow</code>的控件的方法设为槽</p>
+<p>那么接下来的重点是如何让子窗口获取父窗口的对象</p>
+<p>我们可以<strong>在定义子窗口对象时将父窗口本身传入</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">self.subWindow = SubWindow(self)</span><br><span class="line">...</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SubWindow</span>(<span class="title class_ inherited__">QWidget</span>):</span><br><span class="line">    sendValueToMain = Signal(<span class="built_in">str</span>)  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,parent=<span class="literal">None</span></span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line"></span><br><span class="line">        self.parent = parent</span><br><span class="line"></span><br><span class="line">        self.lineEditSub = QLineEdit()</span><br><span class="line">        self.btn = QPushButton(<span class="string">&#x27;发送数据到主窗口&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">        self.mainlayout = QVBoxLayout()</span><br><span class="line">        self.mainlayout.addWidget(self.lineEditSub)</span><br><span class="line">        self.mainlayout.addWidget(self.btn)</span><br><span class="line">        self.setLayout(self.mainlayout)</span><br><span class="line">        self.bind()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">bind</span>(<span class="params">self</span>):</span><br><span class="line">        self.sendValueToMain.connect(self.parent.lineEditShow.setText)</span><br><span class="line">        self.btn.clicked.connect(self.sendValue)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">sendValue</span>(<span class="params">self</span>):</span><br><span class="line">        self.sendValueToMain.emit(self.lineEditSub.text())</span><br></pre></td></tr></table></figure>
+<p>我们在定义子窗口的初始化函数时额外定义一个<code>parent</code>参数</p>
+<p>在创建子窗口对象时通过<code>SubWindow(self)</code>将父窗口传入</p>
+<p>之后我们就能通过<code>self.parent = parent</code></p>
+<p>在子窗口的初始化函数中初始化一个父窗口的属性</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://rickliu.com">R1ck Liu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://rickliu.com/posts/d765094b05e7/">https://rickliu.com/posts/d765094b05e7/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://rickliu.com" target="_blank">R1ck's Portal</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Python/">Python</a><a class="post-meta__tags" href="/tags/note/">note</a><a class="post-meta__tags" href="/tags/GUI/">GUI</a></div><div class="post_share"><div class="social-share" data-image="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/d3efec41afb2/" title="数字图像处理 作业二"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-11-12-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">数字图像处理 作业二</div></div></a></div><div class="next-post pull-right"><a href="/posts/87e0deaffed3/" title="合成数据模型fawkes复现"><img class="cover" src="/posts/87e0deaffed3/cover.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">合成数据模型fawkes复现</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/ebc439ef19b2/" title="python3 pyside6学习笔记及实践（一）"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-26</div><div class="title">python3 pyside6学习笔记及实践（一）</div></div></a></div><div><a href="/posts/341ddbf96da0/" title="python3 pyside6学习笔记及实践（三）"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-17</div><div class="title">python3 pyside6学习笔记及实践（三）</div></div></a></div><div><a href="/posts/1f9a4bfd6ae8/" title="python3 pyside6学习笔记及实践（四）"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-12</div><div class="title">python3 pyside6学习笔记及实践（四）</div></div></a></div><div><a href="/posts/2df062c9f4f0/" title="python3 pyside6学习笔记及实践（五）"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-17</div><div class="title">python3 pyside6学习笔记及实践（五）</div></div></a></div><div><a href="/posts/cd0d11b6cb14/" title="python3 网络爬虫笔记"><img class="cover" src="/posts/cd0d11b6cb14/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-11</div><div class="title">python3 网络爬虫笔记</div></div></a></div><div><a href="/posts/8f6810bb2033/" title="文件包含漏洞"><img class="cover" src="/posts/8f6810bb2033/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-17</div><div class="title">文件包含漏洞</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">R1ck Liu</div><div class="author-info__description">技术分享和生活记录</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">62</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/handsomelky"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/handsomelky" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_27489877" target="_blank" title="CSDN"><i class="fa-solid fa-c" style="color: #e85211;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果本博客加载速度慢，请开启魔法~</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%8E%A7%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">常用控件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E6%8B%89%E6%A1%86-QComboBox"><span class="toc-number">2.1.</span> <span class="toc-text">下拉框(QComboBox)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E9%80%89%E6%A1%86-QCheckBox"><span class="toc-number">2.2.</span> <span class="toc-text">复选框(QCheckBox)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E9%80%89%E6%A1%86-QRadioButton"><span class="toc-number">2.3.</span> <span class="toc-text">单选框(QRadioButton)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E6%A1%86-QTextEdit%E5%92%8CQPlainTextEdit"><span class="toc-number">2.4.</span> <span class="toc-text">文本框(QTextEdit和QPlainTextEdit)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BB%91%E5%9D%97-QSlider"><span class="toc-number">2.5.</span> <span class="toc-text">滑块(QSlider)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%83%E5%B1%80"><span class="toc-number">3.</span> <span class="toc-text">布局</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E5%B8%83%E5%B1%80%E6%8E%A7%E4%BB%B6"><span class="toc-number">3.1.</span> <span class="toc-text">常见布局控件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">3.2.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%83%E5%B1%80%E7%9A%84%E5%A5%BD%E5%A4%84"><span class="toc-number">3.3.</span> <span class="toc-text">布局的好处</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E8%AF%9D%E6%A1%86"><span class="toc-number">4.</span> <span class="toc-text">对话框</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E6%A1%86-QMessageBox"><span class="toc-number">4.1.</span> <span class="toc-text">消息框(QMessageBox)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E5%AF%B9%E8%AF%9D%E6%A1%86-QInputDialog"><span class="toc-number">4.2.</span> <span class="toc-text">输入对话框(QInputDialog)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%AF%B9%E8%AF%9D%E6%A1%86-QFileDialog"><span class="toc-number">4.3.</span> <span class="toc-text">文件对话框(QFileDialog)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E4%BD%93%E5%AF%B9%E8%AF%9D%E6%A1%86-QFontDialog"><span class="toc-number">4.4.</span> <span class="toc-text">字体对话框(QFontDialog)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%9C%E8%89%B2%E5%AF%B9%E8%AF%9D%E6%A1%86-QColorDialog"><span class="toc-number">4.5.</span> <span class="toc-text">颜色对话框(QColorDialog)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E9%A1%B9%E7%9B%AE%EF%BC%9A%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86"><span class="toc-number">5.</span> <span class="toc-text">小项目：图像处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%90%E7%AA%97%E5%8F%A3-%E5%A4%9A%E7%AA%97%E5%8F%A3"><span class="toc-number">6.</span> <span class="toc-text">子窗口&#x2F;多窗口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%AD%90%E7%AA%97%E5%8F%A3"><span class="toc-number">6.1.</span> <span class="toc-text">创建子窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%97%E5%8F%A3%E7%9A%84%E5%BC%80%E9%97%AD"><span class="toc-number">6.2.</span> <span class="toc-text">窗口的开闭</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-1"><span class="toc-number">6.3.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BF%A1%E5%8F%B7"><span class="toc-number">6.4.</span> <span class="toc-text">自定义信号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%88%B6%E5%AD%90%E7%AA%97%E5%8F%A3%E9%97%B4%E9%80%9A%E4%BF%A1"><span class="toc-number">6.5.</span> <span class="toc-text">父子窗口间通信</span></a></li></ol></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>pyside6学习笔记及实践</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/2df062c9f4f0/" title="python3 pyside6学习笔记及实践（五）"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python3 pyside6学习笔记及实践（五）"></a><div class="content"><a class="title" href="/posts/2df062c9f4f0/" title="python3 pyside6学习笔记及实践（五）">python3 pyside6学习笔记及实践（五）</a><time datetime="2024-02-17T03:48:40.000Z" title="发表于 2024-02-17 11:48:40">2024-02-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/1f9a4bfd6ae8/" title="python3 pyside6学习笔记及实践（四）"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python3 pyside6学习笔记及实践（四）"></a><div class="content"><a class="title" href="/posts/1f9a4bfd6ae8/" title="python3 pyside6学习笔记及实践（四）">python3 pyside6学习笔记及实践（四）</a><time datetime="2024-02-12T11:11:19.000Z" title="发表于 2024-02-12 19:11:19">2024-02-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/341ddbf96da0/" title="python3 pyside6学习笔记及实践（三）"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python3 pyside6学习笔记及实践（三）"></a><div class="content"><a class="title" href="/posts/341ddbf96da0/" title="python3 pyside6学习笔记及实践（三）">python3 pyside6学习笔记及实践（三）</a><time datetime="2023-12-17T09:48:20.000Z" title="发表于 2023-12-17 17:48:20">2023-12-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d765094b05e7/" title="python3 pyside6学习笔记及实践（二）"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python3 pyside6学习笔记及实践（二）"></a><div class="content"><a class="title" href="/posts/d765094b05e7/" title="python3 pyside6学习笔记及实践（二）">python3 pyside6学习笔记及实践（二）</a><time datetime="2023-11-15T03:22:54.000Z" title="发表于 2023-11-15 11:22:54">2023-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/ebc439ef19b2/" title="python3 pyside6学习笔记及实践（一）"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python3 pyside6学习笔记及实践（一）"></a><div class="content"><a class="title" href="/posts/ebc439ef19b2/" title="python3 pyside6学习笔记及实践（一）">python3 pyside6学习笔记及实践（一）</a><time datetime="2023-10-26T12:54:51.000Z" title="发表于 2023-10-26 20:54:51">2023-10-26</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/43e60ea4b856/" title="2024年终总结">2024年终总结</a><time datetime="2024-12-31T15:42:01.000Z" title="发表于 2024-12-31 23:42:01">2024-12-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/401b31cb03e1/" title="Git原理与用法系统总结"><img src="/posts/401b31cb03e1/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Git原理与用法系统总结"/></a><div class="content"><a class="title" href="/posts/401b31cb03e1/" title="Git原理与用法系统总结">Git原理与用法系统总结</a><time datetime="2024-07-27T13:51:15.000Z" title="发表于 2024-07-27 21:51:15">2024-07-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/10a98f25092d/" title="个人隐私保护手册">个人隐私保护手册</a><time datetime="2024-07-22T15:08:07.000Z" title="发表于 2024-07-22 23:08:07">2024-07-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c12b1506032a/" title="WSL kali安装及无缝模式部署"><img src="/posts/c12b1506032a/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WSL kali安装及无缝模式部署"/></a><div class="content"><a class="title" href="/posts/c12b1506032a/" title="WSL kali安装及无缝模式部署">WSL kali安装及无缝模式部署</a><time datetime="2024-07-20T05:01:59.000Z" title="发表于 2024-07-20 13:01:59">2024-07-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/4c025cd5aca8/" title="SQL注入 各种过滤的绕过姿势总结">SQL注入 各种过滤的绕过姿势总结</a><time datetime="2024-04-26T13:58:02.000Z" title="发表于 2024-04-26 21:58:02">2024-04-26</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-top_img.png')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By R1ck Liu</div><div class="footer_custom_text"><p><object style="margin-inline:5px" data="https://img.shields.io/badge/Frame-Hexo-blue?logo=Hexo&style=plastic&link=https://hexo.io/&https://hexo.io/zh-cn/docs/"></object><object style="margin-inline:5px" data="https://img.shields.io/badge/Theme-Butterfly-6513df?style=plastic&logo=bitdefender&link=https://butterfly.js.org/"></object></p><p><a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备2023083766号</a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><script>(()=>{
+  const getGiscusTheme = theme => {
+    return theme === 'dark' ? 'dark' : 'light'
+  }
+
+  const loadGiscus = () => {
+    const config = Object.assign({
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'handsomelky/handsomelky.github.io',
+      'data-repo-id': 'R_kgDOJ58FwA',
+      'data-category-id': 'DIC_kwDOJ58FwM4CX0E8',
+      'data-mapping': 'pathname',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true
+    },null)
+
+    const ele = document.createElement('script')
+    for (let key in config) {
+      ele.setAttribute(key, config[key])
+    }
+    document.getElementById('giscus-wrap').appendChild(ele)
+  }
+
+  const changeGiscusTheme = theme => {
+    const sendMessage = message => {
+      const iframe = document.querySelector('iframe.giscus-frame')
+      if (!iframe) return
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+    }
+
+    sendMessage({
+      setConfig: {
+        theme: getGiscusTheme(theme)
+      }
+    });
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment= loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script src="/js/FunnyTitle.js"></script><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://cdn.staticfile.org/hexo-theme-butterfly/4.9.0/js/search/local-search.min.js"></script></div></div><script src="/live2d_models/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2d_models/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2d_models/assets/Rick.model.json"},"display":{"position":"right","width":225,"height":450,"hOffset":30,"vOffset":-50},"mobile":{"show":false},"react":{"opacity":0.85},"log":false});</script></body></html>

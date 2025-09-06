@@ -1,0 +1,1174 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>CTF Web信息搜集 | R1ck's Portal</title><meta name="author" content="R1ck Liu"><meta name="copyright" content="R1ck Liu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="信息收集，域名信息，备案，端口扫描，备份文件，敏感目录，指纹识别，git、SVN、hg、CVS、 Bazaar&#x2F;bzr、DS_Store源码泄漏，WriteUp：ctfshow web1-20，CTFHUB信息泄漏，从0到1信息搜集">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF Web信息搜集">
+<meta property="og:url" content="https://rickliu.com/posts/24259a52c7ee/index.html">
+<meta property="og:site_name" content="R1ck&#39;s Portal">
+<meta property="og:description" content="信息收集，域名信息，备案，端口扫描，备份文件，敏感目录，指纹识别，git、SVN、hg、CVS、 Bazaar&#x2F;bzr、DS_Store源码泄漏，WriteUp：ctfshow web1-20，CTFHUB信息泄漏，从0到1信息搜集">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-8-21-cover.png">
+<meta property="article:published_time" content="2023-08-21T14:33:47.000Z">
+<meta property="article:modified_time" content="2024-07-26T17:47:34.781Z">
+<meta property="article:author" content="R1ck Liu">
+<meta property="article:tag" content="note">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="WriteUp">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-8-21-cover.png"><link rel="shortcut icon" href="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/favicon.png"><link rel="canonical" href="https://rickliu.com/posts/24259a52c7ee/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="CCDD774EA967D60E5C877121C6572BF5"/><meta name="baidu-site-verification" content="codeva-13aVmkscyC"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?6c032eabab6689261ec86024f386af87";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: R1ck Liu","link":"链接: ","source":"来源: R1ck's Portal","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CTF Web信息搜集',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-27 01:47:34'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/equipment.css"><script type="text/javascript" src ="/js/reward.js" ></script><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.16/dist/sweetalert2.all.min.js"></script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">62</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-8-21-top_img.png')"><nav id="nav"><span id="blog-info"><a href="/" title="R1ck's Portal"><span class="site-name">R1ck's Portal</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CTF Web信息搜集</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-08-21T14:33:47.000Z" title="发表于 2023-08-21 22:33:47">2023-08-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-26T17:47:34.781Z" title="更新于 2024-07-27 01:47:34">2024-07-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CTF-Web/">CTF Web</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">8.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>28分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="CTF Web信息搜集"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这段时间开始入门Web，主要是<strong>为了在线下赛不那么坐牢</strong></p>
+<p>Web的知识还是挺多的，所以需要成体系的学习</p>
+<p>每学完一个方面我会写一篇总结性文章，将知识点与例题放在一起，方便后面查阅</p>
+<p>如果之后学的更加深入或者遇到什么有代表性的题目，也会添加到文章中</p>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>渗透的本质是信息收集，信息收集也叫做资产收集。</p>
+<p>信息收集是渗透测试的前期主要工作，是非常重要的环节，收集足够多的信息才能方便接下来的测试，信息收集主要是收集网站的域名信息、子域名信息、目标网站信息、目标网站真实IP、敏感/目录文件、开放端口和中间件信息等等。通过各种渠道和手段尽可能收集到多的关于这个站点的信息，有助于我们更多的去找到渗透点，突破口。</p>
+<h3 id="常见信息"><a href="#常见信息" class="headerlink" title="常见信息"></a>常见信息</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>搜集方面</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>whois</td>
+<td>得到域名注册人的信息:邮箱、电话号码、姓名</td>
+</tr>
+<tr>
+<td>子域名</td>
+<td>可以扩大攻击范围，子域名一定是有关联的，很多时候基本上都同属一个公司</td>
+</tr>
+<tr>
+<td>端口探测</td>
+<td>危险端口可以直接爆破入侵，一个Ip可能搭建了多个网站，分布在不同的端口</td>
+</tr>
+<tr>
+<td>目录扫描</td>
+<td>目录扫描有的时候可以访问到压缩包源码、编辑器目录、废弃页面、其他站点</td>
+</tr>
+<tr>
+<td>指纹识别</td>
+<td>识别CMS，寻找通杀漏洞</td>
+</tr>
+<tr>
+<td>旁站查询</td>
+<td>旁站其实就是同IP站点，一定和目标站点在同一个内网或者是同一台服务器</td>
+</tr>
+<tr>
+<td>C段查询</td>
+<td>C段可能是同一个内网，同一个公司</td>
+</tr>
+<tr>
+<td>内容敏感信息泄露</td>
+<td>通过谷歌语法得到其他的东西</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><h4 id="域名信息"><a href="#域名信息" class="headerlink" title="域名信息"></a>域名信息</h4><h5 id="whois"><a href="#whois" class="headerlink" title="whois"></a>whois</h5><p><strong>概述</strong></p>
+<div class="note info flat"><p><strong>whois</strong>（读作“Who is”，非缩写）是用来查询域名的IP以及所有者等信息的传输协议。简单说，whois就是一个用来查询域名是否已经被注册，以及注册域名的详细信息的数据库（如域名所有人、域名注册商）</p>
+</div>
+<p><strong>收集方法</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://whois.chinaz.com/">http://whois.chinaz.com/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.whois.com/">https://www.whois.com/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.virustotal.com/gui/home/url">VirusTotal - Home</a></li>
+</ul>
+<h5 id="备案"><a href="#备案" class="headerlink" title="备案"></a>备案</h5><p><strong>概述</strong></p>
+<p>网站备案也算是中国互联网的一大特色了</p>
+<div class="note info flat"><p><strong>非经营性网站备案</strong>（Internet Content Provider Registration Record），简称<strong>ICP备案</strong>，指中华人民共和国境内信息服务互联网站所需进行的备案登记作业。</p>
+</div>
+<p>如果某网站申请了ICP备案，那么就能通过查询备案可以获取备案人的大量信息</p>
+<p><strong>收集方法</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.beianx.cn/">ICP备案查询网 - 网站备案查询 - 工信部域名备案查询实时数据 (beianx.cn)</a></li>
+<li><a target="_blank" rel="noopener" href="https://beian.tianyancha.com/">ICP备案查询<em>备案号查询</em>网站备案查询 - 天眼查 (tianyancha.com)</a></li>
+</ul>
+<p><strong>注意事项</strong></p>
+<p>一些个人网站底部贴的备案号很有可能是假的，或从其他站点复制过来的。所以查询备案信息时尽量通过域名来直接查询。</p>
+<h5 id="CDN"><a href="#CDN" class="headerlink" title="CDN"></a>CDN</h5><p><strong>概述</strong></p>
+<div class="note info flat"><p><strong>內容分发网络</strong>（英语：<strong>C</strong>ontent <strong>D</strong>elivery <strong>N</strong>etwork或<strong>C</strong>ontent <strong>D</strong>istribution <strong>N</strong>etwork，缩写：<strong>CDN</strong>）是指一种透过互联网互相连接的电脑网络系统，利用最靠近每位用户的服务器，更快、更可靠地将音乐、图片、视频、应用程序及其他文件发送给用户，来提供高性能、可扩展性及低成本的网络内容传递给用户。</p>
+</div>
+<p>正好在我的博客R1ck’s Portal中，也使用到了这种内容分发网络服务，所以对它的作用的体会非常深刻。</p>
+<p>在很大程度上，CDN能抵御像DDOS之类的攻击，同时还能让站点的真实IP “隐身”</p>
+<p>但是这对于我们渗透测试时影响很大：无论我们对CDN的服务器有多大的控制权，也始终影响不到真实站点，也就是源站</p>
+<p>此时需要我们<strong>绕过CDN</strong>，找到真正源站的IP</p>
+<p><strong>绕过方法</strong></p>
+<ol>
+<li><p>查询历史DNS记录</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://viewdns.info/iphistory/">IP History - ViewDNS.info</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.dnsdb.io/zh-cn/">DNSDB</a></li>
+</ul>
+</li>
+<li><p>PHPinfo</p>
+<p>如果目标网站存在phpinfo泄露等，可以在phpinfo中的<strong>SERVER_ADDR</strong>或<strong>_SERVER[“SERVER_ADDR”]</strong>找到真实ip</p>
+</li>
+<li><p>查询子域名</p>
+<p>CDN的流量费还是不便宜的，所以很多站长可能只会对主站或者流量大的子站点做了 CDN，而很多小站子站点又跟主站在同一台服务器或者同一个C段内，此时就可以通过查询子域名对应的 IP 来辅助查找网站的真实IP。</p>
+<p>具体查询子域名的方法会在接下来介绍</p>
+</li>
+<li><p>使用国外主机解析域名</p>
+<p>国内很多 CDN 厂商因为各种原因只做了国内的线路，而没有针对国外的线路，此时我们使用国外的主机直接访问可能就能获取到真实IP。</p>
+</li>
+<li><p>网站邮件订阅查找</p>
+<p>RSS邮件订阅，很多网站都自带 sendmail，会发邮件给我们，此时查看邮件源码里面就会包含服务器的真实 IP 了。</p>
+</li>
+</ol>
+<h5 id="子域名"><a href="#子域名" class="headerlink" title="子域名"></a>子域名</h5><p><strong>概述</strong></p>
+<p>收集子域名可以扩大测试范围，同一域名下的二级域名都属于目标范围。</p>
+<p><strong>收集方法</strong></p>
+<ol>
+<li><p>使用搜索引擎在线收集</p>
+<ul>
+<li><p>FOFA搜索子域名</p>
+<p><a target="_blank" rel="noopener" href="https://fofa.info/">网络空间测绘，网络空间安全搜索引擎，网络空间搜索引擎，安全态势感知 - FOFA网络空间测绘系统</a></p>
+<p>语法：domain=”主域名”</p>
+</li>
+<li><p>使用谷歌语法</p>
+<p>Site:主域名</p>
+</li>
+</ul>
+</li>
+<li><p>在线查询</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://chaziyu.com/">子域名查询 查子域名 查子站 子域名大全 二级域名查询 查子域 (chaziyu.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://dnsdumpster.com/">DNSdumpster.com - dns recon and research, find and lookup dns records</a></li>
+<li><a target="_blank" rel="noopener" href="http://tool.chinaz.com/subdomain/">http://tool.chinaz.com/subdomain/</a></li>
+</ul>
+</li>
+<li><p>使用工具爆破挖掘子域名</p>
+<ul>
+<li><p>Layer</p>
+<p>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1QEYXjrGsARcXk6D-xLS64Q?pwd=1111">https://pan.baidu.com/s/1QEYXjrGsARcXk6D-xLS64Q?pwd=1111</a><br>提取码：1111 </p>
+</li>
+<li><p>OneForAll</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/shmilylty/OneForAll">shmilylty/OneForAll: OneForAll是一款功能强大的子域收集工具 (github.com)</a></p>
+<div class="note info flat"><p>使用OneForAll时需要以管理员身份打开终端</p>
+</div>
+<div class="note primary flat"><p>使用高版本python运行时可能会出现报错<code>ImportError: cannot import name ‘sre_parse’ from ‘re’</code></p>
+<p>解决方法是找到python文件下的Lib\site-packages\exrex.py文件，对其代码进行更改：</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230822210252449.png" alt="image-20230822210252449"></p>
+</div>
+</li>
+</ul>
+</li>
+<li><p>使用证书反查</p>
+<p><a target="_blank" rel="noopener" href="https://crt.sh/">crt.sh | Certificate Search</a></p>
+</li>
+</ol>
+<h5 id="解析记录"><a href="#解析记录" class="headerlink" title="解析记录"></a>解析记录</h5><p><strong>概述</strong></p>
+<p>查询域名的NS记录、MX记录、TXT记录等很有可能指向的是真实ip或同C段服务器。</p>
+<p>同时flag也有可能藏在这些解析记录中</p>
+<p><strong>常见解析类型</strong></p>
+<ol>
+<li>A记录（Address Record）：A记录将域名解析为IPv4地址。这是最常见的DNS记录类型，用于将主机名（例如：<a href="http://example.com）指向一个IPv4地址（例如：192.0.2.1）。">http://example.com）指向一个IPv4地址（例如：192.0.2.1）。</a></li>
+<li>AAAA记录（IPv6 Address Record）：AAAA记录将域名解析为IPv6地址。与A记录类似，AAAA记录用于将主机名（例如：<a href="http://example.com）指向一个IPv6地址（例如：2001:0db8:85a3:0000:0000:8a2e:0370:7334）。">http://example.com）指向一个IPv6地址（例如：2001:0db8:85a3:0000:0000:8a2e:0370:7334）。</a></li>
+<li>CNAME记录（Canonical Name Record）：CNAME记录用于将一个域名指向另一个域名。通常用于别名或子域名的情况，例如将<a target="_blank" rel="noopener" href="http://www.example.com指向http://example.com。">http://www.example.com指向http://example.com。</a></li>
+<li>MX记录（Mail Exchange Record）：MX记录用于指定处理域名电子邮件的邮件服务器。通常，MX记录会指向一个邮件服务器的域名，如：<a target="_blank" rel="noopener" href="http://mail.example.com。">http://mail.example.com。</a></li>
+<li>NS记录（Name Server Record）：NS记录指定了负责解析域名的DNS服务器。通常，在注册域名时，域名注册商会为您分配默认的NS记录。这些记录可以更改，以便将域名的解析委托给其他DNS服务器。</li>
+<li>TXT记录（Text Record）：TXT记录用于存储与域名相关的任意文本信息。这些记录通常用于验证域名所有权（如Google网站验证）或实现电子邮件验证技术（如SPF，DKIM和DMARC）。</li>
+</ol>
+<p><strong>收集方法</strong></p>
+<ol>
+<li><p>使用本机的nslookup命令</p>
+<p><code>nslookup -type=type domain [dns-server]</code></p>
+<p>其中type为解析类型，domain为域名，dns服务器为可选项</p>
+<p>命令详解：<a target="_blank" rel="noopener" href="https://blog.csdn.net/glmichelin/article/details/113186020">nslookup命令详解和实战例子（全）_老鸟诗人的博客-CSDN博客</a></p>
+</li>
+<li><p>在线查询</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.jsons.cn/nslookup/">在线域名解析记录检测-在线Nslookup域名解析查询工具 (jsons.cn)</a></li>
+<li><a target="_blank" rel="noopener" href="https://ipw.cn/dns/">域名解析查询 | DNS查询 | IPv6解析 | 在线dig | IP查询(ipw.cn)</a></li>
+</ul>
+</li>
+</ol>
+<h4 id="旁站"><a href="#旁站" class="headerlink" title="旁站"></a>旁站</h4><p><strong>概述</strong></p>
+<p>旁站指的是同一服务器上的其他网站，一般是同一ip</p>
+<p><strong>收集方法</strong></p>
+<ol>
+<li><p>在线查询</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://stool.chinaz.com/same">同IP网站查询，同服务器网站查询 - 站长工具 (chinaz.com)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ipchaxun.com/">ip查询 查ip 网站ip查询 同ip网站查询 iP反查域名 iP查域名 同ip域名 (ipchaxun.com)</a></p>
+</li>
+</ul>
+</li>
+<li><p>搜索引擎</p>
+<p>fofa</p>
+<p>语法：ip=”xxx.xxx.xxx.xxx”</p>
+</li>
+</ol>
+<h4 id="C段"><a href="#C段" class="headerlink" title="C段"></a>C段</h4><p><strong>概述</strong></p>
+<p>对目标主机无计可施时，我们可以尝试一下从C段入手。C段入侵是拿下同一C段下的服务器，也就是说是D段1-255中的一台服务器，然后直接从被端掉的服务器出发进行其他测试</p>
+<p><strong>收集方法</strong></p>
+<ol>
+<li><p>在线查询</p>
+<p><a target="_blank" rel="noopener" href="https://www.webscan.cc/">同IP网站查询,C段查询,IP反查域名,在线C段,旁站工具 - WebScan</a></p>
+</li>
+<li><p>搜索引擎</p>
+<p>fofa</p>
+<p>语法:ip=”xxx.xxx.xxx.0/24”</p>
+</li>
+</ol>
+<h4 id="服务器信息"><a href="#服务器信息" class="headerlink" title="服务器信息"></a>服务器信息</h4><h5 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h5><p><strong>概述</strong></p>
+<p>当确定了目标大概的ip段后，可以先对ip的开放端口进行探测，一些特定服务可能开起在默认端口上，探测开放端口有利于快速收集目标资产，找到目标网站的其他功能站点。通过扫描服务器开放的端口以及从该端口判断服务器上存在的服务。</p>
+<p><strong>收集方法</strong></p>
+<ol>
+<li><p>在线端口检测</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://tool.chinaz.com/port/">端口扫描 - 站长工具 (chinaz.com)</a></li>
+<li><a target="_blank" rel="noopener" href="http://coolaf.com/tool/port">在线端口检测,端口扫描,端口开放检查-在线工具-postjson (coolaf.com)</a></li>
+</ul>
+</li>
+<li><p>扫描工具</p>
+<ul>
+<li><p>御剑</p>
+</li>
+<li><p>Nmap</p>
+<p>教程：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_54977781/article/details/123852687">https://blog.csdn.net/weixin_54977781/article/details/123852687</a></p>
+</li>
+</ul>
+</li>
+</ol>
+<h5 id="服务器类型"><a href="#服务器类型" class="headerlink" title="服务器类型"></a>服务器类型</h5><p>网站服务器有不同的操作系统：windows、Linux、mac os</p>
+<p>windows对大小写不敏感，其他两个对大小写敏感</p>
+<h5 id="数据库类型"><a href="#数据库类型" class="headerlink" title="数据库类型"></a>数据库类型</h5><p>目前比较常用的数据库有:MySQL、SQL server、Oracle等。SQL server开放的默认端口：1433，MySQL开放的默认端口：3306、Oracle开放的默认端口：1521。</p>
+<h5 id="waf防火墙"><a href="#waf防火墙" class="headerlink" title="waf防火墙"></a>waf防火墙</h5><p><strong>收集方法</strong></p>
+<p>kali自带Wafw00f</p>
+<p>语法：wafw00f xxx.com</p>
+<h4 id="网站信息"><a href="#网站信息" class="headerlink" title="网站信息"></a>网站信息</h4><h5 id="备份文件"><a href="#备份文件" class="headerlink" title="备份文件"></a>备份文件</h5><p>除了F12查看源代码，有时网站的备份文件也会泄漏源代码</p>
+<p>备份文件是常见的源码泄露的方式，实践中往往是开发者的疏忽而忘记删除备份文件，从而导致服务器中残留源码。我们可以通过访问这些备份文件来审计代码，一般情况下可以用后台扫描工具扫描。</p>
+<h6 id="备份文件常见的后缀名"><a href="#备份文件常见的后缀名" class="headerlink" title="备份文件常见的后缀名"></a>备份文件常见的后缀名</h6><p>备份文件基本上都是压缩包</p>
+<p>.rar .zip .7z .tar .gz .bak<br>对于bak类的备份文件，可以直接输入文件名称+.bak访问例如：<br><code>index.php.bak</code><br>.txt .old .temp _index.html .swp .sql .tgz</p>
+<h6 id="备份文件常见的文件名"><a href="#备份文件常见的文件名" class="headerlink" title="备份文件常见的文件名"></a>备份文件常见的文件名</h6><p>web<br>website<br>backup<br>back<br>www<br>wwwroot<br>temp<br>db<br>data<br>code<br>test<br>admin<br>user<br>sql</p>
+<h6 id="gedit备份文件"><a href="#gedit备份文件" class="headerlink" title="gedit备份文件"></a>gedit备份文件</h6><div class="note info flat"><p>在Linux下，用gedit编辑器保存后，当前目录下会生成一个后缀为<code>~</code>的文件，其文件内容就是刚编辑的内容。假设刚才保存的文件名为flag，则该文件名为flag~。</p>
+</div>
+<p>通过浏览器访问这个带有<code>~</code>的文件，便能得到源代码</p>
+<h6 id="vim备份文件"><a href="#vim备份文件" class="headerlink" title="vim备份文件"></a>vim备份文件</h6><div class="note info flat"><p>使用vim编辑器编写<code>filename</code>文件时，会有一个<code>.filename.swp</code>文件产生，它是隐藏文件。如果编写文件时正常退出，则该swp文件被删除，如果异常退出，该文件则会保存下来，该文件可以用来恢复异常退出时未能保存的文件，同时多次意外退出并不会覆盖旧的<code>.swp</code>文件，而是会生成一个新的，例如<code>.swo</code>文件。</p>
+</div>
+<p>针对swp备份文件，我们可以用<code>vim -r</code>命令恢复文件的内容</p>
+<p>例如当前目录下假如存在<code>.flag.swp</code>文件，则恢复命令为<code>vim -r flag</code></p>
+<h6 id="收集方法"><a href="#收集方法" class="headerlink" title="收集方法"></a>收集方法</h6><ol>
+<li><p>手动组合文件名和后缀并尝试</p>
+</li>
+<li><p>使用后台扫描工具</p>
+</li>
+<li><p>使用BurpSuite</p>
+<p>将访问目标站点的请求包转到<strong>Intruder模块</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824160319872.png" alt="image-20230824160319872"></p>
+<p>使用<strong>集束炸弹模式</strong>，并设置两个变量</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824161726084.png" alt="image-20230824161726084"></p>
+<p>设置payload为测试用的文件名和后缀</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824162745213.png" alt="image-20230824162745213"></p>
+</li>
+<li><p>使用自定义python脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url1 = <span class="string">&#x27;http://example.com&#x27;</span>		<span class="comment"># url为被扫描地址，后不加‘/’</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 常见的网站源码备份文件名</span></span><br><span class="line">list1 = [<span class="string">&#x27;web&#x27;</span>, <span class="string">&#x27;website&#x27;</span>, <span class="string">&#x27;backup&#x27;</span>, <span class="string">&#x27;back&#x27;</span>, <span class="string">&#x27;www&#x27;</span>, <span class="string">&#x27;wwwroot&#x27;</span>, <span class="string">&#x27;temp&#x27;</span>,<span class="string">&#x27;data&#x27;</span>,<span class="string">&#x27;db&#x27;</span>,<span class="string">&#x27;code&#x27;</span>,<span class="string">&#x27;admin&#x27;</span>,<span class="string">&#x27;user&#x27;</span>,<span class="string">&#x27;sql&#x27;</span>,<span class="string">&#x27;index.php&#x27;</span>]</span><br><span class="line"><span class="comment"># 常见的网站源码备份文件后缀</span></span><br><span class="line">list2 = [<span class="string">&#x27;tar&#x27;</span>, <span class="string">&#x27;tar.gz&#x27;</span>, <span class="string">&#x27;zip&#x27;</span>, <span class="string">&#x27;rar&#x27;</span>, <span class="string">&#x27;bak&#x27;</span>,<span class="string">&#x27;old&#x27;</span> ,<span class="string">&#x27;temp&#x27;</span>,<span class="string">&#x27;_index.html&#x27;</span>,<span class="string">&#x27;.swp&#x27;</span>,<span class="string">&#x27;.sql&#x27;</span>,<span class="string">&#x27;.tgz&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> list1:</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> list2:</span><br><span class="line">        back = <span class="built_in">str</span>(i) + <span class="string">&#x27;.&#x27;</span> + <span class="built_in">str</span>(j)</span><br><span class="line">        url = <span class="built_in">str</span>(url1) + <span class="string">&#x27;/&#x27;</span> + back</span><br><span class="line">        <span class="built_in">print</span>(back + <span class="string">&#x27;    &#x27;</span>, end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">        <span class="built_in">print</span>(requests.get(url).status_code)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="敏感目录"><a href="#敏感目录" class="headerlink" title="敏感目录"></a>敏感目录</h5><p><strong>概述</strong></p>
+<p>通过扫描目录和文件，大致了解同站的的结构，获取突破点，比如后台，文件备份，上传点以及源码的目录</p>
+<p>敏感文件常见的如.git文件泄露，.svn文件泄露，phpinfo泄露等</p>
+<p><strong>收集方法</strong></p>
+<ol>
+<li><p>后台扫描工具</p>
+<ul>
+<li><p>御剑</p>
+<p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1uvnBpzTvp7GLhIoivnIN0w?pwd=1111">https://pan.baidu.com/s/1uvnBpzTvp7GLhIoivnIN0w?pwd=1111</a></p>
+<p>提取码: 1111 </p>
+<p>御剑工具的字典非常重要，平时做题遇到没见过的的后台都可以加进去</p>
+</li>
+<li><p>dirsearch</p>
+<div class="note warning flat"><p>这里安装dersearch后可能会出现扫描慢的情况（正常扫描速度应该在200/s左右）</p>
+<p>解决方法参考这篇文章：<a target="_blank" rel="noopener" href="https://liangmaxwell.github.io/2023/03/26/dirsearch-sao-miao-su-du-man-de-bug-xiu-fu/">dirsearch扫描速度慢的bug修复 | LiangMaxwell’s Blog</a></p>
+</div>
+<p>语法：<code>python dirsearch.py -u http://example.com:10800</code></p>
+<p>指定响应码可以加上<code>-i</code></p>
+<p>例如若要指定200和300-399之间的响应码，可以加上<code>-i 200,300-399</code></p>
+<p>递归目录扫描，可以加上<code>-r -R 层数</code></p>
+<p>详细使用教程：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43936524/article/details/115271837">dirsearch用法大全_kit_1的博客-CSDN博客</a></p>
+</li>
+</ul>
+</li>
+<li><p>查看robots.txt和sitemap.xml等文件</p>
+</li>
+<li><p>搜索引擎在线收集</p>
+<ul>
+<li>任意文件下载:<code>site:域名 filetype:zip|rar|zip|xml</code></li>
+<li>敏感信息（目录）：<code>site:域名 index of、intitle:&quot;Index of /admin&quot;</code></li>
+<li>未授权访问：<code>inurl:php? intext:CHARACTER_SETS,COLLATIONS, ?intitle:phpmyadmin</code></li>
+<li>后台：<code>site:xxx.com inurl:login|admin|manage|member|admin_login|login_admin|system|login|user</code></li>
+</ul>
+</li>
+</ol>
+<h5 id="CMS类型（指纹识别）"><a href="#CMS类型（指纹识别）" class="headerlink" title="CMS类型（指纹识别）"></a>CMS类型（指纹识别）</h5><p><strong>概述</strong></p>
+<p>收集好网站信息之后，应该对网站进行指纹识别，通过识别指纹，确定目标的cms及版本，方便制定下一步的测试计划</p>
+<div class="note info flat"><p><strong>CMS</strong>是<strong>内容管理系统</strong>的缩写。它是一种软件工具，用于创建、编辑和发布内容。CMS系统可以帮助用户创建和管理他们的网站，帮助网站管理员管理构成现代网站的许多不同资源，内容类型和各种数据。CMS系统分为四种不同类型：企业内容管理系统（ECM / ECMS），Web内容管理系统，Web组内容管理系统和组件内容管理系统。CMS最擅长的就是建设网站，最流行的CMS有：Wordpress，Drupal，Joomla</p>
+</div>
+<p><strong>收集工具</strong></p>
+<ol>
+<li><p>在线识别工具</p>
+<ul>
+<li>云悉： <a target="_blank" rel="noopener" href="https://www.yunsee.cn/">云悉互联网WEB资产在线梳理|在线CMS指纹识别平台 - 云悉安全平台 (yunsee.cn)</a></li>
+<li>潮汐：<a target="_blank" rel="noopener" href="http://finger.tidesec.com/">TideFinger 潮汐指纹 TideFinger 潮汐指纹 (tidesec.com)</a></li>
+</ul>
+</li>
+<li><p>kali自带的whatweb</p>
+<p>语法：whatweb xxx.com</p>
+</li>
+</ol>
+<h5 id="探针泄漏"><a href="#探针泄漏" class="headerlink" title="探针泄漏"></a>探针泄漏</h5><p><strong>概述</strong></p>
+<div class="note info flat"><p>安装了LNMP后或者是配置了PHP环境后，我们一般习惯性地上传一个<strong>PHP探针</strong>来检测一下我们的PHP环境是否正确地配置，同时有时遇到一些特殊的程序需要相关的PHP组件支持，我们也可以上传一个PHP探针来检测一下我们的Web环境是否符合要求。</p>
+</div>
+<p><strong>收集方法</strong></p>
+<ol>
+<li><p>尝试手动添加常见的探针文件</p>
+<p>常见探针文件有：</p>
+<p>phpinfo.php</p>
+<p>tz.php</p>
+<p>monitor.php</p>
+<p>l.php</p>
+</li>
+<li><p>在后台扫描字典中添加常见探针文件</p>
+</li>
+</ol>
+<h4 id="谷歌hacker"><a href="#谷歌hacker" class="headerlink" title="谷歌hacker"></a>谷歌hacker</h4><p><strong>谷歌语法</strong></p>
+<ul>
+<li><p>site:</p>
+<ul>
+<li>指定域名</li>
+</ul>
+</li>
+<li><p>filetype:</p>
+<ul>
+<li>指定文件类型</li>
+</ul>
+</li>
+<li><p>inurl:</p>
+<ul>
+<li>指定URL</li>
+</ul>
+</li>
+<li><p>link:</p>
+<ul>
+<li>包含指定网页的链接的网页</li>
+</ul>
+</li>
+<li><p>intitle:</p>
+<ul>
+<li>指定title</li>
+</ul>
+</li>
+<li><p>intext:</p>
+<ul>
+<li>指定内容</li>
+</ul>
+</li>
+</ul>
+<p><strong>详细教程</strong></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36119192/article/details/84029809">信息收集之Google Hacking的简单用法<em>index of /admin</em>谢公子的博客-CSDN博客</a></p>
+<h4 id="源码泄露"><a href="#源码泄露" class="headerlink" title="源码泄露"></a>源码泄露</h4><h5 id="git-源码泄露"><a href="#git-源码泄露" class="headerlink" title="git 源码泄露"></a>git 源码泄露</h5><div class="note info flat"><p><strong>git</strong>是一个主流的分布式版本控制系统，开发人员在开发过程中经常会遗忘<code>.git</code>文件夹，导致攻击者可以通过<code>.git</code>文件夹中的信息获取开发人员提交过的所有源码，进而可能导致服务器被攻击而沦陷</p>
+</div>
+<ul>
+<li><p><strong>常规git泄漏</strong></p>
+<p>利用.get文件恢复源码</p>
+<p>使用工具<strong>GitHacker</strong>：<a target="_blank" rel="noopener" href="https://github.com/WangYihang/GitHacker/">WangYihang/GitHacker</a></p>
+<p>语法：<code>githacker --url http://example.com/.git/ --output-folder G:\CTF\Web\工具\GitHacker\result</code></p>
+<p>或者使用工具<strong>dvcs-rippper</strong></p>
+<p><code>rip-git.pl -v -u http://www.example.com/.git/</code></p>
+</li>
+<li><p><strong>git回滚</strong></p>
+<div class="note info flat"><p>git会记录每次提交(commit)的修改</p>
+</div>
+<p>git回滚可以让我们复原之前<strong>commit</strong>的版本</p>
+<p><code>git log --stat</code>可以查看每个commit修改了哪些文件</p>
+<p><code>git diff HEAD commit-id</code>可以查看当前版本与指定commit之间的区别</p>
+<p>使用<code>git stash pop</code>恢复文件</p>
+<p>使用命令<code>git reset HEAD^</code>可以回到上一个版本</p>
+</li>
+<li><p><strong>git分支</strong></p>
+<p>git中常用的是master分支，但也可能存在其他的时间线分支</p>
+<p>在恢复的源码文件夹中执行<code>git branch -v</code>查看分支信息</p>
+<p>执行<code>git reflog</code>查看checkout记录</p>
+<p>下载分支的head信息</p>
+<p>再使用工具恢复</p>
+</li>
+</ul>
+<h5 id="SVN-源码泄露"><a href="#SVN-源码泄露" class="headerlink" title="SVN 源码泄露"></a>SVN 源码泄露</h5><div class="note info flat"><p><strong>SVN</strong>是一个开放源代码的版本控制系统。在使用SVN管理本地代码过程中，会自动生成一个名为<code>.svn</code>的隐藏文件夹，其中包含重要的源代码信息。</p>
+</div>
+<p>主要利用<strong>.svn/entries</strong>及<strong>wc.db文件</strong></p>
+<p>可以使用工具<strong>dvcs-ripper</strong></p>
+<div class="note warning flat"><p>dvcs-ripper需要在linux系统使用</p>
+</div>
+<p><code>rip-svn.pl -v -u http://www.example.com/.svn/</code></p>
+<h5 id="hg源码泄漏"><a href="#hg源码泄漏" class="headerlink" title="hg源码泄漏"></a>hg源码泄漏</h5><div class="note info flat"><p><strong>Mercurial</strong> 是一种轻量级分布式版本控制系统，使用 <code>hg init</code>的时候会生成.hg，其中包含代码和分支修改记录等信息。</p>
+</div>
+<p>可以使用工具<strong>dvcs-ripper</strong></p>
+<p><code>rip-hg.pl -v -u http://www.example.com/.hg/</code></p>
+<h5 id="CVS泄露"><a href="#CVS泄露" class="headerlink" title="CVS泄露"></a>CVS泄露</h5><div class="note info flat"><p><strong>CVS</strong>是一个C/S系统，多个开发人员通过一个中心版本控制系统来记录文件版本，从而达到保证文件同步的目的。</p>
+</div>
+<p>针对 CVS/Root以及CVS/Entries目录，直接就可以看到泄露的信息。</p>
+<p>利用工具<strong>dvcs-ripper</strong></p>
+<p><code>rip-cvs.pl -v -u http://www.example.com/CVS/</code></p>
+<h5 id="Bazaar-bzr泄露"><a href="#Bazaar-bzr泄露" class="headerlink" title="Bazaar/bzr泄露"></a>Bazaar/bzr泄露</h5><div class="note info flat"><p><strong>bzr</strong>是个版本控制工具, 虽然不是很热门, 但它也是多平台支持, 并且有不错的图形界面。</p>
+</div>
+<p>使用工具<strong>dvcs-ripper</strong></p>
+<p><code>rip-bzr.pl -v -u http://www.example.com/.bzr/</code></p>
+<h5 id="DS-Store-文件泄露"><a href="#DS-Store-文件泄露" class="headerlink" title="DS_Store 文件泄露"></a>DS_Store 文件泄露</h5><div class="note info flat"><p>.DS_Store是<strong>Mac</strong>下Finder用来保存如何展示 文件/文件夹 的数据文件，每个文件夹下对应一个。如果将.DS_Store上传部署到服务器，可能造成文件目录结构泄漏，特别是备份文件、源代码文件。</p>
+</div>
+<p>使用工具<strong>ds_store_exp</strong></p>
+<p><code>python ds_store_exp.py http://www.example.com/.DS_Store</code></p>
+<h3 id="http状态码"><a href="#http状态码" class="headerlink" title="http状态码"></a>http状态码</h3><p>响应分为五类：信息响应(100–199)，成功响应(200–299)，重定向(300–399)，客户端错误(400–499)和服务器错误 (500–599)：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">分类</th>
+<th style="text-align:left">分类描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1**</td>
+<td style="text-align:left">信息，服务器收到请求，需要请求者继续执行操作</td>
+</tr>
+<tr>
+<td style="text-align:left">2**</td>
+<td style="text-align:left">成功，操作被成功接收并处理</td>
+</tr>
+<tr>
+<td style="text-align:left">3**</td>
+<td style="text-align:left">重定向，需要进一步的操作以完成请求</td>
+</tr>
+<tr>
+<td style="text-align:left">4**</td>
+<td style="text-align:left">客户端错误，请求包含语法错误或无法完成请求</td>
+</tr>
+<tr>
+<td style="text-align:left">5**</td>
+<td style="text-align:left">服务器错误，服务器在处理请求的过程中发生了错误</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>HTTP状态码列表:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">状态码</th>
+<th style="text-align:left">状态码英文名称</th>
+<th style="text-align:left">中文描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">100</td>
+<td style="text-align:left">Continue</td>
+<td style="text-align:left">继续。客户端应继续其请求</td>
+</tr>
+<tr>
+<td style="text-align:left">101</td>
+<td style="text-align:left">Switching Protocols</td>
+<td style="text-align:left">切换协议。服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到HTTP的新版本协议</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">200</td>
+<td style="text-align:left">OK</td>
+<td style="text-align:left">请求成功。一般用于GET与POST请求</td>
+</tr>
+<tr>
+<td style="text-align:left">201</td>
+<td style="text-align:left">Created</td>
+<td style="text-align:left">已创建。成功请求并创建了新的资源。这通常是在 POST 请求，或是某些 PUT 请求之后返回的响应。</td>
+</tr>
+<tr>
+<td style="text-align:left">202</td>
+<td style="text-align:left">Accepted</td>
+<td style="text-align:left">已接受。已经接受请求，但未处理完成</td>
+</tr>
+<tr>
+<td style="text-align:left">203</td>
+<td style="text-align:left">Non-Authoritative Information</td>
+<td style="text-align:left">非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本</td>
+</tr>
+<tr>
+<td style="text-align:left">204</td>
+<td style="text-align:left">No Content</td>
+<td style="text-align:left">无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档</td>
+</tr>
+<tr>
+<td style="text-align:left">205</td>
+<td style="text-align:left">Reset Content</td>
+<td style="text-align:left">重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清除浏览器的表单域</td>
+</tr>
+<tr>
+<td style="text-align:left">206</td>
+<td style="text-align:left">Partial Content</td>
+<td style="text-align:left">部分内容。服务器成功处理了部分GET请求</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">300</td>
+<td style="text-align:left">Multiple Choices</td>
+<td style="text-align:left">多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择</td>
+</tr>
+<tr>
+<td style="text-align:left">301</td>
+<td style="text-align:left">Moved Permanently</td>
+<td style="text-align:left">永久移动。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替</td>
+</tr>
+<tr>
+<td style="text-align:left">302</td>
+<td style="text-align:left">Found</td>
+<td style="text-align:left">临时移动。与301类似。但资源只是临时被移动。客户端应继续使用原有URI</td>
+</tr>
+<tr>
+<td style="text-align:left">303</td>
+<td style="text-align:left">See Other</td>
+<td style="text-align:left">查看其它地址。与301类似。使用GET和POST请求查看</td>
+</tr>
+<tr>
+<td style="text-align:left">304</td>
+<td style="text-align:left">Not Modified</td>
+<td style="text-align:left">未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。客户端通常会缓存访问过的资源，通过提供一个头信息指出客户端希望只返回在指定日期之后修改的资源</td>
+</tr>
+<tr>
+<td style="text-align:left">305</td>
+<td style="text-align:left">Use Proxy</td>
+<td style="text-align:left">使用代理。所请求的资源必须通过代理访问</td>
+</tr>
+<tr>
+<td style="text-align:left">306</td>
+<td style="text-align:left">Unused</td>
+<td style="text-align:left">已经被废弃的HTTP状态码</td>
+</tr>
+<tr>
+<td style="text-align:left">307</td>
+<td style="text-align:left">Temporary Redirect</td>
+<td style="text-align:left">临时重定向。与302类似。使用GET请求重定向</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">400</td>
+<td style="text-align:left">Bad Request</td>
+<td style="text-align:left">客户端请求的语法错误，服务器无法理解</td>
+</tr>
+<tr>
+<td style="text-align:left">401</td>
+<td style="text-align:left">Unauthorized</td>
+<td style="text-align:left">请求要求用户的身份认证</td>
+</tr>
+<tr>
+<td style="text-align:left">402</td>
+<td style="text-align:left">Payment Required</td>
+<td style="text-align:left">保留，将来使用</td>
+</tr>
+<tr>
+<td style="text-align:left">403</td>
+<td style="text-align:left">Forbidden</td>
+<td style="text-align:left">服务器理解请求客户端的请求，但是拒绝执行此请求</td>
+</tr>
+<tr>
+<td style="text-align:left">404</td>
+<td style="text-align:left">Not Found</td>
+<td style="text-align:left">服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置”您所请求的资源无法找到”的个性页面</td>
+</tr>
+<tr>
+<td style="text-align:left">405</td>
+<td style="text-align:left">Method Not Allowed</td>
+<td style="text-align:left">客户端请求中的方法被禁止</td>
+</tr>
+<tr>
+<td style="text-align:left">406</td>
+<td style="text-align:left">Not Acceptable</td>
+<td style="text-align:left">服务器无法根据客户端请求的内容特性完成请求</td>
+</tr>
+<tr>
+<td style="text-align:left">407</td>
+<td style="text-align:left">Proxy Authentication Required</td>
+<td style="text-align:left">请求要求代理的身份认证，与401类似，但请求者应当使用代理进行授权</td>
+</tr>
+<tr>
+<td style="text-align:left">408</td>
+<td style="text-align:left">Request Time-out</td>
+<td style="text-align:left">服务器等待客户端发送的请求时间过长，超时</td>
+</tr>
+<tr>
+<td style="text-align:left">409</td>
+<td style="text-align:left">Conflict</td>
+<td style="text-align:left">服务器完成客户端的 PUT 请求时可能返回此代码，服务器处理请求时发生了冲突</td>
+</tr>
+<tr>
+<td style="text-align:left">410</td>
+<td style="text-align:left">Gone</td>
+<td style="text-align:left">客户端请求的资源已经不存在。410不同于404，如果资源以前有现在被永久删除了可使用410代码，网站设计人员可通过301代码指定资源的新位置</td>
+</tr>
+<tr>
+<td style="text-align:left">411</td>
+<td style="text-align:left">Length Required</td>
+<td style="text-align:left">服务器无法处理客户端发送的不带Content-Length的请求信息</td>
+</tr>
+<tr>
+<td style="text-align:left">412</td>
+<td style="text-align:left">Precondition Failed</td>
+<td style="text-align:left">客户端请求信息的先决条件错误</td>
+</tr>
+<tr>
+<td style="text-align:left">413</td>
+<td style="text-align:left">Request Entity Too Large</td>
+<td style="text-align:left">由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连续请求，服务器可能会关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息</td>
+</tr>
+<tr>
+<td style="text-align:left">414</td>
+<td style="text-align:left">Request-URI Too Large</td>
+<td style="text-align:left">请求的URI过长（URI通常为网址），服务器无法处理</td>
+</tr>
+<tr>
+<td style="text-align:left">415</td>
+<td style="text-align:left">Unsupported Media Type</td>
+<td style="text-align:left">服务器无法处理请求附带的媒体格式</td>
+</tr>
+<tr>
+<td style="text-align:left">416</td>
+<td style="text-align:left">Requested range not satisfiable</td>
+<td style="text-align:left">客户端请求的范围无效</td>
+</tr>
+<tr>
+<td style="text-align:left">417</td>
+<td style="text-align:left">Expectation Failed</td>
+<td style="text-align:left">服务器无法满足Expect的请求头信息</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">500</td>
+<td style="text-align:left">Internal Server Error</td>
+<td style="text-align:left">服务器内部错误，无法完成请求</td>
+</tr>
+<tr>
+<td style="text-align:left">501</td>
+<td style="text-align:left">Not Implemented</td>
+<td style="text-align:left">服务器不支持请求的功能，无法完成请求</td>
+</tr>
+<tr>
+<td style="text-align:left">502</td>
+<td style="text-align:left">Bad Gateway</td>
+<td style="text-align:left">作为网关或者代理工作的服务器尝试执行请求时，从远程服务器接收到了一个无效的响应</td>
+</tr>
+<tr>
+<td style="text-align:left">503</td>
+<td style="text-align:left">Service Unavailable</td>
+<td style="text-align:left">由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中</td>
+</tr>
+<tr>
+<td style="text-align:left">504</td>
+<td style="text-align:left">Gateway Time-out</td>
+<td style="text-align:left">充当网关或代理的服务器，未及时从远端服务器获取请求</td>
+</tr>
+<tr>
+<td style="text-align:left">505</td>
+<td style="text-align:left">HTTP Version not supported</td>
+<td style="text-align:left">服务器不支持请求的HTTP协议的版本，无法完成处理</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="ctfshow-web1-20"><a href="#ctfshow-web1-20" class="headerlink" title="ctfshow web1-20"></a>ctfshow web1-20</h2><h3 id="web1（注释）"><a href="#web1（注释）" class="headerlink" title="web1（注释）"></a>web1（注释）</h3><p>按F12调出页面源码</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230822233537054.png" alt="image-20230822233537054"></p>
+<p>可以发现flag就放在html注释中</p>
+<h3 id="web2（JS禁用F12）"><a href="#web2（JS禁用F12）" class="headerlink" title="web2（JS禁用F12）"></a>web2（JS禁用F12）</h3><p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230822233903624.png" alt="image-20230822233903624"></p>
+<p>页面显示无法查看源代码，F12按键和右键均失效</p>
+<p>考虑到可能是被js给禁用了</p>
+<p>方法一：</p>
+<p>此处我们在url前加上<code>view-source:</code>直接查看页面源码</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230822234638787.png" alt="image-20230822234638787"></p>
+<p>在源码中我们能看到js确实禁用了右键和f12等功能</p>
+<p>flag仍然藏在注释中</p>
+<p>方法二：</p>
+<p>由于是JavaScript导致的禁用，那么我们可以直接在浏览器中关闭JavaScript的功能</p>
+<p>以edge浏览器为例，在设置中搜索JavaScript，在阻止栏中添加我们想查看源码的站点url</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230822235233238.png" alt="image-20230822235233238"></p>
+<p>此时F12功能又恢复了</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230822235306809.png" alt="image-20230822235306809"></p>
+<h3 id="web3（响应体）"><a href="#web3（响应体）" class="headerlink" title="web3（响应体）"></a>web3（响应体）</h3><p>根据题目提示，使用burpsuite进行抓包</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230822235930989.png" alt="image-20230822235930989"></p>
+<p>发现flag藏在响应体中</p>
+<h3 id="web4（robots-txt）"><a href="#web4（robots-txt）" class="headerlink" title="web4（robots.txt）"></a>web4（robots.txt）</h3><p>题目提示robot，我们直接在网站地址后加<code>/robots.txt</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230823000254654.png" alt="image-20230823000254654"></p>
+<p>不让爬的文件中有一个flag命名的txt文件，flag应该就在其中</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230823000401098.png" alt="image-20230823000401098"></p>
+<h3 id="web5（phps源码）"><a href="#web5（phps源码）" class="headerlink" title="web5（phps源码）"></a>web5（phps源码）</h3><p>题目提示phps源码</p>
+<div class="note info flat"><p>phps文件就是php的源代码文件，通常用于提供给用户（访问者）直接通过Web浏览器查看php代码的内容。</p>
+<p>因为用户无法直接通过Web浏览器“看到”php文件的内容，所以需要用phps文件代替。</p>
+</div>
+<p>在题目未给出提示时，我们也可以通过扫描后台来发现遗留的phps文件</p>
+<p>在url后加上<code>/index.phps</code>下载phps源码</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230823123851826.png" alt="image-20230823123851826"></p>
+<p>用vscode打开，flag就在phps源码中</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230823123944208.png" alt="image-20230823123944208"></p>
+<h3 id="web6（备份文件）"><a href="#web6（备份文件）" class="headerlink" title="web6（备份文件）"></a>web6（备份文件）</h3><p>使用dirsearch扫描，发现有备份文件</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824165250185.png" alt="image-20230824165250185"></p>
+<p>手动在url后添加<code>www.zip</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824163043277.png" alt="image-20230824163043277"></p>
+<p>得到备份文件</p>
+<p>解压缩后得到flag文件，发现包含的flag格式不符，考虑可能是提示文件名</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824163126450.png" alt="image-20230824163126450"></p>
+<p>在url后加上<code>fl000g.txt</code>得到最终flag</p>
+<h3 id="web7（git泄漏）"><a href="#web7（git泄漏）" class="headerlink" title="web7（git泄漏）"></a>web7（git泄漏）</h3><p>使用dirsearch扫描，发现/.git/泄露</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824165840414.png" alt="image-20230824165840414"></p>
+<p>访问该地址后得到flag</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824170238593.png" alt="image-20230824170238593"></p>
+<h3 id="web8（svn泄漏）"><a href="#web8（svn泄漏）" class="headerlink" title="web8（svn泄漏）"></a>web8（svn泄漏）</h3><p>使用dirsearch扫描，发现/.svn/泄露</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824170701799.png" alt="image-20230824170701799"></p>
+<p>访问该地址后得到flag</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824170741244.png" alt="image-20230824170741244"></p>
+<h3 id="web9（vim备份）"><a href="#web9（vim备份）" class="headerlink" title="web9（vim备份）"></a>web9（vim备份）</h3><div class="note info flat"><p>使用vim编辑器编写<code>filename</code>文件时，会有一个<code>.filename.swp</code>文件产生，它是隐藏文件。如果编写文件时正常退出，则该swp文件被删除，如果异常退出，该文件则会保存下来，该文件可以用来恢复异常退出时未能保存的文件，同时多次意外退出并不会覆盖旧的<code>.swp</code>文件，而是会生成一个新的，例如<code>.swo</code>文件。</p>
+</div>
+<p>本题的描述显然是暗示考点是Vim泄漏</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824171932488.png" alt="image-20230824171932488"></p>
+<p>而需要修改网页，则需要修改index.php文件</p>
+<p>尝试访问<code>index.php.swp</code>，下载得到swp文件，打开后得到flag：</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824172248701.png" alt="image-20230824172248701.png"></p>
+<h3 id="web10（cookie）"><a href="#web10（cookie）" class="headerlink" title="web10（cookie）"></a>web10（cookie）</h3><div class="note primary flat"><p>查看网页cookie的方式有以下几种：</p>
+<ol>
+<li><p>在浏览器的控制台中输入<code>javascript:alert(document.cookie)</code>，打印 cookie信息</p>
+</li>
+<li><p>以本人使用的edge浏览器为例</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824180722858.png" alt="image-20230824180722858"></p>
+<p>点击url栏旁的关于信息，即可查看当前网页使用的Cookie</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824180814189.png" alt="image-20230824180814189"></p>
+</li>
+</ol>
+</div>
+<p>本题直接在控制台打印cookie信息</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824180955706.png" alt="image-20230824180955706"></p>
+<p>得到flag的url编码</p>
+<h3 id="web11（域名解析记录）"><a href="#web11（域名解析记录）" class="headerlink" title="web11（域名解析记录）"></a>web11（域名解析记录）</h3><p>本题使用在线工具查询相应站点的域名解析记录</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824183447166.png" alt="image-20230824183447166"></p>
+<p>在TXT记录中得到flag</p>
+<h3 id="web12（社工）"><a href="#web12（社工）" class="headerlink" title="web12（社工）"></a>web12（社工）</h3><p>用dirsearch扫到admin这个目录，应该是有登录界面</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824184637831.png" alt="image-20230824184637831"></p>
+<p>根据题目提示，密码应该就藏在页面当中</p>
+<p>尝试页面下方的电话号码</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824184719968.png" alt="image-20230824184719968"></p>
+<p>成功登录</p>
+<h3 id="web13（技术文档）"><a href="#web13（技术文档）" class="headerlink" title="web13（技术文档）"></a>web13（技术文档）</h3><p>页面底部留有技术文档document</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824195405357.png" alt="image-20230824195405357"></p>
+<p>按照指示登录<code>http://http://f78fddce-9ace-4612-a3d3-82c302c63f6e.challenge.ctf.show/system1103/login.php</code>得到flag</p>
+<h3 id="web14（网页编辑功能泄漏）"><a href="#web14（网页编辑功能泄漏）" class="headerlink" title="web14（网页编辑功能泄漏）"></a>web14（网页编辑功能泄漏）</h3><p>用dirsearch扫出editor目录</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824200612347.png" alt="image-20230824200612347"></p>
+<p>访问editor，进入一个提交页面</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824200749543.png" alt="image-20230824200749543"></p>
+<p>发现有插入文件的功能，那我们就可以直接服务器上的文件了</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824201030486.png" alt="image-20230824201030486"></p>
+<p>linux下的特殊目录：<strong>/var/www/html</strong>，把静态网页文件放到这个目录下就可以通过IP很方便的访问，</p>
+<p>如果要访问 /var/www/html/myfolder/test.html</p>
+<p>我在浏览器地址栏输入 <a href="http://[ip]/myfolder/test.html就行了。">http://[ip]/myfolder/test.html就行了。</a></p>
+<div class="note warning flat"><p>不过这个便利的功能并不是linux操作系统自带的，需要启用httpd服务才行。</p>
+</div>
+<p>猜测本题的网页在var文件夹下</p>
+<p>顺利按/var/www/html的路径找到源代码</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824201641383.png" alt="image-20230824201641383"></p>
+<p>在nothinghere下找到flag</p>
+<h3 id="web15（社工）"><a href="#web15（社工）" class="headerlink" title="web15（社工）"></a>web15（社工）</h3><p>用dirsearch扫完发现存在管理员登录入口</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824204443207.png" alt="image-20230824204443207"></p>
+<p>该后台登录系统存在<strong>忘记密码</strong>功能</p>
+<p>同时页面底部也泄露了具体邮箱</p>
+<p>第一个问题是在哪个城市</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824204648479.png" alt="image-20230824204648479"></p>
+<p>搜索QQ号，通过QQ上的资料确定所在地在西安</p>
+<p>提交后显示密码已重置</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824205004461.png" alt="image-20230824205004461"></p>
+<p>重新登录并得到flag</p>
+<h3 id="web16（php探针）"><a href="#web16（php探针）" class="headerlink" title="web16（php探针）"></a>web16（php探针）</h3><p>根据题目的提示，网站应该是遗留了php探针</p>
+<p>经过尝试成功访问/tz.php</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824211804059.png" alt="image-20230824211804059"></p>
+<p>发现phpinfo处是灰色链接，点击进入phpinfo</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824212029045.png" alt="image-20230824212029045"></p>
+<p>查找flag属性并找到flag</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824212017652.png" alt="image-20230824212017652"></p>
+<h3 id="web17（sql备份）"><a href="#web17（sql备份）" class="headerlink" title="web17（sql备份）"></a>web17（sql备份）</h3><p>用dirsearch扫出sql备份文件</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824215859540.png" alt="image-20230824215859540"></p>
+<p>下载后打开，找到flag</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824220020864.png" alt="image-20230824220020864"></p>
+<h3 id="web18（查阅js源码）"><a href="#web18（查阅js源码）" class="headerlink" title="web18（查阅js源码）"></a>web18（查阅js源码）</h3><p>看到这种游戏类型的题目，大概率是不能手动过关的，只能从修改规则上入手</p>
+<p>打开js源码，找到游戏过关相关的代码</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824220847569.png" alt="image-20230824220847569"></p>
+<p>发现如果达到100分，会弹窗一段<strong>Unicode编码</strong></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824221505621.png" alt="image-20230824221505621"></p>
+<p>解码后得到<code>你赢了，去幺幺零点皮爱吃皮看看</code></p>
+<p>在url后加上<code>/110.php</code>得到flag</p>
+<h3 id="web19（密码泄露）"><a href="#web19（密码泄露）" class="headerlink" title="web19（密码泄露）"></a>web19（密码泄露）</h3><p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824223141008.png" alt="image-20230824223141008"></p>
+<p>分享加密原理后，解密注释中泄漏的密文</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824223207659.png" alt="image-20230824223207659"></p>
+<p>使用其登录后成功获得flag</p>
+<h3 id="web20（mdb泄漏）"><a href="#web20（mdb泄漏）" class="headerlink" title="web20（mdb泄漏）"></a>web20（mdb泄漏）</h3><p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230824224302056.png" alt="image-20230824224302056"></p>
+<p>扫出/db/db.mdb数据库文件</p>
+<p>下载后使用记事本打开并查找flag</p>
+<h2 id="从0到1"><a href="#从0到1" class="headerlink" title="从0到1"></a>从0到1</h2><h3 id="常见的搜集（robots、vim、gedit）"><a href="#常见的搜集（robots、vim、gedit）" class="headerlink" title="常见的搜集（robots、vim、gedit）"></a>常见的搜集（robots、vim、gedit）</h3><p>尝试常规的信息收集方法</p>
+<p>首先是robots.txt</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230825133458156.png" alt="image-20230825133458156"></p>
+<p>得到flag目录</p>
+<p>获得flag1前半段<code>n1book&#123;info_1</code></p>
+<p>测试是否存在vim备份文件，尝试<code>/.index.php.swp</code></p>
+<p>下载得到_index.php.swp文件</p>
+<p>其中有后半段flag<code>p0rtant_hack&#125;</code></p>
+<p>测试是否存在gedit备份文件，尝试<code>/index.php~</code></p>
+<p>得到flag中段<code>s_v3ry_im</code></p>
+<h3 id="粗心的小李（git泄漏）"><a href="#粗心的小李（git泄漏）" class="headerlink" title="粗心的小李（git泄漏）"></a>粗心的小李（git泄漏）</h3><p>题目提示git泄漏，考虑git泄露时的三种场景</p>
+<p>首先是常规git泄漏</p>
+<p>使用GitHacker恢复源码</p>
+<p><code>githacker --url http://2f16f0e7-c2bf-4ca1-95dd-37e0cf03bd0a.node4.buuoj.cn:81/.git/ --output-folder G:\CTF\Web\工具\GitHacker\result</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827161744780.png" alt="image-20230827161744780"></p>
+<p>得到源码index.html</p>
+<p>打开后得到flag</p>
+<h2 id="CTFHUB-信息泄漏"><a href="#CTFHUB-信息泄漏" class="headerlink" title="CTFHUB 信息泄漏"></a>CTFHUB 信息泄漏</h2><h3 id="目录遍历"><a href="#目录遍历" class="headerlink" title="目录遍历"></a>目录遍历</h3><p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230826224503145.png" alt="image-20230826224503145"></p>
+<p>点击开始寻找flag，发现嵌套了非常多层目录</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230826224537449.png" alt="image-20230826224537449"></p>
+<p>将flag_in_here添加到爆破字典中</p>
+<p>使用dirsearch进行递归目录扫描，设置最多3层：<code>python dirsearch.py -u http://challenge-f27080f1e67b7730.sandbox.ctfhub.com:10800 -i 200,300-399 -r -R 3</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230826225758115.png" alt="image-20230826225758115"></p>
+<p>扫到flag文件，访问<code>/flag_in_here/2/4/flag</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230826225859690.png" alt="image-20230826225859690"></p>
+<h3 id="PHPINFO"><a href="#PHPINFO" class="headerlink" title="PHPINFO"></a>PHPINFO</h3><p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230826230208430.png" alt="image-20230826230208430"></p>
+<p>点击查看phpinfo，查找flag</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230826230259777.png" alt="image-20230826230259777"></p>
+<h3 id="备份文件下载"><a href="#备份文件下载" class="headerlink" title="备份文件下载"></a>备份文件下载</h3><h4 id="网站源码"><a href="#网站源码" class="headerlink" title="网站源码"></a>网站源码</h4><p>使用自定义脚本扫描备份文件</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230826231038358.png" alt="image-20230826231038358"></p>
+<p>下载www.zip，解压后得到如下文件</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230826231124216.png" alt="image-20230826231124216"></p>
+<p>txt中显示where is flag ??</p>
+<p>尝试在url添加<code>/flag_115928996.txt</code>，得到flag</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230826231713234.png" alt="image-20230826231713234"></p>
+<h4 id="bak文件"><a href="#bak文件" class="headerlink" title="bak文件"></a>bak文件</h4><p>使用自定义脚本扫描得到index.php.bak</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230826232431817.png" alt="image-20230826232431817"></p>
+<p>下载后得到flag</p>
+<h4 id="vim缓存"><a href="#vim缓存" class="headerlink" title="vim缓存"></a>vim缓存</h4><p>参考vim泄漏原理，在url后加上<code>/.index.php.swp</code></p>
+<p>下载备份文件后得到flag</p>
+<h4 id="DS-Store"><a href="#DS-Store" class="headerlink" title=".DS_Store"></a>.DS_Store</h4><p>在url后加上<code>/.DS_Store</code>，下载得到备份文件</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230826233812659.png" alt="image-20230826233812659"></p>
+<p>根据提示在url后加上<code>/1626d67afe2fee89348ecaaff46381dc.txt</code>得到flag</p>
+<h3 id="Git泄漏"><a href="#Git泄漏" class="headerlink" title="Git泄漏"></a>Git泄漏</h3><h4 id="Log"><a href="#Log" class="headerlink" title="Log"></a>Log</h4><p>使用GitHacker扫描站点的.git文件，生成源码</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827162001359.png" alt="image-20230827162001359"></p>
+<p>源代码目录如下</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827162030953.png" alt="image-20230827162030953"></p>
+<p>50x.html界面提示log日志</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827002323089.png" alt="image-20230827002323089"></p>
+<p>执行<code>git log</code>命令</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827005434467.png" alt="image-20230827005434467"></p>
+<p>使用<code>git diff 1355add0bcf41982c67f591f699f4296b311bd07</code>进行回滚</p>
+<p>得到flag</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827005719871.png" alt="image-20230827005719871"></p>
+<h4 id="Stash"><a href="#Stash" class="headerlink" title="Stash"></a>Stash</h4><p>使用GitHacker恢复源码<code>githacker --url http://challenge-ceb412434853a026.sandbox.ctfhub.com:10800/.git/ --output-folder G:\CTF\Web\工具\GitHacker\result</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827162444014.png" alt="image-20230827162444014"></p>
+<p>得到源码目录如下</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827162513656.png" alt="image-20230827162513656"></p>
+<p>执行git log查看版本</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827162658641.png" alt="image-20230827162658641"></p>
+<p>执行<code>git diff HEAD 5aff97711513ad7db6c19d6222860240e91e7491</code>对比与add flag版本的区别</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827162924216.png" alt="image-20230827162924216"></p>
+<p>此时有两种解题方法：</p>
+<ol>
+<li><p>按照题意使用<code>git stash pop</code>恢复文件</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827163722208.png" alt="image-20230827163722208"></p>
+</li>
+<li><p>执行<code>git reset HEAD^</code>回到上一个add flag的版本，此时删掉的文件也回来了</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827163605196.png" alt="image-20230827163605196"></p>
+</li>
+</ol>
+<p>flag就在恢复的txt文件中</p>
+<h4 id="Index"><a href="#Index" class="headerlink" title="Index"></a>Index</h4><p>使用GitHacker恢复源码<code>githacker --url http://challenge-1f42ffb3a63e3f3b.sandbox.ctfhub.com:10800/.git/ --output-folder G:\CTF\Web\工具\GitHacker\result</code></p>
+<p>源码目录如下</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827164306940.png" alt="image-20230827164306940"></p>
+<p>flag在txt文件中</p>
+<h3 id="SVN泄漏"><a href="#SVN泄漏" class="headerlink" title="SVN泄漏"></a>SVN泄漏</h3><p>在kali中使用dvcs-ripper工具</p>
+<p>在result目录下执行<code>../rip-svn.pl -v -u http://challenge-461ad970cc7dbf6b.sandbox.ctfhub.com:10800/.svn/</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827170209722.png" alt="image-20230827170209722"></p>
+<p>得到的源码在新建的result文件夹中</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827170310567.png" alt="image-20230827170310567"></p>
+<p>扫描后发现.svn文件夹</p>
+<p>进入后再次扫描，发现数据库文件wc.db</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827170422106.png" alt="image-20230827170422106"></p>
+<p>执行<code>cat wc.db | grep -a flag</code>在其中寻找flag</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827172604750.png" alt="image-20230827172604750"></p>
+<div class="note info flat"><p><strong>grep指令</strong></p>
+<p>grep 指令用于查找内容包含指定的范本样式的文件，如果发现某文件的内容符合所指定的范本样式，预设 grep 指令会把含有范本样式的那一列显示出来。若不指定任何文件名称，或是所给予的文件名为 <strong>-</strong>，则 grep 指令会从标准输入设备读取数据。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep [options] pattern [files]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>pattern - 表示要查找的字符串或正则表达式。</li>
+<li>files - 表示要查找的文件名，可以同时查找多个文件，如果省略 files 参数，则默认从标准输入中读取数据。</li>
+</ul>
+<p>常用option参数</p>
+<ul>
+<li><code>-a</code> 或<code>--text</code>: 不要忽略二进制的数据。</li>
+</ul>
+<ul>
+<li><code>-i</code>：忽略大小写进行匹配。</li>
+<li><code>-v</code>：反向查找，只打印不匹配的行。</li>
+<li><code>-n</code>：显示匹配行的行号。</li>
+<li><code>-r</code>：递归查找子目录中的文件。</li>
+<li><code>-l</code>：只打印匹配的文件名。</li>
+<li><code>-c</code>：只打印匹配的行数。</li>
+</ul>
+</div>
+<p>并未发现有用信息后开始手动遍历目录，并在以下目录发现flag</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827172247519.png" alt="image-20230827172247519"></p>
+<h3 id="HG泄漏"><a href="#HG泄漏" class="headerlink" title="HG泄漏"></a>HG泄漏</h3><p>在result目录下执行<code>../rip-hg.pl -v -u http://challenge-461ad970cc7dbf6b.sandbox.ctfhub.com:10800/.hg/</code></p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827182308097.png" alt="image-20230827182308097"></p>
+<p>发现报错，使用ls -al扫描发现.hg文件夹依然下载成功</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827182438579.png" alt="image-20230827182438579"></p>
+<p>使用tree列出.hg的目录</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827182529441.png" alt="image-20230827182529441"></p>
+<p>使用grep匹配flag相关信息</p>
+<p><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/image-20230827182923705.png" alt="image-20230827182923705"></p>
+<p>发现历史版本中存在flag_211812339.txt文件</p>
+<p>在url后加上/flag_211812339.txt后得到flag</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://rickliu.com">R1ck Liu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://rickliu.com/posts/24259a52c7ee/">https://rickliu.com/posts/24259a52c7ee/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://rickliu.com" target="_blank">R1ck's Portal</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/note/">note</a><a class="post-meta__tags" href="/tags/CTF/">CTF</a><a class="post-meta__tags" href="/tags/WriteUp/">WriteUp</a><a class="post-meta__tags" href="/tags/Web/">Web</a></div><div class="post_share"><div class="social-share" data-image="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-8-21-cover.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/e190f85f0a18/" title="CTF Web入门基础知识"><img class="cover" src="/posts/e190f85f0a18/cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">CTF Web入门基础知识</div></div></a></div><div class="next-post pull-right"><a href="/posts/3dacd76b5d9a/" title="CTF BurpSuite安装及爆破模块应用"><img class="cover" src="/posts/3dacd76b5d9a/cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CTF BurpSuite安装及爆破模块应用</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/8f6810bb2033/" title="文件包含漏洞"><img class="cover" src="/posts/8f6810bb2033/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-17</div><div class="title">文件包含漏洞</div></div></a></div><div><a href="/posts/ef9c5fde59cd/" title="命令注入漏洞 远程命令&#x2F;代码执行"><img class="cover" src="/posts/ef9c5fde59cd/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-07</div><div class="title">命令注入漏洞 远程命令&#x2F;代码执行</div></div></a></div><div><a href="/posts/31658dca3489/" title="ctfshow 命令执行模块"><img class="cover" src="/posts/31658dca3489/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-09</div><div class="title">ctfshow 命令执行模块</div></div></a></div><div><a href="/posts/e97ca1a52d81/" title="文件上传漏洞"><img class="cover" src="/posts/e97ca1a52d81/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-10</div><div class="title">文件上传漏洞</div></div></a></div><div><a href="/posts/ad095ca75f58/" title="ctfshow 文件上传模块"><img class="cover" src="/posts/ad095ca75f58/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-11</div><div class="title">ctfshow 文件上传模块</div></div></a></div><div><a href="/posts/3dacd76b5d9a/" title="CTF BurpSuite安装及爆破模块应用"><img class="cover" src="/posts/3dacd76b5d9a/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-29</div><div class="title">CTF BurpSuite安装及爆破模块应用</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">R1ck Liu</div><div class="author-info__description">技术分享和生活记录</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">62</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/handsomelky"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/handsomelky" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_27489877" target="_blank" title="CSDN"><i class="fa-solid fa-c" style="color: #e85211;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果本博客加载速度慢，请开启魔法~</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">2.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E4%BF%A1%E6%81%AF"><span class="toc-number">2.1.</span> <span class="toc-text">常见信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%B1%BB"><span class="toc-number">2.2.</span> <span class="toc-text">分类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%9F%E5%90%8D%E4%BF%A1%E6%81%AF"><span class="toc-number">2.2.1.</span> <span class="toc-text">域名信息</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#whois"><span class="toc-number">2.2.1.1.</span> <span class="toc-text">whois</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%87%E6%A1%88"><span class="toc-number">2.2.1.2.</span> <span class="toc-text">备案</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CDN"><span class="toc-number">2.2.1.3.</span> <span class="toc-text">CDN</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AD%90%E5%9F%9F%E5%90%8D"><span class="toc-number">2.2.1.4.</span> <span class="toc-text">子域名</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E6%9E%90%E8%AE%B0%E5%BD%95"><span class="toc-number">2.2.1.5.</span> <span class="toc-text">解析记录</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%81%E7%AB%99"><span class="toc-number">2.2.2.</span> <span class="toc-text">旁站</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#C%E6%AE%B5"><span class="toc-number">2.2.3.</span> <span class="toc-text">C段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BF%A1%E6%81%AF"><span class="toc-number">2.2.4.</span> <span class="toc-text">服务器信息</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3"><span class="toc-number">2.2.4.1.</span> <span class="toc-text">端口</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.2.4.2.</span> <span class="toc-text">服务器类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.2.4.3.</span> <span class="toc-text">数据库类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#waf%E9%98%B2%E7%81%AB%E5%A2%99"><span class="toc-number">2.2.4.4.</span> <span class="toc-text">waf防火墙</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E4%BF%A1%E6%81%AF"><span class="toc-number">2.2.5.</span> <span class="toc-text">网站信息</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6"><span class="toc-number">2.2.5.1.</span> <span class="toc-text">备份文件</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E5%B8%B8%E8%A7%81%E7%9A%84%E5%90%8E%E7%BC%80%E5%90%8D"><span class="toc-number">2.2.5.1.1.</span> <span class="toc-text">备份文件常见的后缀名</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E5%B8%B8%E8%A7%81%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D"><span class="toc-number">2.2.5.1.2.</span> <span class="toc-text">备份文件常见的文件名</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#gedit%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6"><span class="toc-number">2.2.5.1.3.</span> <span class="toc-text">gedit备份文件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#vim%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6"><span class="toc-number">2.2.5.1.4.</span> <span class="toc-text">vim备份文件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%94%B6%E9%9B%86%E6%96%B9%E6%B3%95"><span class="toc-number">2.2.5.1.5.</span> <span class="toc-text">收集方法</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%8F%E6%84%9F%E7%9B%AE%E5%BD%95"><span class="toc-number">2.2.5.2.</span> <span class="toc-text">敏感目录</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CMS%E7%B1%BB%E5%9E%8B%EF%BC%88%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB%EF%BC%89"><span class="toc-number">2.2.5.3.</span> <span class="toc-text">CMS类型（指纹识别）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8E%A2%E9%92%88%E6%B3%84%E6%BC%8F"><span class="toc-number">2.2.5.4.</span> <span class="toc-text">探针泄漏</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B0%B7%E6%AD%8Chacker"><span class="toc-number">2.2.6.</span> <span class="toc-text">谷歌hacker</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2"><span class="toc-number">2.2.7.</span> <span class="toc-text">源码泄露</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#git-%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2"><span class="toc-number">2.2.7.1.</span> <span class="toc-text">git 源码泄露</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#SVN-%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2"><span class="toc-number">2.2.7.2.</span> <span class="toc-text">SVN 源码泄露</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#hg%E6%BA%90%E7%A0%81%E6%B3%84%E6%BC%8F"><span class="toc-number">2.2.7.3.</span> <span class="toc-text">hg源码泄漏</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CVS%E6%B3%84%E9%9C%B2"><span class="toc-number">2.2.7.4.</span> <span class="toc-text">CVS泄露</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Bazaar-bzr%E6%B3%84%E9%9C%B2"><span class="toc-number">2.2.7.5.</span> <span class="toc-text">Bazaar&#x2F;bzr泄露</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DS-Store-%E6%96%87%E4%BB%B6%E6%B3%84%E9%9C%B2"><span class="toc-number">2.2.7.6.</span> <span class="toc-text">DS_Store 文件泄露</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#http%E7%8A%B6%E6%80%81%E7%A0%81"><span class="toc-number">2.3.</span> <span class="toc-text">http状态码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ctfshow-web1-20"><span class="toc-number">3.</span> <span class="toc-text">ctfshow web1-20</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#web1%EF%BC%88%E6%B3%A8%E9%87%8A%EF%BC%89"><span class="toc-number">3.1.</span> <span class="toc-text">web1（注释）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web2%EF%BC%88JS%E7%A6%81%E7%94%A8F12%EF%BC%89"><span class="toc-number">3.2.</span> <span class="toc-text">web2（JS禁用F12）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web3%EF%BC%88%E5%93%8D%E5%BA%94%E4%BD%93%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">web3（响应体）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web4%EF%BC%88robots-txt%EF%BC%89"><span class="toc-number">3.4.</span> <span class="toc-text">web4（robots.txt）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web5%EF%BC%88phps%E6%BA%90%E7%A0%81%EF%BC%89"><span class="toc-number">3.5.</span> <span class="toc-text">web5（phps源码）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web6%EF%BC%88%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%EF%BC%89"><span class="toc-number">3.6.</span> <span class="toc-text">web6（备份文件）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web7%EF%BC%88git%E6%B3%84%E6%BC%8F%EF%BC%89"><span class="toc-number">3.7.</span> <span class="toc-text">web7（git泄漏）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web8%EF%BC%88svn%E6%B3%84%E6%BC%8F%EF%BC%89"><span class="toc-number">3.8.</span> <span class="toc-text">web8（svn泄漏）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web9%EF%BC%88vim%E5%A4%87%E4%BB%BD%EF%BC%89"><span class="toc-number">3.9.</span> <span class="toc-text">web9（vim备份）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web10%EF%BC%88cookie%EF%BC%89"><span class="toc-number">3.10.</span> <span class="toc-text">web10（cookie）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web11%EF%BC%88%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E8%AE%B0%E5%BD%95%EF%BC%89"><span class="toc-number">3.11.</span> <span class="toc-text">web11（域名解析记录）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web12%EF%BC%88%E7%A4%BE%E5%B7%A5%EF%BC%89"><span class="toc-number">3.12.</span> <span class="toc-text">web12（社工）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web13%EF%BC%88%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3%EF%BC%89"><span class="toc-number">3.13.</span> <span class="toc-text">web13（技术文档）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web14%EF%BC%88%E7%BD%91%E9%A1%B5%E7%BC%96%E8%BE%91%E5%8A%9F%E8%83%BD%E6%B3%84%E6%BC%8F%EF%BC%89"><span class="toc-number">3.14.</span> <span class="toc-text">web14（网页编辑功能泄漏）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web15%EF%BC%88%E7%A4%BE%E5%B7%A5%EF%BC%89"><span class="toc-number">3.15.</span> <span class="toc-text">web15（社工）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web16%EF%BC%88php%E6%8E%A2%E9%92%88%EF%BC%89"><span class="toc-number">3.16.</span> <span class="toc-text">web16（php探针）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web17%EF%BC%88sql%E5%A4%87%E4%BB%BD%EF%BC%89"><span class="toc-number">3.17.</span> <span class="toc-text">web17（sql备份）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web18%EF%BC%88%E6%9F%A5%E9%98%85js%E6%BA%90%E7%A0%81%EF%BC%89"><span class="toc-number">3.18.</span> <span class="toc-text">web18（查阅js源码）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web19%EF%BC%88%E5%AF%86%E7%A0%81%E6%B3%84%E9%9C%B2%EF%BC%89"><span class="toc-number">3.19.</span> <span class="toc-text">web19（密码泄露）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web20%EF%BC%88mdb%E6%B3%84%E6%BC%8F%EF%BC%89"><span class="toc-number">3.20.</span> <span class="toc-text">web20（mdb泄漏）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E0%E5%88%B01"><span class="toc-number">4.</span> <span class="toc-text">从0到1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E6%90%9C%E9%9B%86%EF%BC%88robots%E3%80%81vim%E3%80%81gedit%EF%BC%89"><span class="toc-number">4.1.</span> <span class="toc-text">常见的搜集（robots、vim、gedit）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%97%E5%BF%83%E7%9A%84%E5%B0%8F%E6%9D%8E%EF%BC%88git%E6%B3%84%E6%BC%8F%EF%BC%89"><span class="toc-number">4.2.</span> <span class="toc-text">粗心的小李（git泄漏）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CTFHUB-%E4%BF%A1%E6%81%AF%E6%B3%84%E6%BC%8F"><span class="toc-number">5.</span> <span class="toc-text">CTFHUB 信息泄漏</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86"><span class="toc-number">5.1.</span> <span class="toc-text">目录遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PHPINFO"><span class="toc-number">5.2.</span> <span class="toc-text">PHPINFO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD"><span class="toc-number">5.3.</span> <span class="toc-text">备份文件下载</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E6%BA%90%E7%A0%81"><span class="toc-number">5.3.1.</span> <span class="toc-text">网站源码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#bak%E6%96%87%E4%BB%B6"><span class="toc-number">5.3.2.</span> <span class="toc-text">bak文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vim%E7%BC%93%E5%AD%98"><span class="toc-number">5.3.3.</span> <span class="toc-text">vim缓存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DS-Store"><span class="toc-number">5.3.4.</span> <span class="toc-text">.DS_Store</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Git%E6%B3%84%E6%BC%8F"><span class="toc-number">5.4.</span> <span class="toc-text">Git泄漏</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Log"><span class="toc-number">5.4.1.</span> <span class="toc-text">Log</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Stash"><span class="toc-number">5.4.2.</span> <span class="toc-text">Stash</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Index"><span class="toc-number">5.4.3.</span> <span class="toc-text">Index</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SVN%E6%B3%84%E6%BC%8F"><span class="toc-number">5.5.</span> <span class="toc-text">SVN泄漏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HG%E6%B3%84%E6%BC%8F"><span class="toc-number">5.6.</span> <span class="toc-text">HG泄漏</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/43e60ea4b856/" title="2024年终总结">2024年终总结</a><time datetime="2024-12-31T15:42:01.000Z" title="发表于 2024-12-31 23:42:01">2024-12-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/401b31cb03e1/" title="Git原理与用法系统总结"><img src="/posts/401b31cb03e1/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Git原理与用法系统总结"/></a><div class="content"><a class="title" href="/posts/401b31cb03e1/" title="Git原理与用法系统总结">Git原理与用法系统总结</a><time datetime="2024-07-27T13:51:15.000Z" title="发表于 2024-07-27 21:51:15">2024-07-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/10a98f25092d/" title="个人隐私保护手册">个人隐私保护手册</a><time datetime="2024-07-22T15:08:07.000Z" title="发表于 2024-07-22 23:08:07">2024-07-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c12b1506032a/" title="WSL kali安装及无缝模式部署"><img src="/posts/c12b1506032a/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WSL kali安装及无缝模式部署"/></a><div class="content"><a class="title" href="/posts/c12b1506032a/" title="WSL kali安装及无缝模式部署">WSL kali安装及无缝模式部署</a><time datetime="2024-07-20T05:01:59.000Z" title="发表于 2024-07-20 13:01:59">2024-07-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/4c025cd5aca8/" title="SQL注入 各种过滤的绕过姿势总结">SQL注入 各种过滤的绕过姿势总结</a><time datetime="2024-04-26T13:58:02.000Z" title="发表于 2024-04-26 21:58:02">2024-04-26</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-8-21-top_img.png')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By R1ck Liu</div><div class="footer_custom_text"><p><object style="margin-inline:5px" data="https://img.shields.io/badge/Frame-Hexo-blue?logo=Hexo&style=plastic&link=https://hexo.io/&https://hexo.io/zh-cn/docs/"></object><object style="margin-inline:5px" data="https://img.shields.io/badge/Theme-Butterfly-6513df?style=plastic&logo=bitdefender&link=https://butterfly.js.org/"></object></p><p><a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备2023083766号</a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><script>(()=>{
+  const getGiscusTheme = theme => {
+    return theme === 'dark' ? 'dark' : 'light'
+  }
+
+  const loadGiscus = () => {
+    const config = Object.assign({
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'handsomelky/handsomelky.github.io',
+      'data-repo-id': 'R_kgDOJ58FwA',
+      'data-category-id': 'DIC_kwDOJ58FwM4CX0E8',
+      'data-mapping': 'pathname',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true
+    },null)
+
+    const ele = document.createElement('script')
+    for (let key in config) {
+      ele.setAttribute(key, config[key])
+    }
+    document.getElementById('giscus-wrap').appendChild(ele)
+  }
+
+  const changeGiscusTheme = theme => {
+    const sendMessage = message => {
+      const iframe = document.querySelector('iframe.giscus-frame')
+      if (!iframe) return
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+    }
+
+    sendMessage({
+      setConfig: {
+        theme: getGiscusTheme(theme)
+      }
+    });
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment= loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script src="/js/FunnyTitle.js"></script><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://cdn.staticfile.org/hexo-theme-butterfly/4.9.0/js/search/local-search.min.js"></script></div></div><script src="/live2d_models/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2d_models/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2d_models/assets/Rick.model.json"},"display":{"position":"right","width":225,"height":450,"hOffset":30,"vOffset":-50},"mobile":{"show":false},"react":{"opacity":0.85},"log":false});</script></body></html>

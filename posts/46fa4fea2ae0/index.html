@@ -1,0 +1,436 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>W1R3S 1.01打靶复现 | R1ck's Portal</title><meta name="author" content="R1ck Liu"><meta name="copyright" content="R1ck Liu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Reference红队打靶：W1R3S: 1.0.1详细打靶思路（vulnhub）_w1r3s 1.0.1-CSDN博客 「红队笔记」靶机精讲：W1R3S 1.0.1 - 渗透测试思路为王，细节多到即使对于纯萌新也能无感入圈。_哔哩哔哩_bilibili 主机发现靶机选择NAT连接，攻击机kali虚拟机的网络连接方式选择桥接 执行ip a查看kali攻击机的ip  kali的ip为192.168.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="W1R3S 1.01打靶复现">
+<meta property="og:url" content="https://rickliu.com/posts/46fa4fea2ae0/index.html">
+<meta property="og:site_name" content="R1ck&#39;s Portal">
+<meta property="og:description" content="Reference红队打靶：W1R3S: 1.0.1详细打靶思路（vulnhub）_w1r3s 1.0.1-CSDN博客 「红队笔记」靶机精讲：W1R3S 1.0.1 - 渗透测试思路为王，细节多到即使对于纯萌新也能无感入圈。_哔哩哔哩_bilibili 主机发现靶机选择NAT连接，攻击机kali虚拟机的网络连接方式选择桥接 执行ip a查看kali攻击机的ip  kali的ip为192.168.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp">
+<meta property="article:published_time" content="2024-03-21T06:06:55.000Z">
+<meta property="article:modified_time" content="2024-07-24T08:24:41.004Z">
+<meta property="article:author" content="R1ck Liu">
+<meta property="article:tag" content="CTF,music,MachineLearning,音乐,机器学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp"><link rel="shortcut icon" href="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/favicon.png"><link rel="canonical" href="https://rickliu.com/posts/46fa4fea2ae0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="CCDD774EA967D60E5C877121C6572BF5"/><meta name="baidu-site-verification" content="codeva-13aVmkscyC"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?6c032eabab6689261ec86024f386af87";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: R1ck Liu","link":"链接: ","source":"来源: R1ck's Portal","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'W1R3S 1.01打靶复现',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-24 16:24:41'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/equipment.css"><script type="text/javascript" src ="/js/reward.js" ></script><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.16/dist/sweetalert2.all.min.js"></script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">62</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/background.png')"><nav id="nav"><span id="blog-info"><a href="/" title="R1ck's Portal"><span class="site-name">R1ck's Portal</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">W1R3S 1.01打靶复现</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-03-21T06:06:55.000Z" title="发表于 2024-03-21 14:06:55">2024-03-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-24T08:24:41.004Z" title="更新于 2024-07-24 16:24:41">2024-07-24</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="W1R3S 1.01打靶复现"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Bossfrank/article/details/130953265">红队打靶：W1R3S: 1.0.1详细打靶思路（vulnhub）_w1r3s 1.0.1-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1mB4y1j7K6/?vd_source=554a22bb3021b3d43c5adf0f5628571e">「红队笔记」靶机精讲：W1R3S 1.0.1 - 渗透测试思路为王，细节多到即使对于纯萌新也能无感入圈。_哔哩哔哩_bilibili</a></p>
+<h2 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h2><p>靶机选择NAT连接，攻击机kali虚拟机的网络连接方式选择桥接</p>
+<p>执行<code>ip a</code>查看kali攻击机的ip</p>
+<img src="/posts/46fa4fea2ae0/image-20240421200521057.webp" class="" title="image-20240421200521057">
+<p>kali的ip为<code>192.168.43.168</code>，所在网段为<code>192.168.43.0/24</code></p>
+<p>使用nmap扫描该网段</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nmap -sn 192.168.43.0/24</span><br></pre></td></tr></table></figure>
+<p><code>-n</code>指no portscan，不进行端口只进行主机嗅探（ping扫描）</p>
+<p><code>-sn</code>相比于广播查询更可靠（共发送四项数据来嗅探主机），尽量不要使用<code>-sP</code></p>
+<p><strong>在靶机上线之前进行一次扫描，靶机上线之后再扫描一次，对比发现上线的主机，用于确认靶机的ip</strong></p>
+<img src="/posts/46fa4fea2ae0/image-20240421201603198.webp" class="" title="image-20240421201603198">
+<p>将靶机上线后，重新扫描网段</p>
+<img src="/posts/46fa4fea2ae0/image-20240421210947108.webp" class="" title="image-20240421210947108">
+<p>多出的这个IP<code>192.168.43.11</code>即为靶机的IP</p>
+<h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><h3 id="粗略扫描"><a href="#粗略扫描" class="headerlink" title="粗略扫描"></a>粗略扫描</h3><p>可以建一个文件夹用于保存扫描结果</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir nmapscan</span><br></pre></td></tr></table></figure>
+<p>使用nmap对找到的靶机进行端口扫描</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nmap --min-rate 10000 -p- 192.168.43.11 -oA nmapscan/ports</span><br></pre></td></tr></table></figure>
+<p><code>--min-rate</code>参数设小一些（10000以内）是为了防止被判定为恶意扫描</p>
+<p><code>-p-</code>即指定扫描全端口</p>
+<p><code>-oA</code>输出nmap的扫描结果到三种不同格式的扫描日志文件中</p>
+<p>我们还可以指定探测方法，例如<code>-sS</code>和<code>-sT</code></p>
+<ol>
+<li><p><strong>TCP SYN扫描（-sS）</strong>:</p>
+<p>这是一种半开放扫描技术，常被称为”<strong>隐形扫描</strong>“，因为它不会建立一个完整的TCP连接。</p>
+<p>在这种扫描中，Nmap发送一个TCP SYN包（连接请求）到目标端口。如果目标端口是开放的，目标机器会回应一个SYN-ACK包（同意连接）。此时，Nmap 不会发送最后的ACK包来完成三次握手过程，而是发送一个RST包（重置），这样就避免了在目标系统上完成TCP连接的记录。</p>
+<p>这种扫描方法相对不易被防火墙或入侵检测系统所发现。</p>
+</li>
+<li><p><strong>TCP connect()扫描（-sT）</strong>:</p>
+<p>这种扫描实际上使用操作系统的connect()函数来尝试打开到目标机器的TCP连接。</p>
+<p>如果端口开放，操作系统完成TCP三次握手过程，并建立一个完整的连接，然后Nmap发送一个RST包来关闭连接。这种扫描方法<strong>容易被系统的日志记录及安全系统发现</strong>。</p>
+<p>当然这种方式探测端口时更加准确，不容易漏扫端口</p>
+</li>
+</ol>
+<img src="/posts/46fa4fea2ae0/image-20240421213712366.webp" class="" title="image-20240421213712366">
+<p>一共扫描到了4个端口</p>
+<p>执行<code>cat nmapscan/ports.xml</code>查看详细扫描结果</p>
+<p>当然实际渗透测试过程中，由于目标主机被扫到的端口可能较多，即使是<code>ports.nmap</code>中，扫描结果也会非常繁杂</p>
+<p>而我们只希望了解开放的端口，所有可以用<code>grep</code>指令过滤一下输出</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep open nmapscan/ports.nmap</span><br></pre></td></tr></table></figure>
+<img src="/posts/46fa4fea2ae0/image-20240421214257401.webp" class="" title="image-20240421214257401">
+<p>当然后续详细信息扫描时，我们可能会经常要用到之前扫到的端口</p>
+<p>所以可以通过将扫到的端口整理一下，用逗号分隔后指定为系统变量，方便后续随时调用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ports=$(grep open nmapscan/ports.nmap | awk -F&#x27;/&#x27; &#x27;&#123;print $1&#125;&#x27; | paste -sd &#x27;,&#x27;)</span><br><span class="line">echo $ports</span><br></pre></td></tr></table></figure>
+<ol>
+<li><strong><code>awk -F&#39;/&#39; &#39;&#123;print $1&#125;&#39;</code></strong>:<ul>
+<li><code>awk</code>是一个强大的文本处理工具，这里它用来处理通过<code>grep</code>筛选得到的每一行。</li>
+<li><code>-F&#39;/&#39;</code>设置字段分隔符为斜杠（<code>/</code>），这意味着<code>awk</code>会将每行数据按照斜杠分割成多个字段。</li>
+<li><code>&#39;&#123;print $1&#125;&#39;</code>指示<code>awk</code>打印每行的第一个字段，对于Nmap的输出来说，通常第一个字段是端口号。</li>
+</ul>
+</li>
+<li><strong><code>paste -sd &#39;,&#39;</code></strong>:<ul>
+<li><code>paste</code>命令用于合并来自标准输入（stdin）的行。</li>
+<li><code>-sd &#39;,&#39;</code>参数中的<code>-s</code>选项告诉<code>paste</code>将所有输入行串联到一行中，而<code>-d &#39;,&#39;</code>设置字段分隔符为逗号（<code>,</code>）。这样，所有从<code>awk</code>输出的端口号都会被合并成一个由逗号分隔的单行字符串。</li>
+</ul>
+</li>
+</ol>
+<img src="/posts/46fa4fea2ae0/image-20240421214839149.webp" class="" title="image-20240421214839149">
+<h3 id="详细扫描"><a href="#详细扫描" class="headerlink" title="详细扫描"></a>详细扫描</h3><p>接下来我们扫描具体的端口服务和操作系统版本等信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nmap -sT -sV -sC -O -p $ports 192.168.43.11 -oA nmapscan/detail</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p><strong><code>-sV</code></strong>:</p>
+<p>服务版本探测，这个选项让Nmap尝试确定目标端口上运行的应用程序及其版本信息。它通过发送特定的数据包序列到各个端口，然后分析响应来实现。</p>
+</li>
+<li><p><strong><code>-sC</code></strong>:</p>
+<p>默认脚本扫描，这相当于执行<code>--script=default</code>。Nmap有一套脚本库（NSE: Nmap Scripting Engine），这些脚本用于执行更广泛的探测，如常见漏洞扫描、额外的服务信息获取等。</p>
+</li>
+<li><p><strong><code>-O</code></strong>:</p>
+<p>操作系统检测，通过分析目标主机返回的数据包的特征（如TCP窗口大小、TTL值等），Nmap试图推测目标操作系统的类型和版本。</p>
+</li>
+</ol>
+<p>此时我们就能体会到<strong>分阶段扫描的重要性</strong>：虽然上面的指令使用了<code>-sV</code> 、<code>-sC</code> 、<code>-O</code>等参数探测了较多信息，属于动静很大的攻击了，但是由于上一步我们把端口范围缩小，所以总体而言还是比较隐蔽的。如果一上来就对65536个端口（全端口）进行全面扫描，那么暴露的概率就会非常大</p>
+<img src="/posts/46fa4fea2ae0/image-20240421223434495.webp" class="" title="image-20240421223434495">
+<p>扫出来的详细服务信息如上图，而<code>-O</code>的扫描结果则给了一些系统信息的推测范围</p>
+<img src="/posts/46fa4fea2ae0/image-20240421223701648.webp" class="" title="image-20240421223701648">
+<p>这些端口中的漏洞为我们提供了不同的攻击向量，在攻击时我们可以组合运用，或者在没思路地时候切换攻击向量</p>
+<h3 id="UDP扫描"><a href="#UDP扫描" class="headerlink" title="UDP扫描"></a>UDP扫描</h3><p>紧接着我们再进行UDP扫描，保证没有遗漏的端口信息。<strong>虽然UDP端口暴露的攻击面是比较小的，但在信息搜集阶段就应该搜集较全的信息，当TCP端口没有找到突破口的时候，说不定UDP也是一条路</strong>。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nmap -sU --top-ports 20 192.168.43.11 -oA nmapscan/udp</span><br></pre></td></tr></table></figure>
+<p>这里只扫描20个最热门的UDP端口，由于udp的协议优势，扫描速度会非常快</p>
+<img src="/posts/46fa4fea2ae0/image-20240421224145811.webp" class="" title="image-20240421224145811">
+<p>当然UDP扫描得到的端口可以作为备用资源，当无法从TCP端口中找到有用信息时，不妨关注一下开放的UDP端口</p>
+<h3 id="漏洞扫描"><a href="#漏洞扫描" class="headerlink" title="漏洞扫描"></a>漏洞扫描</h3><p> —script=vuln表示使用nmap中自带的脚本vuln进行漏洞扫描。该脚本会对端口的历史常见漏洞进行扫描探测，如果这一步就能发现可利用的漏洞，对后续的操作会很有启发。</p>
+<p>vuln是vulnrability的缩写，这个脚本由官方不断地维护更新。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nmap -script=vuln -p $ports 192.168.43.11 -oA nmapscan/vuln</span><br></pre></td></tr></table></figure>
+<img src="/posts/46fa4fea2ae0/image-20240421231510536.webp" class="" title="image-20240421231510536">
+<p>并没有发现更多新漏洞，而提示的DOS攻击在实战中基本不会用到</p>
+<h2 id="FTP渗透"><a href="#FTP渗透" class="headerlink" title="FTP渗透"></a>FTP渗透</h2><p>使用<code>ftp</code>命令连接到靶机的ftp服务，使用匿名登录，密码为空</p>
+<p><style>.dflvcmubgsio{zoom:200%;}</style><img src="/posts/46fa4fea2ae0/image-20240421232023288.webp" class="dflvcmubgsio" alt="image-20240421232023288"></p>
+<div class="note warning flat"><p>此处我们最好先切到二进制模式，这是一个好习惯，防止后续从靶机下载的可执行文件无法执行</p>
+<p><img src="/posts/46fa4fea2ae0/image-20240421232321117.webp" class="" title="image-20240421232321117"></p>
+</div>
+<p>执行<code>ls</code>查看目录下的文件</p>
+<img src="/posts/46fa4fea2ae0/image-20240421232432158.webp" class="" title="image-20240421232432158">
+<p>一共三个目录，先进入content查看</p>
+<img src="/posts/46fa4fea2ae0/image-20240421232533736.webp" class="" title="image-20240421232533736">
+<p>存在三个可读文件，我们将其下载下来（使用<code>prompt</code>关闭交互的提示信息）</p>
+<img src="/posts/46fa4fea2ae0/image-20240421232734551.webp" class="" title="image-20240421232734551">
+<p>继续下载其他目录下的文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ../docs</span><br><span class="line">ls</span><br></pre></td></tr></table></figure>
+<img src="/posts/46fa4fea2ae0/image-20240421232838528.webp" class="" title="image-20240421232838528">
+<p>将该目录下的<code>worktodo.txt</code>文件也下载下来</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">get worktodo.txt</span><br></pre></td></tr></table></figure>
+<p>第三个目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ../new-employees</span><br><span class="line">ls</span><br><span class="line">get employee-names</span><br></pre></td></tr></table></figure>
+<img src="/posts/46fa4fea2ae0/image-20240421233047244.webp" class="" title="image-20240421233047244">
+<p>在获得泄漏文件后，FTP服务就可以退出了</p>
+<p>一次性查看所有文件<code>cat *.txt</code></p>
+<img src="/posts/46fa4fea2ae0/image-20240421233900816.webp" class="" title="image-20240421233900816">
+<p>前几个文件提供了两个编码，第二个能一眼看出是base64编码，而第一个则可能是某种哈希值</p>
+<p>将第一个编码丢给<code>hash-identifier</code></p>
+<img src="/posts/46fa4fea2ae0/image-20240421234039290.webp" class="" title="image-20240421234039290">
+<p>提示最有可能是md5编码</p>
+<p>丢给在线网站破解<a target="_blank" rel="noopener" href="https://hashes.com/en/decrypt/hash">https://hashes.com/en/decrypt/hash</a></p>
+<img src="/posts/46fa4fea2ae0/image-20240421234503621.webp" class="" title="image-20240421234503621">
+<p>明文<code>This is not a password</code>，是无效信息</p>
+<p>解码base64</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &#x27;SXQgaXMgZWFzeSwgYnV0IG5vdCB0aGF0IGVhc3kuLg==&#x27; | base64 –d</span><br></pre></td></tr></table></figure>
+<img src="/posts/46fa4fea2ae0/image-20240421234655352.webp" class="" title="image-20240421234655352">
+<p>仍然是无效信息</p>
+<img src="/posts/46fa4fea2ae0/image-20240421234807504.webp" class="" title="image-20240421234807504">
+<p>看到员工列表，这是较为有用的信息。</p>
+<p>针对每个人的名字和职位，我们就可以做针对性的渗透。比方说经理Naomi的权限说不定会更高，Web Design网页设计者可能在web开发中有一些自己的习惯。HR是我们社工的主要对象等等</p>
+<h2 id="Web渗透"><a href="#Web渗透" class="headerlink" title="Web渗透"></a>Web渗透</h2><h3 id="扫描目录"><a href="#扫描目录" class="headerlink" title="扫描目录"></a>扫描目录</h3><p>浏览器访问一下靶机在80端口上开 的web服务</p>
+<img src="/posts/46fa4fea2ae0/image-20240422004253217.webp" class="" title="image-20240422004253217">
+<p>为apache服务器的默认页</p>
+<p>使用gobuster进行目录爆破，字典使用kali自带的即可</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gobuster dir -u http://192.168.43.11 --wordlist=/usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt</span><br></pre></td></tr></table></figure>
+<p>观察一下扫描到的目录</p>
+<img src="/posts/46fa4fea2ae0/image-20240422104021911.webp" class="" title="image-20240422104021911">
+<p>存在wordpress目录，所以可能使用了wordpress这个博客CMS</p>
+<p>访问一下<code>192.168.43.11/wordpress</code>(Ctrl+左键点击扫描结果会自动打开浏览器)，结果跳转到了<code>localhost/wordpress</code></p>
+<img src="/posts/46fa4fea2ae0/image-20240422104221432.webp" class="" title="image-20240422104221432">
+<p>查看一下<code>administrator</code>目录，成功访问</p>
+<img src="/posts/46fa4fea2ae0/image-20240422104848254.webp" class="" title="image-20240422104848254">
+<p>现在得到的信息分别是wordpressCMS和CuppaCMS</p>
+<p>点击<code>administrator</code>页面上的Next按钮，进入安装配置页面</p>
+<img src="/posts/46fa4fea2ae0/image-20240422105424497.webp" class="" title="image-20240422105424497">
+<p>这里数据库名称和密码就设置为<code>R1ck</code>，Email<code>test@gmail.com</code></p>
+<p>查看管理员账号的用户名密码提示，提示均为admin</p>
+<img src="/posts/46fa4fea2ae0/image-20240422110018258.webp" class="" title="image-20240422110018258">
+<p>点击下一步，提示管理员用户创建失败</p>
+<img src="/posts/46fa4fea2ae0/image-20240422110139152.webp" class="" title="image-20240422110139152">
+<h3 id="Cuppa-CMS"><a href="#Cuppa-CMS" class="headerlink" title="Cuppa CMS"></a>Cuppa CMS</h3><p>在kali中搜索一下Cuppa CMS可能存在的漏洞</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">searchsploit cuppa</span><br></pre></td></tr></table></figure>
+<img src="/posts/46fa4fea2ae0/image-20240422110431131.webp" class="" title="image-20240422110431131">
+<p>仅存在一条记录，将其下载下来</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">searchsploit cuppa -m 25971</span><br></pre></td></tr></table></figure>
+<img src="/posts/46fa4fea2ae0/image-20240422110844377.webp" class="" title="image-20240422110844377">
+<p>查看漏洞信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat 25971.txt</span><br></pre></td></tr></table></figure>
+<img src="/posts/46fa4fea2ae0/image-20240422111153337.webp" class="" title="image-20240422111153337">
+<p>该漏洞为远程文件漏洞，漏洞位置为<code>/alerts/alertConfigField.php</code>文件，注入点为<code>urlConfig</code>参数</p>
+<img src="/posts/46fa4fea2ae0/image-20240422112122819.webp" class="" title="image-20240422112122819">
+<p>描述中提示可以进行<strong>远程或本地文件包含</strong>，同时还能<strong>读取非php文件</strong></p>
+<p>尝试提供的payload</p>
+<p><code>http://192.168.43.11/cuppa/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd</code></p>
+<img src="/posts/46fa4fea2ae0/image-20240422112429798.webp" class="" title="image-20240422112429798">
+<p>路径错误，我们重新构造一下，推断该靶机中将cuppa文件夹重命名为administrator</p>
+<p>所以构造payload<code>http://192.168.43.11/administrator/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd</code></p>
+<img src="/posts/46fa4fea2ae0/image-20240422112637177.webp" class="" title="image-20240422112637177">
+<p>这一次有了回显，不过并没有读取到密钥文件</p>
+<p>我们重新审计一下cuppa CMS源码</p>
+<img src="/posts/46fa4fea2ae0/image-20240422122607472.webp" class="" title="image-20240422122607472">
+<p>使用的是post传参，说明该CMS的代码更新过，我们使用<code>curl</code>指令来指定post参数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --data-urlencode urlConfig=../../../../../../../../../etc/passwd http://192.168.43.11/administrator/alerts/alertConfigField.php </span><br></pre></td></tr></table></figure>
+<img src="/posts/46fa4fea2ae0/image-20240422123024745.webp" class="" title="image-20240422123024745">
+<p>passwd文件里面所有账户的密码都是用x代替的，真正的密码（加密后）放在/etc/shadow中，同样的curl方法，我们改一下参数，查看etc/shadow文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --data-urlencode urlConfig=../../../../../../../../../etc/shadow http://192.168.43.11/administrator/alerts/alertConfigField.php </span><br></pre></td></tr></table></figure>
+<img src="/posts/46fa4fea2ae0/image-20240422123219083.webp" class="" title="image-20240422123219083">
+<p>保存到<code>shadow.hash</code>，仅保留密码为哈希值的用户</p>
+<p>在vim编辑器中，使用esc模式下的<code>dd</code>指令可以快速删除光标那一行的内容</p>
+<img src="/posts/46fa4fea2ae0/image-20240422123527185.webp" class="" title="image-20240422123527185">
+<h3 id="密码破解"><a href="#密码破解" class="headerlink" title="密码破解"></a>密码破解</h3><p>将<code>shadow.hash</code>文件丢给john工具来破解</p>
+<img src="/posts/46fa4fea2ae0/image-20240422130145782.webp" class="" title="image-20240422130145782">
+<p>共爆破出两个密码，root的密码爆破了5分钟还没出来，可以放弃</p>
+<p>www-data一般是功能性账号，所以我们主要关注w1r3s这个账号</p>
+<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><p>远程ssh连接到w1r3s账户</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ssh w1r3s@192.168.43.11</span><br></pre></td></tr></table></figure>
+<p>输入密码<code>computer</code>，登录成功</p>
+<img src="/posts/46fa4fea2ae0/image-20240422130518733.webp" class="" title="image-20240422130518733">
+<p>查看当前用户是什么系统级权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -l</span><br></pre></td></tr></table></figure>
+<img src="/posts/46fa4fea2ae0/image-20240422130709201.webp" class="" title="image-20240422130709201">
+<p>提示当前用户有全部权限，即当前用户基本就是root账户了</p>
+<p>我们启动root的bash会话<code>sudo /bin/bash</code>，提权成功</p>
+<img src="/posts/46fa4fea2ae0/image-20240422130906776.webp" class="" title="image-20240422130906776">
+<p>浏览root目录下的文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls /root</span><br></pre></td></tr></table></figure>
+<p>找到flag文件</p>
+<img src="/posts/46fa4fea2ae0/image-20240422131157922.webp" class="" title="image-20240422131157922">
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://rickliu.com">R1ck Liu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://rickliu.com/posts/46fa4fea2ae0/">https://rickliu.com/posts/46fa4fea2ae0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://rickliu.com" target="_blank">R1ck's Portal</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/55270c628aa8/" title="LSB 隐写算法实现与卡方检测"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">LSB 隐写算法实现与卡方检测</div></div></a></div><div class="next-post pull-right"><a href="/posts/4706558f9496/" title="勒索病毒模拟演练"><img class="cover" src="/posts/4706558f9496/cover.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">勒索病毒模拟演练</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">R1ck Liu</div><div class="author-info__description">技术分享和生活记录</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">62</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/handsomelky"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/handsomelky" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_27489877" target="_blank" title="CSDN"><i class="fa-solid fa-c" style="color: #e85211;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果本博客加载速度慢，请开启魔法~</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">1.</span> <span class="toc-text">Reference</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">主机发现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">3.</span> <span class="toc-text">端口扫描</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%97%E7%95%A5%E6%89%AB%E6%8F%8F"><span class="toc-number">3.1.</span> <span class="toc-text">粗略扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E6%89%AB%E6%8F%8F"><span class="toc-number">3.2.</span> <span class="toc-text">详细扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UDP%E6%89%AB%E6%8F%8F"><span class="toc-number">3.3.</span> <span class="toc-text">UDP扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F"><span class="toc-number">3.4.</span> <span class="toc-text">漏洞扫描</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FTP%E6%B8%97%E9%80%8F"><span class="toc-number">4.</span> <span class="toc-text">FTP渗透</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Web%E6%B8%97%E9%80%8F"><span class="toc-number">5.</span> <span class="toc-text">Web渗透</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%AB%E6%8F%8F%E7%9B%AE%E5%BD%95"><span class="toc-number">5.1.</span> <span class="toc-text">扫描目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cuppa-CMS"><span class="toc-number">5.2.</span> <span class="toc-text">Cuppa CMS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3"><span class="toc-number">5.3.</span> <span class="toc-text">密码破解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E6%9D%83"><span class="toc-number">6.</span> <span class="toc-text">提权</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/43e60ea4b856/" title="2024年终总结">2024年终总结</a><time datetime="2024-12-31T15:42:01.000Z" title="发表于 2024-12-31 23:42:01">2024-12-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/401b31cb03e1/" title="Git原理与用法系统总结"><img src="/posts/401b31cb03e1/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Git原理与用法系统总结"/></a><div class="content"><a class="title" href="/posts/401b31cb03e1/" title="Git原理与用法系统总结">Git原理与用法系统总结</a><time datetime="2024-07-27T13:51:15.000Z" title="发表于 2024-07-27 21:51:15">2024-07-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/10a98f25092d/" title="个人隐私保护手册">个人隐私保护手册</a><time datetime="2024-07-22T15:08:07.000Z" title="发表于 2024-07-22 23:08:07">2024-07-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c12b1506032a/" title="WSL kali安装及无缝模式部署"><img src="/posts/c12b1506032a/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WSL kali安装及无缝模式部署"/></a><div class="content"><a class="title" href="/posts/c12b1506032a/" title="WSL kali安装及无缝模式部署">WSL kali安装及无缝模式部署</a><time datetime="2024-07-20T05:01:59.000Z" title="发表于 2024-07-20 13:01:59">2024-07-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/4c025cd5aca8/" title="SQL注入 各种过滤的绕过姿势总结">SQL注入 各种过滤的绕过姿势总结</a><time datetime="2024-04-26T13:58:02.000Z" title="发表于 2024-04-26 21:58:02">2024-04-26</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/background.png')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By R1ck Liu</div><div class="footer_custom_text"><p><object style="margin-inline:5px" data="https://img.shields.io/badge/Frame-Hexo-blue?logo=Hexo&style=plastic&link=https://hexo.io/&https://hexo.io/zh-cn/docs/"></object><object style="margin-inline:5px" data="https://img.shields.io/badge/Theme-Butterfly-6513df?style=plastic&logo=bitdefender&link=https://butterfly.js.org/"></object></p><p><a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备2023083766号</a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><script>(()=>{
+  const getGiscusTheme = theme => {
+    return theme === 'dark' ? 'dark' : 'light'
+  }
+
+  const loadGiscus = () => {
+    const config = Object.assign({
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'handsomelky/handsomelky.github.io',
+      'data-repo-id': 'R_kgDOJ58FwA',
+      'data-category-id': 'DIC_kwDOJ58FwM4CX0E8',
+      'data-mapping': 'pathname',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true
+    },null)
+
+    const ele = document.createElement('script')
+    for (let key in config) {
+      ele.setAttribute(key, config[key])
+    }
+    document.getElementById('giscus-wrap').appendChild(ele)
+  }
+
+  const changeGiscusTheme = theme => {
+    const sendMessage = message => {
+      const iframe = document.querySelector('iframe.giscus-frame')
+      if (!iframe) return
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+    }
+
+    sendMessage({
+      setConfig: {
+        theme: getGiscusTheme(theme)
+      }
+    });
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment= loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script src="/js/FunnyTitle.js"></script><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://cdn.staticfile.org/hexo-theme-butterfly/4.9.0/js/search/local-search.min.js"></script></div></div><script src="/live2d_models/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2d_models/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2d_models/assets/Rick.model.json"},"display":{"position":"right","width":225,"height":450,"hOffset":30,"vOffset":-50},"mobile":{"show":false},"react":{"opacity":0.85},"log":false});</script></body></html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>python3 pyside6学习笔记及实践（一） | R1ck's Portal</title><meta name="author" content="R1ck Liu"><meta name="copyright" content="R1ck Liu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本系列文章为b站PySide6教程以及官方文档的学习笔记。本文内容包括基础控件、初识Qt Designer、信号与槽。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python3 pyside6学习笔记及实践（一）">
+<meta property="og:url" content="https://rickliu.com/posts/ebc439ef19b2/index.html">
+<meta property="og:site_name" content="R1ck&#39;s Portal">
+<meta property="og:description" content="本系列文章为b站PySide6教程以及官方文档的学习笔记。本文内容包括基础控件、初识Qt Designer、信号与槽。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png">
+<meta property="article:published_time" content="2023-10-26T12:54:51.000Z">
+<meta property="article:modified_time" content="2025-04-28T16:10:00.891Z">
+<meta property="article:author" content="R1ck Liu">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="note">
+<meta property="article:tag" content="GUI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png"><link rel="shortcut icon" href="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/favicon.png"><link rel="canonical" href="https://rickliu.com/posts/ebc439ef19b2/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="CCDD774EA967D60E5C877121C6572BF5"/><meta name="baidu-site-verification" content="codeva-13aVmkscyC"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?6c032eabab6689261ec86024f386af87";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: R1ck Liu","link":"链接: ","source":"来源: R1ck's Portal","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'python3 pyside6学习笔记及实践（一）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-04-29 00:10:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/equipment.css"><script type="text/javascript" src ="/js/reward.js" ></script><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.16/dist/sweetalert2.all.min.js"></script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">62</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-top_img.png')"><nav id="nav"><span id="blog-info"><a href="/" title="R1ck's Portal"><span class="site-name">R1ck's Portal</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">python3 pyside6学习笔记及实践（一）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-10-26T12:54:51.000Z" title="发表于 2023-10-26 20:54:51">2023-10-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-28T16:10:00.891Z" title="更新于 2025-04-29 00:10:00">2025-04-29</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="python3 pyside6学习笔记及实践（一）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本系列文章为b站PySide6教程以及官方文档的学习笔记</p>
+<p>原视频传送门如下</p>
+<div class="flink"> <div class="flink-list">
+          <div class="flink-list-item">
+            <a href="https://www.bilibili.com/video/BV1c84y1N7iL" title="【已完结】PySide6百炼成真，带你系统性入门Qt" target="_blank">
+              <div class="flink-item-icon">
+                <img class="no-lightbox" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/a0589121b678174899c451c1a47538260e1b6e70.jpg@320w_200h_1c_!web-space-favlist-video.webp" onerror='this.onerror=null;this.src="/img/friend_404.gif"' alt="【已完结】PySide6百炼成真，带你系统性入门Qt" />
+              </div>
+              <div class="flink-item-name">【已完结】PySide6百炼成真，带你系统性入门Qt</div> 
+              <div class="flink-item-desc" title="祝大家百炼成真，早日做出自己心仪的界面">祝大家百炼成真，早日做出自己心仪的界面</div>
+            </a>
+          </div></div></div>
+<p>官方文档链接：<a target="_blank" rel="noopener" href="https://doc.qt.io/qtforpython-6/">Qt for Python</a></p>
+<h2 id="基础框架"><a href="#基础框架" class="headerlink" title="基础框架"></a>基础框架</h2><p>我们来实现一个最简单的窗口，并借由其代码来初步认识pyside6的结构</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QApplication, QMainWindow</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyWindow</span>(<span class="title class_ inherited__">QMainWindow</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ ==<span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    app =QApplication()</span><br><span class="line">    window = MyWindow()</span><br><span class="line">    window.show()</span><br><span class="line">    app.<span class="built_in">exec</span>()</span><br></pre></td></tr></table></figure>
+<p>首先是导入的<code>QApplication</code>和<code>QMainWindow</code>类，这些类是用于创建 GUI 应用程序的基本类。</p>
+<p>然后我们从<code>QMainWindow</code>类继承我们自己的窗口类<code>Mywindow</code>，这个类将用于创建应用程序的主窗口，此时类中只调用了父类的构造函数。</p>
+<p>主程序中则创建了<code>QApplication</code>和<code>MyWindow</code>类的实例，QApplication 是一个必需的类，它管理应用程序的控制流和主要设置。</p>
+<p><code>window.show()</code>用于显示MyWindow 实例，这将使窗口可见并允许用户与它进行交互</p>
+<p><code>app.exec()</code>用于启动应用程序的事件循环。事件循环是一个无限循环，它等待用户输入和系统事件，并相应地更新应用程序的状态。</p>
+<p>这段代码的运行效果如下</p>
+<img src="/posts/ebc439ef19b2/image-20231027113850877.png" class="" title="image-20231027113850877">
+<h2 id="基础控件"><a href="#基础控件" class="headerlink" title="基础控件"></a>基础控件</h2><p>一般来说一个应用程序的运行逻辑无非是用户输入-&gt;用户交互-&gt;输出</p>
+<p>那么这就涉及到三种最基本的控件：<strong>按钮、标签和输入框</strong></p>
+<p>想要给窗体添加控件，需要<strong>在窗体类的构造函数中添加控件实例</strong></p>
+<h3 id="QPushButton"><a href="#QPushButton" class="headerlink" title="QPushButton"></a>QPushButton</h3><p>该控件需要从<code>PySide6.QtWidgets</code>导入</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QPushButton</span><br><span class="line">btn = QPushButton(<span class="string">&quot;Click me&quot;</span>, self)</span><br></pre></td></tr></table></figure>
+<p>但是光一个控件肯定不行，我们还需要设置它的一些属性，来满足高级需求</p>
+<p>事实上，当我们想了解一个控件有<strong>哪些属性</strong>，以及这些属性分别有什么功能时，可以在<strong>Qt Designer</strong>上进行测试</p>
+<p>当我们配置好vscode中的扩展插件PYQT Integration后，只需在文件上右键就能快速打开Qt Designer</p>
+<img src="/posts/ebc439ef19b2/image-20231028102850285.png" class="">
+<p>我们只需拖动一个部件到窗体上，即可在右侧窗口查看并调试它的一些属性</p>
+<img src="/posts/ebc439ef19b2/image-20231028103034636.png" class="" title="image-20231028103034636">
+<p>这里列出几个PushButton常用的属性</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">属性</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">geometry（几何）</td>
+<td style="text-align:center">坐标位置、尺寸大小</td>
+</tr>
+<tr>
+<td style="text-align:center">text</td>
+<td style="text-align:center">按钮上显示的文字</td>
+</tr>
+<tr>
+<td style="text-align:center">toolTip</td>
+<td style="text-align:center">鼠标放在按钮上时显示的提示文字</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note warning flat"><p>想要为控件实例设置属性，需要调用<code>set+属性名</code>的方法</p>
+</div>
+<p>如下示例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QApplication, QMainWindow, QPushButton</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyWindow</span>(<span class="title class_ inherited__">QMainWindow</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        btn = QPushButton(<span class="string">&quot;Click me&quot;</span>, self)</span><br><span class="line">        btn.setGeometry(<span class="number">100</span>, <span class="number">100</span>, <span class="number">200</span>, <span class="number">50</span>) <span class="comment">#设置(x,y)坐标为(100,100)，而宽高分别为200和50</span></span><br><span class="line">        btn.setText(<span class="string">&quot;new text&quot;</span>) <span class="comment">#重新设置的文字会覆盖初始化时的文字</span></span><br><span class="line">        btn.setToolTip(<span class="string">&quot;tips&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="QLabel"><a href="#QLabel" class="headerlink" title="QLabel"></a>QLabel</h3><p>该控件需要从<code>PySide6.QtWidgets</code>导入</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QLable</span><br><span class="line">lb = QLable(<span class="string">&quot;Hello&quot;</span>, self)</span><br></pre></td></tr></table></figure>
+<p>下面是一些常用的标签特有属性</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">属性</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">text</td>
+<td style="text-align:center">标签上显示的文字</td>
+</tr>
+<tr>
+<td style="text-align:center">textFormat</td>
+<td style="text-align:center">如PlainText、MarkdownText和RichText形式</td>
+</tr>
+<tr>
+<td style="text-align:center">alignment</td>
+<td style="text-align:center">文本对齐方式</td>
+</tr>
+<tr>
+<td style="text-align:center">pixmap</td>
+<td style="text-align:center">显示图片</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="QLineEdit"><a href="#QLineEdit" class="headerlink" title="QLineEdit"></a>QLineEdit</h3><p>该控件需要从<code>PySide6.QtWidgets</code>导入</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QLineEdit</span><br><span class="line"><span class="built_in">input</span> = QLineEdit(<span class="string">&quot;框中预留文字&quot;</span>, self)</span><br></pre></td></tr></table></figure>
+<p>下面是一些常用的输入框特有属性</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">属性</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">maxLength</td>
+<td style="text-align:center">最大输入长度</td>
+</tr>
+<tr>
+<td style="text-align:center">readOnly</td>
+<td style="text-align:center">是否设置为只读模式</td>
+</tr>
+<tr>
+<td style="text-align:center">placeholderText</td>
+<td style="text-align:center">框中无任何输入时显示的文字</td>
+</tr>
+<tr>
+<td style="text-align:center">pixmap</td>
+<td style="text-align:center">显示图片</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="初识QtDesigner"><a href="#初识QtDesigner" class="headerlink" title="初识QtDesigner"></a>初识QtDesigner</h2><h3 id="制作一个简单页面"><a href="#制作一个简单页面" class="headerlink" title="制作一个简单页面"></a>制作一个简单页面</h3><h4 id="登录框"><a href="#登录框" class="headerlink" title="登录框"></a>登录框</h4><p>首先我们需要考虑页面中会出现哪些种控件</p>
+<p>一般来说登录页面会需要输入账号密码，所以会需要输入框</p>
+<p>而提示以及提交则需要标签和按钮控件</p>
+<p>将这些元素拖拽入窗口中，并进行初步的属性设置，我们就能得到一个简易的窗口模板</p>
+<img src="/posts/ebc439ef19b2/image-20231114171033608.png" class="" title="image-20231114171033608">
+<p>此时按<code>Ctrl</code>+<code>R</code>或者点击<strong>窗体&gt;预览</strong>，我们就能预览当前窗口的效果</p>
+<img src="/posts/ebc439ef19b2/image-20231114171207323.png" class="" title="image-20231114171207323">
+<img src="/posts/ebc439ef19b2/image-20231114171225123.png" class="" title="image-20231114171225123">
+<p>我们会发现窗口的标题还是默认的，我们可以直接去设置窗体本身的属性</p>
+<img src="/posts/ebc439ef19b2/image-20231114171516115.png" class="" title="image-20231114171516115">
+<p>当设计完毕后，我们可以将设计文件保存为<code>.ui</code>后缀的文件</p>
+<img src="/posts/ebc439ef19b2/image-20231114171629175.png" class="" title="image-20231114171629175">
+<h4 id="计算器"><a href="#计算器" class="headerlink" title="计算器"></a>计算器</h4><p>同样我们也能拖拉出一个计算器的UI，这些过程能让我们逐渐熟悉QtDesigner的操作</p>
+<img src="/posts/ebc439ef19b2/image-20231114173114951.png" class="" title="image-20231114173114951">
+<h3 id="编译UI文件"><a href="#编译UI文件" class="headerlink" title="编译UI文件"></a>编译UI文件</h3><p>在QtDesigner中设计好了界面UI后，只能对其进行预览</p>
+<p>如果想在程序中运行并显示我们设计的UI，则需要进一步将其<strong>编译为python源码</strong>，即py文件</p>
+<p>我们可以之间执行如下指令（在安装pyside6的python环境下）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyside6-uic xxx.ui -o xxx.py</span><br></pre></td></tr></table></figure>
+<p>或者在vscode中，我们可以利用插件PYQT Integration的功能</p>
+<p>右键ui文件，选择<strong>PYQT:Compile Form</strong>即可</p>
+<img src="/posts/ebc439ef19b2/image-20231114215247088.png" class="" title="image-20231114215247088">
+<h3 id="使用编译得到的py文件"><a href="#使用编译得到的py文件" class="headerlink" title="使用编译得到的py文件"></a>使用编译得到的py文件</h3><p>上一步中，我们通过编译<code>login.ui</code>文件得到了<code>UI_login.py</code>的py源码</p>
+<p>窗口文件在一个叫Ui_Form的类中</p>
+<img src="/posts/ebc439ef19b2/image-20231114215847387.png" class="" title="image-20231114215847387">
+<p>有<strong>两种方法</strong>在其他的程序中<strong>调用这个生成的窗口UI</strong></p>
+<ol>
+<li><p>在需要调用的地方创建一个该对象的实例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Ui_login <span class="keyword">import</span> Ui_Form</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyWindow</span>(<span class="title class_ inherited__">QWidget</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.login = Ui_Form()</span><br><span class="line">        self.login.setupUi(self)</span><br></pre></td></tr></table></figure>
+<p>setupUi为我们生成的UI的类中的函数，参数需要将我们当前的窗体传进去，这里我们直接传self</p>
+<div class="note warning flat"><p>需要注意的是我们的MyWindow继承的<strong>窗口类型需要与UI文件的一致</strong></p>
+</div>
+</li>
+<li><p>第二种方法则是利用python多继承的特性，即我们的窗口可以继承多个类</p>
+<p>将Ui_Form也作为我们窗口的父类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Ui_login <span class="keyword">import</span> Ui_Form</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyWindow</span>(QWidget,Ui_Form):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.setupUi(self)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="信号与槽"><a href="#信号与槽" class="headerlink" title="信号与槽"></a>信号与槽</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>PYQT界面的交互需要依靠<strong>信号与槽</strong>，类似于其他图形界面编程中的事件响应</p>
+<p>事件响应机制的图形界面会不断地update，来检测页面中是否有什么元素发生了变化</p>
+<p>而信号与槽的机制中，只有界面元素发出信号给相应的槽，页面才会进行修改</p>
+<p><strong>信号 (Signals)</strong></p>
+<ul>
+<li><strong>定义</strong>：信号是PySide6（和Qt）中的一个关键概念，是从对象发送的消息，表明发生了某种事件或状态变化。</li>
+<li><strong>特点</strong>：信号不包含处理逻辑，它们只负责通知事件的发生。</li>
+</ul>
+<p><strong>槽 (Slots)</strong></p>
+<ul>
+<li><strong>定义</strong>：槽是用来接收信号的方法。当与信号相连的特定事件发生时，相应的槽函数会被调用。</li>
+<li><strong>特点</strong>：槽可以是任何可调用的Python函数或方法。</li>
+</ul>
+<h3 id="信号与槽-vs-事件触发响应"><a href="#信号与槽-vs-事件触发响应" class="headerlink" title="信号与槽 vs 事件触发响应"></a>信号与槽 vs 事件触发响应</h3><p><strong>事件触发响应</strong></p>
+<ul>
+<li><strong>机制</strong>：基于事件循环，当用户进行操作（如点击、键入）时，事件被生成并放入事件队列，然后由应用程序逐个处理。</li>
+<li><strong>应用</strong>：通常用于处理用户输入、窗口变化等。</li>
+<li><strong>优点</strong>：<ul>
+<li><strong>直观性</strong>：事件处理通常更直观，易于理解。</li>
+<li><strong>控制性</strong>：可以在事件处理中有更多控制，如事件过滤。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li><strong>紧耦合</strong>：事件处理函数通常与特定控件或场景紧密相关。</li>
+<li><strong>处理复杂性</strong>：对于复杂的交互，事件处理可能变得复杂和冗长。</li>
+</ul>
+</li>
+</ul>
+<p><strong>信号与槽</strong></p>
+<ul>
+<li><strong>机制</strong>：基于信号的发送和槽的接收，更侧重于对象间的通信。</li>
+<li><strong>应用</strong>：适合于不同组件间的通信，例如，一个组件的行为触发另一个组件的反应。</li>
+<li><strong>优点</strong>：<ul>
+<li><strong>解耦</strong>：发信者和接收者不需要知道彼此的存在。</li>
+<li><strong>灵活性</strong>：可以连接多个槽到一个信号，或将一个槽连接到多个信号。</li>
+</ul>
+</li>
+</ul>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QApplication, QPushButton</span><br><span class="line"></span><br><span class="line">app = QApplication([])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个按钮</span></span><br><span class="line">button = QPushButton(<span class="string">&quot;Click me&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义槽函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">on_button_clicked</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Button clicked!&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将按钮的clicked信号连接到槽函数</span></span><br><span class="line">button.clicked.connect(on_button_clicked)</span><br><span class="line"></span><br><span class="line">button.show()</span><br><span class="line">app.<span class="built_in">exec</span>()</span><br></pre></td></tr></table></figure>
+<p>在这个例子中，当按钮被点击时，<code>clicked</code>信号被发出，然后<code>on_button_clicked</code>槽函数被调用。</p>
+<p>我们通过<code>.connect</code>将信号与槽连接起来</p>
+<h3 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h3><h4 id="完善登录框"><a href="#完善登录框" class="headerlink" title="完善登录框"></a>完善登录框</h4><p>为了了解我们之前设计的UI中各控件的对象名，我们可以回到QtDesigner中查看</p>
+<img src="/posts/ebc439ef19b2/image-20231115002012831.png" class="" title="image-20231115002012831">
+<p>例如第一个输入框，它被自动命名为<code>lineEdit</code>，那么我们在代码中就能通过<code>self.lineEdit</code>调用它</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QApplication, QWidget, QLineEdit</span><br><span class="line"><span class="keyword">from</span> Ui_login <span class="keyword">import</span> Ui_Form</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyWindow</span>(QWidget,Ui_Form):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line"></span><br><span class="line">        self.setupUi(self)</span><br><span class="line">        self.pushButton.clicked.connect(self.loginFuc)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">loginFuc</span>(<span class="params">self</span>):</span><br><span class="line">        username = self.lineEdit.text()</span><br><span class="line">        password = self.lineEdit_2.text()</span><br><span class="line">        <span class="keyword">if</span> username ==<span class="string">&quot;admin&quot;</span> <span class="keyword">and</span> password ==<span class="string">&quot;123456&quot;</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;登录成功&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;登录失败&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> __name__ ==<span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    app =QApplication()</span><br><span class="line">    window = MyWindow()</span><br><span class="line">    window.show()</span><br><span class="line">    app.<span class="built_in">exec</span>()</span><br></pre></td></tr></table></figure>
+<p>在代码中，我们让之前的UI界面有了响应，即用户名和密码输对时会在控制台输出”登录成功”，否则输出”登陆失败“</p>
+<h4 id="完善计算器"><a href="#完善计算器" class="headerlink" title="完善计算器"></a>完善计算器</h4><p>我们来对之前的计算器界面重新布局一下</p>
+<p>布局的好处是缩放界面时，控件的位置与大小也能自动的做出相应调整</p>
+<img src="/posts/ebc439ef19b2/image-20231115002722927.png" class="" title="image-20231115002722927">
+<p>对每一行按钮水平布局后，我们再对整体进行垂直布局</p>
+<img src="/posts/ebc439ef19b2/image-20231115002816883.png" class="" title="image-20231115002816883">
+<p>此时的控件还没有与窗口的位置形成相对关系，无法对页面缩放做出响应</p>
+<img src="/posts/ebc439ef19b2/image-20231115002938415.png" class="" title="image-20231115002938415">
+<p>我们将页面整体改为垂直布局，并适当调整最上方输入框的高度</p>
+<img src="/posts/ebc439ef19b2/image-20231115004218732.png" class="" title="image-20231115004218732">
+<p>此时我们就能得到一个较为整齐的计算器界面</p>
+<p>为了后续在代码中更清晰地编写信号与槽的逻辑，我们需要<strong>对页面控件重新命名</strong></p>
+<img src="/posts/ebc439ef19b2/image-20231115004208675.png" class="" title="image-20231115004208675">
+<p>例如<code>.</code>按钮，我们将其命名为<code>pushButton_dot</code></p>
+<p>那么计算器的逻辑中我们没有必要绑定太多槽</p>
+<p>一个思路是先利用其他按钮的信号<strong>生成算式的字符串</strong>，每次调用槽的时候刷新输入框的显示</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">addNumber</span>(<span class="params">self,number</span>):</span><br><span class="line">    self.lineEdit.clear()</span><br><span class="line">    self.expression+=number</span><br><span class="line">    self.lineEdit.setText(<span class="built_in">str</span>(self.expression))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在代码中，我们<strong>新建一个<code>bind()</code>函数来记录绑定关系</strong>，然后在初始化函数中一并调用<code>bind</code>即可</p>
+<p>这样能保证初始化函数的简洁性</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">bind</span>(<span class="params">self</span>):</span><br><span class="line">    self.pushButton_0.clicked.connect(<span class="keyword">lambda</span>:self.addNumber(<span class="string">&#x27;0&#x27;</span>))</span><br><span class="line">    self.pushButton_1.clicked.connect(<span class="keyword">lambda</span>:self.addNumber(<span class="string">&#x27;1&#x27;</span>))  </span><br><span class="line">    self.pushButton_2.clicked.connect(<span class="keyword">lambda</span>:self.addNumber(<span class="string">&#x27;2&#x27;</span>))</span><br><span class="line">    self.pushButton_3.clicked.connect(<span class="keyword">lambda</span>:self.addNumber(<span class="string">&#x27;3&#x27;</span>))</span><br><span class="line">    self.pushButton_4.clicked.connect(<span class="keyword">lambda</span>:self.addNumber(<span class="string">&#x27;4&#x27;</span>))</span><br><span class="line">    self.pushButton_5.clicked.connect(<span class="keyword">lambda</span>:self.addNumber(<span class="string">&#x27;5&#x27;</span>))      </span><br><span class="line">    self.pushButton_6.clicked.connect(<span class="keyword">lambda</span>:self.addNumber(<span class="string">&#x27;6&#x27;</span>))</span><br><span class="line">    self.pushButton_7.clicked.connect(<span class="keyword">lambda</span>:self.addNumber(<span class="string">&#x27;7&#x27;</span>))</span><br><span class="line">    self.pushButton_8.clicked.connect(<span class="keyword">lambda</span>:self.addNumber(<span class="string">&#x27;8&#x27;</span>))</span><br><span class="line">    self.pushButton_9.clicked.connect(<span class="keyword">lambda</span>:self.addNumber(<span class="string">&#x27;9&#x27;</span>))</span><br><span class="line">    self.pushButton_add.clicked.connect(<span class="keyword">lambda</span>:self.addNumber(<span class="string">&#x27;+&#x27;</span>))</span><br><span class="line">    self.pushButton_sub.clicked.connect(<span class="keyword">lambda</span>:self.addNumber(<span class="string">&#x27;-&#x27;</span>))</span><br><span class="line">    self.pushButton_mul.clicked.connect(<span class="keyword">lambda</span>:self.addNumber(<span class="string">&#x27;*&#x27;</span>))</span><br><span class="line">    self.pushButton_div.clicked.connect(<span class="keyword">lambda</span>:self.addNumber(<span class="string">&#x27;/&#x27;</span>))</span><br><span class="line">    self.pushButton_dot.clicked.connect(<span class="keyword">lambda</span>:self.addNumber(<span class="string">&#x27;.&#x27;</span>))</span><br><span class="line">    self.pushButton_enter.clicked.connect(self.count)</span><br></pre></td></tr></table></figure>
+<div class="note info flat"><p>在 Python 编程语言中，<code>lambda</code> 关键字用于创建匿名函数，这种函数称为 lambda 函数。Lambda 函数可以接受任何数量的参数，但只能有一个表达式。它们通常用于需要函数对象的地方，但又不想在代码中定义完整的函数。Lambda 函数的基本语法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">lambda</span> arguments: expression</span><br></pre></td></tr></table></figure>
+</div>
+<p>在绑定信号时如果我们直接写成：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.pushButton_0.clicked.connect(self.addNumber(<span class="string">&#x27;0&#x27;</span>))</span><br></pre></td></tr></table></figure>
+<p>这样当python解释器读到这一行代码时会立即执行 <code>self.addNumber(&#39;0&#39;)</code> ，这并不是我们想要的。我们希望的是，每次按钮被点击时，才调用 <code>self.addNumber(&#39;0&#39;)</code>。我们<strong>需要传递一个函数对象给connect</strong></p>
+<p>为了解决这个问题，我们使用 <code>lambda</code> 创建了一个匿名函数，这个匿名函数没有参数，并在被调用时执行 <code>self.addNumber(&#39;0&#39;)</code>。这样，每次按钮被点击时，实际上是调用这个匿名函数，然后这个匿名函数再去调用 <code>self.addNumber(&#39;0&#39;)</code></p>
+<div class="note primary flat"><p>使用 <code>lambda</code> 这种方式使得我们可以在不创建额外的命名函数的情况下，传递带有参数的方法作为信号的槽函数。</p>
+</div>
+<p>当最后当点击计算按钮时，<strong>借助python中的eval()函数</strong>，我们能将生成的字符串变为算式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">count</span>(<span class="params">self</span>):</span><br><span class="line">    self.result = <span class="built_in">eval</span>(self.expression)</span><br><span class="line">    self.lineEdit.setText(<span class="built_in">str</span>(self.result))</span><br><span class="line">    self.expression = <span class="built_in">str</span>(self.result)</span><br></pre></td></tr></table></figure>
+<p>当然我们也可以为计算器加上清空和回退的功能</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">self.pushButton_clear.clicked.connect(self.clear)</span><br><span class="line">self.pushButton_back.clicked.connect(self.back)</span><br><span class="line"></span><br><span class="line">......</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">clear</span>(<span class="params">self</span>):</span><br><span class="line">    self.lineEdit.clear()</span><br><span class="line">    self.expression = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">back</span>(<span class="params">self</span>):</span><br><span class="line">    self.lineEdit.clear()</span><br><span class="line">    self.expression = self.expression[:-<span class="number">1</span>]</span><br><span class="line">    self.lineEdit.setText(<span class="built_in">str</span>(self.expression))</span><br></pre></td></tr></table></figure>
+<p>最终的效果如下</p>
+<img src="/posts/ebc439ef19b2/2023-11-15-11-14-47.gif" class="" title="2023-11-15-11-14-47">
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://rickliu.com">R1ck Liu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://rickliu.com/posts/ebc439ef19b2/">https://rickliu.com/posts/ebc439ef19b2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://rickliu.com" target="_blank">R1ck's Portal</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Python/">Python</a><a class="post-meta__tags" href="/tags/note/">note</a><a class="post-meta__tags" href="/tags/GUI/">GUI</a></div><div class="post_share"><div class="social-share" data-image="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/04d1547e2896/" title="NewStarCTF2023 Week3题解"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-22-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">NewStarCTF2023 Week3题解</div></div></a></div><div class="next-post pull-right"><a href="/posts/35d972d0ed87/" title="游戏Mindustry 逻辑入门"><img class="cover" src="/posts/35d972d0ed87/cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">游戏Mindustry 逻辑入门</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/d765094b05e7/" title="python3 pyside6学习笔记及实践（二）"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-15</div><div class="title">python3 pyside6学习笔记及实践（二）</div></div></a></div><div><a href="/posts/341ddbf96da0/" title="python3 pyside6学习笔记及实践（三）"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-17</div><div class="title">python3 pyside6学习笔记及实践（三）</div></div></a></div><div><a href="/posts/1f9a4bfd6ae8/" title="python3 pyside6学习笔记及实践（四）"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-12</div><div class="title">python3 pyside6学习笔记及实践（四）</div></div></a></div><div><a href="/posts/2df062c9f4f0/" title="python3 pyside6学习笔记及实践（五）"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-17</div><div class="title">python3 pyside6学习笔记及实践（五）</div></div></a></div><div><a href="/posts/cd0d11b6cb14/" title="python3 网络爬虫笔记"><img class="cover" src="/posts/cd0d11b6cb14/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-11</div><div class="title">python3 网络爬虫笔记</div></div></a></div><div><a href="/posts/8f6810bb2033/" title="文件包含漏洞"><img class="cover" src="/posts/8f6810bb2033/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-17</div><div class="title">文件包含漏洞</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">R1ck Liu</div><div class="author-info__description">技术分享和生活记录</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">62</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/handsomelky"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/handsomelky" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_27489877" target="_blank" title="CSDN"><i class="fa-solid fa-c" style="color: #e85211;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果本博客加载速度慢，请开启魔法~</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E6%A1%86%E6%9E%B6"><span class="toc-number">2.</span> <span class="toc-text">基础框架</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E6%8E%A7%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">基础控件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#QPushButton"><span class="toc-number">3.1.</span> <span class="toc-text">QPushButton</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#QLabel"><span class="toc-number">3.2.</span> <span class="toc-text">QLabel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#QLineEdit"><span class="toc-number">3.3.</span> <span class="toc-text">QLineEdit</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E8%AF%86QtDesigner"><span class="toc-number">4.</span> <span class="toc-text">初识QtDesigner</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E9%A1%B5%E9%9D%A2"><span class="toc-number">4.1.</span> <span class="toc-text">制作一个简单页面</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E6%A1%86"><span class="toc-number">4.1.1.</span> <span class="toc-text">登录框</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E5%99%A8"><span class="toc-number">4.1.2.</span> <span class="toc-text">计算器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91UI%E6%96%87%E4%BB%B6"><span class="toc-number">4.2.</span> <span class="toc-text">编译UI文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%BC%96%E8%AF%91%E5%BE%97%E5%88%B0%E7%9A%84py%E6%96%87%E4%BB%B6"><span class="toc-number">4.3.</span> <span class="toc-text">使用编译得到的py文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E5%8F%B7%E4%B8%8E%E6%A7%BD"><span class="toc-number">5.</span> <span class="toc-text">信号与槽</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">5.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E5%8F%B7%E4%B8%8E%E6%A7%BD-vs-%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%E5%93%8D%E5%BA%94"><span class="toc-number">5.2.</span> <span class="toc-text">信号与槽 vs 事件触发响应</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">5.3.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5"><span class="toc-number">5.4.</span> <span class="toc-text">实践</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%8C%E5%96%84%E7%99%BB%E5%BD%95%E6%A1%86"><span class="toc-number">5.4.1.</span> <span class="toc-text">完善登录框</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%8C%E5%96%84%E8%AE%A1%E7%AE%97%E5%99%A8"><span class="toc-number">5.4.2.</span> <span class="toc-text">完善计算器</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>pyside6学习笔记及实践</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/2df062c9f4f0/" title="python3 pyside6学习笔记及实践（五）"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python3 pyside6学习笔记及实践（五）"></a><div class="content"><a class="title" href="/posts/2df062c9f4f0/" title="python3 pyside6学习笔记及实践（五）">python3 pyside6学习笔记及实践（五）</a><time datetime="2024-02-17T03:48:40.000Z" title="发表于 2024-02-17 11:48:40">2024-02-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/1f9a4bfd6ae8/" title="python3 pyside6学习笔记及实践（四）"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python3 pyside6学习笔记及实践（四）"></a><div class="content"><a class="title" href="/posts/1f9a4bfd6ae8/" title="python3 pyside6学习笔记及实践（四）">python3 pyside6学习笔记及实践（四）</a><time datetime="2024-02-12T11:11:19.000Z" title="发表于 2024-02-12 19:11:19">2024-02-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/341ddbf96da0/" title="python3 pyside6学习笔记及实践（三）"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python3 pyside6学习笔记及实践（三）"></a><div class="content"><a class="title" href="/posts/341ddbf96da0/" title="python3 pyside6学习笔记及实践（三）">python3 pyside6学习笔记及实践（三）</a><time datetime="2023-12-17T09:48:20.000Z" title="发表于 2023-12-17 17:48:20">2023-12-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d765094b05e7/" title="python3 pyside6学习笔记及实践（二）"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python3 pyside6学习笔记及实践（二）"></a><div class="content"><a class="title" href="/posts/d765094b05e7/" title="python3 pyside6学习笔记及实践（二）">python3 pyside6学习笔记及实践（二）</a><time datetime="2023-11-15T03:22:54.000Z" title="发表于 2023-11-15 11:22:54">2023-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/ebc439ef19b2/" title="python3 pyside6学习笔记及实践（一）"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python3 pyside6学习笔记及实践（一）"></a><div class="content"><a class="title" href="/posts/ebc439ef19b2/" title="python3 pyside6学习笔记及实践（一）">python3 pyside6学习笔记及实践（一）</a><time datetime="2023-10-26T12:54:51.000Z" title="发表于 2023-10-26 20:54:51">2023-10-26</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/43e60ea4b856/" title="2024年终总结">2024年终总结</a><time datetime="2024-12-31T15:42:01.000Z" title="发表于 2024-12-31 23:42:01">2024-12-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/401b31cb03e1/" title="Git原理与用法系统总结"><img src="/posts/401b31cb03e1/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Git原理与用法系统总结"/></a><div class="content"><a class="title" href="/posts/401b31cb03e1/" title="Git原理与用法系统总结">Git原理与用法系统总结</a><time datetime="2024-07-27T13:51:15.000Z" title="发表于 2024-07-27 21:51:15">2024-07-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/10a98f25092d/" title="个人隐私保护手册">个人隐私保护手册</a><time datetime="2024-07-22T15:08:07.000Z" title="发表于 2024-07-22 23:08:07">2024-07-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c12b1506032a/" title="WSL kali安装及无缝模式部署"><img src="/posts/c12b1506032a/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WSL kali安装及无缝模式部署"/></a><div class="content"><a class="title" href="/posts/c12b1506032a/" title="WSL kali安装及无缝模式部署">WSL kali安装及无缝模式部署</a><time datetime="2024-07-20T05:01:59.000Z" title="发表于 2024-07-20 13:01:59">2024-07-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/4c025cd5aca8/" title="SQL注入 各种过滤的绕过姿势总结">SQL注入 各种过滤的绕过姿势总结</a><time datetime="2024-04-26T13:58:02.000Z" title="发表于 2024-04-26 21:58:02">2024-04-26</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-top_img.png')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By R1ck Liu</div><div class="footer_custom_text"><p><object style="margin-inline:5px" data="https://img.shields.io/badge/Frame-Hexo-blue?logo=Hexo&style=plastic&link=https://hexo.io/&https://hexo.io/zh-cn/docs/"></object><object style="margin-inline:5px" data="https://img.shields.io/badge/Theme-Butterfly-6513df?style=plastic&logo=bitdefender&link=https://butterfly.js.org/"></object></p><p><a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备2023083766号</a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><script>(()=>{
+  const getGiscusTheme = theme => {
+    return theme === 'dark' ? 'dark' : 'light'
+  }
+
+  const loadGiscus = () => {
+    const config = Object.assign({
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'handsomelky/handsomelky.github.io',
+      'data-repo-id': 'R_kgDOJ58FwA',
+      'data-category-id': 'DIC_kwDOJ58FwM4CX0E8',
+      'data-mapping': 'pathname',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true
+    },null)
+
+    const ele = document.createElement('script')
+    for (let key in config) {
+      ele.setAttribute(key, config[key])
+    }
+    document.getElementById('giscus-wrap').appendChild(ele)
+  }
+
+  const changeGiscusTheme = theme => {
+    const sendMessage = message => {
+      const iframe = document.querySelector('iframe.giscus-frame')
+      if (!iframe) return
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+    }
+
+    sendMessage({
+      setConfig: {
+        theme: getGiscusTheme(theme)
+      }
+    });
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment= loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script src="/js/FunnyTitle.js"></script><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://cdn.staticfile.org/hexo-theme-butterfly/4.9.0/js/search/local-search.min.js"></script></div></div><script src="/live2d_models/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2d_models/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2d_models/assets/Rick.model.json"},"display":{"position":"right","width":225,"height":450,"hOffset":30,"vOffset":-50},"mobile":{"show":false},"react":{"opacity":0.85},"log":false});</script></body></html>

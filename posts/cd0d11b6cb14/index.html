@@ -1,0 +1,557 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>python3 网络爬虫笔记 | R1ck's Portal</title><meta name="author" content="R1ck Liu"><meta name="copyright" content="R1ck Liu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="最近这段时间将开始研究python在网络爬虫上的应用 既是大创结题项目的需求，同时也是为了拓宽自己的技术视野 本文作为学习笔记，同时也是编写爬虫程序过程中的经验总结 希望本阶段学习能让我熟练掌握网络爬虫，以后能将其用作其他网络安全领域的工具延申 因为是初次入门网络爬虫，那么在编写爬虫应用程序之前，很有必要搞清楚网络爬虫的原理 网络爬虫原理URLURI(Uniform Resource Identi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python3 网络爬虫笔记">
+<meta property="og:url" content="https://rickliu.com/posts/cd0d11b6cb14/index.html">
+<meta property="og:site_name" content="R1ck&#39;s Portal">
+<meta property="og:description" content="最近这段时间将开始研究python在网络爬虫上的应用 既是大创结题项目的需求，同时也是为了拓宽自己的技术视野 本文作为学习笔记，同时也是编写爬虫程序过程中的经验总结 希望本阶段学习能让我熟练掌握网络爬虫，以后能将其用作其他网络安全领域的工具延申 因为是初次入门网络爬虫，那么在编写爬虫应用程序之前，很有必要搞清楚网络爬虫的原理 网络爬虫原理URLURI(Uniform Resource Identi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://rickliu.com/posts/cd0d11b6cb14/cover.png">
+<meta property="article:published_time" content="2023-10-11T12:22:11.000Z">
+<meta property="article:modified_time" content="2023-10-20T16:45:38.000Z">
+<meta property="article:author" content="R1ck Liu">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="爬虫">
+<meta property="article:tag" content="note">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://rickliu.com/posts/cd0d11b6cb14/cover.png"><link rel="shortcut icon" href="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/favicon.png"><link rel="canonical" href="https://rickliu.com/posts/cd0d11b6cb14/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="CCDD774EA967D60E5C877121C6572BF5"/><meta name="baidu-site-verification" content="codeva-13aVmkscyC"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?6c032eabab6689261ec86024f386af87";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: R1ck Liu","link":"链接: ","source":"来源: R1ck's Portal","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'python3 网络爬虫笔记',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-10-21 00:45:38'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/equipment.css"><script type="text/javascript" src ="/js/reward.js" ></script><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.16/dist/sweetalert2.all.min.js"></script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">62</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/posts/cd0d11b6cb14/top_img.png')"><nav id="nav"><span id="blog-info"><a href="/" title="R1ck's Portal"><span class="site-name">R1ck's Portal</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">python3 网络爬虫笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-10-11T12:22:11.000Z" title="发表于 2023-10-11 20:22:11">2023-10-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-10-20T16:45:38.000Z" title="更新于 2023-10-21 00:45:38">2023-10-21</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>15分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="python3 网络爬虫笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>最近这段时间将开始研究python在网络爬虫上的应用</p>
+<p>既是大创结题项目的需求，同时也是为了拓宽自己的技术视野</p>
+<p>本文作为<strong>学习笔记</strong>，同时也是编写爬虫程序过程中的<strong>经验总结</strong></p>
+<p>希望本阶段学习能让我熟练掌握网络爬虫，以后能将其用作其他网络安全领域的工具延申</p>
+<p>因为是初次入门网络爬虫，那么在编写爬虫应用程序之前，很有必要搞清楚网络爬虫的原理</p>
+<h1 id="网络爬虫原理"><a href="#网络爬虫原理" class="headerlink" title="网络爬虫原理"></a>网络爬虫原理</h1><h2 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h2><div class="note info flat"><p><strong>URI</strong>(Uniform Resource Identifier)：统一标识符</p>
+<p><strong>URL</strong>(Uniform Resource Locator)：统一资源定位符</p>
+<p>URI分为URL和URN或同时具备locators 和names特性的一个东西</p>
+</div>
+<p>网络世界中更常见的还是URL，也就是平时浏览器中输入的web地址</p>
+<p>但是URL也有它的格式规范</p>
+<p><code>scheme://[username:password@]hostname[:port][/path][;parameters][?query][#fragment]</code></p>
+<p>这里解释几个计网课上没有学到的概念</p>
+<p><strong>scheme(protocol)</strong>：协议，例如http、https、ftp等</p>
+<p><strong>username:password</strong>：当URL需要用户名和密码才能访问时，可以将他们放在hostname前</p>
+<p><strong>parameters</strong>：参数，有时候我们需要向解析url的应用程序提供参数才能去访问资源，因为参数可能会定义传输格式</p>
+<p><strong>fragment</strong>：片段，有前端知识的同学应该对这个概念不陌生。片段可以作为单页面路由或HTML锚点，当你访问<code>#锚点名</code>时页面能够直接滚动到特定锚点的位置</p>
+<h2 id="Http"><a href="#Http" class="headerlink" title="Http"></a>Http</h2><p>在计算机网络的相关协议中，网络爬虫主要涉及到的是应用层协议，如HTTP和HTTPS</p>
+<p>虽然我们在爬虫时更关心的是响应体中返回的页面内容，但只有正确设置请求报文，才能让目标服务器对我们做出回应</p>
+<p><strong>请求头</strong>中比较重要的信息有以下几种</p>
+<p><strong>User-Agent</strong>：该请求头能向目标服务器说明客户端使用的操作系统、浏览器版本等信息。爬虫时加速该请求头可以让我们的爬虫程序伪装成浏览器。</p>
+<p><strong>Referer</strong>：标识该请求从那个页面发送过来，我们可以对该信息进行伪造来欺骗目标服务器</p>
+<p>而响应头中也有一些重要信息</p>
+<p><strong>Last-Modified</strong>：用于指定资源的最后修改时间</p>
+<p><strong>Content-Encoding</strong>：用于指定响应内容的编码</p>
+<p><strong>Content-Type</strong>：文档类型，指定返回的数据是什么类型。例如text/html代表返回的是HTML文档，application/x-javascript代表返回JavaScript文件，image/jpeg代表返回图片</p>
+<p><strong>Set-Cookie</strong>：用于告诉浏览器需要将此内容放在Cookie中，下次请求时将Cookie带上</p>
+<p>而响应体中的源代码和JSON数据则是我们需要爬取的内容</p>
+<h2 id="HTML-DOM树"><a href="#HTML-DOM树" class="headerlink" title="HTML DOM树"></a>HTML DOM树</h2><p>在HTML中，所有标签定义的内容都是节点，这些节点构成了HTML DOM树</p>
+<div class="note info flat"><p><strong>DOM(Document Object Model)</strong>，即文档对象模型，定义了访问HTML和XML文档的标准</p>
+</div>
+<p>html标签为一个根节点，而整个网站文档则是一个文档节点</p>
+<p>节点中的文本时文本节点，节点中的属性是属性节点。同时，文档中的注释也对应一个注释节点。</p>
+<p>节点树中的所有节点均可通过HTML DOM被JS访问、修改、创建和删除</p>
+<p>节点之间会有父子和兄弟关系</p>
+<h2 id="XPath"><a href="#XPath" class="headerlink" title="XPath"></a>XPath</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><div class="note info flat"><p><strong>XPath</strong>即为XML路径语言（XML Path Language），它是一种用来确定XML文档中某部分位置的语言。</p>
+</div>
+<p>XML或HTML 文档是被作为节点树来对待的</p>
+<p>页面中的所有元素基本都是节点，当然除节点外也有基本值</p>
+<p>基本值是无父或无子的节点，例如文本或者是属性对应的值</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>XPath 使用路径表达式来选取 XML 文档中的节点或节点集。节点是通过沿着路径 (path) 或者步 (steps) 来选取的。</p>
+<p>XPath的常用表达式规则如下</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">表达式</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">nodename</td>
+<td style="text-align:center">选取此节点的所有子节点</td>
+</tr>
+<tr>
+<td style="text-align:center">/</td>
+<td style="text-align:center">从当前节点选取直接子节点</td>
+</tr>
+<tr>
+<td style="text-align:center">//</td>
+<td style="text-align:center">从当前节点选取子孙节点</td>
+</tr>
+<tr>
+<td style="text-align:center">.</td>
+<td style="text-align:center">选取当前节点</td>
+</tr>
+<tr>
+<td style="text-align:center">..</td>
+<td style="text-align:center">选取当前节点的父节点</td>
+</tr>
+<tr>
+<td style="text-align:center">@</td>
+<td style="text-align:center">选取属性</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>这个表示和电脑文件系统中的路径表示非常相似</p>
+<p>当然XPath中也有谓语、通配符和运算符的存在</p>
+<p><strong>谓语</strong>即方括号，和数组索引非常相似</p>
+<p><code>//div[1]</code>：选取所有div元素中的第一个元素</p>
+<p><code>//div[last()]</code>：选取所有div元素中的最后一个元素元素</p>
+<p><code>//title[@lang=&#39;eng&#39;]</code>： 选取所有 title 元素，且这些元素拥有值为 eng 的 lang 属性</p>
+<p><strong>通配符</strong>有*和node()</p>
+<p><code>*</code>和<code>node()</code>用于匹配任何元素节点，<code>@*</code>用于匹配任何属性节点</p>
+<p>较为常用的<strong>运算符</strong>便是<code>|</code>和<code>and</code></p>
+<p><code>|</code>用于合并两个节点集，而<code>and</code>则能用于多属性匹配</p>
+<p><code>//book | //cd</code>  返回所有拥有 book 和 cd 元素的节点集 </p>
+<p>谓语中的多个属性条件间可以使用and来连接</p>
+<p>通过几个复杂表达式我们可以更清晰地理解XPath</p>
+<h3 id="实际使用"><a href="#实际使用" class="headerlink" title="实际使用"></a>实际使用</h3><p>当我们想使用XPath选择页面中的某个节点时，如果页面层次结构太过复杂，往往很难定位</p>
+<p>在实际编写爬虫时，获取XPath表达式的最佳途径是从<strong>浏览器控制台的元素界面</strong>获取</p>
+<p>以edge浏览器为例，右键元素中某一节点可以将其xpath表达式导出</p>
+<img src="/posts/cd0d11b6cb14/image-20231013001532571.png" class="" title="image-20231013001532571">
+<h2 id="爬虫流程"><a href="#爬虫流程" class="headerlink" title="爬虫流程"></a>爬虫流程</h2><p>一个爬虫程序的流程分为获取网页、提取信息和保存数据</p>
+<p><strong>获取网页</strong></p>
+<p>该步骤的关键是构造一个请求并发送给服务器，然后接收到响应并对其进行解析</p>
+<p>实现方法便是python中的众多HTTP 请求库，如<strong>urlib</strong>和<strong>requests</strong>，在编写ctf的web题目脚本时就经常会用到，算得上是老熟人了🤣</p>
+<p><strong>提取信息</strong></p>
+<p>获得源代码后，就需要从中间提取我们想要的数据</p>
+<p>我们可以通过正则表达式进行匹配，也可以利用网页节点属性、CSS选择器或者XPath来提取网页信息</p>
+<p>涉及到的库有<strong>Beautiful Soup</strong>、<strong>pyquery</strong>、<strong>lxml</strong>等</p>
+<p><strong>保存数据</strong></p>
+<p>一般在项目中，爬虫爬取的数据会被保存到数据库中</p>
+<p>所以我们也需要掌握一定的数据库知识</p>
+<h2 id="非常规HTML代码"><a href="#非常规HTML代码" class="headerlink" title="非常规HTML代码"></a>非常规HTML代码</h2><p>有时候网页返回的可能是<strong>JSON字符串或者二进制数据</strong>，我们可以将其解析、转换成相应的目标文件格式</p>
+<p>当然也可能遇到源代码非常简略，页面信息并不在HTML代码中，而是靠<strong>JavaScript渲染</strong>的情况</p>
+<p>此时需要我们抓取JS文件，并在本地使用一些库进行<strong>模拟渲染</strong></p>
+<h1 id="相关库的基础用法"><a href="#相关库的基础用法" class="headerlink" title="相关库的基础用法"></a>相关库的基础用法</h1><h2 id="requests"><a href="#requests" class="headerlink" title="requests"></a>requests</h2><p>由于requests，是对urllib的再次封装，即urllib的升级版，所以直接学习requests即可</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p><code>pip3 install requests</code></p>
+<h3 id="请求方法"><a href="#请求方法" class="headerlink" title="请求方法"></a>请求方法</h3><p>request库中最核心的便是请求方法</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">delete(<em>url</em>, <em>args</em>)</td>
+<td style="text-align:left">发送 DELETE 请求到指定 url</td>
+</tr>
+<tr>
+<td style="text-align:left">get(<em>url</em>, <em>params, args</em>)</td>
+<td style="text-align:left">发送 GET 请求到指定 url</td>
+</tr>
+<tr>
+<td style="text-align:left">head(<em>url</em>, <em>args</em>)</td>
+<td style="text-align:left">发送 HEAD 请求到指定 url</td>
+</tr>
+<tr>
+<td style="text-align:left">patch(<em>url</em>, <em>data, args</em>)</td>
+<td style="text-align:left">发送 PATCH 请求到指定 url</td>
+</tr>
+<tr>
+<td style="text-align:left">post(<em>url</em>, <em>data, json, args</em>)</td>
+<td style="text-align:left">发送 POST 请求到指定 url</td>
+</tr>
+<tr>
+<td style="text-align:left">put(<em>url</em>, <em>data, args</em>)</td>
+<td style="text-align:left">发送 PUT 请求到指定 url</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>而这些请求方法的返回对象即为页面的响应信息</p>
+<p>我们可以用一个变量来接收返回对象</p>
+<p><code>r = requests.get(&#39;https://rickliu.com&#39;)</code></p>
+<p>而请求方法中的各种<strong>参数</strong>则可以用来完善发送的请求报文</p>
+<h4 id="请求数据"><a href="#请求数据" class="headerlink" title="请求数据"></a>请求数据</h4><p><strong>Get请求</strong>中传递的URL参数可以通过函数中的关键字参数<strong>params</strong>实现</p>
+<p>下面是get请求传递数据较为标准的格式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data = &#123;</span><br><span class="line">	<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;rickliu&#x27;</span>,</span><br><span class="line">	<span class="string">&#x27;key&#x27;</span>:<span class="number">1024</span></span><br><span class="line">&#125;</span><br><span class="line">r = requests.get(<span class="string">&#x27;http://rickliu.com&#x27;</span>,params=data)</span><br></pre></td></tr></table></figure>
+<p>该方法与直接在url中添加url参数的效果相同</p>
+<p>等价于<code>r = requests.get(&#39;http://rickliu.com?name=rickliu&amp;key=1024&#39;)</code></p>
+<p><strong>Post请求</strong>如果需要传递表单数据，则是通过关键字参数<strong>data</strong></p>
+<p>我们可以向data传入字符串、字典或者元组，分别对应不同的Post请求需求</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 网页中常见的表单可以通过传递字典给data，字典中的键值对会被自动编码成表单形式</span></span><br><span class="line">payload = &#123;</span><br><span class="line">	<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;rickliu&#x27;</span>,</span><br><span class="line">	<span class="string">&#x27;key&#x27;</span>:<span class="number">1024</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 当表单的name属性为数组，我们可以通过将元组传递给data来向同一个键传多个值</span></span><br><span class="line">payload = ((<span class="string">&#x27;key&#x27;</span>,<span class="number">1024</span>),(<span class="string">&#x27;key&#x27;</span>,<span class="number">2048</span>),(<span class="string">&#x27;key&#x27;</span>,<span class="number">4096</span>))</span><br><span class="line"><span class="comment"># 如果payload为字符串，则会直接传递而不会被编码</span></span><br><span class="line">payload = <span class="string">&#x27;where is flag&#x27;</span></span><br><span class="line">r = requests.get(<span class="string">&#x27;http://rickliu.com&#x27;</span>,data=payload)</span><br></pre></td></tr></table></figure>
+<p>当然，如果页面限制接收json格式的内容，特征为响应头中<code>Content-Type:application/json</code>，那么post传递的数据也可以传给关键词参数<strong>json</strong>，传递的数据会被自动编码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">payload = &#123;</span><br><span class="line">	<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;rickliu&#x27;</span>,</span><br><span class="line">	<span class="string">&#x27;key&#x27;</span>:<span class="number">1024</span></span><br><span class="line">&#125;</span><br><span class="line">r = requests.get(<span class="string">&#x27;http://rickliu.com&#x27;</span>,json=payload)</span><br></pre></td></tr></table></figure>
+<div class="note warning flat"><p>实际场景中，我们选用json或者data，则需要通过对页面抓包查看<strong>Content-Type</strong>响应头的值来决定</p>
+</div>
+<h4 id="请求头"><a href="#请求头" class="headerlink" title="请求头"></a>请求头</h4><p>通过给关键词参数<strong>headers</strong>传字典，我们可以定义一些请求头的值</p>
+<p>字典中的键值对对应不同的请求头和值</p>
+<p>用法示例如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">headers = &#123;</span><br><span class="line">	<span class="string">&#x27;flag&#x27;</span>:<span class="string">&#x27;flag&#123;R1ck&#125;&#x27;</span>,</span><br><span class="line">	<span class="string">&#x27;Accept-Encoding&#x27;</span>:<span class="string">&#x27;gzip,deflate&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line">r = requests.get(<span class="string">&#x27;http://rickliu.com&#x27;</span>,headers=headers)</span><br></pre></td></tr></table></figure>
+<h4 id="超时时间"><a href="#超时时间" class="headerlink" title="超时时间"></a>超时时间</h4><p>超时时间是用来防止服务器响应太慢而等待太长时间</p>
+<p>毕竟爬虫的吞吐量还是很大的，如果等待太久会增加很大的时间开销</p>
+<p>关键词参数<strong>timeout</strong>即为超时时间设置</p>
+<p>我们可以给请求的连接和读取阶段3分别设置超时时间，或者直接设定总的超时时间</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置总的超时时间</span></span><br><span class="line">r = requests.get(<span class="string">&#x27;http://rickliu.com&#x27;</span>,timeout=<span class="number">0.1</span>)</span><br><span class="line"><span class="comment"># 连接和读取分别设置为1秒和5秒</span></span><br><span class="line">r = requests.get(<span class="string">&#x27;http://rickliu.com&#x27;</span>,timeout=(<span class="number">1</span>,<span class="number">5</span>)))</span><br></pre></td></tr></table></figure>
+<h3 id="返回对象"><a href="#返回对象" class="headerlink" title="返回对象"></a>返回对象</h3><p>请求方法的返回为一个Response对象</p>
+<p>该对象的属性包含许多响应体的信息</p>
+<p>下面是一些常用属性</p>
+<p><strong>status_code</strong>：响应状态码</p>
+<p><strong>encoding</strong>：响应头部字符编码</p>
+<p><strong>headers</strong>：响应头</p>
+<p><strong>cookies</strong>：cookies信息</p>
+<p><strong>text</strong>：响应体内容（str类型）</p>
+<p><strong>history</strong>：请求历史</p>
+<h2 id="lxml"><a href="#lxml" class="headerlink" title="lxml"></a>lxml</h2><h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><p><code>pip3 install lxml</code></p>
+<h3 id="etree"><a href="#etree" class="headerlink" title="etree"></a>etree</h3><p>而在进行解析前，可以先使用etree.HTML对HTML文本进行初始化</p>
+<p>在初始化过程中，会自动对HTML文本修正，例如补全标签的闭合，并自动添加body、html节点</p>
+<p>lxml一般通过XPath来对页面中的元素进行选择</p>
+<p>调用xpath方法即可进行数据提取，函数中的参数即为XPath表达式</p>
+<p>例如我想获取我的博客下头像的图床链接，层次结构如下</p>
+<img src="/posts/cd0d11b6cb14/image-20231013000728867.png" class="" title="image-20231013000728867">
+<p>我们可以用如下爬虫程序</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">r = requests.get(<span class="string">&#x27;https://rickliu.com&#x27;</span>)</span><br><span class="line">html = etree.HTML(r.text)</span><br><span class="line">result = html.xpath(<span class="string">&#x27;//*[@id=&quot;sidebar-menus&quot;]/div[1]/img/@src&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(result[<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+<h2 id="Beautiful-Soup"><a href="#Beautiful-Soup" class="headerlink" title="Beautiful Soup"></a>Beautiful Soup</h2><h3 id="安装-2"><a href="#安装-2" class="headerlink" title="安装"></a>安装</h3><p>Beautiful在解析时依赖解析器，它除了支持Python标准库中的HTML解析器外，还支持一些第三方库（比如lxml）</p>
+<p>所以在安装时需要一并将解析器安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install bs4</span><br><span class="line">pip install lxml</span><br></pre></td></tr></table></figure>
+<h3 id="解析器"><a href="#解析器" class="headerlink" title="解析器"></a>解析器</h3><p>以下为Beautiful Soup 支持的部分解析器</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">解析器</th>
+<th style="text-align:center">使用方法</th>
+<th style="text-align:center">优势</th>
+<th style="text-align:center">劣势</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Python标准库</td>
+<td style="text-align:center">BeautifulSoup(markup, ‘html.parser’)</td>
+<td style="text-align:center">python内置的标准库，执行速度适中</td>
+<td style="text-align:center">Python3.2.2之前的版本容错能力差</td>
+</tr>
+<tr>
+<td style="text-align:center">lxml HTML解析器</td>
+<td style="text-align:center">BeautifulSoup(markup, ‘lxml’)</td>
+<td style="text-align:center">速度快、文档容错能力强</td>
+<td style="text-align:center">需要安装C语言库</td>
+</tr>
+<tr>
+<td style="text-align:center">lxml XML解析器</td>
+<td style="text-align:center">BeautifulSoup(markup ‘xml’)</td>
+<td style="text-align:center">速度快，唯一支持XML的解析器</td>
+<td style="text-align:center">需要安装C语言库</td>
+</tr>
+<tr>
+<td style="text-align:center">html5lib</td>
+<td style="text-align:center">BeautifulSoup(markup, ‘html5lib’)</td>
+<td style="text-align:center">最好的容错性、以浏览器的方式解析文档、生成HTML5格式的文档</td>
+<td style="text-align:center">速度慢，不依赖外部拓展</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>在初始化的BeautifulSoup时，将第二个参数设为需要的解析器即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line">soup = BeautifulSoup(<span class="string">&#x27;&lt;p&gt;Hello world&lt;/p&gt;&#x27;</span>, <span class="string">&#x27;lxml&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="节点选择器"><a href="#节点选择器" class="headerlink" title="节点选择器"></a>节点选择器</h3><p>beautifulsoup库比较有特定的节点选择器有<strong>遍历文档树</strong>、<strong>搜索文档树</strong>，当然也可以使用非常贴合前端开发逻辑的<strong>CSS选择器</strong>，或者使用lxml解析器的Xpath</p>
+<h4 id="遍历文档树"><a href="#遍历文档树" class="headerlink" title="遍历文档树"></a>遍历文档树</h4><p>遍历文档树即使用父子、兄弟等节点间的关联关系来选择特定节点</p>
+<p><strong>直接子节点</strong>：<code>.contents</code>属性或者<code>.children</code>属性</p>
+<div class="note warning flat"><p>contents返回的是列表对象，而children返回的则是列表迭代器</p>
+</div>
+<p><strong>子孙节点</strong>：<code>.descendants</code>属性，返回生成器对象</p>
+<p><code>.descendants</code>可以通过递归循环返回<strong>所有</strong>子孙节点</p>
+<div class="note info flat"><details class="toggle" ><summary class="toggle-button" style="">生成器(generator)</summary><div class="toggle-content"><p>在 Python 中，使用了 <strong>yield</strong> 的函数被称为<strong>生成器（generator）</strong>。</p>
+<p><strong>yield</strong> 是一个关键字，用于定义生成器函数，生成器函数是一种特殊的函数，可以在迭代过程中逐步产生值，而不是一次性返回所有结果。</p>
+<p>跟普通函数不同的是，生成器是一个返回迭代器的函数，只能用于迭代操作，更简单点理解生成器就是一个迭代器。</p>
+<p>当在生成器函数中使用 <strong>yield</strong> 语句时，函数的执行将会暂停，并将 <strong>yield</strong> 后面的表达式作为当前迭代的值返回。</p>
+<p>然后，每次调用生成器的 <strong>next()</strong> 方法或使用 <strong>for</strong> 循环进行迭代时，函数会从上次暂停的地方继续执行，直到再次遇到 <strong>yield</strong> 语句。这样，生成器函数可以逐步产生值，而不需要一次性计算并返回所有结果。</p>
+<p>调用一个生成器函数，返回的是一个迭代器对象。</p>
+<p>下面是一个简单的示例，展示了生成器函数的使用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">countdown</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="keyword">while</span> n &gt; <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">yield</span> n</span><br><span class="line">        n -= <span class="number">1</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 创建生成器对象</span></span><br><span class="line">generator = countdown(<span class="number">5</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 通过迭代生成器获取值</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(generator))  <span class="comment"># 输出: 5</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(generator))  <span class="comment"># 输出: 4</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(generator))  <span class="comment"># 输出: 3</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 使用 for 循环迭代生成器</span></span><br><span class="line"><span class="keyword">for</span> value <span class="keyword">in</span> generator:</span><br><span class="line">    <span class="built_in">print</span>(value)  <span class="comment"># 输出: 2 1</span></span><br></pre></td></tr></table></figure>
+</div></details>
+</div>
+<p><strong>直接父节点</strong>：<code>.parent</code>属性</p>
+<p><strong>父辈节点</strong>：<code>.parents</code>属性</p>
+<p><code>.parents</code> 属性可以递归得到元素的<strong>所有</strong>父辈节点</p>
+<p><strong>兄弟节点</strong>：<code>.next_sibling</code>后一个兄弟节点，<code>.previous_sibling</code>前一个兄弟节点；<code>.next_siblings</code>后面所有兄弟节点，<code>.previous_siblings</code>前面所有兄弟节点</p>
+<h4 id="搜索文档树"><a href="#搜索文档树" class="headerlink" title="搜索文档树"></a>搜索文档树</h4><p>搜索文档数通过name、正则表达式、属性和条件方法等筛选节点</p>
+<p>搜索文档数的核心为<code>find_all()</code>和<code>find()</code>方法</p>
+<p>筛选条件作为参数传给这两个方法，而返回值即为筛选到的节点</p>
+<p>其中find_all返回所有满足筛选条件的节点，而find则是返回第一个匹配结果</p>
+<p>当然，搜索文档树也融合了节点关联的思想</p>
+<p>使用<code>find_parents()</code>、<code>find_parent()</code>可以直接选择筛选结果的父亲节点</p>
+<p>使用<code>find_next_siblings()</code>、<code>find_next_sibling()</code>可以直接选择筛选结果后面的兄弟节点</p>
+<p>使用<code>find_previous_siblings()</code>、<code>find_previous_sibling()</code>可以直接选择筛选结果前面的兄弟节点</p>
+<p><strong>name筛选</strong></p>
+<p>name筛选即通过给<code>find_all()</code>中的<strong>第一个参数name传参字符串或字符串列表</strong>，可以选中<strong>标签名与相应字符串完整匹配</strong>的标签</p>
+<p>例如<code>find_all(&#39;h&#39;)</code>会选中<code>&lt;h&gt;</code>标签但不会选中<code>&lt;html&gt;</code></p>
+<p><code>find_all([&quot;a&quot;,&quot;b&quot;])</code>会选中<code>&lt;a&gt;</code>和<code>&lt;b&gt;</code>标签</p>
+<p><strong>正则表达式</strong></p>
+<p>根据参数中传进的正则表达式来<strong>匹配标签名</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">for</span> tag <span class="keyword">in</span> soup.find_all(re.<span class="built_in">compile</span>(<span class="string">&quot;^b&quot;</span>)):</span><br><span class="line">    <span class="built_in">print</span>(tag.name)</span><br><span class="line"><span class="comment"># body</span></span><br><span class="line"><span class="comment"># b</span></span><br></pre></td></tr></table></figure>
+<p>例如上面的<code>^b</code>会匹配所有b开头的标签，所以返回了<code>&lt;body&gt;</code>和<code>&lt;b&gt;</code></p>
+<p><strong>属性筛选</strong></p>
+<p>如果想要通过筛选属性值来搜索，可以通过方法中的<strong>参数attrs</strong>，也可以通过<strong>传非内置参数</strong></p>
+<ol>
+<li><p>如果传给<code>find_all()</code>的参数不是搜索内置的参数名,搜索时会把该参数当作标签的属性来搜索</p>
+<p>例如给其传参id<code>soup.find_all(id=&#39;R1ck&#39;)</code>，则会搜索所有id为R1ck的标签</p>
+<p>给参数名传的值可以是字符串、正则表达式、列表、True</p>
+<div class="note primary flat"><p>给参数传True会匹配所有包含该属性的标签，无论属性值是什么。</p>
+</div>
+</li>
+<li><p>给attrs传字典，也可以实现属性值筛选</p>
+<p>字典中的键为属性，值为属性值</p>
+</li>
+</ol>
+<p><strong>条件方法筛选</strong></p>
+<p>条件方法筛选，即给find_all()的<strong>name参数或属性参数</strong>传入<strong>实现了特定条件的方法名</strong></p>
+<div class="note warning flat"><p>该方法<strong>只能接收一个参数</strong>，如果该方法传给name，则接收参数为标签节点，如果传给属性，则接收参数为属性</p>
+<p>而<strong>返回值必须为布尔变量</strong></p>
+</div>
+<p>方法中可以实现复杂的筛选</p>
+<p>例如下面的例子，能够筛选出所有包含class属性却不包含id属性的标签</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">has_class_but_no_id</span>(<span class="params">tag</span>):</span><br><span class="line">    <span class="keyword">return</span> tag.has_attr(<span class="string">&#x27;class&#x27;</span>) <span class="keyword">and</span> <span class="keyword">not</span> tag.has_attr(<span class="string">&#x27;id&#x27;</span>)</span><br><span class="line">soup.find_all(has_class_but_no_id)</span><br></pre></td></tr></table></figure>
+<h4 id="CSS选择器"><a href="#CSS选择器" class="headerlink" title="CSS选择器"></a>CSS选择器</h4><p>给<code>.select()</code>方法传入CSS选择器语法的字符串即可使用CSS选择器</p>
+<p>具体的CSS选择器介绍可以参考以下文档</p>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Selectors">CSS 选择器 - CSS：层叠样式表 | MDN (mozilla.org)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.w3school.com.cn/css/css_selector_type.asp">CSS 元素选择器 (w3school.com.cn)</a></p>
+<h3 id="提取节点信息"><a href="#提取节点信息" class="headerlink" title="提取节点信息"></a>提取节点信息</h3><p><code>.string</code>可以获取节点包含的文本，即两标签之间的文本</p>
+<p><code>.attrs</code>会返回包含所有属性及属性值的字典，如果属性有多值，则会在值的位置返回列表</p>
+<p><code>.name</code>可以获取节点的名称</p>
+<h2 id="selenium"><a href="#selenium" class="headerlink" title="selenium"></a>selenium</h2><p>在复杂登录场景下，或者是严格反爬机制下，可以使用selenium库，但是爬取速度较慢</p>
+<h3 id="安装-3"><a href="#安装-3" class="headerlink" title="安装"></a>安装</h3><p><code>pip install selenium</code></p>
+<h3 id="浏览器驱动"><a href="#浏览器驱动" class="headerlink" title="浏览器驱动"></a>浏览器驱动</h3><p>由于需要模拟浏览器进行相关操作，所以需要下载对应浏览器版本的驱动</p>
+<p>这里以Chrome为例</p>
+<p>在本地Chrome浏览器的<strong>设置&gt;关于</strong>中找到浏览器版本</p>
+<img src="/posts/cd0d11b6cb14/image-20231018155713656.png" class="" title="image-20231018155713656">
+<p>在下面的驱动下载网站中找到对应版本的驱动</p>
+<p><a target="_blank" rel="noopener" href="https://googlechromelabs.github.io/chrome-for-testing/#stable">https://googlechromelabs.github.io/chrome-for-testing/#stable</a></p>
+<img src="/posts/cd0d11b6cb14/image-20231018160035822.png" class="" title="image-20231018160035822">
+<p>一般保证版本号前三个数字相同就行</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://rickliu.com">R1ck Liu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://rickliu.com/posts/cd0d11b6cb14/">https://rickliu.com/posts/cd0d11b6cb14/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://rickliu.com" target="_blank">R1ck's Portal</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Python/">Python</a><a class="post-meta__tags" href="/tags/%E7%88%AC%E8%99%AB/">爬虫</a><a class="post-meta__tags" href="/tags/note/">note</a></div><div class="post_share"><div class="social-share" data-image="/posts/cd0d11b6cb14/cover.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/31658dca3489/" title="ctfshow 命令执行模块"><img class="cover" src="/posts/31658dca3489/cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">ctfshow 命令执行模块</div></div></a></div><div class="next-post pull-right"><a href="/posts/843a2f5ea22b/" title="NewStarCTF2023 Week2题解"><img class="cover" src="/posts/843a2f5ea22b/cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">NewStarCTF2023 Week2题解</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/ebc439ef19b2/" title="python3 pyside6学习笔记及实践（一）"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-26</div><div class="title">python3 pyside6学习笔记及实践（一）</div></div></a></div><div><a href="/posts/d765094b05e7/" title="python3 pyside6学习笔记及实践（二）"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-15</div><div class="title">python3 pyside6学习笔记及实践（二）</div></div></a></div><div><a href="/posts/341ddbf96da0/" title="python3 pyside6学习笔记及实践（三）"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-17</div><div class="title">python3 pyside6学习笔记及实践（三）</div></div></a></div><div><a href="/posts/1f9a4bfd6ae8/" title="python3 pyside6学习笔记及实践（四）"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-12</div><div class="title">python3 pyside6学习笔记及实践（四）</div></div></a></div><div><a href="/posts/2df062c9f4f0/" title="python3 pyside6学习笔记及实践（五）"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-10-26-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-17</div><div class="title">python3 pyside6学习笔记及实践（五）</div></div></a></div><div><a href="/posts/8f6810bb2033/" title="文件包含漏洞"><img class="cover" src="/posts/8f6810bb2033/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-17</div><div class="title">文件包含漏洞</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">R1ck Liu</div><div class="author-info__description">技术分享和生活记录</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">62</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/handsomelky"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/handsomelky" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_27489877" target="_blank" title="CSDN"><i class="fa-solid fa-c" style="color: #e85211;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果本博客加载速度慢，请开启魔法~</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">网络爬虫原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#URL"><span class="toc-number">1.1.</span> <span class="toc-text">URL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Http"><span class="toc-number">1.2.</span> <span class="toc-text">Http</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTML-DOM%E6%A0%91"><span class="toc-number">1.3.</span> <span class="toc-text">HTML DOM树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XPath"><span class="toc-number">1.4.</span> <span class="toc-text">XPath</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.4.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95"><span class="toc-number">1.4.2.</span> <span class="toc-text">语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E4%BD%BF%E7%94%A8"><span class="toc-number">1.4.3.</span> <span class="toc-text">实际使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%88%AC%E8%99%AB%E6%B5%81%E7%A8%8B"><span class="toc-number">1.5.</span> <span class="toc-text">爬虫流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%9E%E5%B8%B8%E8%A7%84HTML%E4%BB%A3%E7%A0%81"><span class="toc-number">1.6.</span> <span class="toc-text">非常规HTML代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%BA%93%E7%9A%84%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">相关库的基础用法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#requests"><span class="toc-number">2.1.</span> <span class="toc-text">requests</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">2.1.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95"><span class="toc-number">2.1.2.</span> <span class="toc-text">请求方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E6%95%B0%E6%8D%AE"><span class="toc-number">2.1.2.1.</span> <span class="toc-text">请求数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%A4%B4"><span class="toc-number">2.1.2.2.</span> <span class="toc-text">请求头</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B6%85%E6%97%B6%E6%97%B6%E9%97%B4"><span class="toc-number">2.1.2.3.</span> <span class="toc-text">超时时间</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.1.3.</span> <span class="toc-text">返回对象</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lxml"><span class="toc-number">2.2.</span> <span class="toc-text">lxml</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-1"><span class="toc-number">2.2.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#etree"><span class="toc-number">2.2.2.</span> <span class="toc-text">etree</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Beautiful-Soup"><span class="toc-number">2.3.</span> <span class="toc-text">Beautiful Soup</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-2"><span class="toc-number">2.3.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%9E%90%E5%99%A8"><span class="toc-number">2.3.2.</span> <span class="toc-text">解析器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-number">2.3.3.</span> <span class="toc-text">节点选择器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%81%8D%E5%8E%86%E6%96%87%E6%A1%A3%E6%A0%91"><span class="toc-number">2.3.3.1.</span> <span class="toc-text">遍历文档树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E6%96%87%E6%A1%A3%E6%A0%91"><span class="toc-number">2.3.3.2.</span> <span class="toc-text">搜索文档树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CSS%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-number">2.3.3.3.</span> <span class="toc-text">CSS选择器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E5%8F%96%E8%8A%82%E7%82%B9%E4%BF%A1%E6%81%AF"><span class="toc-number">2.3.4.</span> <span class="toc-text">提取节点信息</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#selenium"><span class="toc-number">2.4.</span> <span class="toc-text">selenium</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-3"><span class="toc-number">2.4.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A9%B1%E5%8A%A8"><span class="toc-number">2.4.2.</span> <span class="toc-text">浏览器驱动</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/43e60ea4b856/" title="2024年终总结">2024年终总结</a><time datetime="2024-12-31T15:42:01.000Z" title="发表于 2024-12-31 23:42:01">2024-12-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/401b31cb03e1/" title="Git原理与用法系统总结"><img src="/posts/401b31cb03e1/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Git原理与用法系统总结"/></a><div class="content"><a class="title" href="/posts/401b31cb03e1/" title="Git原理与用法系统总结">Git原理与用法系统总结</a><time datetime="2024-07-27T13:51:15.000Z" title="发表于 2024-07-27 21:51:15">2024-07-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/10a98f25092d/" title="个人隐私保护手册">个人隐私保护手册</a><time datetime="2024-07-22T15:08:07.000Z" title="发表于 2024-07-22 23:08:07">2024-07-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c12b1506032a/" title="WSL kali安装及无缝模式部署"><img src="/posts/c12b1506032a/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WSL kali安装及无缝模式部署"/></a><div class="content"><a class="title" href="/posts/c12b1506032a/" title="WSL kali安装及无缝模式部署">WSL kali安装及无缝模式部署</a><time datetime="2024-07-20T05:01:59.000Z" title="发表于 2024-07-20 13:01:59">2024-07-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/4c025cd5aca8/" title="SQL注入 各种过滤的绕过姿势总结">SQL注入 各种过滤的绕过姿势总结</a><time datetime="2024-04-26T13:58:02.000Z" title="发表于 2024-04-26 21:58:02">2024-04-26</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/posts/cd0d11b6cb14/top_img.png')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By R1ck Liu</div><div class="footer_custom_text"><p><object style="margin-inline:5px" data="https://img.shields.io/badge/Frame-Hexo-blue?logo=Hexo&style=plastic&link=https://hexo.io/&https://hexo.io/zh-cn/docs/"></object><object style="margin-inline:5px" data="https://img.shields.io/badge/Theme-Butterfly-6513df?style=plastic&logo=bitdefender&link=https://butterfly.js.org/"></object></p><p><a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备2023083766号</a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><script>(()=>{
+  const getGiscusTheme = theme => {
+    return theme === 'dark' ? 'dark' : 'light'
+  }
+
+  const loadGiscus = () => {
+    const config = Object.assign({
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'handsomelky/handsomelky.github.io',
+      'data-repo-id': 'R_kgDOJ58FwA',
+      'data-category-id': 'DIC_kwDOJ58FwM4CX0E8',
+      'data-mapping': 'pathname',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true
+    },null)
+
+    const ele = document.createElement('script')
+    for (let key in config) {
+      ele.setAttribute(key, config[key])
+    }
+    document.getElementById('giscus-wrap').appendChild(ele)
+  }
+
+  const changeGiscusTheme = theme => {
+    const sendMessage = message => {
+      const iframe = document.querySelector('iframe.giscus-frame')
+      if (!iframe) return
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+    }
+
+    sendMessage({
+      setConfig: {
+        theme: getGiscusTheme(theme)
+      }
+    });
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment= loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script src="/js/FunnyTitle.js"></script><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://cdn.staticfile.org/hexo-theme-butterfly/4.9.0/js/search/local-search.min.js"></script></div></div><script src="/live2d_models/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2d_models/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2d_models/assets/Rick.model.json"},"display":{"position":"right","width":225,"height":450,"hOffset":30,"vOffset":-50},"mobile":{"show":false},"react":{"opacity":0.85},"log":false});</script></body></html>

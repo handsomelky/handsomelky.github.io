@@ -1,0 +1,449 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>数字图像处理 作业四 | R1ck's Portal</title><meta name="author" content="R1ck Liu"><meta name="copyright" content="R1ck Liu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本系列文章为学校课程《数字图像处理》布置的一些小project作业。本次作业涉及图像退化与复原、逆滤波复原、维纳滤波复原。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数字图像处理 作业四">
+<meta property="og:url" content="https://rickliu.com/posts/e5cbd5436bd8/index.html">
+<meta property="og:site_name" content="R1ck&#39;s Portal">
+<meta property="og:description" content="本系列文章为学校课程《数字图像处理》布置的一些小project作业。本次作业涉及图像退化与复原、逆滤波复原、维纳滤波复原。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://rickliu.com/posts/e5cbd5436bd8/cover.png">
+<meta property="article:published_time" content="2023-12-13T03:47:48.000Z">
+<meta property="article:modified_time" content="2024-02-08T14:07:32.000Z">
+<meta property="article:author" content="R1ck Liu">
+<meta property="article:tag" content="MATLAB">
+<meta property="article:tag" content="Digital Image Processing">
+<meta property="article:tag" content="project">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://rickliu.com/posts/e5cbd5436bd8/cover.png"><link rel="shortcut icon" href="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/favicon.png"><link rel="canonical" href="https://rickliu.com/posts/e5cbd5436bd8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="CCDD774EA967D60E5C877121C6572BF5"/><meta name="baidu-site-verification" content="codeva-13aVmkscyC"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?6c032eabab6689261ec86024f386af87";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: R1ck Liu","link":"链接: ","source":"来源: R1ck's Portal","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '数字图像处理 作业四',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-02-08 22:07:32'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/equipment.css"><script type="text/javascript" src ="/js/reward.js" ></script><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.16/dist/sweetalert2.all.min.js"></script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">62</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/posts/e5cbd5436bd8/top_img.png')"><nav id="nav"><span id="blog-info"><a href="/" title="R1ck's Portal"><span class="site-name">R1ck's Portal</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">数字图像处理 作业四</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-12-13T03:47:48.000Z" title="发表于 2023-12-13 11:47:48">2023-12-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-02-08T14:07:32.000Z" title="更新于 2024-02-08 22:07:32">2024-02-08</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="数字图像处理 作业四"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本系列文章为学校课程《数字图像处理》布置的一些小project作业</p>
+<p>除了给出每个问题的解答和代码，我也会附上相关知识点，以方便后续复习</p>
+<h1 id="前置概念"><a href="#前置概念" class="headerlink" title="前置概念"></a>前置概念</h1><h2 id="图像复原"><a href="#图像复原" class="headerlink" title="图像复原"></a>图像复原</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>图像复原的<strong>目的</strong>是针对质量降低或失真的图像，试图恢复其原始的内容或质量</p>
+<img src="/posts/e5cbd5436bd8/image-20231213232627762.png" class="" title="image-20231213232627762">
+<p>获得使图像质量下降的先验知识，<strong>建立退化模型</strong>是图像复原处理的前提与关键</p>
+<p>图像恢复总是假定已知或可以通过估计得到<strong>引起图像降质的模型</strong>，而图像增强不需要知道图像降质模型</p>
+<h3 id="图像退化与复原模型"><a href="#图像退化与复原模型" class="headerlink" title="图像退化与复原模型"></a>图像退化与复原模型</h3><p><strong>引起图像质量下降的客观因素</strong>：</p>
+<ul>
+<li><p>成象系统的象差、畸变、带宽有限等造成图像失真</p>
+</li>
+<li><p><strong>几何失真：</strong>由于成象器件拍摄姿态和扫描非线性引起</p>
+</li>
+<li><p><strong>灰度失真：</strong>光学系统或成象传感器本身特性不均匀，造成同样亮度景物成象灰度不同</p>
+</li>
+<li><strong>运动模糊：</strong>成象传感器与被拍摄景物之间的相对运动，引起所成图像的运动模糊</li>
+<li><p><strong>辐射失真：</strong>由于场景能量传输通道中的介质特性如大气湍流效应、大气成分变化引起图像失真</p>
+</li>
+<li><p><strong>噪声干扰：</strong>图像在成象、数字化、采集和处理过程中引入的噪声等</p>
+</li>
+</ul>
+<p>针对上述客观因素，<strong>建立图像退化模型，是进行图像复原处理的第一步</strong></p>
+<img src="/posts/e5cbd5436bd8/image-20231213234913348.png" class="" title="image-20231213234913348">
+<p>降质图像可表示为：$g(x, y) = H[f(x, y)] + \eta(x, y)$，<strong>其中<script type="math/tex">H[\cdot]</script>是综合所有退化因素的函数</strong></p>
+<p>建立图像退化模型，即获得退化系统$H$和噪声$\eta$的模型</p>
+<h3 id="图像复原基本原理"><a href="#图像复原基本原理" class="headerlink" title="图像复原基本原理"></a>图像复原基本原理</h3><p>图像复原的本质即<strong>沿着使图像降质的逆过程恢复图像本来面貌</strong></p>
+<p>实际的复原过程相当于设计一个滤波器，使其能从降质图像中计算得到真实图像的估值 ，使其根据预先规定的误差准则，最大程度地接近真实图像 。</p>
+<p>逆问题经常存在非唯一解，甚至无解。为了得到逆问题的有用解，<strong>需要有先验知识以及对解的附加约束条件</strong></p>
+<p>我们可以使用线性系统来近似退化过程，这样图像的退化可以看作原始图像与退化函数的卷积，因此线性图像复原往往被称为<strong>图像去卷积（反卷积）</strong>，所采用的滤波器称之为<strong>去卷积滤波器</strong></p>
+<h2 id="噪声模型"><a href="#噪声模型" class="headerlink" title="噪声模型"></a>噪声模型</h2><h3 id="噪声模型及参数估计"><a href="#噪声模型及参数估计" class="headerlink" title="噪声模型及参数估计"></a>噪声模型及参数估计</h3><img src="/posts/e5cbd5436bd8/image-20231214000801502.png" class="" title="image-20231214000801502">
+<p>下面是常见的噪声的概率密度函数图</p>
+<img src="/posts/e5cbd5436bd8/image-20231214002631807.png" class="" title="image-20231214002631807">
+<p>其中横轴$z$表示灰度值，而纵轴则表示该灰度值出现的概率</p>
+<p>下图是不同噪声的效果比较</p>
+<img src="/posts/e5cbd5436bd8/image-20231214002828069.png" class="" title="image-20231214002828069">
+<p>总的来说，我们想要建立一个噪声模型，关键是得到或估计其参数</p>
+<p>对于<strong>Gaussian, uniform, Rayleigh, Erlang, exponential noises</strong>等噪声，关键是得到其<strong>均值与方差</strong></p>
+<p>$ \mu = \sum_{z_i \in S} z_i p(z_i) $</p>
+<p>$\sigma^2 = \sum_{z_i \in S} (z_i - \mu)^2 p(z_i) $ </p>
+<p>而脉冲噪声（椒盐噪声）则类通过直方图获取参数$P_a$和$P_b$</p>
+<img src="/posts/e5cbd5436bd8/image-20231214003309836.png" class="" title="image-20231214003309836">
+<h3 id="只存在噪声的复原"><a href="#只存在噪声的复原" class="headerlink" title="只存在噪声的复原"></a>只存在噪声的复原</h3><p>对于只存在噪声的图像的复原，我们通常选择<strong>空间滤波技术</strong></p>
+<img src="/posts/e5cbd5436bd8/image-20231214105430583.png" class="" title="image-20231214105430583">
+<h4 id="固定滤波器"><a href="#固定滤波器" class="headerlink" title="固定滤波器"></a>固定滤波器</h4><div class="note info flat"><p><strong>固定滤波器（Fixed Filters）</strong>，也常被称为预定义滤波器或非自适应滤波器，是图像处理中一类预先定义好的滤波器，它们有固定的模板（kernel）或掩模（mask）。这些滤波器不会根据图像内容或其他外部信息改变其内核值</p>
+</div>
+<p>下面是一些常见的固定滤波器</p>
+<ol>
+<li><p>算术均值滤波器 (Arithmetic Mean Filter):</p>
+<script type="math/tex; mode=display">
+\hat{f}(x, y) = \frac{1}{mn} \sum_{(s,t) \in S_{xy}} g(s, t)</script><p>$S_{xy}$ 是以像素$(x, y)$为中心的邻域集合。</p>
+<p>$g(s, t)$ 是输入滤波器的图像在位置$(s, t)$的像素值。</p>
+</li>
+<li><p>几何均值滤波器 (Geometric Mean Filter):</p>
+<script type="math/tex; mode=display">
+\hat{f}(x, y) = \left[ \prod_{(s,t) \in S_{xy}} g(s, t) \right]^{\frac{1}{mn}}</script><ul>
+<li>非线性滤波</li>
+<li>平滑度与算术滤波器相当</li>
+<li>图像细节丢失更少</li>
+</ul>
+</li>
+<li><p>谐波均值滤波器 (Harmonic Mean Filter):</p>
+<script type="math/tex; mode=display">
+\hat{f}(x, y) = \frac{mn}{\sum_{(s,t) \in S_{xy}} \frac{1}{g(s, t)}}</script><ul>
+<li>对“盐”噪声较好</li>
+<li>不适用于“胡椒”噪声</li>
+<li>善于处理高斯噪声</li>
+</ul>
+</li>
+</ol>
+<p>当然还有一类固定滤波器，它们<strong>基于像素的顺序统计特性决定其相应值</strong></p>
+<img src="/posts/e5cbd5436bd8/image-20231214131933904.png" class="" title="image-20231214131933904">
+<img src="/posts/e5cbd5436bd8/image-20231214132018241.png" class="" title="image-20231214132018241">
+<p>固定滤波器在图像恢复上存在一定的<strong>缺陷</strong>：</p>
+<ul>
+<li><p><strong>固定滤波器未考虑图像的局部特性，难以达到更好效果</strong></p>
+</li>
+<li><p><strong>为提高滤波性能，固定滤波器日益复杂，但适用面却日益缩小</strong></p>
+</li>
+<li><p><strong>滤波器窗口越大，图像细节丢失越严重</strong></p>
+</li>
+<li><p><strong>通常须在保存图像细节与噪声滤除之间寻求某种折衷</strong></p>
+</li>
+</ul>
+<h4 id="自适应滤波器"><a href="#自适应滤波器" class="headerlink" title="自适应滤波器"></a>自适应滤波器</h4><p>自适应滤波器很好的解决了固定滤波器的问题</p>
+<p>通过<strong>结合图像的局部特性</strong>，它能<strong>自动修改滤波器参数或滤波策略</strong></p>
+<img src="/posts/e5cbd5436bd8/image-20231214134352445.png" class="" title="image-20231214134352445">
+<p>除了以均值和方差建立的自适应模型，还有如下的<strong>自适应中值滤波器</strong></p>
+<img src="/posts/e5cbd5436bd8/image-20231214135148039.png" class="" title="image-20231214135148039">
+<img src="/posts/e5cbd5436bd8/image-20231214135203676.png" class="" title="image-20231214135203676">
+<img src="/posts/e5cbd5436bd8/image-20231214173347240.png" class="" title="image-20231214173347240">
+<h3 id="频域滤波降低周期噪声"><a href="#频域滤波降低周期噪声" class="headerlink" title="频域滤波降低周期噪声"></a>频域滤波降低周期噪声</h3><p>常用的频域滤波有两种：<strong>带阻滤波器</strong>和<strong>陷波滤波器</strong></p>
+<h4 id="带阻滤波器（Band-stop-Filter）"><a href="#带阻滤波器（Band-stop-Filter）" class="headerlink" title="带阻滤波器（Band-stop Filter）"></a>带阻滤波器（Band-stop Filter）</h4><p>带阻滤波器设计用来抑制一定频率范围内的信号，同时允许其他频率的信号通过。它在频域中形成一个“带阻”区域，这个区域对应于周期性噪声的主要频率成分。</p>
+<ul>
+<li><strong>应用场景</strong>：当周期性噪声的频率集中在一个较宽的频率范围内时，带阻滤波器特别有效。</li>
+<li><strong>设计考虑</strong>：需要确定噪声频率的上下界，并据此设计滤波器。</li>
+<li><strong>效果</strong>：能够同时抑制多个相近的周期性噪声频率。</li>
+</ul>
+<img src="/posts/e5cbd5436bd8/image-20231214202042779.png" class="" title="image-20231214202042779">
+<p>一个带阻滤波效果的例子如下</p>
+<img src="/posts/e5cbd5436bd8/image-20231214201619863.png" class="" title="image-20231214201619863">
+<h4 id="陷波滤波器（Notch-Filter）"><a href="#陷波滤波器（Notch-Filter）" class="headerlink" title="陷波滤波器（Notch Filter）"></a>陷波滤波器（Notch Filter）</h4><p>陷波滤波器是一种更加精确的滤波方式，它旨在抑制一个或几个特定的频率点，而对其他频率的信号影响较小。这种滤波器在频域中形成一个或多个“陷阱”，精确地消除特定频率的噪声。</p>
+<ul>
+<li><strong>应用场景</strong>：当周期性噪声集中在一个或几个非常特定的频率点上时。</li>
+<li><strong>设计考虑</strong>：需要精确知道噪声的频率，并在这些频率点上设计陷波。</li>
+<li><strong>效果</strong>：非常精确地消除特定频率的噪声，对其他频率成分的影响很小。</li>
+</ul>
+<img src="/posts/e5cbd5436bd8/image-20231214202123105.png" class="" title="image-20231214202123105">
+<img src="/posts/e5cbd5436bd8/image-20231214202138587.png" class="" title="image-20231214202138587">
+<p>注意上图中右上角为噪声的频域图像，我们需要消除它则需要纵轴上的陷波滤波器</p>
+<h2 id="系统退化"><a href="#系统退化" class="headerlink" title="系统退化"></a>系统退化</h2><img src="/posts/e5cbd5436bd8/image-20231214204529909.png" class="" title="image-20231214204529909">
+<h3 id="估计退化函数"><a href="#估计退化函数" class="headerlink" title="估计退化函数"></a>估计退化函数</h3><p>对退化函数$H(u,v)$的估计过程常称为<strong>系统辨识过程</strong></p>
+<img src="/posts/e5cbd5436bd8/image-20231214205849538.png" class="" title="image-20231214205849538">
+<h4 id="图像观察估计法"><a href="#图像观察估计法" class="headerlink" title="图像观察估计法"></a>图像观察估计法</h4><p>选择图像中具有强信号与强特征的局部区域图像$g_s(x,y)$，设法构建一个具有相同大小与特征、但没有退化</p>
+<p>的近似图像 ，可有$H_s(u,v) = \frac{G_s(u,v)}{\hat{F}_s(u,v)}$</p>
+<h4 id="试验估计法"><a href="#试验估计法" class="headerlink" title="试验估计法"></a>试验估计法</h4><p>使用或设计一个与图像退化过程相似的装置（过程），使其成像一个脉冲，可得到退化系统的冲激响应</p>
+<p>$H(u,v) = \frac{G(u,v)}{A}$</p>
+<h4 id="模型估计法"><a href="#模型估计法" class="headerlink" title="模型估计法"></a>模型估计法</h4><p>从引起图像退化的基本原理进行推导，进而对原始图像进行模拟，在模拟过程中调整模型参数以获得尽可能精确的退化模型</p>
+<p>常见的模型有下面几种</p>
+<p><strong>大气湍流模型</strong>：$H(u,v) = \exp \left[ -c (u^2 + v^2)^{\frac{5}{6}} \right]$</p>
+<p><strong>大气扰动模型</strong>：$h(i,j) = K \cdot \exp \left( -\frac{i^2 + j^2}{2 \sigma^2} \right)$</p>
+<p><strong>运动模糊模型</strong>：$H(u,v) = \frac{T}{\pi (ua + vb)} \sin \left[ \pi (ua + vb) \right] e^{-j \pi (ua + vb)}$</p>
+<p><strong>光学散焦模型</strong>：$H(u,v) = \frac{J_1(\pi d \rho)}{\pi d \rho} \ \rho = (u^2 + v^2)^{\frac{1}{2}}$</p>
+<p>想要进行模型估计，可以采取<strong>点扩展函数法</strong></p>
+<p>点扩展函数法的思想就是将退化函数看作将一个点光源（或不同频率的光源）输入成像系统，输出则是相应的PSF(或PSF的傅里叶变换函数)</p>
+<h2 id="逆滤波"><a href="#逆滤波" class="headerlink" title="逆滤波"></a>逆滤波</h2><img src="/posts/e5cbd5436bd8/image-20231214222432267.png" class="" title="image-20231214222432267">
+<p>但是这周自己哦空额的逆滤波<strong>存在一个问题</strong></p>
+<p>$F(u,v) = \frac{G(u,v)}{H(u,v)}-\frac{N(u,v)}{H(u,v)}$</p>
+<p><strong>当$H(u,v)$等于零或非常小的数值点上，噪声的影响会大大增强 </strong></p>
+<p>一种改进方法是<strong>伪逆滤波复原</strong></p>
+<p>通过对$H(u,v)$规定一个门限值</p>
+<p>$H^{-1}(u,v) =<br>\begin{cases}<br>\frac{1}{H(u,v)}, &amp; |H(u,v)| &gt; \delta \<br>0, &amp; |H(u,v)| \leq \delta<br>\end{cases}$</p>
+<p>当我们针对特定噪声进行逆滤波，例如<strong>高斯白噪声</strong></p>
+<p>那么$H(u,v)$可能在很高的频率时趋于零</p>
+<p>此时我们只需对伪逆滤波施加圆形范围限制即可</p>
+<img src="/posts/e5cbd5436bd8/image-20231214223527788.png" class="" title="image-20231214223527788">
+<h3 id="最小均方误差滤波（维纳滤波）"><a href="#最小均方误差滤波（维纳滤波）" class="headerlink" title="最小均方误差滤波（维纳滤波）"></a>最小均方误差滤波（维纳滤波）</h3><p>维纳滤波<strong>假设图像和噪声均属于随机信号（平稳随机过程）</strong>，且相互之间互不相关</p>
+<p>而目标是<strong>寻找最佳复原图像，使得均方误差最小</strong></p>
+<img src="/posts/e5cbd5436bd8/image-20231214223824323.png" class="" title="image-20231214223824323">
+<p>维纳滤波的结果如下</p>
+<p>$\hat{F}(u,v) = \frac{\left| H(u,v) \right|^2}{\left| H(u,v) \right|^2 + S_n(u,v)/S_f(u,v)} \cdot \frac{G(u,v)}{H(u,v)}$</p>
+<p>不过值得注意的是，<strong>维纳滤波器建立在最小化统计准则基础上，只是在平均</strong> </p>
+<p><strong>意义上最优</strong></p>
+<h1 id="HW-图像退化与复原"><a href="#HW-图像退化与复原" class="headerlink" title="HW 图像退化与复原"></a>HW 图像退化与复原</h1><p>作业要求：</p>
+<blockquote>
+<ol>
+<li>使用教科书中的方程（5.6-11）实现一个模糊滤镜，并用参数 a=b=0.1 和 T=1 对测试图像 ‘book_cover.jpg’ 进行模糊处理。（20%）</li>
+<li>向模糊图像添加均值为0、方差为500的高斯噪声。（10%） </li>
+<li>使用逆滤波恢复模糊图像和模糊噪声图像。（30%）</li>
+<li>使用至少3个不同参数的参数化维纳滤波恢复模糊噪声图像，并与3的结果进行比较和分析。（40%）</li>
+</ol>
+</blockquote>
+<p>原图如下</p>
+<p><style>.uhehkzzgxojr{zoom: 67%;}</style><img src="/posts/e5cbd5436bd8/book_cover.jpg" class="uhehkzzgxojr" alt="book_cover"></p>
+<p>在开始任务之前，考虑到后续生成的中间图像的像素值范围可能超过$[0,255]$，我们需要<strong>定义一个归一化函数</strong>，方便后续归一化并保存中间图像</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">result</span> = <span class="title">normalize_image</span><span class="params">(image)</span></span></span><br><span class="line">    result = image - <span class="built_in">min</span>(image(:)); <span class="comment">% 将图像平移到最小值为0</span></span><br><span class="line">    result = result / <span class="built_in">max</span>(result(:)); <span class="comment">% 缩放图像使最大值为1</span></span><br><span class="line">    result = uint8(result * <span class="number">255</span>); <span class="comment">% 转换为0-255的uint8图像</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h2 id="图像模糊"><a href="#图像模糊" class="headerlink" title="图像模糊"></a>图像模糊</h2><p>首先完成第一个任务</p>
+<p>教科书中的5.6-11方程为<strong>图像运动模糊模型</strong></p>
+<script type="math/tex; mode=display">H(u,v) = \frac{T}{\pi (ua + vb)} \sin \left[ \pi (ua + vb) \right] e^{-j \pi (ua + vb)}</script><p>首先我们读取图像，并将其转到频率域</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">I = imread(<span class="string">&#x27;book_cover.jpg&#x27;</span>);</span><br><span class="line">[M,N] = <span class="built_in">size</span>(I);</span><br><span class="line">I = double(I);  </span><br><span class="line">F = fftshift(fft2(I));</span><br></pre></td></tr></table></figure>
+<p>由于后续有较为复杂的操作，我们需要使用<code>double()</code>将<code>I</code>变为实数矩阵</p>
+<p>我们按照题目定义运动模糊模型的参数</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">0.1</span>;</span><br><span class="line">b = <span class="number">0.1</span>;</span><br><span class="line">T = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>接下来我们就可以定义运动模糊模型的退化函数了</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">H = <span class="built_in">zeros</span>(M,N);</span><br><span class="line"><span class="keyword">for</span> u = <span class="number">1</span>:M</span><br><span class="line">    <span class="keyword">for</span> v = <span class="number">1</span>:N</span><br><span class="line">        x = <span class="built_in">pi</span> * ((u-M/<span class="number">2</span>)*a + (v-N/<span class="number">2</span>)*b); </span><br><span class="line">        <span class="keyword">if</span> x == <span class="number">0</span></span><br><span class="line">            H(u,v) = T;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            H(u,v) = (T / x) * <span class="built_in">sin</span>(x) * <span class="built_in">exp</span>(<span class="number">-1</span><span class="built_in">i</span>*x);</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>当然，我们需要额外增加判断，避免退化函数中<code>pi * ((u-M/2)*a + (v-N/2)*b</code>这一部分太小，导致比值趋近于无穷大，<strong>当x为0时，我们应该将H设为一个有限值</strong></p>
+<p>我们将退化函数与原图的频域相乘，进行模糊处理</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">G = H .* F;</span><br><span class="line">blurred_image = normalize_image(<span class="built_in">abs</span>(ifft2(G)));</span><br><span class="line">imwrite(blurred_image, <span class="string">&#x27;./result/blurred_image.png&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>注意在最后需要对空域的模糊图像进行归一化</strong></p>
+<p>得到下图结果</p>
+<p><style>.sbpoksreewxx{zoom: 67%;}</style><img src="/posts/e5cbd5436bd8/blurred_image.png" class="sbpoksreewxx" alt="blurred_image"></p>
+<p>可以发现非常接近现实生活中因为物体运动而产生的模糊图片</p>
+<h2 id="添加噪声"><a href="#添加噪声" class="headerlink" title="添加噪声"></a>添加噪声</h2><p>第二个任务是<strong>向模糊图像添加高斯噪声</strong>，这样可以得到完整的退化模型</p>
+<p>首先我们根据题目的要求，生成一个<strong>均值为0、方差为500</strong>的高斯噪声</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">noise = <span class="built_in">randn</span>(M,N) * <span class="built_in">sqrt</span>(<span class="number">500</span>);</span><br><span class="line">Fn = fftshift(fft2(noise));</span><br></pre></td></tr></table></figure>
+<p>将噪声与模糊图像相加，得到模糊噪声图像</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Gn = G + Fn;</span><br><span class="line">blurred_noisy_image = normalize_image(<span class="built_in">abs</span>(ifft2(Gn)));</span><br><span class="line">imwrite(blurred_noisy_image, <span class="string">&#x27;./result/blurred_noisy_image.png&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p><style>.xfrnmpjgycry{zoom: 67%;}</style><img src="/posts/e5cbd5436bd8/blurred_noisy_image.png" class="xfrnmpjgycry" alt="blurred_noisy_image"></p>
+<p>我们可以将原图和两张生成的退化图像进行对比</p>
+<img src="/posts/e5cbd5436bd8/degradation_comparison.png" class="" title="degradation_comparison">
+<h2 id="逆滤波复原"><a href="#逆滤波复原" class="headerlink" title="逆滤波复原"></a>逆滤波复原</h2><p>将模糊图像和模糊噪声图像分别除以退化函数，得到复原后的图像</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% 逆滤波恢复模糊噪声图像</span></span><br><span class="line">F_hat1 = G ./ H;</span><br><span class="line">F_hat1(<span class="built_in">isnan</span>(F_hat1)) = <span class="number">0</span>; </span><br><span class="line">F_hat1(<span class="built_in">isinf</span>(F_hat1)) = <span class="number">0</span>; </span><br><span class="line">inverse_filtered_image = normalize_image(<span class="built_in">abs</span>(ifft2(F_hat1)));</span><br><span class="line">imwrite(inverse_filtered_image, <span class="string">&#x27;./result/inverse_filtered_image.png&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 逆滤波恢复模糊噪声图像</span></span><br><span class="line">F_hat2 = Gn ./ H;</span><br><span class="line">F_hat2(<span class="built_in">isnan</span>(F_hat2)) = <span class="number">0</span>; </span><br><span class="line">F_hat2(<span class="built_in">isinf</span>(F_hat2)) = <span class="number">0</span>; </span><br><span class="line">inverse_filtered_noisy_image = normalize_image(<span class="built_in">abs</span>(ifft2(F_hat2)));</span><br><span class="line">imwrite(inverse_filtered_noisy_image, <span class="string">&#x27;./result/inverse_filtered_noisy_image.png&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>下图是<strong>模糊图像的逆滤波复原图</strong></p>
+<p><style>.uxweoiidtjie{zoom:67%;}</style><img src="/posts/e5cbd5436bd8/inverse_filtered_image.png" class="uxweoiidtjie" alt="inverse_filtered_image"></p>
+<p>可以发现和原图基本一致</p>
+<p>而下图是<strong>模糊噪声图像的逆滤波复原图</strong></p>
+<p><style>.lrvsoghojrhe{zoom:67%;}</style><img src="/posts/e5cbd5436bd8/inverse_filtered_noisy_image.png" class="lrvsoghojrhe" alt="inverse_filtered_noisy_image"></p>
+<p>可以发现比原来的噪声强度还大</p>
+<p>我们可以从逆滤波的公式中找到原因</p>
+<p>$F(u,v) = \frac{G(u,v)}{H(u,v)}-\frac{N(u,v)}{H(u,v)}$</p>
+<p>对于仅仅模糊的图像（不含噪声），如果已知确切的模糊函数，逆滤波可以恢复得到原始图像</p>
+<p>而<strong>当存在噪声时</strong>，由于噪声通常具有高频成分，在逆滤波的过程中，除以模糊核的频率响应会放大这些高频成分，导致<strong>噪声也被显著放大</strong></p>
+<h2 id="维纳滤波"><a href="#维纳滤波" class="headerlink" title="维纳滤波"></a>维纳滤波</h2><p>我们定义三个维纳滤波参数<code>K = [0.01, 0.1, 1]</code></p>
+<p>根据这三个参数分别得到维纳滤波的复原图像</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">F_wnr = <span class="built_in">zeros</span>(M,N,<span class="built_in">length</span>(K));</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:<span class="built_in">length</span>(K)</span><br><span class="line">    F_wnr(:,:,k) = <span class="built_in">conj</span>(H) ./ (<span class="built_in">abs</span>(H).^<span class="number">2</span> + K(k)) .* Gn;</span><br><span class="line">    F_wnr(:,:,k) = ifftshift(F_wnr(:,:,k));</span><br><span class="line">    F_wnr(:,:,k) = ifft2(F_wnr(:,:,k));</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>将生成的维纳滤波图像与逆滤波复原图放在一个窗口进行对比</p>
+<img src="/posts/e5cbd5436bd8/inverse_comparison.png" class="" title="inverse_comparison">
+<p>可以观察到，维纳滤波的权衡因子k越小，噪声越多，但对模糊的复原也越好，分析原因如下：</p>
+<ul>
+<li><strong>当K较大时，滤波器更倾向于抑制噪声</strong>，但也可能导致图像细节的损失。这是因为大的K值会减少滤波器在频域中对高频成分的增强，而噪声主要存在于高频部分。</li>
+<li><strong>当K较小时，滤波器更专注于逆转模糊效果</strong>，这可能导致噪声被放大，但同时也能更好地保留图像的细节和边缘。</li>
+</ul>
+<p>当然，在存在噪声时，与逆滤波的效果相比，维纳滤波的效果更好，这是因为<strong>逆滤波对噪声更加敏感</strong></p>
+<p>而维纳滤波能够根据噪声的存在进行调整，平衡去模糊和降噪，从而在不过度放大噪声的同时恢复图像。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://rickliu.com">R1ck Liu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://rickliu.com/posts/e5cbd5436bd8/">https://rickliu.com/posts/e5cbd5436bd8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://rickliu.com" target="_blank">R1ck's Portal</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/MATLAB/">MATLAB</a><a class="post-meta__tags" href="/tags/Digital-Image-Processing/">Digital Image Processing</a><a class="post-meta__tags" href="/tags/project/">project</a></div><div class="post_share"><div class="social-share" data-image="/posts/e5cbd5436bd8/cover.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/e5f414f6f9b3/" title="数字图像处理 作业三"><img class="cover" src="/posts/e5f414f6f9b3/cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">数字图像处理 作业三</div></div></a></div><div class="next-post pull-right"><a href="/posts/0dd96b178030/" title="数字图像处理 作业五"><img class="cover" src="/posts/0dd96b178030/cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">数字图像处理 作业五</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/d3efec41afb2/" title="数字图像处理 作业二"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-11-12-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-12</div><div class="title">数字图像处理 作业二</div></div></a></div><div><a href="/posts/9f249bc44c42/" title="数字图像处理 作业一"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-11-5-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-05</div><div class="title">数字图像处理 作业一</div></div></a></div><div><a href="/posts/0dd96b178030/" title="数字图像处理 作业五"><img class="cover" src="/posts/0dd96b178030/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-16</div><div class="title">数字图像处理 作业五</div></div></a></div><div><a href="/posts/363598081c25/" title="数字图像处理 人脸识别大作业"><img class="cover" src="/posts/363598081c25/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-23</div><div class="title">数字图像处理 人脸识别大作业</div></div></a></div><div><a href="/posts/e5f414f6f9b3/" title="数字图像处理 作业三"><img class="cover" src="/posts/e5f414f6f9b3/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-04</div><div class="title">数字图像处理 作业三</div></div></a></div><div><a href="/posts/3c0eb5a1ba70/" title="开源库全同态加密算法效率比较"><img class="cover" src="/posts/3c0eb5a1ba70/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-27</div><div class="title">开源库全同态加密算法效率比较</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">R1ck Liu</div><div class="author-info__description">技术分享和生活记录</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">62</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/handsomelky"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/handsomelky" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_27489877" target="_blank" title="CSDN"><i class="fa-solid fa-c" style="color: #e85211;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果本博客加载速度慢，请开启魔法~</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E6%A6%82%E5%BF%B5"><span class="toc-number">2.</span> <span class="toc-text">前置概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E5%A4%8D%E5%8E%9F"><span class="toc-number">2.1.</span> <span class="toc-text">图像复原</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">2.1.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E9%80%80%E5%8C%96%E4%B8%8E%E5%A4%8D%E5%8E%9F%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.1.2.</span> <span class="toc-text">图像退化与复原模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E5%A4%8D%E5%8E%9F%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="toc-number">2.1.3.</span> <span class="toc-text">图像复原基本原理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%99%AA%E5%A3%B0%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.2.</span> <span class="toc-text">噪声模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%99%AA%E5%A3%B0%E6%A8%A1%E5%9E%8B%E5%8F%8A%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1"><span class="toc-number">2.2.1.</span> <span class="toc-text">噪声模型及参数估计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AA%E5%AD%98%E5%9C%A8%E5%99%AA%E5%A3%B0%E7%9A%84%E5%A4%8D%E5%8E%9F"><span class="toc-number">2.2.2.</span> <span class="toc-text">只存在噪声的复原</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BA%E5%AE%9A%E6%BB%A4%E6%B3%A2%E5%99%A8"><span class="toc-number">2.2.2.1.</span> <span class="toc-text">固定滤波器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E9%80%82%E5%BA%94%E6%BB%A4%E6%B3%A2%E5%99%A8"><span class="toc-number">2.2.2.2.</span> <span class="toc-text">自适应滤波器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2%E9%99%8D%E4%BD%8E%E5%91%A8%E6%9C%9F%E5%99%AA%E5%A3%B0"><span class="toc-number">2.2.3.</span> <span class="toc-text">频域滤波降低周期噪声</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%A6%E9%98%BB%E6%BB%A4%E6%B3%A2%E5%99%A8%EF%BC%88Band-stop-Filter%EF%BC%89"><span class="toc-number">2.2.3.1.</span> <span class="toc-text">带阻滤波器（Band-stop Filter）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%99%B7%E6%B3%A2%E6%BB%A4%E6%B3%A2%E5%99%A8%EF%BC%88Notch-Filter%EF%BC%89"><span class="toc-number">2.2.3.2.</span> <span class="toc-text">陷波滤波器（Notch Filter）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E9%80%80%E5%8C%96"><span class="toc-number">2.3.</span> <span class="toc-text">系统退化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%B0%E8%AE%A1%E9%80%80%E5%8C%96%E5%87%BD%E6%95%B0"><span class="toc-number">2.3.1.</span> <span class="toc-text">估计退化函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E8%A7%82%E5%AF%9F%E4%BC%B0%E8%AE%A1%E6%B3%95"><span class="toc-number">2.3.1.1.</span> <span class="toc-text">图像观察估计法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%95%E9%AA%8C%E4%BC%B0%E8%AE%A1%E6%B3%95"><span class="toc-number">2.3.1.2.</span> <span class="toc-text">试验估计法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E4%BC%B0%E8%AE%A1%E6%B3%95"><span class="toc-number">2.3.1.3.</span> <span class="toc-text">模型估计法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%86%E6%BB%A4%E6%B3%A2"><span class="toc-number">2.4.</span> <span class="toc-text">逆滤波</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E5%B0%8F%E5%9D%87%E6%96%B9%E8%AF%AF%E5%B7%AE%E6%BB%A4%E6%B3%A2%EF%BC%88%E7%BB%B4%E7%BA%B3%E6%BB%A4%E6%B3%A2%EF%BC%89"><span class="toc-number">2.4.1.</span> <span class="toc-text">最小均方误差滤波（维纳滤波）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HW-%E5%9B%BE%E5%83%8F%E9%80%80%E5%8C%96%E4%B8%8E%E5%A4%8D%E5%8E%9F"><span class="toc-number">3.</span> <span class="toc-text">HW 图像退化与复原</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E6%A8%A1%E7%B3%8A"><span class="toc-number">3.1.</span> <span class="toc-text">图像模糊</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E5%99%AA%E5%A3%B0"><span class="toc-number">3.2.</span> <span class="toc-text">添加噪声</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%86%E6%BB%A4%E6%B3%A2%E5%A4%8D%E5%8E%9F"><span class="toc-number">3.3.</span> <span class="toc-text">逆滤波复原</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%B4%E7%BA%B3%E6%BB%A4%E6%B3%A2"><span class="toc-number">3.4.</span> <span class="toc-text">维纳滤波</span></a></li></ol></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>数字图像处理project</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/363598081c25/" title="数字图像处理 人脸识别大作业"><img src="/posts/363598081c25/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数字图像处理 人脸识别大作业"></a><div class="content"><a class="title" href="/posts/363598081c25/" title="数字图像处理 人脸识别大作业">数字图像处理 人脸识别大作业</a><time datetime="2023-12-23T06:05:36.000Z" title="发表于 2023-12-23 14:05:36">2023-12-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/0dd96b178030/" title="数字图像处理 作业五"><img src="/posts/0dd96b178030/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数字图像处理 作业五"></a><div class="content"><a class="title" href="/posts/0dd96b178030/" title="数字图像处理 作业五">数字图像处理 作业五</a><time datetime="2023-12-16T06:44:11.000Z" title="发表于 2023-12-16 14:44:11">2023-12-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/e5cbd5436bd8/" title="数字图像处理 作业四"><img src="/posts/e5cbd5436bd8/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数字图像处理 作业四"></a><div class="content"><a class="title" href="/posts/e5cbd5436bd8/" title="数字图像处理 作业四">数字图像处理 作业四</a><time datetime="2023-12-13T03:47:48.000Z" title="发表于 2023-12-13 11:47:48">2023-12-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/e5f414f6f9b3/" title="数字图像处理 作业三"><img src="/posts/e5f414f6f9b3/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数字图像处理 作业三"></a><div class="content"><a class="title" href="/posts/e5f414f6f9b3/" title="数字图像处理 作业三">数字图像处理 作业三</a><time datetime="2023-12-04T05:02:50.000Z" title="发表于 2023-12-04 13:02:50">2023-12-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d3efec41afb2/" title="数字图像处理 作业二"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-11-12-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数字图像处理 作业二"></a><div class="content"><a class="title" href="/posts/d3efec41afb2/" title="数字图像处理 作业二">数字图像处理 作业二</a><time datetime="2023-11-12T02:02:22.000Z" title="发表于 2023-11-12 10:02:22">2023-11-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9f249bc44c42/" title="数字图像处理 作业一"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-11-5-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数字图像处理 作业一"></a><div class="content"><a class="title" href="/posts/9f249bc44c42/" title="数字图像处理 作业一">数字图像处理 作业一</a><time datetime="2023-11-05T15:02:22.000Z" title="发表于 2023-11-05 23:02:22">2023-11-05</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/43e60ea4b856/" title="2024年终总结">2024年终总结</a><time datetime="2024-12-31T15:42:01.000Z" title="发表于 2024-12-31 23:42:01">2024-12-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/401b31cb03e1/" title="Git原理与用法系统总结"><img src="/posts/401b31cb03e1/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Git原理与用法系统总结"/></a><div class="content"><a class="title" href="/posts/401b31cb03e1/" title="Git原理与用法系统总结">Git原理与用法系统总结</a><time datetime="2024-07-27T13:51:15.000Z" title="发表于 2024-07-27 21:51:15">2024-07-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/10a98f25092d/" title="个人隐私保护手册">个人隐私保护手册</a><time datetime="2024-07-22T15:08:07.000Z" title="发表于 2024-07-22 23:08:07">2024-07-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c12b1506032a/" title="WSL kali安装及无缝模式部署"><img src="/posts/c12b1506032a/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WSL kali安装及无缝模式部署"/></a><div class="content"><a class="title" href="/posts/c12b1506032a/" title="WSL kali安装及无缝模式部署">WSL kali安装及无缝模式部署</a><time datetime="2024-07-20T05:01:59.000Z" title="发表于 2024-07-20 13:01:59">2024-07-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/4c025cd5aca8/" title="SQL注入 各种过滤的绕过姿势总结">SQL注入 各种过滤的绕过姿势总结</a><time datetime="2024-04-26T13:58:02.000Z" title="发表于 2024-04-26 21:58:02">2024-04-26</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/posts/e5cbd5436bd8/top_img.png')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By R1ck Liu</div><div class="footer_custom_text"><p><object style="margin-inline:5px" data="https://img.shields.io/badge/Frame-Hexo-blue?logo=Hexo&style=plastic&link=https://hexo.io/&https://hexo.io/zh-cn/docs/"></object><object style="margin-inline:5px" data="https://img.shields.io/badge/Theme-Butterfly-6513df?style=plastic&logo=bitdefender&link=https://butterfly.js.org/"></object></p><p><a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备2023083766号</a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><script>(()=>{
+  const getGiscusTheme = theme => {
+    return theme === 'dark' ? 'dark' : 'light'
+  }
+
+  const loadGiscus = () => {
+    const config = Object.assign({
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'handsomelky/handsomelky.github.io',
+      'data-repo-id': 'R_kgDOJ58FwA',
+      'data-category-id': 'DIC_kwDOJ58FwM4CX0E8',
+      'data-mapping': 'pathname',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true
+    },null)
+
+    const ele = document.createElement('script')
+    for (let key in config) {
+      ele.setAttribute(key, config[key])
+    }
+    document.getElementById('giscus-wrap').appendChild(ele)
+  }
+
+  const changeGiscusTheme = theme => {
+    const sendMessage = message => {
+      const iframe = document.querySelector('iframe.giscus-frame')
+      if (!iframe) return
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+    }
+
+    sendMessage({
+      setConfig: {
+        theme: getGiscusTheme(theme)
+      }
+    });
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment= loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script src="/js/FunnyTitle.js"></script><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://cdn.staticfile.org/hexo-theme-butterfly/4.9.0/js/search/local-search.min.js"></script></div></div><script src="/live2d_models/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2d_models/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2d_models/assets/Rick.model.json"},"display":{"position":"right","width":225,"height":450,"hOffset":30,"vOffset":-50},"mobile":{"show":false},"react":{"opacity":0.85},"log":false});</script></body></html>

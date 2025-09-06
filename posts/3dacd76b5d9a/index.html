@@ -1,0 +1,506 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>CTF BurpSuite安装及爆破模块应用 | R1ck's Portal</title><meta name="author" content="R1ck Liu"><meta name="copyright" content="R1ck Liu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="BurpSuite工具安装、版本选择、CA证书导入、Intruder爆破模块介绍、CTFshow web21-28题复现题解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF BurpSuite安装及爆破模块应用">
+<meta property="og:url" content="https://rickliu.com/posts/3dacd76b5d9a/index.html">
+<meta property="og:site_name" content="R1ck&#39;s Portal">
+<meta property="og:description" content="BurpSuite工具安装、版本选择、CA证书导入、Intruder爆破模块介绍、CTFshow web21-28题复现题解">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://rickliu.com/posts/3dacd76b5d9a/cover.png">
+<meta property="article:published_time" content="2023-08-29T14:33:47.000Z">
+<meta property="article:modified_time" content="2024-07-21T14:26:17.609Z">
+<meta property="article:author" content="R1ck Liu">
+<meta property="article:tag" content="note">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="WriteUp">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="软件工具">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://rickliu.com/posts/3dacd76b5d9a/cover.png"><link rel="shortcut icon" href="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/favicon.png"><link rel="canonical" href="https://rickliu.com/posts/3dacd76b5d9a/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="CCDD774EA967D60E5C877121C6572BF5"/><meta name="baidu-site-verification" content="codeva-13aVmkscyC"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?6c032eabab6689261ec86024f386af87";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: R1ck Liu","link":"链接: ","source":"来源: R1ck's Portal","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CTF BurpSuite安装及爆破模块应用',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-21 22:26:17'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/equipment.css"><script type="text/javascript" src ="/js/reward.js" ></script><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.16/dist/sweetalert2.all.min.js"></script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">62</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/posts/3dacd76b5d9a/top_img.png')"><nav id="nav"><span id="blog-info"><a href="/" title="R1ck's Portal"><span class="site-name">R1ck's Portal</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-book-open"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-user-group"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="fa-fw fa-solid fa-suitcase"></i><span> 装备</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CTF BurpSuite安装及爆破模块应用</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-08-29T14:33:47.000Z" title="发表于 2023-08-29 22:33:47">2023-08-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-21T14:26:17.609Z" title="更新于 2024-07-21 22:26:17">2024-07-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CTF-Web/">CTF Web</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="CTF BurpSuite安装及爆破模块应用"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这段时间在入门Web方向，发现Burp Suite这款工具的使用频率还是比较高的，所以有必要写一篇使用总结，方便自己遗忘之后回来翻阅查看</p>
+<p>那么首先涉及到的问题就是工具的安装</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="版本问题"><a href="#版本问题" class="headerlink" title="版本问题"></a>版本问题</h3><h4 id="版本号？"><a href="#版本号？" class="headerlink" title="版本号？"></a>版本号？</h4><p>事实上到写下本文的2023年8月为止，Burp Suite仍然在以每个月release3个小版本的速度更新中</p>
+<img src="/posts/3dacd76b5d9a/image-20230809110045715.png" class="" title="image-20230809110045715">
+<p>那么该如何在如此众多的版本中进行选择呢？</p>
+<p>一般来说选择软件工具时</p>
+<p>使用稍微旧一些的版本，能在网上找到更多教程</p>
+<p>而使用较新一些的版本，能体验到许多新功能</p>
+<p>不过相对Burp Suite这款软件来说，老版本的教程仍然对新版本适用，因为主要功能的ui并没有变化</p>
+<p>我使用的版本是<strong>v2023.6.2</strong>，原因是Burp Suite在2022年之后的版本中内置了浏览器，这样可以免去配置代理的工作。同时这个版本也不会太新，相对来说较为稳定，Bug会少一些。</p>
+<h4 id="社区版or专业版？"><a href="#社区版or专业版？" class="headerlink" title="社区版or专业版？"></a>社区版or专业版？</h4><img src="/posts/3dacd76b5d9a/image-20230809114420747.png" class="" title="image-20230809114420747">
+<p>官方提供了Community Edition（社区版）和Professional（专业版）两种版本给我们选择</p>
+<p>其实两种版本的软件都拥有我们在做Web题时会用到的模块，而专业版增加的保存功能其实在做CTF题时并没有太大的用处</p>
+<p>所以<strong>两种版本均可选择</strong></p>
+<p>这里我选择的是专业版</p>
+<p>事实上</p>
+<p>在这里我推荐使用英文版，不仅能让你对专业名词更加熟悉，而且在很多情况下，比如线下赛时，官方提供的工具均为英文版，这时用惯了中文版的你就会有点手足无措</p>
+<h3 id="资源链接"><a href="#资源链接" class="headerlink" title="资源链接"></a>资源链接</h3><p>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1tUzFVqUhr-_3t3Rqs6YvqQ?pwd=1111">https://pan.baidu.com/s/1tUzFVqUhr-_3t3Rqs6YvqQ?pwd=1111</a><br>提取码：1111 </p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="CA证书下载及导入"><a href="#CA证书下载及导入" class="headerlink" title="CA证书下载及导入"></a>CA证书下载及导入</h3><p>使用Burp Suite做安全测试时，要抓取HTTPS的包的话，是需要有Burp Suite的CA证书的，否则浏览器不支持。</p>
+<p>如果不做配置，则会出现如下图的问题</p>
+<img src="/posts/3dacd76b5d9a/image-20230810130337259.png" class="" title="image-20230810130337259">
+<p>这里以我使用的<strong>BurpSuitePro_v2023.6.2</strong>版本为例，为BurpSuite的<strong>内置浏览器</strong>配置CA证书</p>
+<p>配置步骤如下：</p>
+<ol>
+<li><p>将Burp Suite的CA证书下载到本地一共有两种方法</p>
+<div class="tabs" id="下载ca证书"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="下载ca证书-1">直接在Burp Suite上导出证书</button></ul><div class="tab-contents"><div class="tab-item-content active" id="下载ca证书-1"><p>点击进入软件的<strong>Proxy</strong>模块，点击<strong>Proxy settings</strong></p>
+<p><img src="/posts/3dacd76b5d9a/image-20230810141255232.png" class="" title="image-20230810141255232"></p>
+<p>点击<strong>Import/export CA certificate</strong>按钮</p>
+<p><img src="/posts/3dacd76b5d9a/image-20230810141343396.png" class="" title="image-20230810141343396"></p>
+<p>勾选 <strong>Certificate in DER format</strong>，点击<strong>Next</strong></p>
+<p><img src="/posts/3dacd76b5d9a/image-20230810141503047.png" class="" title="image-20230810141503047"></p>
+<p>输入<strong>cacert.der</strong>，点击<strong>Next</strong></p>
+<p><img src="/posts/3dacd76b5d9a/image-20230810141633258.png" class="" title="image-20230810141633258"></p>
+<p>此时在Burp Suite 的同级目录下会多出一个刚刚生成的cacert.der 文件</p></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div>
+</li>
+<li><div class="note primary flat"><p>Burp suite内置的浏览器内核为<strong>Chromium</strong>，为chrome浏览器导入CA证书的步骤与本教程类似</p>
+</div>
+<p>进入内置浏览器的<strong>设置 - 隐私与安全</strong>界面，点击隐私与安全栏下的<strong>安全</strong>按钮</p>
+<img src="/posts/3dacd76b5d9a/image-20230810142503672.png" class="" title="image-20230810142503672">
+<p>点击高级栏下的<strong>管理设备证书</strong>按钮</p>
+<img src="/posts/3dacd76b5d9a/image-20230810142622806.png" class="" title="image-20230810142622806">
+<p>在<strong>受信任的根证书颁发机构</strong>栏下导入并安装上一步下载的CA证书</p>
+<img src="/posts/3dacd76b5d9a/image-20230810143540868.png" class="" title="image-20230810143540868">
+</li>
+</ol>
+<p>此时再次抓包<code>https://www.baidu.com</code>，就可以正常进行了</p>
+<img src="/posts/3dacd76b5d9a/image-20230810143006689.png" class="" title="image-20230810143006689">
+<h2 id="Intruder爆破模块介绍"><a href="#Intruder爆破模块介绍" class="headerlink" title="Intruder爆破模块介绍"></a>Intruder爆破模块介绍</h2><p>BurpSuite的Intruder是一个高度可配置的<strong>自动化攻击模块。</strong>可以用来爆破用户名或密码，还可以用来当作简单的爬虫使用</p>
+<p>在CTF题中一般在爆破时会用到</p>
+<h3 id="界面介绍"><a href="#界面介绍" class="headerlink" title="界面介绍"></a>界面介绍</h3><h4 id="Postions"><a href="#Postions" class="headerlink" title="Postions"></a>Postions</h4><p>Positions界面主要用于配置<strong>爆破模式</strong>、<strong>Payload的位置</strong></p>
+<div class="note info flat"><p><strong>payload</strong>翻译成中文叫“载荷”。一般指的是在网络通信中传输的有效载荷（Data payload），也可以理解为在某种类型的消息或数据包中携带的实际数据。在计算机网络中，例如在HTTP请求或响应中，payload就是实际的数据部分，而不包括协议头或其他元数据。在加密中，payload也可以指加密算法中的明文部分，即需要被保护的数据。</p>
+<p>一般来说，CTF中的payload也指漏洞利用时，真正在目标系统执行的代码或指令。</p>
+</div>
+<p>其实这里的payload更多可以理解为数据中的<strong>变量</strong>，即字典爆破的参数</p>
+<img src="/posts/3dacd76b5d9a/image-20230906223231207.png" class="" title="image-20230906223231207">
+<h4 id="Payloads"><a href="#Payloads" class="headerlink" title="Payloads"></a>Payloads</h4><p>Payloads界面是有关变量payload的具体配置</p>
+<img src="/posts/3dacd76b5d9a/image-20230907102125909.png" class="" title="image-20230907102125909">
+<p>有关<strong>payload type</strong>的详细介绍可以参考这篇文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/zbj18314469395/article/details/115429675">[Burp Suite完整教程] Intruder Attack type&amp;Payloads – 拥有上千种姿态的攻击模式_软测小生的博客-CSDN博客</a></p>
+<p>但是平时最常用的类型还是<strong>Simple list</strong>，即使用字典进行爆破</p>
+<img src="/posts/3dacd76b5d9a/image-20230907105812665.png" class="" title="image-20230907105812665">
+<p><strong>Payload processing</strong>的一些常用可选规则如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>规则</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Add prefix</td>
+<td>添加一个文字前缀</td>
+</tr>
+<tr>
+<td>Add suffix</td>
+<td>添加一个文字后缀</td>
+</tr>
+<tr>
+<td>Match/replace</td>
+<td>将替换匹配特定正则表达式的有效载荷的任何部位，替换成一个文字字符串</td>
+</tr>
+<tr>
+<td>Substring</td>
+<td>提取有效载荷的子字符串，可以指定开始索引及长度</td>
+</tr>
+<tr>
+<td>Reverse substring</td>
+<td>从后向前获取子字符串</td>
+</tr>
+<tr>
+<td>Modify case</td>
+<td>将payload全转为大写或小写，或者首字母大写及驼峰命名</td>
+</tr>
+<tr>
+<td>Encode</td>
+<td>URL,HTML,Base64和ASCII码等编码规则</td>
+</tr>
+<tr>
+<td>Decode</td>
+<td>URL,HTML,Base64和ASCII码等解码规则</td>
+</tr>
+<tr>
+<td>Hash</td>
+<td>将payload转为其hash值</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="Resource-pool"><a href="#Resource-pool" class="headerlink" title="Resource pool"></a>Resource pool</h4><p>Resource pool用于<strong>配置爆破时的请求数和延迟</strong>，合理配置可以缓解带宽压力，同时也能防止被目标站点封禁</p>
+<img src="/posts/3dacd76b5d9a/image-20230907112659661.png" class="" title="image-20230907112659661">
+<h4 id="Settings"><a href="#Settings" class="headerlink" title="Settings"></a>Settings</h4><p>这个页面主要是爆破及结果的一些设置</p>
+<p>比较有用的是<strong>Grep - Match</strong>项，可以提前设置一些关键词，结果中与之匹配的报文会被标记出来</p>
+<p>例如做ctf题之前可以在规则中添加<code>flag</code>关键词</p>
+<img src="/posts/3dacd76b5d9a/image-20230907113859579.png" class="" title="image-20230907113859579">
+<h3 id="爆破模式"><a href="#爆破模式" class="headerlink" title="爆破模式"></a>爆破模式</h3><h4 id="Sniper（狙击手）"><a href="#Sniper（狙击手）" class="headerlink" title="Sniper（狙击手）"></a>Sniper（狙击手）</h4><p>正如名字狙击手一样，Sniper模式<strong>一次只会爆破一个position的</strong>变量，而<strong>其他变量则会显示为变量名</strong>。</p>
+<p>sniper的特点是只需要指定一个Payload Set，但会针对每个变量逐项的替换。</p>
+<p>假设我们设置两个变量<script type="math/tex">username$:$password</script>，payload set设置为 11,22,33</p>
+<p>那么会按以下顺序爆破：</p>
+<div class="note flat"><p>11:password</p>
+<p>22:password</p>
+<p>33:password</p>
+<p>username:11</p>
+<p>username:22</p>
+<p>username:33</p>
+</div>
+<h4 id="Battering-ram（攻城锤）"><a href="#Battering-ram（攻城锤）" class="headerlink" title="Battering ram（攻城锤）"></a>Battering ram（攻城锤）</h4><p>攻城锤模式下所有位置的变量一起变化，且所有变量遍历同一个字典</p>
+<p>假设我们设置两个变量<script type="math/tex">username$:$password</script>，payload set设置为 11,22,33</p>
+<p>那么会按以下顺序爆破：</p>
+<div class="note flat"><p>11:11</p>
+<p>22:22</p>
+<p>33:33</p>
+</div>
+<h4 id="Pitchforck（草叉模式）"><a href="#Pitchforck（草叉模式）" class="headerlink" title="Pitchforck（草叉模式）"></a>Pitchforck（草叉模式）</h4><p>Pitchfork的特点是多个字典同时进行</p>
+<p>每个变量要有自己的字典文件，也就是说每个变量有一个属于自己的Payload set，但是要注意的是每个Payload set里面的payload个数要一样。</p>
+<p>假设我们设置两个变量<script type="math/tex">username$:$password</script>，payload set1设置为 11,22,33，payload set2设置为 aa,bb,cc</p>
+<p>那么会按以下顺序爆破：</p>
+<div class="note flat"><p>11:aa</p>
+<p>22:bb</p>
+<p>33:cc</p>
+</div>
+<h4 id="Cluster-bomb（集束炸弹）"><a href="#Cluster-bomb（集束炸弹）" class="headerlink" title="Cluster bomb（集束炸弹）"></a>Cluster bomb（集束炸弹）</h4><p>集束炸弹模式是<strong>最常用</strong>的，因为请求报文中需要爆破的变量一般很少会是相同的</p>
+<p>该模式下每个变量对应一个字典，并且进行交集破解，尝试各种组合。</p>
+<p>爆破的顺序则是循环遍历每个payload set2</p>
+<p>假设我们设置两个变量<script type="math/tex">username$:$password</script>，payload set1设置为 11,22,33，payload set2设置为 aa,bb,cc</p>
+<p>那么会按以下顺序爆破：</p>
+<div class="note flat"><p>11:aa</p>
+<p>11:bb</p>
+<p>11:cc</p>
+<p>22:aa</p>
+<p>22:bb</p>
+<p>22:cc</p>
+<p>33:aa</p>
+<p>33:bb</p>
+<p>33:cc</p>
+</div>
+<h2 id="ctfshow-web21-28"><a href="#ctfshow-web21-28" class="headerlink" title="ctfshow web21-28"></a>ctfshow web21-28</h2><h3 id="web21（用户名密码爆破）"><a href="#web21（用户名密码爆破）" class="headerlink" title="web21（用户名密码爆破）"></a>web21（用户名密码爆破）</h3><p>打开目标站点后发现需要登录</p>
+<img src="/posts/3dacd76b5d9a/image-20230906214905325.png" class="" title="image-20230906214905325">
+<p>将题目给的字典附件下载到本地</p>
+<img src="/posts/3dacd76b5d9a/image-20230906221437210.png" class="" title="image-20230906221437210">
+<p>既然给了字典，那么自然而然就能想到要用爆破的方法</p>
+<p>这里使用<strong>burp suite</strong>自带的<strong>Intruder模块</strong></p>
+<p>随便输入一个用户名和密码，发现<code>用户名:密码</code>在请求报文中被base64编码</p>
+<img src="/posts/3dacd76b5d9a/image-20230906221900074.png" class="" title="image-20230906221900074">
+<p>将请求报文转入Intruder</p>
+<p>用户名和冒号为<code>admin:</code>不变，设置成第一个变量，而密码需要用提供的字典爆破，设置成第二个变量</p>
+<p>所以此时选用<strong>Cluster bomb</strong>模式</p>
+<img src="/posts/3dacd76b5d9a/image-20230907103106657.png" class="" title="image-20230907103106657">
+<p>接下来设置两个payload变量</p>
+<p>payload1:</p>
+<img src="/posts/3dacd76b5d9a/image-20230907103607814.png" class="" title="image-20230907103607814">
+<p>payload2:</p>
+<img src="/posts/3dacd76b5d9a/image-20230907103906531.png" class="" title="image-20230907103906531">
+<p>开始爆破，得到正确的密码，并将报文转入Repeater</p>
+<img src="/posts/3dacd76b5d9a/image-20230907104143492.png" class="" title="image-20230907104143492">
+<p>得到最终flag</p>
+<img src="/posts/3dacd76b5d9a/image-20230907104226195.png" class="" title="image-20230907104226195">
+<h3 id="web22（子域名爆破）"><a href="#web22（子域名爆破）" class="headerlink" title="web22（子域名爆破）"></a>web22（子域名爆破）</h3><p>题目提示爆破子域名，使用工具layer进行爆破即可</p>
+<h3 id="web23（源码分析）"><a href="#web23（源码分析）" class="headerlink" title="web23（源码分析）"></a>web23（源码分析）</h3><p>题目给出的源码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-03 11:43:51</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-03 11:56:11</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;flag.php&#x27;</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;token&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$token</span> = <span class="title function_ invoke__">md5</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;token&#x27;</span>]);</span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">1</span>,<span class="number">1</span>)===<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">14</span>,<span class="number">1</span>) &amp;&amp; <span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">14</span>,<span class="number">1</span>) ===<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">17</span>,<span class="number">1</span>))&#123;</span><br><span class="line">        <span class="keyword">if</span>((<span class="title function_ invoke__">intval</span>(<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">1</span>,<span class="number">1</span>))+<span class="title function_ invoke__">intval</span>(<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">14</span>,<span class="number">1</span>))+<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">17</span>,<span class="number">1</span>))/<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">1</span>,<span class="number">1</span>)===<span class="title function_ invoke__">intval</span>(<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">31</span>,<span class="number">1</span>)))&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="variable">$flag</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>分析代码得：</p>
+<p>flag的md5值的<strong>（第2位+第15位+第18位）/第2位=第32位</strong></p>
+<p>使用以下脚本进行爆破：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="variable">$string</span> = <span class="string">&#x27;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&#x27;</span>;</span><br><span class="line"><span class="keyword">print</span> (<span class="title function_ invoke__">strlen</span>(<span class="variable">$string</span>).<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="variable">$a</span> = <span class="number">0</span>; <span class="variable">$a</span> &lt; <span class="number">62</span>; <span class="variable">$a</span>++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="variable">$b</span> = <span class="number">0</span>; <span class="variable">$b</span> &lt; <span class="number">62</span>; <span class="variable">$b</span>++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="variable">$c</span> = <span class="number">0</span>; <span class="variable">$c</span> &lt; <span class="number">62</span>; <span class="variable">$c</span>++) &#123;</span><br><span class="line">            <span class="variable">$flag</span> = <span class="variable">$string</span>[<span class="variable">$a</span>] . <span class="variable">$string</span>[<span class="variable">$b</span>] . <span class="variable">$string</span>[<span class="variable">$c</span>];</span><br><span class="line">            <span class="variable">$token</span> = <span class="title function_ invoke__">md5</span>(<span class="variable">$flag</span>);</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">1</span>, <span class="number">1</span>) === <span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">14</span>, <span class="number">1</span>) &amp;&amp; <span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">14</span>, <span class="number">1</span>) === <span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">17</span>, <span class="number">1</span>)) &#123;</span><br><span class="line">                <span class="keyword">if</span> ((<span class="title function_ invoke__">intval</span>(<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">1</span>, <span class="number">1</span>)) + <span class="title function_ invoke__">intval</span>(<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">14</span>, <span class="number">1</span>)) + <span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">17</span>, <span class="number">1</span>)) / <span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">1</span>, <span class="number">1</span>) === <span class="title function_ invoke__">intval</span>(<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">31</span>, <span class="number">1</span>))) &#123;</span><br><span class="line">                    <span class="keyword">echo</span> <span class="variable">$flag</span> . <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>随便选一个爆破后的结果作为tocen即可</p>
+<img src="/posts/3dacd76b5d9a/image-20230907191246896.png" class="" title="image-20230907191246896">
+<img src="/posts/3dacd76b5d9a/image-20230907191659736.png" class="" title="image-20230907191659736">
+<h3 id="web24（伪随机数）"><a href="#web24（伪随机数）" class="headerlink" title="web24（伪随机数）"></a>web24（伪随机数）</h3><p>题目给出的源码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-03 13:26:39</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-03 13:53:31</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;flag.php&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;r&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$r</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;r&#x27;</span>];</span><br><span class="line">    <span class="title function_ invoke__">mt_srand</span>(<span class="number">372619038</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">intval</span>(<span class="variable">$r</span>)===<span class="title function_ invoke__">intval</span>(<span class="title function_ invoke__">mt_rand</span>()))&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="variable">$flag</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="keyword">echo</span> <span class="title function_ invoke__">system</span>(<span class="string">&#x27;cat /proc/version&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span> Linux version <span class="number">5.4</span>.<span class="number">0</span>-<span class="number">148</span>-<span class="title function_ invoke__">generic</span> (buildd@lcy02-amd64-<span class="number">112</span>) (gcc version <span class="number">9.4</span>.<span class="number">0</span> (Ubuntu <span class="number">9.4</span>.<span class="number">0</span>-<span class="number">1</span>ubuntu1~<span class="number">20.04</span>.<span class="number">1</span>)) <span class="comment">#165-Ubuntu SMP Tue Apr 18 08:53:12 UTC 2023 Linux version 5.4.0-148-generic (buildd@lcy02-amd64-112) (gcc version 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.1)) #165-Ubuntu SMP Tue Apr 18 08:53:12 UTC 2023</span></span><br></pre></td></tr></table></figure>
+<p>这里考到一个知识点，即<strong>mt_srand()函数</strong></p>
+<p>mt_scrand(seed)用于分发seed种子。指定seed后，使用mt_rand()生成的随机数为固定值，或者称为<strong>伪随机数</strong></p>
+<div class="note warning flat"><p>自 PHP 4.2.0 起，不再需要用 srand()或 mt_srand() 给随机数发生器播种 ，因为现在是由系统自动完成的。</p>
+<p>如指定seed，则生成的是伪随机数</p>
+</div>
+<p>编写php脚本得到r的值</p>
+<img src="/posts/3dacd76b5d9a/image-20230908004820002.png" class="" title="image-20230908004820002">
+<img src="/posts/3dacd76b5d9a/image-20230908004947414.png" class="" title="image-20230908004947414">
+<h3 id="web25（伪随机数爆破）"><a href="#web25（伪随机数爆破）" class="headerlink" title="web25（伪随机数爆破）"></a>web25（伪随机数爆破）</h3><p>题目给出的源码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-03 13:56:57</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-03 15:47:33</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;flag.php&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;r&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$r</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;r&#x27;</span>];</span><br><span class="line">    <span class="title function_ invoke__">mt_srand</span>(<span class="title function_ invoke__">hexdec</span>(<span class="title function_ invoke__">substr</span>(<span class="title function_ invoke__">md5</span>(<span class="variable">$flag</span>), <span class="number">0</span>,<span class="number">8</span>)));</span><br><span class="line">    <span class="variable">$rand</span> = <span class="title function_ invoke__">intval</span>(<span class="variable">$r</span>)-<span class="title function_ invoke__">intval</span>(<span class="title function_ invoke__">mt_rand</span>());</span><br><span class="line">    <span class="keyword">if</span>((!<span class="variable">$rand</span>))&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$_COOKIE</span>[<span class="string">&#x27;token&#x27;</span>]==(<span class="title function_ invoke__">mt_rand</span>()+<span class="title function_ invoke__">mt_rand</span>()))&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="variable">$flag</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="variable">$rand</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="keyword">echo</span> <span class="title function_ invoke__">system</span>(<span class="string">&#x27;cat /proc/version&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line">Linux version <span class="number">5.4</span>.<span class="number">0</span>-<span class="number">148</span>-<span class="title function_ invoke__">generic</span> (buildd@lcy02-amd64-<span class="number">112</span>) (gcc version <span class="number">9.4</span>.<span class="number">0</span> (Ubuntu <span class="number">9.4</span>.<span class="number">0</span>-<span class="number">1</span>ubuntu1~<span class="number">20.04</span>.<span class="number">1</span>)) <span class="comment">#165-Ubuntu SMP Tue Apr 18 08:53:12 UTC 2023 Linux version 5.4.0-148-generic (buildd@lcy02-amd64-112) (gcc version 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.1)) #165-Ubuntu SMP Tue Apr 18 08:53:12 UTC 2023</span></span><br></pre></td></tr></table></figure>
+<p>get请求的<code>$r</code>以及输出的<code>$rand</code>能让我们确定该种子生成的第一个随机数的值，后面两个随机数则能通过<strong>php_mt_seed</strong>爆破种子来确定</p>
+<div class="note info flat"><p>在python中，存在<strong>MT19937攻击</strong>，同样，php中也能利用梅森旋转算法的特性，从生成的随机数反推随机数种子</p>
+<p>这里用到工具<strong>php_mt_seed</strong>，事实上这个工具并不需要投喂624个32位的数据，因为php中生成的随机数位数较小</p>
+<p>它的原理其实是<strong>穷举所有的种子</strong>并根据枚举出的种子生成随机数序列再跟已知的随机数序列做比对来验证种子是否正确</p>
+<p>工具下载链接：<a target="_blank" rel="noopener" href="https://www.openwall.com/php_mt_seed/">php_mt_seed - PHP mt_rand（） 种子饼干 (openwall.com)</a></p>
+<p>安装指令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在php_mt_seed-4.0/ 目录下</span></span><br><span class="line">make</span><br><span class="line">gcc -Wall -march=native -mtune=generic -O2 -fomit-frame-pointer -funroll-loops -fopenmp php_mt_seed.c -o php_mt_seed</span><br></pre></td></tr></table></figure>
+<p><div class="note warning flat"><p>该工具需安装在linux环境下运行</p>
+</div></p>
+<p>用法：<code>./php_mt_seed.c 随机数</code></p></div>
+<p>先通过get请求测试r=100</p>
+<img src="/posts/3dacd76b5d9a/image-20230908135729787.png" class="" title="image-20230908135729787">
+<p>得到随机数1为$100+1931798008=1931798108$</p>
+<p>使用burp抓包发现php版本为7.1以上</p>
+<img src="/posts/3dacd76b5d9a/image-20230908142742187.png" class="" title="image-20230908142742187">
+<p>丢入php_mt_seed工具中爆破，得到seed可能为110936901、327092611和2027529594</p>
+<img src="/posts/3dacd76b5d9a/image-20230908145409908.png" class="" title="image-20230908145409908">
+<p>测试第一个种子，在本地生成三个随机数</p>
+<img src="/posts/3dacd76b5d9a/image-20230908144943558.png" class="" title="image-20230908144943558">
+<p>得到cookie值$1571155150+1115554962=2686710112$，使用burp传入r和token，得到flag</p>
+<img src="/posts/3dacd76b5d9a/image-20230908145030684.png" class="" title="image-20230908145030684">
+<h3 id="web26（弱口令密码爆破）"><a href="#web26（弱口令密码爆破）" class="headerlink" title="web26（弱口令密码爆破）"></a>web26（弱口令密码爆破）</h3><p>观察界面，这一题依然是爆破用户名和密码</p>
+<img src="/posts/3dacd76b5d9a/image-20230908145925565.png" class="" title="image-20230908145925565">
+<p>既然用户名里已经提示管理员账号为root，那我们只需要爆破密码即可</p>
+<p>使用Intruder的狙击手模式</p>
+<img src="/posts/3dacd76b5d9a/image-20230908150559112.png" class="" title="image-20230908150559112">
+<p>在网上随便找一份弱密码字典开始爆破</p>
+<img src="/posts/3dacd76b5d9a/image-20230908152352326.png" class="" title="image-20230908152352326">
+<p>非常幸运地爆破出密码</p>
+<img src="/posts/3dacd76b5d9a/image-20230908153446275.png" class="" title="image-20230908153446275">
+<div class="note primary flat"><p>这题也提醒我们平常要备一些弱口令密码字典</p>
+</div>
+<h3 id="web27（生日爆破）"><a href="#web27（生日爆破）" class="headerlink" title="web27（生日爆破）"></a>web27（生日爆破）</h3><p>进入题目站点的主页面</p>
+<img src="/posts/3dacd76b5d9a/image-20230908154400443.png" class="" title="image-20230908154400443">
+<p>点击学生学籍信息查询系统会跳转到如下界面，猜测是用来查询账号密码的</p>
+<img src="/posts/3dacd76b5d9a/image-20230908154641017.png" class="" title="image-20230908154641017">
+<p>点击录取名单会下载如下表格</p>
+<img src="/posts/3dacd76b5d9a/image-20230908154442044.png" class="" title="image-20230908154442044">
+<p>可以看到身份证号码的生日一栏刚好被遮住，所以需要我们爆破生日</p>
+<p>随便选择一个学生，在学生学籍信息查询系统中进行爆破</p>
+<img src="/posts/3dacd76b5d9a/image-20230908160305835.png" class="" title="image-20230908160305835">
+<p>使用Dates形式的Payload，从1990年爆破到2005年的日期，并且使用身份证中生日的格式</p>
+<img src="/posts/3dacd76b5d9a/image-20230908163432277.png" class="" title="image-20230908163432277">
+<p>找到响应报文最长的一条，得到登录信息</p>
+<img src="/posts/3dacd76b5d9a/image-20230908164525925.png" class="" title="image-20230908164525925">
+<p>将信息unicode解码</p>
+<img src="/posts/3dacd76b5d9a/image-20230908165007265.png" class="" title="image-20230908165007265">
+<p>登录系统后得到flag</p>
+<img src="/posts/3dacd76b5d9a/image-20230908165353748.png" class="" title="image-20230908165353748">
+<h3 id="web28（目录爆破）"><a href="#web28（目录爆破）" class="headerlink" title="web28（目录爆破）"></a>web28（目录爆破）</h3><p>观察目标站点的目录，非常具有特点，均为数字</p>
+<img src="/posts/3dacd76b5d9a/image-20230908170057440.png" class="" title="image-20230908170057440">
+<p>由于是简单的数字组成的目录，尝试用burp爆破目录</p>
+<p>使用集束炸弹模式，且目录层数与默认页面一致</p>
+<img src="/posts/3dacd76b5d9a/image-20230908170856045.png" class="" title="image-20230908170856045">
+<p>两层目录的payload均使用数字模式，从1遍历到100</p>
+<img src="/posts/3dacd76b5d9a/image-20230908171016935.png" class="" title="image-20230908171016935">
+<p>爆破得到flag</p>
+<img src="/posts/3dacd76b5d9a/image-20230908171357971.png" class="" title="image-20230908171357971">
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://rickliu.com">R1ck Liu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://rickliu.com/posts/3dacd76b5d9a/">https://rickliu.com/posts/3dacd76b5d9a/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://rickliu.com" target="_blank">R1ck's Portal</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/note/">note</a><a class="post-meta__tags" href="/tags/CTF/">CTF</a><a class="post-meta__tags" href="/tags/WriteUp/">WriteUp</a><a class="post-meta__tags" href="/tags/Web/">Web</a><a class="post-meta__tags" href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/">软件工具</a></div><div class="post_share"><div class="social-share" data-image="/posts/3dacd76b5d9a/cover.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/24259a52c7ee/" title="CTF Web信息搜集"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-8-21-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">CTF Web信息搜集</div></div></a></div><div class="next-post pull-right"><a href="/posts/25f6527726f2/" title="近期密码学wp整理"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-8-30-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">近期密码学wp整理</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/8f6810bb2033/" title="文件包含漏洞"><img class="cover" src="/posts/8f6810bb2033/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-17</div><div class="title">文件包含漏洞</div></div></a></div><div><a href="/posts/ef9c5fde59cd/" title="命令注入漏洞 远程命令&#x2F;代码执行"><img class="cover" src="/posts/ef9c5fde59cd/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-07</div><div class="title">命令注入漏洞 远程命令&#x2F;代码执行</div></div></a></div><div><a href="/posts/31658dca3489/" title="ctfshow 命令执行模块"><img class="cover" src="/posts/31658dca3489/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-09</div><div class="title">ctfshow 命令执行模块</div></div></a></div><div><a href="/posts/e97ca1a52d81/" title="文件上传漏洞"><img class="cover" src="/posts/e97ca1a52d81/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-10</div><div class="title">文件上传漏洞</div></div></a></div><div><a href="/posts/ad095ca75f58/" title="ctfshow 文件上传模块"><img class="cover" src="/posts/ad095ca75f58/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-11</div><div class="title">ctfshow 文件上传模块</div></div></a></div><div><a href="/posts/24259a52c7ee/" title="CTF Web信息搜集"><img class="cover" src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/2023-8-21-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-21</div><div class="title">CTF Web信息搜集</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://r1ck-blog.oss-cn-shenzhen.aliyuncs.com/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">R1ck Liu</div><div class="author-info__description">技术分享和生活记录</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">62</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/handsomelky"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/handsomelky" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_27489877" target="_blank" title="CSDN"><i class="fa-solid fa-c" style="color: #e85211;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果本博客加载速度慢，请开启魔法~</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E9%97%AE%E9%A2%98"><span class="toc-number">2.1.</span> <span class="toc-text">版本问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E5%8F%B7%EF%BC%9F"><span class="toc-number">2.1.1.</span> <span class="toc-text">版本号？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BE%E5%8C%BA%E7%89%88or%E4%B8%93%E4%B8%9A%E7%89%88%EF%BC%9F"><span class="toc-number">2.1.2.</span> <span class="toc-text">社区版or专业版？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E9%93%BE%E6%8E%A5"><span class="toc-number">2.2.</span> <span class="toc-text">资源链接</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CA%E8%AF%81%E4%B9%A6%E4%B8%8B%E8%BD%BD%E5%8F%8A%E5%AF%BC%E5%85%A5"><span class="toc-number">3.1.</span> <span class="toc-text">CA证书下载及导入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Intruder%E7%88%86%E7%A0%B4%E6%A8%A1%E5%9D%97%E4%BB%8B%E7%BB%8D"><span class="toc-number">4.</span> <span class="toc-text">Intruder爆破模块介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%95%8C%E9%9D%A2%E4%BB%8B%E7%BB%8D"><span class="toc-number">4.1.</span> <span class="toc-text">界面介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Postions"><span class="toc-number">4.1.1.</span> <span class="toc-text">Postions</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Payloads"><span class="toc-number">4.1.2.</span> <span class="toc-text">Payloads</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Resource-pool"><span class="toc-number">4.1.3.</span> <span class="toc-text">Resource pool</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Settings"><span class="toc-number">4.1.4.</span> <span class="toc-text">Settings</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%88%86%E7%A0%B4%E6%A8%A1%E5%BC%8F"><span class="toc-number">4.2.</span> <span class="toc-text">爆破模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Sniper%EF%BC%88%E7%8B%99%E5%87%BB%E6%89%8B%EF%BC%89"><span class="toc-number">4.2.1.</span> <span class="toc-text">Sniper（狙击手）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Battering-ram%EF%BC%88%E6%94%BB%E5%9F%8E%E9%94%A4%EF%BC%89"><span class="toc-number">4.2.2.</span> <span class="toc-text">Battering ram（攻城锤）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Pitchforck%EF%BC%88%E8%8D%89%E5%8F%89%E6%A8%A1%E5%BC%8F%EF%BC%89"><span class="toc-number">4.2.3.</span> <span class="toc-text">Pitchforck（草叉模式）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cluster-bomb%EF%BC%88%E9%9B%86%E6%9D%9F%E7%82%B8%E5%BC%B9%EF%BC%89"><span class="toc-number">4.2.4.</span> <span class="toc-text">Cluster bomb（集束炸弹）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ctfshow-web21-28"><span class="toc-number">5.</span> <span class="toc-text">ctfshow web21-28</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#web21%EF%BC%88%E7%94%A8%E6%88%B7%E5%90%8D%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4%EF%BC%89"><span class="toc-number">5.1.</span> <span class="toc-text">web21（用户名密码爆破）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web22%EF%BC%88%E5%AD%90%E5%9F%9F%E5%90%8D%E7%88%86%E7%A0%B4%EF%BC%89"><span class="toc-number">5.2.</span> <span class="toc-text">web22（子域名爆破）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web23%EF%BC%88%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%89"><span class="toc-number">5.3.</span> <span class="toc-text">web23（源码分析）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web24%EF%BC%88%E4%BC%AA%E9%9A%8F%E6%9C%BA%E6%95%B0%EF%BC%89"><span class="toc-number">5.4.</span> <span class="toc-text">web24（伪随机数）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web25%EF%BC%88%E4%BC%AA%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%88%86%E7%A0%B4%EF%BC%89"><span class="toc-number">5.5.</span> <span class="toc-text">web25（伪随机数爆破）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web26%EF%BC%88%E5%BC%B1%E5%8F%A3%E4%BB%A4%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4%EF%BC%89"><span class="toc-number">5.6.</span> <span class="toc-text">web26（弱口令密码爆破）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web27%EF%BC%88%E7%94%9F%E6%97%A5%E7%88%86%E7%A0%B4%EF%BC%89"><span class="toc-number">5.7.</span> <span class="toc-text">web27（生日爆破）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web28%EF%BC%88%E7%9B%AE%E5%BD%95%E7%88%86%E7%A0%B4%EF%BC%89"><span class="toc-number">5.8.</span> <span class="toc-text">web28（目录爆破）</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/43e60ea4b856/" title="2024年终总结">2024年终总结</a><time datetime="2024-12-31T15:42:01.000Z" title="发表于 2024-12-31 23:42:01">2024-12-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/401b31cb03e1/" title="Git原理与用法系统总结"><img src="/posts/401b31cb03e1/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Git原理与用法系统总结"/></a><div class="content"><a class="title" href="/posts/401b31cb03e1/" title="Git原理与用法系统总结">Git原理与用法系统总结</a><time datetime="2024-07-27T13:51:15.000Z" title="发表于 2024-07-27 21:51:15">2024-07-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/10a98f25092d/" title="个人隐私保护手册">个人隐私保护手册</a><time datetime="2024-07-22T15:08:07.000Z" title="发表于 2024-07-22 23:08:07">2024-07-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c12b1506032a/" title="WSL kali安装及无缝模式部署"><img src="/posts/c12b1506032a/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WSL kali安装及无缝模式部署"/></a><div class="content"><a class="title" href="/posts/c12b1506032a/" title="WSL kali安装及无缝模式部署">WSL kali安装及无缝模式部署</a><time datetime="2024-07-20T05:01:59.000Z" title="发表于 2024-07-20 13:01:59">2024-07-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/4c025cd5aca8/" title="SQL注入 各种过滤的绕过姿势总结">SQL注入 各种过滤的绕过姿势总结</a><time datetime="2024-04-26T13:58:02.000Z" title="发表于 2024-04-26 21:58:02">2024-04-26</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/posts/3dacd76b5d9a/top_img.png')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By R1ck Liu</div><div class="footer_custom_text"><p><object style="margin-inline:5px" data="https://img.shields.io/badge/Frame-Hexo-blue?logo=Hexo&style=plastic&link=https://hexo.io/&https://hexo.io/zh-cn/docs/"></object><object style="margin-inline:5px" data="https://img.shields.io/badge/Theme-Butterfly-6513df?style=plastic&logo=bitdefender&link=https://butterfly.js.org/"></object></p><p><a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备2023083766号</a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><script>(()=>{
+  const getGiscusTheme = theme => {
+    return theme === 'dark' ? 'dark' : 'light'
+  }
+
+  const loadGiscus = () => {
+    const config = Object.assign({
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'handsomelky/handsomelky.github.io',
+      'data-repo-id': 'R_kgDOJ58FwA',
+      'data-category-id': 'DIC_kwDOJ58FwM4CX0E8',
+      'data-mapping': 'pathname',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true
+    },null)
+
+    const ele = document.createElement('script')
+    for (let key in config) {
+      ele.setAttribute(key, config[key])
+    }
+    document.getElementById('giscus-wrap').appendChild(ele)
+  }
+
+  const changeGiscusTheme = theme => {
+    const sendMessage = message => {
+      const iframe = document.querySelector('iframe.giscus-frame')
+      if (!iframe) return
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+    }
+
+    sendMessage({
+      setConfig: {
+        theme: getGiscusTheme(theme)
+      }
+    });
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment= loadGiscus
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script src="/js/FunnyTitle.js"></script><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://cdn.staticfile.org/hexo-theme-butterfly/4.9.0/js/search/local-search.min.js"></script></div></div><script src="/live2d_models/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2d_models/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2d_models/assets/Rick.model.json"},"display":{"position":"right","width":225,"height":450,"hOffset":30,"vOffset":-50},"mobile":{"show":false},"react":{"opacity":0.85},"log":false});</script></body></html>
