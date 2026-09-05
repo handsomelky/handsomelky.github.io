@@ -15,4 +15,3 @@ Disallow: /js/
 Disallow: /css/
 
 Sitemap: http://rickliu.com/sitemap.xml
-Sitemap: http://rickliu.com/baidusitemap.xml
